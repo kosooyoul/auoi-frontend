@@ -20,6 +20,7 @@ class HanulseAssets {
 		context.props["warp"] = {"image": this.getImage("./images/warp.png"), "left": -46, "top": -32, "width": 92, "height": 52};
 		context.props["staff"] = {"image": this.getImage("./images/staff.png"), "left": -6, "top": -48, "width": 38, "height": 77};
 		context.props["waste"] = {"image": this.getImage("./images/waste.png"), "left": -6, "top": -12, "width": 12, "height": 12};
+		context.props["trash"] = {"image": this.getImage("./images/trash.png"), "left": -9, "top": -21, "width": 18, "height": 21};
 	
 		context.blocks = {};
 		context.blocks["grass"] =  {"image": this.getImage("./images/grass.png"), "left": -40, "top": -20, "width": 80, "height": 40};
