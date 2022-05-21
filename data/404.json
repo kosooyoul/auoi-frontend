@@ -1,13 +1,37 @@
 {
     "title": "빈 공간",
     "map": [
-    {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "warp", "label": "귀환 워프", "action": {
-        "type": "menu",
-        "menu": [
-            {"title": "이전 페이지로 돌아가기", "tag": "possible", "link": "javascript:history.back()"},
-            {"title": "마음의 숲으로 돌아가기", "tag": "possible", "link": "#"},
-            {"title": "안내소", "tag": "possible", "link": "http://www.ahyane.net/map_house_010112_k.htm"},
-            {"title": "공간만들기", "tag": "possible", "link": "#"}
-        ]
-    }}
-]}
+        {"position": {"x": -1, "y": -3, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y": -3, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y": -4, "z":  0}, "block": "snow"},
+        {"position": {"x": -1, "y": -5, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y": -5, "z":  0}, "block": "snow"},
+        {"position": {"x":  1, "y": -5, "z":  0}, "block": "snow"},
+
+        {"position": {"x": -1, "y": -1, "z":  0}, "block": "snow"},
+        {"position": {"x": -1, "y":  0, "z":  0}, "block": "snow"},
+        {"position": {"x": -1, "y":  1, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y": -1, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "warp", "label": "귀환 워프", "action": {
+            "type": "menu",
+            "menu": [
+                {"title": "이전 페이지로 돌아가기", "tag": "possible", "link": "javascript:history.back()"},
+                {"title": "마음의 숲으로 돌아가기", "tag": "possible", "link": "#"},
+                {"title": "안내소", "tag": "possible", "link": "http://www.ahyane.net/map_house_010112_k.htm"},
+                {},
+                {"title": "공간만들기", "tag": "possible", "link": "#"}
+            ]
+        }},
+        {"position": {"x":  0, "y":  1, "z":  0}, "block": "snow"},
+        {"position": {"x":  1, "y": -1, "z":  0}, "block": "snow"},
+        {"position": {"x":  1, "y":  0, "z":  0}, "block": "snow"},
+        {"position": {"x":  1, "y":  1, "z":  0}, "block": "snow"},
+
+        {"position": {"x": -1, "y":  5, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y":  5, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y":  4, "z":  0}, "block": "snow"},
+        {"position": {"x": -1, "y":  3, "z":  0}, "block": "snow"},
+        {"position": {"x":  0, "y":  3, "z":  0}, "block": "snow"},
+        {"position": {"x":  1, "y":  3, "z":  0}, "block": "snow"}
+    ]
+}
