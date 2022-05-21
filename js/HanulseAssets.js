@@ -19,11 +19,15 @@ class HanulseAssets {
 		context.props["flower"] = {"image": this.getImage("./images/flower.png"), "left": -13, "top": -20, "width": 25, "height": 20};
 		context.props["warp"] = {"image": this.getImage("./images/warp.png"), "left": -46, "top": -32, "width": 92, "height": 52};
 		context.props["staff"] = {"image": this.getImage("./images/staff.png"), "left": -6, "top": -48, "width": 38, "height": 77};
+		context.props["waste"] = {"image": this.getImage("./images/waste.png"), "left": -6, "top": -12, "width": 12, "height": 12};
 	
 		context.blocks = {};
 		context.blocks["grass"] =  {"image": this.getImage("./images/grass.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 		context.blocks["pink"] =  {"image": this.getImage("./images/pink.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 		context.blocks["blue"] =  {"image": this.getImage("./images/blue.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 		context.blocks["hologram"] = {"image": this.getImage("./images/hologram.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.blocks["glass"] = {"image": this.getImage("./images/glass.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.blocks["snow"] = {"image": this.getImage("./images/snow.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.blocks["parquet"] = {"image": this.getImage("./images/parquet.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 	}
 }
