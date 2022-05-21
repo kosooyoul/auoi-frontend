@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Ahyane - thinking and thinking</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<meta name="title" content="Ahyane - thinking and thinking">
+<meta name="description" content="My story and portfolio in my place">
+<meta name="keyword" content="ahyane">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ahyane - thinking and thinking">
+<meta property="og:description" content="My story and portfolio in my place">
+<meta property="og:image" content="http://www.ahyane.net/icons/ahyane-20y-m.png">
+<meta property="og:url" content="http://www.ahyane.net">
+<meta name="format-detection" content="telephone=no">
+
+<link rel="shortcut icon" type="image/x-icon" href="http://www.ahyane.net/icons/ahyane-20y-m.png">
+<link rel="stylesheet" href="./css/hanulse.css">
+</head>
+
+<body>
+
+<canvas width="0" height="0" style="width: 100%; height: 100%;"></canvas>
+
+<div class="overlay" style="user-select: none;">
+	<div class="top sh-s sh-m" style="position: absolute; top: 0px; width: 100%; padding: 10px 0px; background-color: rgba(0, 0, 0, 0.5);">
+		<p class="_counter text-white-12 sw-xs" style="margin: 0px;">
+			<span>오늘</span> <span class="counter-count-today">0</span> | <span>어제</span> <span class="counter-count-yesterday">0</span>
+			<span style="position: absolute; right: 20px;"><span>총</span> <span class="counter-count-total">0</span> <span>명 방문</span></span>
+		</p>
+		<p class="_counter text-white-12 sw-s" style="margin: 0px;">
+			<span>오늘</span> <span class="counter-count-today">0</span> <span class="counter-bar-today"></span><span class="counter-bar-yesterday"></span> <span class="counter-count-yesterday">0</span> <span>어제</span>
+			<span style="position: absolute; right: 20px;"><span>총</span> <span class="counter-count-total">0</span> <span>명 방문</span></span>
+		</p>
+		<p class="_counter text-white-12 sw-m" style="margin: 0px;">
+			<span>오늘 방문</span> <span class="counter-count-today">0</span> <span class="counter-bar-long-today"></span><span class="counter-bar-long-yesterday"></span> <span class="counter-count-yesterday">0</span> <span>어제 방문</span>
+			<span style="position: absolute; right: 20px;"><span>총</span> <span class="counter-count-total">0</span> <span>명 방문</span></span>
+		</p>
+	</div>
+	<div class="icon"></div>
+	<div class="_placeinfo" style="position: absolute; left: 40px; top: 10px;">
+		<span class="placeinfo text-white-13" style="line-height: 20px; vertical-align: top;"></span>
+	</div>
+
+	<div class="bottom sh-m" style="position: absolute; bottom: 0px; width: 100%; padding: 10px 0px; background-color: rgba(0, 0, 0, 0.5);">
+		<p class="_wisesaying text-white-13 sh-m" style="margin: 0px 20px 10px 20px;">
+			<span class="wisesaying-text"></span>
+		</p>
+		<p class="_copyright text-white-12" style="margin: 0px 20px;">
+			<span>Copyright 2007-2021. Ahyane. All right reserved.</span>
+		</p>
+	</div>
+	<div class="_copyright text-white-12 sh-xs sh-s" style="position: absolute; right: 10px; bottom: 10px;">
+		<span>ⓒAhyane</span>
+	</div>
+</div>
+
+<script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="./js/HanulseAssets.js"></script>
+<script type="text/javascript" src="./js/HanulseUtils.js"></script>
+<script type="text/javascript" src="./js/HanulseWarpEffect.js"></script>
+<script type="text/javascript" src="./js/HanulseLinkEffect.js"></script>
+<script type="text/javascript" src="./js/HanulseFlashEffect.js"></script>
+<script type="text/javascript" src="./js/HanulseAction.js"></script>
+<script type="text/javascript" src="./js/HanulseBlock.js"></script>
+<script type="text/javascript" src="./js/HanulseSlider.js"></script>
+<script type="text/javascript" src="./js/HanulseRenderer.js"></script>
+<script type="text/javascript" src="./js/hanulse.js"></script>
+<script>
+var data = {
+    "title": "4차원의 세계",
+    "map": [
+    {"position": {"x": -1, "y":   0, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -1, "y":   1, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -2, "y":   1, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -2, "y":   2, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -3, "y":   2, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -3, "y":   3, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -3, "y":   4, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -2, "y":   4, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -2, "y":   5, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -1, "y":   5, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x": -1, "y":   6, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  0, "y":   6, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  1, "y":   6, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  2, "y":   6, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  2, "y":   5, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  3, "y":   5, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  3, "y":   4, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  4, "y":   4, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  4, "y":   3, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  5, "y":   3, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  5, "y":   2, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  6, "y":   2, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  6, "y":   1, "z":  0}, "block": "blue", "effect": "flash"},
+    {"position": {"x":  7, "y":   1, "z":  0}, "block": "blue", "effect": "flash"},
+
+    {"position": {"x": -1, "y":  -1, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -2, "y":  -1, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -2, "y":  -2, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -3, "y":  -2, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -3, "y":  -3, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -3, "y":  -4, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -2, "y":  -4, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -2, "y":  -5, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -1, "y":  -5, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x": -1, "y":  -6, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  0, "y":  -6, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  1, "y":  -6, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  2, "y":  -6, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  2, "y":  -5, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  3, "y":  -5, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  3, "y":  -4, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  4, "y":  -4, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  4, "y":  -3, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  5, "y":  -3, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  5, "y":  -2, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  6, "y":  -2, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  6, "y":  -1, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  7, "y":  -1, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  7, "y":   0, "z":  0}, "block": "pink", "effect": "flash"},
+    {"position": {"x":  8, "y":   0, "z":  0}, "block": "pink", "effect": "flash"},
+
+    {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "bigwarp", "label": "워프", "action": {
+        "type": "menu",
+        "menu": [
+            {"title": "마음의 숲으로", "tag": "possible", "link": "http://www.ahyane.net"},
+            {"title": "기억의 공간", "tag": "possible", "link": "http://www.ahyane.net/map_field_101102_k.htm"},
+            {"title": "바다의 공간", "tag": "possible", "link": "http://www.ahyane.net/map_space_000000_k.htm"},
+            {"title": "잡부의 공간", "tag": "possible", "link": "http://www.ahyane.net/map_field_102000_k.htm"},
+            {"title": "쉐프의 공간", "tag": "impossible"},
+            {"title": "추억의 공간", "tag": "working", "link": "http://www.ahyane.net/map_field_700700_k.htm"},
+            {"title": "안내소", "tag": "possible", "link": "http://www.ahyane.net/map_house_010112_k.htm"}
+        ]
+    }}
+]};
+
+(function() {
+	initializeHanulse($("canvas").get(0), data, {"autoplay": true});
+}) ();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+html, body {
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+	font-size: 12px;
+}
+
+input {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+}
+
+select{
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+
+	background-image: url('/assets/icons/down.png');
+    background-position: right center;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+	background-color: #ffffff;
+}
+
+select::-ms-expand{ 
+	display:none; /* 화살표 없애기 for IE10, 11*/
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+	color: #999999;
+}
+
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color: #999999;
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color: #999999;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+	color: #999999;
+}
+
+button {
+	padding: 0px 15px;
+	margin: 0px;
+	border: 1px solid #cccccc;
+	line-height: 28px;
+	font-size: 12px;
+	background-color: #FFFFFF;
+	box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+	overflow: hidden;
+}
+
+button:hover  {
+	border: 1px solid #22bbee;
+}
+
+button:focus  {
+	border: 1px solid #22bbee;
+	outline: none;
+}
+
+button:active {
+	background-color: #dddddd;
+}
+
+input {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #cccccc;
+	font-family: "";
+	font-size: 12px;
+	text-overflow: ellipsis;
+}
+
+input:focus {
+	outline: none;
+	border-bottom: 1px solid #22bbee;
+}
+
+textarea.css-write-content::-webkit-input-placeholder { /* WebKit browsers */
+	color: #999999;
+}
+
+textarea.css-write-content:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color: #999999;
+}
+
+textarea.css-write-content::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color: #999999;
+}
+
+textarea.css-write-content:-ms-input-placeholder { /* Internet Explorer 10+ */
+	color: #999999;
+}
+
+textarea.css-write-content:focus {
+	outline: none;
+	border-bottom: 1px solid #22bbee;
+}
+
+.c-icon-geolocation-s {
+	display: inline-block; width: 16px; height: 16px; color: transparent; background-image: url('../icons/geolocation.png'); background-size: 16px 16px; background-repeat: no-repeat; background-position: 50%; vertical-align: middle;
+}
+.c-icon-link-s {
+	display: inline-block; width: 16px; height: 16px; color: transparent; background-image: url('../icons/link.png'); background-size: 16px 16px; background-repeat: no-repeat; background-position: 50%; vertical-align: middle;
+}
+.c-icon-clip-s {
+	display: inline-block; width: 16px; height: 16px; color: transparent; background-image: url('../icons/clip.png'); background-size: 16px 16px; background-repeat: no-repeat; background-position: 50%; vertical-align: middle;
+}
+
+.c-rspace-s {
+	display: inline-block; margin-right: 5px;
+}
+.c-lspace-s {
+	display: inline-block; margin-right: 5px;
+}
