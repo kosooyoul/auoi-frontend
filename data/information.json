@@ -48,8 +48,7 @@
     {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "warp", "label": "워프", "action": {
         "type": "menu",
         "menu": [
-            {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
-            {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html"}
+            {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"}
         ]
     }},
     {"position": {"x":  1, "y":  0, "z":  0}, "block": "grass", "prop": "bush"},

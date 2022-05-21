@@ -1,5 +1,5 @@
 {
-    "title": "기억의 공간",
+    "title": "주인장 집",
     "map": [
     {"position": {"x": -4, "y": -4, "z":  0}, "block": "grass"},
     {"position": {"x": -3, "y": -4, "z":  0}, "block": "grass", "prop": "flower"},
@@ -48,10 +48,7 @@
     {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "warp", "label": "워프", "action": {
         "type": "menu",
         "menu": [
-            {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
-            {"title": "주인장 집", "tag": "working", "link": "#owner"},
-            {"title": "삽질실", "tag": "working", "link": "#workspace"},
-            {"title": "잡동사니 창고", "tag": "working", "link": "#storehouse"}
+            {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"}
         ]
     }},
     {"position": {"x":  1, "y":  0, "z":  0}, "block": "grass", "prop": "bush"},
