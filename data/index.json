@@ -48,7 +48,10 @@
     {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "warp", "label": "워프", "action": {
         "type": "menu",
         "menu": [
-            {"title": "4차원의 세계로", "tag": "possible", "link": "#4d-world"},
+            {"title": "기억의 공간으로", "tag": "working", "link": "#memories"},
+            {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous"},
+            {"title": "안내소", "tag": "working", "link": "#information"},
+            {"title": "4차원의 세계로", "tag": "test", "link": "#4d-world"},
             {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html"},
             {"title": "시험의 4차원의 세계로", "tag": "test", "link": "http://www.ahyane.net/map.html"},
             {"title": "사라져가는 평형 세계로", "tag": "deprecated", "link": "http://www.ahyane.net/4d-world.php"},
@@ -75,7 +78,7 @@
     {"position": {"x": -2, "y":  2, "z":  1}, "block": "grass"},
     {"position": {"x": -1, "y":  2, "z":  1}, "block": "grass", "prop": "staff", "label": "숲의 아이", "action": {
         "type": "message",
-        "message": "어서오세요~ 반가운 손님이 오셨네요 ^^\n여기 빛나는 곳이 워프 포탈이에요.\n머릿속에 가고 싶은 곳을 떠올리면\n그곳이 어디든 갈 수 있어요!\n저 워프 포탈 위에서 가고 싶은 곳을 떠올려 보세요!"
+        "message": "어서오세요~ 반가워요 ^^\n여기 빛나는 곳이 워프 포탈이에요.\n머릿속에 가고 싶은 곳을 떠올리면\n그곳이 어디든 갈 수 있어요!\n저 워프 포탈 위에서 가고 싶은 곳을 떠올려 보세요!"
     }},
     {"position": {"x":  0, "y":  2, "z":  0}, "block": "grass", "prop": "flower"},
     {"position": {"x":  1, "y":  2, "z":  0}, "block": "grass", "prop": "flower"},
