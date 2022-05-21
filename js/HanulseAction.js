@@ -33,7 +33,11 @@ class HanulseAction {
 		var dialogBox = this.getDialogBox();
 
 		for (var menu of action.menu) {
-			this.getMenuItem(menu).appendTo(dialogBox);
+			if (menu.type == "separator") {
+				this.getMenuSeparator().appendTo(dialogBox);
+			} else {
+				this.getMenuItem(menu).appendTo(dialogBox);
+			}
 		}
 
 		this.showOverlay(dialogBox);
@@ -110,6 +114,19 @@ class HanulseAction {
 			"pointer-events": "none",
 			"user-select": "none"
 		}).html(text.replace(/\n/g, "<br>"));
+	}
+
+	static getMenuSeparator() {
+		var _this = this;
+
+		var menuItem = $("<hr>").css({
+			"border-bottom": "1px solid rgba(255, 255, 255, 0.8)",
+			"border-top": "none",
+			"border-left": "none",
+			"border-right": "none"
+		});
+		
+		return menuItem;
 	}
 
 	static getMenuItem(menu) {

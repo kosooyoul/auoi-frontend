@@ -49,6 +49,7 @@
         "type": "menu",
         "menu": [
             {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
+            {"type": "separator"},
             {"title": "스터디 그룹", "tag": "working", "link": "#study"},
             {"title": "일본어 자습실", "tag": "working", "link": "#japanese"}
         ]

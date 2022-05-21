@@ -18,7 +18,7 @@
                 {"title": "이전 페이지로 돌아가기", "tag": "possible", "link": "javascript:history.back()"},
                 {"title": "마음의 숲으로 돌아가기", "tag": "possible", "link": "#"},
                 {"title": "안내소", "tag": "possible", "link": "http://www.ahyane.net/map_house_010112_k.htm"},
-                {},
+                {"type": "separator"},
                 {"title": "공간만들기", "tag": "possible", "link": "#"}
             ]
         }},

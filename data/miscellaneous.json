@@ -49,6 +49,7 @@
         "type": "menu",
         "menu": [
             {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
+            {"type": "separator"},
             {"title": "주인장 집", "tag": "working", "link": "#owner"},
             {"title": "삽질실", "tag": "working", "link": "#workspace"},
             {"title": "잡동사니 창고", "tag": "working", "link": "#storehouse"}
