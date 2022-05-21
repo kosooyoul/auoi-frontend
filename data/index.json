@@ -45,7 +45,7 @@
     {"position": {"x": -3, "y":  0, "z":  1}, "block": "grass", "prop": "bush"},
     {"position": {"x": -2, "y":  0, "z":  0}, "block": "grass", "prop": "tree"},
     {"position": {"x": -1, "y":  0, "z":  0}, "block": "grass"},
-    {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "warp", "label": "워프", "action": {
+    {"position": {"x":  0, "y":  0, "z":  0}, "block": "hologram", "prop": "warp", "effect": "bigwarp", "label": "뒤틀린 워프", "action": {
         "type": "menu",
         "menu": [
             {"title": "기억의 공간으로", "tag": "working", "link": "#memories"},
