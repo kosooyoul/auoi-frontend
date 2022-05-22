@@ -5,6 +5,14 @@ class HanulseRenderer {
 		d: 35
 	};
 
+	static relicsblockSize = {
+		w: 69,
+		h: 35,
+		d: 32
+	};
+
+	blockSize = HanulseRenderer.defaultBlockSize;
+
 	canvas = null;
 	context = null;
 	options = null;
@@ -24,8 +32,8 @@ class HanulseRenderer {
 	targetOffsetX = 0;
 	targetOffsetY = 0;
 
-	blockRenderer = new HanulseBlockRenderer();
-	fpsCounterView = new HanulseFPSCounterView($(".fps").get(0));
+	blockRenderer = null;
+	fpsCounterView = null;
 
 	constructor(canvas, map, options) {
 		console.log("initialize");
@@ -37,8 +45,13 @@ class HanulseRenderer {
 	
 		HanulseAssets.initialize(this.context);
 
-		this.initializeMap(map);
-		this.initializeSlider();
+		this.blockRenderer = new HanulseBlockRenderer({
+			size: this.blockSize
+		});
+		this.fpsCounterView = new HanulseFPSCounterView($(".fps").get(0));
+		
+
+		this.initialize(map);
 
 		// Autoplay
 		if (options.autoplay) {
@@ -47,9 +60,8 @@ class HanulseRenderer {
 	}
 
 	updateMap(map) {
-		this.initializeMap(map);
 		this.slider.destroy();
-		this.initializeSlider();
+		this.initialize(map);
 		this.slider.moveTo(0, 0);
 	}
 
@@ -57,11 +69,11 @@ class HanulseRenderer {
 
 	}
 
-	initializeMap(map) {
+	initialize(map) {
 		// Initialize map
 		this.blocks = map.map(item => new HanulseBlock({
 			position: item.position,
-			size: HanulseRenderer.defaultBlockSize,
+			size: this.blockSize,
 			texture: item.texture,
 			prop: item.prop,
 			effect: item.effect,
@@ -69,17 +81,13 @@ class HanulseRenderer {
 			action: item.action
 		}));
 		HanulseBlock.sortBlocks(this.blocks);
-	}
 
-	initializeSlider() {
-		// Initialize bounds and slider
 		var bounds = HanulseBlock.getBlocksBoundary(this.blocks);
 		
 		this.slider = new HanulseSlider(bounds, (x, y) => {
 			this.targetOffsetX = x;
 			this.targetOffsetY = y;
 		});
-		this.slider.moveTo(0, 0);
 	}
 
 	play() {
@@ -87,7 +95,7 @@ class HanulseRenderer {
 
 		if (this.playing) return;
 		this.playing = true;
-		this.requestRender(this.context);
+		this._requestRender(this.context);
 	}
 
 	stop() {
@@ -105,28 +113,22 @@ class HanulseRenderer {
 		// Release All Objects
 	}
 
-	requestRender(context) {
+	_requestRender(context) {
 		this.fpsCounterView.count();
-
-		// console.log("requestRender");
 
 		var self = this;
 		window.requestAnimationFrame(() => {
-			// console.log("requestAnimationFrame");
+			self._compute();
 
-			self.compute(context);
-
-			self.render(context);
+			self._render(context);
 
 			if (self.playing) {
-				self.requestRender(context);
+				self._requestRender(context);
 			}
 		});
 	}
 
-	compute(context) {
-		// console.log("compute");
-
+	_compute() {
 		if (this.canvas.clientWidth * this.canvas.clientHeight > 480000) { // 800 * 600
 			this.quality = 1;
 		} else {
@@ -140,31 +142,98 @@ class HanulseRenderer {
 		this.offsetY += (this.targetOffsetY - this.offsetY) * 0.4;
 	}
 
-	render(context) {
-		// console.log("render");
+	_render(context) {
+		this._clearCanvas(context);
 
-		// Background
+		this.renderBackgroundOnCanvas(context);
+
+		this._beginRelativePosition(context);
+		{
+			this.renderBackgroundOnRelativePosition(context);
+
+			this._beginScrolledPosition(context);
+			{
+				this.renderBackgroundOnScrolledPosition(context);
+
+				this.renderMap(context);
+
+				this.renderOverlayOnScrolledPosition(context);
+			}
+			this._endScrolledPosition(context);
+
+			this.renderOverlayOnRelativePosition(context);
+		}
+		this._endRelativePosition(context);
+
+		this.renderOverlayOnCanvas(context);
+	}
+
+	_clearCanvas(context) {
 		context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
 
-		// context.fillStyle = "red";// this.options.background;
-		// context.fillRect(0, 0, 50, 50);
-		// context.fillRect(this.canvas.width - 50, this.canvas.height - 50, 50, 50);
-
-		// Main
+	_beginRelativePosition(context) {
 		context.save();
 		context.translate(this.canvas.width * 0.5, this.canvas.height * 0.5);
 		context.scale(this.quality, this.quality);
+	}
 
+	_endRelativePosition(context) {
+		context.restore();
+	}
+
+	_beginScrolledPosition(context) {
 		context.save();
 		context.translate(this.offsetX, this.offsetY);
+	}
+
+	_endScrolledPosition(context) {
+		context.restore();
+	}
+
+	renderBackgroundOnCanvas(_context) {
+
+	}
+
+	renderOverlayOnCanvas(context) {
+		const size = 2 * this.quality;
+		context.fillStyle = "rgb(127, 127, 127)";
+		context.fillRect(0, 0, size, size);
+		context.fillRect(this.canvas.width - size, 0, size, size);
+		context.fillRect(0, this.canvas.height - size, size, size);
+		context.fillRect(this.canvas.width - size, this.canvas.height - size, size, size);
+	}
+
+	renderBackgroundOnRelativePosition(context) {
+		context.fillStyle = "rgb(127, 127, 127)";
+		context.fillRect(-300, -200, 2, 2);
+		context.fillRect(298, 198, 2, 2);
+		context.fillRect(298, -200, 2, 2);
+		context.fillRect(-300, 198, 2, 2);
+	}
+
+	renderOverlayOnRelativePosition(_context) {
+		
+	}
+
+
+	renderBackgroundOnScrolledPosition(context) {
+		context.fillStyle = "rgb(127, 127, 127)";
+		context.fillRect(-300, -200, 2, 2);
+		context.fillRect(298, 198, 2, 2);
+		context.fillRect(298, -200, 2, 2);
+		context.fillRect(-300, 198, 2, 2);
+	}
+
+	renderOverlayOnScrolledPosition(_context) {
+
+	}
+
+	renderMap(context) {
 		var count = this.blocks.length;
 		for (var i = 0; i < count; i++) {
 			this.blockRenderer.render(context, this.blocks[i]);
 		}
-		context.restore();
-
-		// HanulseUtils.drawWarningLabel(context, "테스트 버전", 0, 200);
-		context.restore();
 	}
 
 	onPointerDown(evt) {

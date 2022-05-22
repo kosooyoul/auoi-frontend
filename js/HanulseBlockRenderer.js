@@ -10,17 +10,49 @@ class HanulseBlockRenderer {
 	static focusFillStyle = "rgba(0, 255, 255, 0.4)";
 
 	static defaultTopPath = [[0, -20], [40, 0], [0, 20], [-40, 0], [0, -20]];
-	static defaultLeftPath = [[0, 20], [-40, 0], [-40, 35], [0, 55], [0, 20],];
+	static defaultLeftPath = [[0, 20], [-40, 0], [-40, 35], [0, 55], [0, 20]];
 	static defaultRightPath = [[0, 20], [40, 0], [40, 35], [0, 55], [0, 20]];
 	static defaultTopSelectionPath = [[0, -19], [38, 0], [0, 19], [-38, 0], [0, -19]];
 	static defaultLeftSelectionPath = [[-1, 20], [-39, 1], [-39, 34], [-1, 54], [-1, 20]];
 	static defaultRightSelectionPath = [[1, 20], [39, 1], [39, 34], [1, 54], [1, 20]];
+
+	static getTopPath = (w, h, _d) => [[0, -h >> 1], [w >> 1, 0], [0, h >> 1], [-w >> 1, 0], [0, -h >> 1]];
+	static getLeftPath = (w, h, d) => [[0, h >> 1], [-w >> 1, 0], [-w >> 1, d], [0, d + (h >> 1)], [0, h >> 1]];
+	static getRightPath = (w, h, d) => [[0, h >> 1], [w >> 1, 0], [w >> 1, d], [0, d + (h >> 1)], [0, h >> 1]];
+	static getTopSelectionPath = (w, h, d) => [[0, -(h >> 1) + 1], [(w >> 1) - 2, 0], [0, (h >> 1) - 1], [-(w >> 1) + 2, 0], [0, -(h >> 1) + 1]];
+	static getLeftSelectionPath = (w, h, d) => [[-1, h >> 1], [-(w >> 1) + 1, 1], [-(w >> 1) + 1, d - 1], [-1, d + (h >> 1) - 1], [-1, h >> 1]];
+	static getRightSelectionPath = (w, h, d) => [[1, h >> 1], [(w >> 1) - 1, 1], [(w >> 1) - 1, d - 1], [1, d + (h >> 1) - 1], [1, h >> 1]];
+
+	topPath = null;
+	leftPath = null;
+	rightPath = null;
+	topSelectionPath = null;
+	leftSelectionPath = null;
+	rightSelectionPath = null;
 
 	textureEnabled = true;
 	onlyWireframe = false;
 	propEnabled = true;
 	effectEnabled = true;
 	labelEnabled = true;
+
+	constructor(options) {
+		if (options.size) {
+			this.topPath = HanulseBlockRenderer.getTopPath(options.size.w, options.size.h, options.size.d);
+			this.leftPath = HanulseBlockRenderer.getLeftPath(options.size.w, options.size.h, options.size.d);
+			this.rightPath = HanulseBlockRenderer.getRightPath(options.size.w, options.size.h, options.size.d);
+			this.topSelectionPath = HanulseBlockRenderer.getTopSelectionPath(options.size.w, options.size.h, options.size.d);
+			this.leftSelectionPath = HanulseBlockRenderer.getLeftSelectionPath(options.size.w, options.size.h, options.size.d);
+			this.rightSelectionPath = HanulseBlockRenderer.getRightSelectionPath(options.size.w, options.size.h, options.size.d);
+		} else {
+			this.topPath = HanulseBlockRenderer.defaultToppath;
+			this.leftPath = HanulseBlockRenderer.defaultLeftpath;
+			this.rightPath = HanulseBlockRenderer.defaultRightpath;
+			this.topSelectionPath = HanulseBlockRenderer.defaultTopselectionpath;
+			this.leftSelectionPath = HanulseBlockRenderer.defaultLeftselectionpath;
+			this.rightSelectionPath = HanulseBlockRenderer.defaultRightselectionpath;
+		}
+	}
 
 	render(context, block) {
 		context.save();
@@ -66,38 +98,38 @@ class HanulseBlockRenderer {
 	}
 
 	renderTopWithStatusCode(context, textureName, statusCode) {
-		this.renderTexturedPath(context, HanulseBlockRenderer.defaultTopPath, textureName);
+		this.renderTexturedPath(context, this.topPath, textureName);
 
 		if (statusCode == "hover") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultTopSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
+			this.renderColoredPath(context, this.topSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
 		} else if (statusCode == "active") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultTopSelectionPath, HanulseBlockRenderer.activeStrokeStyle, HanulseBlockRenderer.activeFillStyle);
+			this.renderColoredPath(context, this.topSelectionPath, HanulseBlockRenderer.activeStrokeStyle, HanulseBlockRenderer.activeFillStyle);
 		} else if (statusCode == "focus") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultTopSelectionPath, HanulseBlockRenderer.focusStrokeStyle, HanulseBlockRenderer.focusFillStyle);
+			this.renderColoredPath(context, this.topSelectionPath, HanulseBlockRenderer.focusStrokeStyle, HanulseBlockRenderer.focusFillStyle);
 		}
 	}
 
 	renderLeftWithStatusCode(context, textureName, statusCode) {
-		this.renderTexturedPath(context, HanulseBlockRenderer.defaultLeftPath, textureName);
+		this.renderTexturedPath(context, this.leftPath, textureName);
 
 		if (statusCode == "hover") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultLeftSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
+			this.renderColoredPath(context, this.leftSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
 		} else if (statusCode == "active") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultLeftSelectionPath, HanulseBlockRenderer.activeStrokeStyle, HanulseBlockRenderer.activeFillStyle);
+			this.renderColoredPath(context, this.leftSelectionPath, HanulseBlockRenderer.activeStrokeStyle, HanulseBlockRenderer.activeFillStyle);
 		} else if (statusCode == "focus") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultLeftSelectionPath, HanulseBlockRenderer.focusStrokeStyle, HanulseBlockRenderer.focusFillStyle);
+			this.renderColoredPath(context, this.leftSelectionPath, HanulseBlockRenderer.focusStrokeStyle, HanulseBlockRenderer.focusFillStyle);
 		}
 	}
 
 	renderRightWithStatusCode(context, textureName, statusCode) {
-		this.renderTexturedPath(context, HanulseBlockRenderer.defaultRightPath, textureName);
+		this.renderTexturedPath(context, this.rightPath, textureName);
 
 		if (statusCode == "hover") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultRightSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
+			this.renderColoredPath(context, this.rightSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
 		} else if (statusCode == "active") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultRightSelectionPath, HanulseBlockRenderer.activeStrokeStyle, HanulseBlockRenderer.activeFillStyle);
+			this.renderColoredPath(context, this.rightSelectionPath, HanulseBlockRenderer.activeStrokeStyle, HanulseBlockRenderer.activeFillStyle);
 		} else if (statusCode == "focus") {
-			this.renderColoredPath(context, HanulseBlockRenderer.defaultRightSelectionPath, HanulseBlockRenderer.focusStrokeStyle, HanulseBlockRenderer.focusFillStyle);
+			this.renderColoredPath(context, this.rightSelectionPath, HanulseBlockRenderer.focusStrokeStyle, HanulseBlockRenderer.focusFillStyle);
 		}
 	}
 
