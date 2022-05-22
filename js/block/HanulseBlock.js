@@ -232,7 +232,7 @@ class HanulseBlock {
 	}
 
 	static sortBlocks(blocks) {
-		blocks.sort((a, b) => {
+		return blocks.sort((a, b) => {
 			return (a._position.y - b._position.y) || (a._position.x - b._position.x);
 		});
 	}

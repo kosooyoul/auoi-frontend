@@ -55,9 +55,7 @@ class HanulseBlockRenderer {
 			this.rightSelectionPath = HanulseBlockRenderer.defaultRightselectionpath;
 		}
 
-		if (options.effectRendererFactory) {
-			this._effectRendererFactory = options.effectRendererFactory;
-		}
+		this._effectRendererFactory = options.effectRendererFactory;
 	}
 
 	render(context, block) {

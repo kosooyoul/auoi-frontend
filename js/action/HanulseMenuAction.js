@@ -1,5 +1,5 @@
-class HanulseAction {
-	static COLOR_BY_MENU_ITEM_TAG = {
+class HanulseMenuAction {
+	static colorByMenuTags = {
 		"possible": "rgb(0, 255, 200)",
 		"working": "rgb(255, 200, 0)",
 		"impossible": "rgb(255, 0, 0)",
@@ -8,32 +8,10 @@ class HanulseAction {
 		"relics": "rgb(172, 172, 172)"
 	}
 
-	static act(action) {
-		if (!action) {
-			return;
-		}
-
-		if (action.type == "message") {
-			this.message(action);
-		} else if (action.type == "menu") {
-			this.menu(action);
-		} else if (action.type == "link") {
-			this.link(action);
-		}
-	}
-
-	static message(action) {
+	act(data) {
 		var dialogBox = this.getDialogBox();
 
-		this.getTextBox(action.message).appendTo(dialogBox);
-
-		this.showOverlay(dialogBox);
-	}
-
-	static menu(action) {
-		var dialogBox = this.getDialogBox();
-
-		for (var menu of action.menu) {
+		for (var menu of data.menu) {
 			if (menu.type == "separator") {
 				this.getMenuSeparator().appendTo(dialogBox);
 			} else {
@@ -44,18 +22,14 @@ class HanulseAction {
 		this.showOverlay(dialogBox);
 	}
 
-	static link(action) {
-		location.assign(action.link);
-	}
-
-	static hideOverlay() {
+	hideOverlay() {
 		var overlay = $(".hanulse-overlay");
 		overlay.fadeOut(function() {
 			overlay.remove();
 		});
 	}
 
-	static showOverlay(element) {
+	showOverlay(element) {
 		var _this = this;
 
 		var overlay = $("<div class=\"hanulse-overlay\">").css({
@@ -88,7 +62,7 @@ class HanulseAction {
 		overlay.appendTo(document.body).fadeIn();
 	}
 
-	static getDialogBox() {
+	getDialogBox() {
 		return $("<div>").css({
 			"position": "relative",
 			"background-color": "rgba(0, 0, 60, 0.6)",
@@ -101,23 +75,7 @@ class HanulseAction {
 		});
 	}
 
-	static getTextBox(text) {
-		return $("<p>").css({
-			"position": "relative",
-			"color": "white",
-			"margin": "10px",
-			"padding": "0px",
-			"font-size": "13px",
-			"line-height": "24px",
-			"word-break": "keep-all",
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"pointer-events": "none",
-			"user-select": "none"
-		}).html(text.replace(/\n/g, "<br>"));
-	}
-
-	static getMenuSeparator() {
+	getMenuSeparator() {
 		var _this = this;
 
 		var menuItem = $("<hr>").css({
@@ -130,7 +88,7 @@ class HanulseAction {
 		return menuItem;
 	}
 
-	static getMenuItem(menu) {
+	getMenuItem(menu) {
 		var _this = this;
 
 		var menuItem = $("<a>").css({
@@ -159,7 +117,7 @@ class HanulseAction {
 		$("<span>").css({
 			"float": "right",
 			"margin-left": "20px",
-			"color": this.COLOR_BY_MENU_ITEM_TAG[menu.tag] || "rgb(100, 100, 100)"
+			"color": HanulseMenuAction.colorByMenuTags[menu.tag] || "rgb(100, 100, 100)"
 		}).text(menu.tag).appendTo(menuItem);
 
 		return menuItem;

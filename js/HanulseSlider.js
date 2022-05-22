@@ -1,6 +1,6 @@
 class HanulseSlider {
 
-	bounds = null;
+	_boundary = null;
 
 	offsetX = 0;
 	offsetY = 0;
@@ -11,14 +11,21 @@ class HanulseSlider {
 	lastPointerX = null;
 	lastPointerY = null;
 
-	onSlide = null;
+	_onSlide = null;
 
 	intervalRecording = null;
 	intervalSliding = null;
 
-	constructor(bounds, onSlide) {
-		this.bounds = bounds;
-		this.onSlide = onSlide;
+	constructor() {
+
+	}
+
+	setBoundary(boundary) {
+		this._boundary = boundary;
+	}
+
+	setOnSlide(onSlide) {
+		this._onSlide = onSlide;
 	}
 
 	destroy() {
@@ -49,7 +56,9 @@ class HanulseSlider {
 			// 위치 이동
 			self.offsetX += dx;
 			self.offsetY += dy;
-			self.onSlide(self.offsetX, self.offsetY);
+			if (self._onSlide) {
+				self._onSlide(self.offsetX, self.offsetY);
+			}
 
 			// 이동량이 0에 가까워지면 슬라이딩 중지 
 			if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
@@ -108,21 +117,23 @@ class HanulseSlider {
 		// 최대 이동 범위 제한
 		var tempX = this.offsetX + (pointerX - this.lastPointerX);
 		var tempY = this.offsetY + (pointerY - this.lastPointerY);
-		if (tempX < this.bounds.left) {
-			tempX = this.bounds.left;
-		} else if (tempX > this.bounds.right) {
-			tempX = this.bounds.right;
+		if (tempX < this._boundary.left) {
+			tempX = this._boundary.left;
+		} else if (tempX > this._boundary.right) {
+			tempX = this._boundary.right;
 		}
-		if (tempY < this.bounds.top) {
-			tempY = this.bounds.top;
-		} else if (tempY > this.bounds.bottom) {
-			tempY = this.bounds.bottom;
+		if (tempY < this._boundary.top) {
+			tempY = this._boundary.top;
+		} else if (tempY > this._boundary.bottom) {
+			tempY = this._boundary.bottom;
 		}
 
 		// 위치 이동
 		this.offsetX = tempX;
 		this.offsetY = tempY;
-		this.onSlide(this.offsetX, this.offsetY);
+		if (this._onSlide) {
+			this._onSlide(this.offsetX, this.offsetY);
+		}
 
 		// 포인터 위치 갱신
 		this.lastPointerX = pointerX;
@@ -222,25 +233,27 @@ class HanulseSlider {
 			// 최대 이동 범위 도달시 방향 전환
 			var tempX = self.offsetX + dx;
 			var tempY = self.offsetY + dy;
-			if (tempX < self.bounds.left) {
-				tempX = self.bounds.left;
+			if (tempX < self._boundary.left) {
+				tempX = self._boundary.left;
 				dx = -dx * 0.5;
-			} else if (tempX > self.bounds.right) {
-				tempX = self.bounds.right;
+			} else if (tempX > self._boundary.right) {
+				tempX = self._boundary.right;
 				dx = -dx * 0.5;
 			}
-			if (tempY < self.bounds.top) {
-				tempY = self.bounds.top;
+			if (tempY < self._boundary.top) {
+				tempY = self._boundary.top;
 				dy = -dy * 0.5;
-			} else if (tempY > self.bounds.bottom) {
-				tempY = self.bounds.bottom;
+			} else if (tempY > self._boundary.bottom) {
+				tempY = self._boundary.bottom;
 				dy = -dy * 0.5;
 			}
 
 			// 위치 이동
 			self.offsetX = tempX;
 			self.offsetY = tempY;
-			self.onSlide(self.offsetX, self.offsetY);
+			if (self._onSlide) {
+				self._onSlide(self.offsetX, self.offsetY);
+			}
 
 			// 마찰력 적용, 이동량이 0에 가까워지면 슬라이딩 중지 
 			dx *= 0.9;

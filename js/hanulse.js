@@ -1,17 +1,17 @@
 window.env = location.host? 'server': 'local';
 
-var renderer = null;
+var canvasView = null;
 
 $(document).ready(function() {
 	var canvas = $("canvas").get(0);
-	canvas.addEventListener("mousedown", function(evt) {renderer && renderer.onPointerDown(evt);});
-	canvas.addEventListener("mousemove", function(evt) {renderer && renderer.onPointerMove(evt);});
-	canvas.addEventListener("mouseup", function(evt) {renderer && renderer.onPointerUp(evt);});
-	canvas.addEventListener("mouseout", function(evt) {renderer && renderer.onPointerUp(evt);});
-	canvas.addEventListener("mouseleave", function(evt) {renderer && renderer.onPointerUp(evt);});
-	canvas.addEventListener("touchstart", function(evt) {renderer && renderer.onPointerDown(evt);});
-	canvas.addEventListener("touchmove", function(evt) {renderer && renderer.onPointerMove(evt);});
-	canvas.addEventListener("touchend", function(evt) {renderer && renderer.onPointerUp(evt);});
+	canvas.addEventListener("mousedown", function(evt) {canvasView && canvasView.onPointerDown(evt);});
+	canvas.addEventListener("mousemove", function(evt) {canvasView && canvasView.onPointerMove(evt);});
+	canvas.addEventListener("mouseup", function(evt) {canvasView && canvasView.onPointerUp(evt);});
+	canvas.addEventListener("mouseout", function(evt) {canvasView && canvasView.onPointerUp(evt);});
+	canvas.addEventListener("mouseleave", function(evt) {canvasView && canvasView.onPointerUp(evt);});
+	canvas.addEventListener("touchstart", function(evt) {canvasView && canvasView.onPointerDown(evt);});
+	canvas.addEventListener("touchmove", function(evt) {canvasView && canvasView.onPointerMove(evt);});
+	canvas.addEventListener("touchend", function(evt) {canvasView && canvasView.onPointerUp(evt);});
 
 	if (window.env == "server") {
 		updateCounter();
@@ -19,11 +19,11 @@ $(document).ready(function() {
 	}
 });
 
-function initializeHanulse(canvas, data, options) {
+function initializeHanulse(canvas, data) {
 	$(document).ready(function() {
 		setTitle(data.title || "어딘가");
 
-		createHanulse(canvas, data.map || [], options);
+		createHanulse(canvas, data.map || []);
 	});
 }
 
@@ -31,14 +31,18 @@ function setTitle(title) {
 	$(".placeinfo").text(title);
 }
 
-function createHanulse(canvas, map, options) {
-	if (renderer == null) {
-		// TODO: fade in
-		renderer = new HanulseRenderer(canvas, map, options);
-	} else {
-		// TODO: fade out
-		renderer.updateMap(map);
+function createHanulse(canvas, map) {
+	if (canvasView == null) {
+		canvasView = new HanulseCanvasView(canvas, {
+			"autoplay": true,
+			"enabledFPSCounter": true
+		});
 	}
+
+	canvasView.fadeOut(200, () => {
+		canvasView.updateMapData(map);
+		canvasView.fadeIn(200);
+	});
 }
 
 function updateCounter() {
