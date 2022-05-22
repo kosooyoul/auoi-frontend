@@ -46,7 +46,8 @@ class HanulseRenderer {
 		HanulseAssets.initialize(this.context);
 
 		this.blockRenderer = new HanulseBlockRenderer({
-			size: this.blockSize
+			size: this.blockSize,
+			effectRendererFactory: new HanulseEffectRendererFactory()
 		});
 		this.fpsCounterView = new HanulseFPSCounterView($(".fps").get(0));
 		

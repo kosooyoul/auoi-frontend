@@ -1,5 +1,5 @@
-class HanulseFlashEffect {
-	static render(context) {
+class HanulseFlashEffectRenderer {
+	render(context) {
 		var tick = Date.now();
 		var ratio = ((tick) % 1000) / 1000;
 		var curvedRatio = Math.sin(ratio / 2 * Math.PI);

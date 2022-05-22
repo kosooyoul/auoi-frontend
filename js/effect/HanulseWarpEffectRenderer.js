@@ -1,8 +1,8 @@
-class HanulseWarpEffect {
-	static centerGradient = null;
-	static ringGradient = null;
+class HanulseWarpEffectRenderer {
+	centerGradient = null;
+	ringGradient = null;
 
-	static render(context) {
+	render(context) {
 		if (!this.centerGradient) {
 			this.centerGradient = context.createLinearGradient(0, 0, 0, -120);
 			this.centerGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
@@ -36,7 +36,7 @@ class HanulseWarpEffect {
 		context.restore();
 	}
 
-	static renderCenter(context, r, o) {
+	renderCenter(context, r, o) {
 		var tick = Date.now();
 		var ratio = ((tick - o) % r) / r; // 100
 		// var curvedRatio = Math.sin(ratio * Math.PI);
@@ -80,7 +80,7 @@ class HanulseWarpEffect {
 		context.closePath();
 	}
 	
-	static renderRing(context, r, o, s, h) {
+	renderRing(context, r, o, s, h) {
 		var tick = Date.now();
 		var ratio = ((tick - o) % r) / r; // 100
 		// var curvedRatio = Math.sin(ratio * Math.PI);

@@ -30,6 +30,8 @@ class HanulseBlockRenderer {
 	leftSelectionPath = null;
 	rightSelectionPath = null;
 
+	_effectRendererFactory = null;
+
 	textureEnabled = true;
 	onlyWireframe = false;
 	propEnabled = true;
@@ -51,6 +53,10 @@ class HanulseBlockRenderer {
 			this.topSelectionPath = HanulseBlockRenderer.defaultTopselectionpath;
 			this.leftSelectionPath = HanulseBlockRenderer.defaultLeftselectionpath;
 			this.rightSelectionPath = HanulseBlockRenderer.defaultRightselectionpath;
+		}
+
+		if (options.effectRendererFactory) {
+			this._effectRendererFactory = options.effectRendererFactory;
 		}
 	}
 
@@ -191,14 +197,13 @@ class HanulseBlockRenderer {
 	}
 
 	renderEffect(context, effect) {
-		if (effect == "warp") {
-			HanulseWarpEffect.render(context);
-		} else if (effect == "bigwarp") {
-			HanulseWarpEffect.render(context);
-		} else if (effect == "link") {
-			HanulseLinkEffect.render(context);
-		} else if (effect == "flash") {
-			HanulseFlashEffect.render(context);
+		if (!this._effectRendererFactory) {
+			return;
+		}
+
+		const effectRenderer = this._effectRendererFactory.get(effect);
+		if (effectRenderer) {
+			effectRenderer.render(context);
 		}
 	}
 }
