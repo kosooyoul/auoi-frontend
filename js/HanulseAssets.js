@@ -22,13 +22,16 @@ class HanulseAssets {
 		context.props["waste"] = {"image": this.getImage("./images/waste.png"), "left": -6, "top": -12, "width": 12, "height": 12};
 		context.props["trash"] = {"image": this.getImage("./images/trash.png"), "left": -9, "top": -21, "width": 18, "height": 21};
 	
-		context.blocks = {};
-		context.blocks["grass"] =  {"image": this.getImage("./images/grass.png"), "left": -40, "top": -20, "width": 80, "height": 40};
-		context.blocks["pink"] =  {"image": this.getImage("./images/pink.png"), "left": -40, "top": -20, "width": 80, "height": 40};
-		context.blocks["blue"] =  {"image": this.getImage("./images/blue.png"), "left": -40, "top": -20, "width": 80, "height": 40};
-		context.blocks["hologram"] = {"image": this.getImage("./images/hologram.png"), "left": -40, "top": -20, "width": 80, "height": 40};
-		context.blocks["glass"] = {"image": this.getImage("./images/glass.png"), "left": -40, "top": -20, "width": 80, "height": 40};
-		context.blocks["snow"] = {"image": this.getImage("./images/snow.png"), "left": -40, "top": -20, "width": 80, "height": 40};
-		context.blocks["parquet"] = {"image": this.getImage("./images/parquet.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures = {};
+		context.textures["grass-top"] =  {"image": this.getImage("./images/grass-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["pink-top"] =  {"image": this.getImage("./images/pink-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["blue-top"] =  {"image": this.getImage("./images/blue-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["hologram-top"] = {"image": this.getImage("./images/hologram-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["glass-top"] = {"image": this.getImage("./images/glass-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["snow-top"] = {"image": this.getImage("./images/snow-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["parquet-top"] = {"image": this.getImage("./images/parquet-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+
+		context.textures["soil-left"] =  {"image": this.getImage("./images/soil-left.png"), "left": -40, "top": 0, "width": 40, "height": 55};
+		context.textures["soil-right"] =  {"image": this.getImage("./images/soil-right.png"), "left": 0, "top": 0, "width": 40, "height": 55};
 	}
 }

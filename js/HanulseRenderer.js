@@ -18,6 +18,8 @@ class HanulseRenderer {
 	targetOffsetX = 0;
 	targetOffsetY = 0;
 
+	blockRenderer = new HanulseBlockRenderer();
+
 	constructor(canvas, map, options) {
 		console.log("initialize");
 
@@ -44,7 +46,14 @@ class HanulseRenderer {
 
 	initializeMap(map) {
 		// Initialize map
-		this.blocks = map.map(item => new HanulseBlock(item.position, item.block, item.prop, item.effect, item.label, item.action));
+		this.blocks = map.map(item => new HanulseBlock({
+			position: item.position,
+			texture: item.texture,
+			prop: item.prop,
+			effect: item.effect,
+			label: item.label,
+			action: item.action
+		}));
 		this.blocks.sort((a, b) => {
 			return (a.position.y - b.position.y) || (a.position.x - b.position.x);
 		});
@@ -144,7 +153,7 @@ class HanulseRenderer {
 		context.translate(this.offsetX, this.offsetY);
 		var count = this.blocks.length;
 		for (var i = 0; i < count; i++) {
-			this.blocks[i].render(context);
+			this.blockRenderer.render(context, this.blocks[i]);
 		}
 		context.restore();
 
@@ -160,11 +169,11 @@ class HanulseRenderer {
 
 		// 활성화 개체 상태를 변경
 		if (this.activeObject) {
-			this.activeObject.resetStatus();
+			this.activeObject.block.resetStatus(this.activeObject.side);
 		}
 		this.activeObject = this.pick(cursorX, cursorY);
 		if (this.activeObject) {
-			this.activeObject.setStatus("active");
+			this.activeObject.block.setStatus("active", this.activeObject.side);
 		}
 	}
 
@@ -177,13 +186,17 @@ class HanulseRenderer {
 
 		// 다운 상태가 아니면 롤오버 상태를 교체
 		if (!pointer.moving) {
-			if (this.hoverObject && this.hoverObject != this.activeObject) {
-				this.hoverObject.resetStatus();
+			if (this.isSameObject(this.hoverObject, this.activeObject) == false) {
+				if (this.hoverObject) {
+					this.hoverObject.block.resetStatus(this.hoverObject.side);
+				}
 			}
 			var hoverObject = this.pick(cursorX, cursorY);
-			if (hoverObject && hoverObject != this.activeObject) {
-				this.hoverObject = hoverObject;
-				this.hoverObject.setStatus("hover");
+			if (this.isSameObject(hoverObject, this.activeObject) == false) {
+				if (hoverObject) {
+					this.hoverObject = hoverObject;
+					this.hoverObject.block.setStatus("hover", this.hoverObject.side);
+				}
 			}
 			return;
 		}
@@ -191,7 +204,7 @@ class HanulseRenderer {
 		// 클릭 유효 범위 넘어서면, 상태 변경
 		if (Math.abs(pointer.distanceX) > 20 || Math.abs(pointer.distanceY) > 20) {
 			if (this.activeObject) {
-				this.activeObject.setStatus("hover");
+				this.activeObject.block.setStatus("hover", this.activeObject.side);
 			}
 		}
 	}
@@ -209,30 +222,39 @@ class HanulseRenderer {
 		// 클릭 유효 범위 넘어서면, 상태 변경하고 끝
 		if (Math.abs(pointer.distanceX) > 20 || Math.abs(pointer.distanceY) > 20) {
 			if (this.activeObject) {
-				this.activeObject.setStatus("hover");
+				this.activeObject.block.setStatus("hover", this.activeObject.side);
 			}
 			return;
 		}
 
 		// 선택한 개체가 활성화 개체와 동일하면 클릭
 		var pickedObject = this.pick(cursorX, cursorY);
-		if (this.activeObject && this.activeObject == pickedObject) {
-			var blockOffsetX = (40 * pickedObject.position.x - 40 * pickedObject.position.y);
-			var blockOffsetY = (20 * pickedObject.position.y + 20 * pickedObject.position.x - pickedObject.position.z * 35);
+		if (this.isSameObject(this.activeObject, pickedObject)) {
+			var blockOffsetX = (40 * pickedObject.block.position.x - 40 * pickedObject.block.position.y);
+			var blockOffsetY = (20 * pickedObject.block.position.y + 20 * pickedObject.block.position.x - pickedObject.block.position.z * 35);
 			this.slider.moveTo(-blockOffsetX, -blockOffsetY);
 
-			this.activeObject.setStatus("focus");
-			this.activeObject.act();
+			this.activeObject.block.setStatus("focus", this.activeObject.side);
+			this.activeObject.block.act();
 		}
 	}
 
 	pick(x, y) {
 		for (var i = this.blocks.length - 1; i >= 0; i--) {
-			var block = this.blocks[i]
-			if (block.pick(x - this.offsetX, y - this.offsetY)) {
-				return block;
+			var block = this.blocks[i];
+			var pickedSide = block.pick(x - this.offsetX, y - this.offsetY);
+			if (pickedSide) {
+				return {block: block, side: pickedSide};
 			}
 		}
 		return null;
+	}
+
+	isSameObject(a, b) {
+		if (a == null) return false;
+		if (b == null) return false;
+		if (a.block != b.block) return false;
+		if (a.side != b.side) return false;
+		return true;
 	}
 }
