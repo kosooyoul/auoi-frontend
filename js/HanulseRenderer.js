@@ -48,11 +48,12 @@ class HanulseRenderer {
 
 	updateMap(map) {
 		this.initializeMap(map);
+		this.slider.destroy();
 		this.initializeSlider();
+		this.slider.moveTo(0, 0);
 	}
 
 	destroy() {
-
 
 	}
 
@@ -78,6 +79,7 @@ class HanulseRenderer {
 			this.targetOffsetX = x;
 			this.targetOffsetY = y;
 		});
+		this.slider.moveTo(0, 0);
 	}
 
 	play() {

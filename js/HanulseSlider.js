@@ -21,6 +21,13 @@ class HanulseSlider {
 		this.onSlide = onSlide;
 	}
 
+	destroy() {
+		// 슬라이딩 이전 타이머 제거
+		if (this.intervalSliding) {
+			clearInterval(this.intervalSliding);
+		}
+	}
+
 	moveTo(x, y) {
 		// 슬라이딩 이전 타이머 제거
 		if (this.intervalSliding) {
