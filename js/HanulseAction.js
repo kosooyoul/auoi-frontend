@@ -4,7 +4,8 @@ class HanulseAction {
 		"working": "rgb(255, 200, 0)",
 		"impossible": "rgb(255, 0, 0)",
 		"test": "rgb(200, 100, 255)",
-		"deprecated": "rgb(255, 0, 200)"
+		"deprecated": "rgb(255, 0, 200)",
+		"relics": "rgb(172, 172, 172)"
 	}
 
 	static act(action) {
