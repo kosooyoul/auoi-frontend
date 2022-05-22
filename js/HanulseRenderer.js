@@ -235,7 +235,7 @@ class HanulseRenderer {
 			this.slider.moveTo(-blockOffsetX, -blockOffsetY);
 
 			this.activeObject.block.setStatus("focus", this.activeObject.side);
-			this.activeObject.block.act();
+			this.activeObject.block.act(this.activeObject.side);
 		}
 	}
 

@@ -46,18 +46,20 @@
     {"position": {"x": -2, "y":  0, "z":  0}, "texture": {"top": "grass-top"}, "prop": "tree"},
     {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top", "right": "soil-right"}, "prop": "warp", "effect": "bigwarp", "label": "뒤틀린 워프", "action": {
-        "type": "menu",
-        "menu": [
-            {"title": "기억의 공간으로", "tag": "working", "link": "#memories"},
-            {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous"},
-            {"title": "안내소", "tag": "working", "link": "#information"},
-            {"type": "separator"},
-            {"title": "4차원의 세계로", "tag": "test", "link": "#4d-world"},
-            {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html"},
-            {"title": "시험의 4차원의 세계로", "tag": "test", "link": "http://www.ahyane.net/map.html"},
-            {"title": "사라져가는 평형 세계로", "tag": "deprecated", "link": "http://www.ahyane.net/4d-world.php"},
-            {"title": "다 사라져가는 평형 세계로", "tag": "deprecated", "link": "http://www.ahyane.net/map_symbol_999990_k.swf.htm"}
-        ]
+        "top": {
+            "type": "menu",
+            "menu": [
+                {"title": "기억의 공간으로", "tag": "working", "link": "#memories"},
+                {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous"},
+                {"title": "안내소", "tag": "working", "link": "#information"},
+                {"type": "separator"},
+                {"title": "4차원의 세계로", "tag": "test", "link": "#4d-world"},
+                {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html"},
+                {"title": "시험의 4차원의 세계로", "tag": "test", "link": "http://www.ahyane.net/map.html"},
+                {"title": "사라져가는 평형 세계로", "tag": "deprecated", "link": "http://www.ahyane.net/4d-world.php"},
+                {"title": "다 사라져가는 평형 세계로", "tag": "deprecated", "link": "http://www.ahyane.net/map_symbol_999990_k.swf.htm"}
+            ]
+        }
     }},
     {"position": {"x":  1, "y":  0, "z": -1}, "texture": {"top": "grass-top"}, "prop": "bush"},
     {"position": {"x":  2, "y":  0, "z": -1}, "texture": {"top": "grass-top", "right": "soil-right"}},
@@ -78,8 +80,10 @@
     {"position": {"x": -3, "y":  2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
     {"position": {"x": -2, "y":  2, "z":  1}, "texture": {"top": "grass-top", "left": "soil-left"}},
     {"position": {"x": -1, "y":  2, "z":  1}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "staff", "label": "숲의 아이", "action": {
-        "type": "message",
-        "message": "어서오세요~ 반가워요 ^^\n여기 빛나는 곳이 워프 포탈이에요.\n머릿속에 가고 싶은 곳을 떠올리면\n그곳이 어디든 갈 수 있어요!\n저 워프 포탈 위에서 가고 싶은 곳을 떠올려 보세요!"
+        "all": {
+            "type": "message",
+            "message": "어서오세요~ 반가워요 ^^\n여기 빛나는 곳이 워프 포탈이에요.\n머릿속에 가고 싶은 곳을 떠올리면\n그곳이 어디든 갈 수 있어요!\n저 워프 포탈 위에서 가고 싶은 곳을 떠올려 보세요!"
+        }
     }},
     {"position": {"x":  0, "y":  2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x":  1, "y":  2, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "flower"},

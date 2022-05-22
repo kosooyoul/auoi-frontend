@@ -19,7 +19,13 @@ class HanulseBlock {
 	prop = null;
 	effect = null;
 	label = null;
-	action = null;
+
+	action = {
+		top: null,
+		left: null,
+		right: null,
+		all: null
+	};
 
 	status = {
 		top: null,
@@ -50,7 +56,13 @@ class HanulseBlock {
 		this.prop = options.prop;
 		this.effect = options.effect;
 		this.label = options.label;
-		this.action = options.action;
+
+		if (options.action) {
+			this.action.top = options.action.top;
+			this.action.left = options.action.left;
+			this.action.right = options.action.right;
+			this.action.all = options.action.all;
+		}
 	}
 
 	pick(x, y) {
@@ -160,11 +172,15 @@ class HanulseBlock {
 		}
 	}
 
-	act() {
-		if (!this.action) {
-			return;
+	act(side) {
+		if (side == "top") {
+			HanulseAction.act(this.action.top || this.action.all);
+		} else if (side == "left") {
+			HanulseAction.act(this.action.left || this.action.all);
+		} else if (side == "right") {
+			HanulseAction.act(this.action.right || this.action.all);
+		} else if (side == "all") {
+			HanulseAction.act(this.action.all);
 		}
-
-		HanulseAction.act(this.action);
 	}
 }
