@@ -32,12 +32,13 @@ function setTitle(title) {
 }
 
 function createHanulse(canvas, map, options) {
-	if (renderer) {
+	if (renderer == null) {
+		// TODO: fade in
+		renderer = new HanulseRenderer(canvas, map, options);
+	} else {
 		// TODO: fade out
-		renderer.destroy();
+		renderer.updateMap(map);
 	}
-	// TODO: fade in
-	renderer = new HanulseRenderer(canvas, map, options);
 }
 
 function updateCounter() {

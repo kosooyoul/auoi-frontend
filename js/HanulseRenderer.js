@@ -45,6 +45,11 @@ class HanulseRenderer {
 		}
 	}
 
+	updateMap(map) {
+		this.initializeMap(map);
+		this.initializeSlider();
+	}
+
 	destroy() {
 
 
