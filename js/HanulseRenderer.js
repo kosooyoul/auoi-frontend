@@ -61,16 +61,7 @@ class HanulseRenderer {
 
 	initializeSlider() {
 		// Initialize bounds and slider
-		var bounds = {"left": 0, "right": 0, "top": 0, "bottom": 0};
-		this.blocks.forEach(block => {
-			var blockOffsetX = (40 * block.position.x - 40 * block.position.y);
-			var blockOffsetY = (20 * block.position.y + 20 * block.position.x - block.position.z * 35);
-
-			bounds.left = Math.min(bounds.left, blockOffsetX);
-			bounds.right = Math.max(bounds.right, blockOffsetX);
-			bounds.top = Math.min(bounds.top, blockOffsetY);
-			bounds.bottom = Math.max(bounds.bottom, blockOffsetY);
-		});
+		var bounds = HanulseBlock.getBlocksBoundary(this.blocks);
 		
 		this.slider = new HanulseSlider(bounds, (x, y) => {
 			this.targetOffsetX = x;
@@ -230,12 +221,14 @@ class HanulseRenderer {
 		// 선택한 개체가 활성화 개체와 동일하면 클릭
 		var pickedObject = this.pick(cursorX, cursorY);
 		if (this.isSameObject(this.activeObject, pickedObject)) {
-			var blockOffsetX = (40 * pickedObject.block.position.x - 40 * pickedObject.block.position.y);
-			var blockOffsetY = (20 * pickedObject.block.position.y + 20 * pickedObject.block.position.x - pickedObject.block.position.z * 35);
-			this.slider.moveTo(-blockOffsetX, -blockOffsetY);
+			var offset = pickedObject.block.getOffset();
+			this.slider.moveTo(-offset.x, -offset.y);
 
 			this.activeObject.block.setStatus("focus", this.activeObject.side);
-			this.activeObject.block.act(this.activeObject.side);
+			var action = this.activeObject.block.getAction(this.activeObject.side);
+			if (action) {
+				HanulseAction.act(action);
+			}
 		}
 	}
 

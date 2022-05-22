@@ -58,10 +58,13 @@ class HanulseBlock {
 		this.label = options.label;
 
 		if (options.action) {
-			this.action.top = options.action.top;
-			this.action.left = options.action.left;
-			this.action.right = options.action.right;
-			this.action.all = options.action.all;
+			if (options.action.all) {
+				this.action.all = options.action.all;
+			} else {
+				this.action.top = options.action.top;
+				this.action.left = options.action.left;
+				this.action.right = options.action.right;
+			}
 		}
 	}
 
@@ -70,17 +73,17 @@ class HanulseBlock {
 		var ry = y - this.offset.y;
 
 		if (this.texture.top) {
-			if (this.pickTop(rx, ry)) {
+			if (this._pickTop(rx, ry)) {
 				return "top";
 			}
 		}
 		if (this.texture.left) {
-			if (this.pickLeft(rx, ry)) {
+			if (this._pickLeft(rx, ry)) {
 				return "left";
 			}
 		}
 		if (this.texture.right) {
-			if (this.pickRight(rx, ry)) {
+			if (this._pickRight(rx, ry)) {
 				return "right";
 			}
 		}
@@ -88,8 +91,7 @@ class HanulseBlock {
 		return null;
 	}
 
-	/** @private */
-	pickTop(rx, ry) {
+	_pickTop(rx, ry) {
 		if (-0.5 * rx + -20 <= ry && -0.5 * rx + 20 >= ry
 		 && 0.5 * rx - 20 <= ry && 0.5 * rx - -20 >= ry) {
 			return true;
@@ -98,8 +100,7 @@ class HanulseBlock {
 		return false;
 	}
 
-	/** @private */
-	pickLeft(rx, ry) {
+	_pickLeft(rx, ry) {
 		if (!this.texture.left) {
 			return false;
 		}
@@ -121,8 +122,7 @@ class HanulseBlock {
 		return false;
 	}
 
-	/** @private */
-	pickRight(rx, ry) {
+	_pickRight(rx, ry) {
 		if (!this.texture.right) {
 			return false;
 		}
@@ -142,6 +142,10 @@ class HanulseBlock {
 		}
 
 		return false;
+	}
+
+	getOffset() {
+		return this.offset;
 	}
 
 	setStatus(status, side) {
@@ -172,15 +176,34 @@ class HanulseBlock {
 		}
 	}
 
-	act(side) {
+	getAction(side) {
 		if (side == "top") {
-			HanulseAction.act(this.action.top || this.action.all);
+			return this.action.top || this.action.all;
 		} else if (side == "left") {
-			HanulseAction.act(this.action.left || this.action.all);
+			return this.action.left || this.action.all;
 		} else if (side == "right") {
-			HanulseAction.act(this.action.right || this.action.all);
+			return this.action.right || this.action.all;
 		} else if (side == "all") {
-			HanulseAction.act(this.action.all);
+			return this.action.all;
 		}
+		return null;
+	}
+
+	static getBlocksBoundary(blocks) {
+		var boundary = {
+			left: 0,
+			right: 0,
+			top: 0,
+			bottom: 0
+		};
+
+		blocks.forEach(block => {
+			boundary.left = Math.min(boundary.left, block.offset.x);
+			boundary.right = Math.max(boundary.right, block.offset.x);
+			boundary.top = Math.min(boundary.top, block.offset.y);
+			boundary.bottom = Math.max(boundary.bottom, block.offset.y);
+		});
+
+		return boundary;
 	}
 }
