@@ -6,25 +6,33 @@ class HanulseLinkEffect {
 		if (!this.centerGradient) {
 			this.centerGradient = context.createLinearGradient(0, 0, 0, -120);
 			this.centerGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-			this.centerGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+			this.centerGradient.addColorStop(1, "rgba(255, 255, 255, 1)");
 		}
 
 		if (!this.ringGradient) {
 			this.ringGradient = context.createLinearGradient(0, -20, 0, 40);
 			this.ringGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-			this.ringGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+			this.ringGradient.addColorStop(1, "rgba(255, 255, 255, 1)");
 		}
 
 		context.save();
-		this.renderRing(context, 1000, 0, 1, 2);
+		this.renderRing(context, 1200, 0, 1.1, 8);
 		context.restore();
 
 		context.save();
-		this.renderRing(context, 1000, 200, 1, 2);
+		this.renderRing(context, 1000, 200, 1.2, 4);
 		context.restore();
 
 		context.save();
-		this.renderRing(context, 1000, 400, 1, 2);
+		this.renderRing(context, 800, 300, 1.15, 5);
+		context.restore();
+
+		context.save();
+		this.renderRing(context, 600, 600, 1.2, 2);
+		context.restore();
+
+		context.save();
+		this.renderRing(context, 500, 100, 0.9, 10);
 		context.restore();
 	}
 	
@@ -33,7 +41,7 @@ class HanulseLinkEffect {
 		var ratio = ((tick - o) % r) / r; // 100
 		// var curvedRatio = Math.sin(ratio * Math.PI);
 		var curvedRatio = Math.sin(ratio / 2 * Math.PI);
-		var target = -10;
+		var target = -30;
 		var translateY = target * curvedRatio;// * Math.pow(ratio, 1.5);
 
 		context.translate(0, translateY);
