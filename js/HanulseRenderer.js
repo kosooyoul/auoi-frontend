@@ -25,6 +25,7 @@ class HanulseRenderer {
 	targetOffsetY = 0;
 
 	blockRenderer = new HanulseBlockRenderer();
+	fpsCounterView = new HanulseFPSCounterView($(".fps").get(0));
 
 	constructor(canvas, map, options) {
 		console.log("initialize");
@@ -103,6 +104,8 @@ class HanulseRenderer {
 	}
 
 	requestRender(context) {
+		this.fpsCounterView.count();
+
 		// console.log("requestRender");
 
 		var self = this;
