@@ -1,4 +1,10 @@
 class HanulseRenderer {
+	static defaultBlockSize = {
+		w: 80,
+		h: 40,
+		d: 35
+	};
+
 	canvas = null;
 	context = null;
 	options = null;
@@ -48,15 +54,14 @@ class HanulseRenderer {
 		// Initialize map
 		this.blocks = map.map(item => new HanulseBlock({
 			position: item.position,
+			size: HanulseRenderer.defaultBlockSize,
 			texture: item.texture,
 			prop: item.prop,
 			effect: item.effect,
 			label: item.label,
 			action: item.action
 		}));
-		this.blocks.sort((a, b) => {
-			return (a.position.y - b.position.y) || (a.position.x - b.position.x);
-		});
+		HanulseBlock.sortBlocks(this.blocks);
 	}
 
 	initializeSlider() {

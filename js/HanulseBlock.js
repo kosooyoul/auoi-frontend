@@ -1,33 +1,33 @@
 class HanulseBlock {
-	position = {
+	_position = {
 		x: 0,
 		y: 0,
 		z: 0
 	};
 
-	offset = {
+	_offset = {
 		x: 0,
 		y: 0
-	}
+	};
 
-	texture = {
+	_texture = {
 		top: null,
 		left: null,
 		right: null
 	};
 
-	prop = null;
-	effect = null;
-	label = null;
+	_prop = null;
+	_effect = null;
+	_label = null;
 
-	action = {
+	_action = {
 		top: null,
 		left: null,
 		right: null,
 		all: null
 	};
 
-	status = {
+	_status = {
 		top: null,
 		left: null,
 		right: null
@@ -38,51 +38,51 @@ class HanulseBlock {
 			return;
 		}
 
-		if (options.position) {
-			this.position.x = options.position.x;
-			this.position.y = options.position.y;
-			this.position.z = options.position.z;
+		if (options.position && options.size) {
+			this._position.x = options.position.x;
+			this._position.y = options.position.y;
+			this._position.z = options.position.z;
 			
-			this.offset.x = (40 * this.position.x - 40 * this.position.y)
-			this.offset.y = (20 * this.position.y + 20 * this.position.x - this.position.z * 35);
+			this._offset.x = ((options.size.w >> 1) * this._position.x - (options.size.w >> 1) * this._position.y)
+			this._offset.y = ((options.size.h >> 1) * this._position.y + (options.size.h >> 1) * this._position.x - this._position.z * options.size.d);
 		}
 
 		if (options.texture) {
-			this.texture.top = options.texture.top;
-			this.texture.left = options.texture.left;
-			this.texture.right = options.texture.right;
+			this._texture.top = options.texture.top;
+			this._texture.left = options.texture.left;
+			this._texture.right = options.texture.right;
 		}
 
-		this.prop = options.prop;
-		this.effect = options.effect;
-		this.label = options.label;
+		this._prop = options.prop;
+		this._effect = options.effect;
+		this._label = options.label;
 
 		if (options.action) {
 			if (options.action.all) {
-				this.action.all = options.action.all;
+				this._action.all = options.action.all;
 			} else {
-				this.action.top = options.action.top;
-				this.action.left = options.action.left;
-				this.action.right = options.action.right;
+				this._action.top = options.action.top;
+				this._action.left = options.action.left;
+				this._action.right = options.action.right;
 			}
 		}
 	}
 
 	pick(x, y) {
-		var rx = x - this.offset.x;
-		var ry = y - this.offset.y;
+		var rx = x - this._offset.x;
+		var ry = y - this._offset.y;
 
-		if (this.texture.top) {
+		if (this._texture.top) {
 			if (this._pickTop(rx, ry)) {
 				return "top";
 			}
 		}
-		if (this.texture.left) {
+		if (this._texture.left) {
 			if (this._pickLeft(rx, ry)) {
 				return "left";
 			}
 		}
-		if (this.texture.right) {
+		if (this._texture.right) {
 			if (this._pickRight(rx, ry)) {
 				return "right";
 			}
@@ -101,7 +101,7 @@ class HanulseBlock {
 	}
 
 	_pickLeft(rx, ry) {
-		if (!this.texture.left) {
+		if (!this._texture.left) {
 			return false;
 		}
 
@@ -123,7 +123,7 @@ class HanulseBlock {
 	}
 
 	_pickRight(rx, ry) {
-		if (!this.texture.right) {
+		if (!this._texture.right) {
 			return false;
 		}
 
@@ -145,46 +145,70 @@ class HanulseBlock {
 	}
 
 	getOffset() {
-		return this.offset;
+		return this._offset;
+	}
+
+	getOffset() {
+		return this._offset;
+	}
+
+	getTexture() {
+		return this._texture;
+	}
+
+	getStatus() {
+		return this._status;
+	}
+
+	getProp() {
+		return this._prop;
+	}
+
+	getLabel() {
+		return this._label;
+	}
+
+	getEffect() {
+		return this._effect;
 	}
 
 	setStatus(status, side) {
 		if (side == "top") {
-			this.status.top = status;
+			this._status.top = status;
 		} else if (side == "left") {
-			this.status.left = status;
+			this._status.left = status;
 		} else if (side == "right") {
-			this.status.right = status;
+			this._status.right = status;
 		} else {
-			this.status.top = status;
-			this.status.left = status;
-			this.status.right = status;
+			this._status.top = status;
+			this._status.left = status;
+			this._status.right = status;
 		}
 	}
 
 	resetStatus(side) {
 		if (side == "top") {
-			this.status.top = null;
+			this._status.top = null;
 		} else if (side == "left") {
-			this.status.left = null;
+			this._status.left = null;
 		} else if (side == "right") {
-			this.status.right = null;
+			this._status.right = null;
 		} else {
-			this.status.top = null;
-			this.status.left = null;
-			this.status.right = null;
+			this._status.top = null;
+			this._status.left = null;
+			this._status.right = null;
 		}
 	}
 
 	getAction(side) {
 		if (side == "top") {
-			return this.action.top || this.action.all;
+			return this._action.top || this._action.all;
 		} else if (side == "left") {
-			return this.action.left || this.action.all;
+			return this._action.left || this._action.all;
 		} else if (side == "right") {
-			return this.action.right || this.action.all;
+			return this._action.right || this._action.all;
 		} else if (side == "all") {
-			return this.action.all;
+			return this._action.all;
 		}
 		return null;
 	}
@@ -198,12 +222,18 @@ class HanulseBlock {
 		};
 
 		blocks.forEach(block => {
-			boundary.left = Math.min(boundary.left, block.offset.x);
-			boundary.right = Math.max(boundary.right, block.offset.x);
-			boundary.top = Math.min(boundary.top, block.offset.y);
-			boundary.bottom = Math.max(boundary.bottom, block.offset.y);
+			boundary.left = Math.min(boundary.left, block._offset.x);
+			boundary.right = Math.max(boundary.right, block._offset.x);
+			boundary.top = Math.min(boundary.top, block._offset.y);
+			boundary.bottom = Math.max(boundary.bottom, block._offset.y);
 		});
 
 		return boundary;
+	}
+
+	static sortBlocks(blocks) {
+		blocks.sort((a, b) => {
+			return (a._position.y - b._position.y) || (a._position.x - b._position.x);
+		});
 	}
 }

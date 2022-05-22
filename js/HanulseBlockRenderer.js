@@ -24,30 +24,42 @@ class HanulseBlockRenderer {
 
 	render(context, block) {
 		context.save();
-		context.translate(block.offset.x, block.offset.y);
 
-		if (block.texture.top) {
-			this.renderTopWithStatusCode(context, block.texture.top, block.status.top);
-		}
+		const offset = block.getOffset();
+		const texture = block.getTexture();
+		const status = block.getStatus();
 		
-		if (block.texture.left) {
-			this.renderLeftWithStatusCode(context, block.texture.left, block.status.left);
+		context.translate(offset.x, offset.y);
+
+		if (texture.top) {
+			this.renderTopWithStatusCode(context, texture.top, status.top);
 		}
-		
-		if (block.texture.right) {
-			this.renderRightWithStatusCode(context, block.texture.right, block.status.right);
+		if (texture.left) {
+			this.renderLeftWithStatusCode(context, texture.left, status.left);
+		}
+		if (texture.right) {
+			this.renderRightWithStatusCode(context, texture.right, status.right);
 		}
 
-		if (this.propEnabled && block.prop) {
-			this.renderProp(context, block.prop);
+		if (this.propEnabled) {
+			const prop = block.getProp();
+			if (prop) {
+				this.renderProp(context, prop);
+			}
 		}
 
-		if (this.labelEnabled && block.label) {
-			this.renderLabelWithStatus(context, block.label, block.status);
+		if (this.labelEnabled) {
+			const label = block.getLabel();
+			if (label) {
+				this.renderLabelWithStatus(context, label, status);
+			}
 		}
 
-		if (this.effectEnabled && block.effect) {
-			this.renderEffect(context, block.effect);
+		if (this.effectEnabled) {
+			const effect = block.getEffect();
+			if (effect) {
+				this.renderEffect(context, effect);
+			}
 		}
 
 		context.restore();
