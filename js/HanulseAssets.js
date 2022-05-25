@@ -29,10 +29,14 @@ class HanulseAssets {
 
 		context.props["flower-berry-1"] = {"image": this.getImage("./images/flower-berry-1.png"), "left": -16, "top": -42, "width": 33, "height": 47};
 		context.props["parquet-floor-left"] = {"image": this.getImage("./images/parquet-floor-left.png"), "left": -40, "top": -55, "width": 80, "height": 75};
-	
+		context.props["grass-slide-right"] = {"image": this.getImage("./images/grass-slide-right.png"), "left": -40, "top": -55, "width": 80, "height": 75};
+		context.props["grass-slide-left"] = {"image": this.getImage("./images/grass-slide-left.png"), "left": -40, "top": -55, "width": 80, "height": 75};
+
 		context.textures = {};
 		context.textures["grass-top"] =  {"image": this.getImage("./images/grass-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["gravel-top"] =  {"image": this.getImage("./images/gravel-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 
+		context.textures["soil-top"] =  {"image": this.getImage("./images/soil-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 		context.textures["soil-left"] =  {"image": this.getImage("./images/soil-left.png"), "left": -40, "top": 0, "width": 40, "height": 55};
 		context.textures["soil-right"] =  {"image": this.getImage("./images/soil-right.png"), "left": 0, "top": 0, "width": 40, "height": 55};
 		
