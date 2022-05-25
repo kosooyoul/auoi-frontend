@@ -61,6 +61,8 @@ class HanulseBlockRenderer {
 	render(context, block) {
 		context.save();
 
+		context.globalAlpha = block.getAlpha();
+
 		const offset = block.getOffset();
 		const texture = block.getTexture();
 		const status = block.getStatus();

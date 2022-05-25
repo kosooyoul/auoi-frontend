@@ -80,7 +80,8 @@ class HanulseCanvasView {
 			prop: item.prop,
 			effect: item.effect,
 			label: item.label,
-			action: item.action
+			action: item.action,
+			alpha: item.alpha
 		}));
 		this.blocks = HanulseBlock.sortBlocks(blocks);
 		this.renderer.setBlocks(this.blocks);

@@ -33,6 +33,8 @@ class HanulseBlock {
 		right: null
 	};
 
+	_alpha = 1.0;
+
 	constructor(options) {
 		if (options == null) {
 			return;
@@ -65,6 +67,10 @@ class HanulseBlock {
 				this._action.left = options.action.left;
 				this._action.right = options.action.right;
 			}
+		}
+
+		if (options.alpha) {
+			this._alpha = options.alpha;
 		}
 	}
 
@@ -170,6 +176,10 @@ class HanulseBlock {
 
 	getEffect() {
 		return this._effect;
+	}
+
+	getAlpha() {
+		return this._alpha;
 	}
 
 	setStatus(status, side) {

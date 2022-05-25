@@ -65,5 +65,7 @@
                 {"title": "안내소", "tag": "possible", "link": "http://www.ahyane.net/map_house_010112_k.htm"}
             ]
         }
-    }}
+    }},
+    {"position": {"x":  0, "y":  0, "z":  -1}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.4},
+    {"position": {"x":  0, "y":  0, "z":  -2}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.2}
 ]}
