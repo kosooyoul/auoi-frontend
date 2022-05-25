@@ -34,6 +34,7 @@ class HanulseBlock {
 	};
 
 	_alpha = 1.0;
+	_timeOffset = 0;
 
 	constructor(options) {
 		if (options == null) {
@@ -71,6 +72,12 @@ class HanulseBlock {
 
 		if (options.alpha) {
 			this._alpha = options.alpha;
+		}
+
+		if (options.timeOffset) {
+			this._timeOffset = options.timeOffset;
+		} else {
+			this._timeOffset = Math.random() * 60000;
 		}
 	}
 
@@ -180,6 +187,10 @@ class HanulseBlock {
 
 	getAlpha() {
 		return this._alpha;
+	}
+
+	getTimeOffset() {
+		return this._timeOffset;
 	}
 
 	setStatus(status, side) {

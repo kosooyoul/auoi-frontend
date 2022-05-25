@@ -96,7 +96,7 @@ class HanulseBlockRenderer {
 		if (this.effectEnabled) {
 			const effect = block.getEffect();
 			if (effect) {
-				this.renderEffect(context, effect);
+				this.renderEffect(context, effect, block.getTimeOffset());
 			}
 		}
 
@@ -196,14 +196,14 @@ class HanulseBlockRenderer {
 		}
 	}
 
-	renderEffect(context, effect) {
+	renderEffect(context, effect, timeOffset) {
 		if (!this._effectRendererFactory) {
 			return;
 		}
 
 		const effectRenderer = this._effectRendererFactory.get(effect);
 		if (effectRenderer) {
-			effectRenderer.render(context);
+			effectRenderer.render(context, timeOffset);
 		}
 	}
 }

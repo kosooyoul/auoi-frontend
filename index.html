@@ -74,6 +74,7 @@
 <script type="text/javascript" src="./js/effect/HanulseWarpEffectRenderer.js"></script>
 <script type="text/javascript" src="./js/effect/HanulseLinkEffectRenderer.js"></script>
 <script type="text/javascript" src="./js/effect/HanulseFlashEffectRenderer.js"></script>
+<script type="text/javascript" src="./js/effect/HanulsePrismEffectRenderer.js"></script>
 <script type="text/javascript" src="./js/HanulseSlider.js"></script>
 <script type="text/javascript" src="./js/HanulseCanvasView.js"></script>
 <script type="text/javascript" src="./js/HanulseRenderer.js"></script>
@@ -104,14 +105,14 @@ function loadByHash() {
 	console.log("name: " + name);
 
 	if (name == "") {
-		name = "index";
+		name = "4d-world";
 	}
 	load(name);
 }
 
 function loadByQueryParam() {
 	var query = location.search.split(/[?&]/g).map(function(p) {return p.split("=");}).reduce(function(r, p) {r[p[0]] = p[1]; return r;}, {});
-	var name = query["no"] || "index";
+	var name = query["no"] || "4d-world";
 	load(name);
 };
 

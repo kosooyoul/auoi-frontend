@@ -2,7 +2,7 @@ class HanulseWarpEffectRenderer {
 	centerGradient = null;
 	ringGradient = null;
 
-	render(context) {
+	render(context, _timeOffset) {
 		if (!this.centerGradient) {
 			this.centerGradient = context.createLinearGradient(0, 0, 0, -120);
 			this.centerGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
