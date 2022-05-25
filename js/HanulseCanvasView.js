@@ -73,7 +73,9 @@ class HanulseCanvasView {
 	}
 
 	updateMapData(mapData) {
-		var blocks = mapData.map(item => new HanulseBlock({
+		var startOffset = mapData.so || {x: 0, y: 0};
+		var map = mapData.map || [];
+		var blocks = map.map(item => new HanulseBlock({
 			position: item.position,
 			size: this.blockSize,
 			texture: item.texture,
@@ -88,7 +90,7 @@ class HanulseCanvasView {
 
 		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
 		this.slider.setBoundary(boundary);
-		this.slider.moveTo(0, 0);
+		this.slider.moveTo(startOffset.x, startOffset.y);
 	}
 
 	play() {

@@ -23,7 +23,7 @@ function initializeHanulse(canvas, data) {
 	$(document).ready(function() {
 		setTitle(data.title || "어딘가");
 
-		createHanulse(canvas, data.map || []);
+		createHanulse(canvas, data);
 	});
 }
 
@@ -31,7 +31,7 @@ function setTitle(title) {
 	$(".placeinfo").text(title);
 }
 
-function createHanulse(canvas, map) {
+function createHanulse(canvas, data) {
 	if (canvasView == null) {
 		canvasView = new HanulseCanvasView(canvas, {
 			"autoplay": true,
@@ -40,7 +40,7 @@ function createHanulse(canvas, map) {
 	}
 
 	canvasView.fadeOut(200, () => {
-		canvasView.updateMapData(map);
+		canvasView.updateMapData(data);
 		canvasView.fadeIn(200);
 	});
 }
