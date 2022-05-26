@@ -1,0 +1,97 @@
+{
+    "title": "기억 저장소",
+    "map": [
+    {"position": {"x":  2, "y": -5, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "label": "나가기", "effect": "link", "action": {
+        "top": {
+            "type": "link",
+            "link": "javascript:history.back()"
+        }
+    }},
+
+    {"position": {"x":  2, "y": -4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  4, "y": -4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y": -3, "z":  1}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "미식가의 비망록", "effect": "link"},
+    {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
+    {"position": {"x":  1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm"},
+    {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+    
+    {"position": {"x": -3, "y": -2, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "pictures", "label": "기억의 파편", "effect": "link"},
+    {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
+    {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2"},
+    {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "table"},
+    {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
+    {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y":  0, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-1", "label": "휴식의 지침서", "effect": "link", "action": {
+        "top": {
+            "type": "message",
+            "message": "휴식의 지침서를 열람합니다"
+        }
+    }},
+    {"position": {"x": -2, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y":  0, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  6, "y": -1, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "book-left-1", "label": "봉인된 누군가의 일기장", "effect": "link", "action": {
+        "top": {
+            "type": "message",
+            "message": "봉인된 누군가의 일기장에 접근할 수 없습니다\n봉인을 해제하려면 권한이 필요합니다"
+        }
+    }},
+
+    {"position": {"x": -3, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"left": "pink-left"}},
+    {"position": {"x": -2, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
+    {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste"},
+    {"position": {"x":  0, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
+        "top": {
+            "type": "articles"
+        }
+    }},
+    {"position": {"x":  1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  2, "y":  1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  4, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism"},
+    {"position": {"x":  5, "y":  1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  6, "y":  1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  7, "y":  1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x": -2, "y":  2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  0, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  1, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  4, "y":  2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+    {"position": {"x":  4, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x": -1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  3, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  4, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
+
+    {"position": {"x":  2, "y":  6, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "scrap-right", "label": "봉인된 쿠키의 연습장", "effect": "link", "action": {
+        "top": {
+            "type": "message",
+            "message": "봉인된 쿠키의 연습장에 접근할 수 없습니다\n봉인이 해제되려면 아직 한참 기다려야 합니다"
+        }
+    }}
+]}

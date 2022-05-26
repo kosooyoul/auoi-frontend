@@ -22,8 +22,18 @@ class HanulseAssets {
 		context.props["waste"] = {"image": this.getImage("./images/waste.png"), "left": -6, "top": -12, "width": 12, "height": 12};
 		context.props["trash"] = {"image": this.getImage("./images/trash.png"), "left": -9, "top": -21, "width": 18, "height": 21};
 
+		context.props["flower-palm"] = {"image": this.getImage("./images/flower-palm.png"), "left": -12 * 1.16, "top": -26 * 1.16, "width": 24 * 1.16, "height": 28 * 1.16};
+		context.props["picture"] = {"image": this.getImage("./images/picture.png"), "left": -13 * 1.16, "top": -7.5 * 1.16, "width": 26 * 1.16, "height": 15 * 1.16};
+		context.props["pictures"] = {"image": this.getImage("./images/pictures.png"), "left": -17 * 1.16, "top": -9 * 1.16, "width": 34 * 1.16, "height": 18 * 1.16};
+		context.props["scrap-right"] = {"image": this.getImage("./images/scrap-right.png"), "left": -21.5 * 1.16, "top": -16 * 1.16, "width": 43 * 1.16, "height": 27 * 1.16};
+		context.props["book-right-1"] = {"image": this.getImage("./images/book-right-1.png"), "left": -19 * 1.16, "top": -16 * 1.16, "width": 38 * 1.16, "height": 27 * 1.16};
+		context.props["book-right-2"] = {"image": this.getImage("./images/book-right-2.png"), "left": -19 * 1.16, "top": -22 * 1.16, "width": 38 * 1.16, "height": 33 * 1.16};
+		context.props["book-left-1"] = {"image": this.getImage("./images/book-left-1.png"), "left": -19 * 1.16, "top": -16 * 1.16, "width": 38 * 1.16, "height": 27 * 1.16};
+		context.props["book-left-2"] = {"image": this.getImage("./images/book-left-2.png"), "left": -19 * 1.16, "top": -22 * 1.16, "width": 38 * 1.16, "height": 33 * 1.16};
+
 		context.props["table"] = {"image": this.getImage("./images/table.png"), "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		context.props["bookontable"] = {"image": this.getImage("./images/bookontable.png"), "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
+		context.props["scrapontable"] = {"image": this.getImage("./images/scrapontable.png"), "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		context.props["chair-small"] = {"image": this.getImage("./images/chair-small.png"), "left": -16.5 * 1.16, "top": -22 * 1.16, "width": 33 * 1.16, "height": 31 * 1.16};
 		context.props["bookshelf-left-2"] = {"image": this.getImage("./images/bookshelf-left-2.png"), "left": -35 * 1.16, "top": -76.5 * 1.16, "width": 70 * 1.16, "height": 95 * 1.16};
 
