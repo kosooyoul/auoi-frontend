@@ -13,13 +13,21 @@
 
     {"position": {"x": -3, "y": -3, "z":  1}, "texture": {"top": "pink-top"}},
     {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}},
-    {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "미식가의 비망록", "effect": "link"},
+    {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "미식가의 비망록", "effect": "link", "action": {
+        "top": {
+            "type": "articles"
+        }
+    }},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
     {"position": {"x":  1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm"},
     {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
     
-    {"position": {"x": -3, "y": -2, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "pictures", "label": "기억의 파편", "effect": "link"},
+    {"position": {"x": -3, "y": -2, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "pictures", "label": "기억의 파편", "effect": "link", "action": {
+        "top": {
+            "type": "articles"
+        }
+    }},
     {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
@@ -38,8 +46,7 @@
 
     {"position": {"x": -3, "y":  0, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-1", "label": "휴식의 지침서", "effect": "link", "action": {
         "top": {
-            "type": "message",
-            "message": "휴식의 지침서를 열람합니다"
+            "type": "articles"
         }
     }},
     {"position": {"x": -2, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
