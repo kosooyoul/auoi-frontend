@@ -155,9 +155,9 @@ class HanulseCanvasView {
 		this.renderer.setOffset(this.offset.x, this.offset.y);
 
 		if (this.targetQualityRatio > this.qualityRatio) {
-			this.qualityRatio = Math.min(this.qualityRatio * 1.1, this.targetQualityRatio);
+			this.qualityRatio = Math.min(this.qualityRatio * 1.2, this.targetQualityRatio);
 		} else if (this.targetQualityRatio < this.qualityRatio) {
-			this.qualityRatio = Math.max(this.qualityRatio / 1.1, this.targetQualityRatio);
+			this.qualityRatio = Math.max(this.qualityRatio / 1.2, this.targetQualityRatio);
 		}
 	}
 
