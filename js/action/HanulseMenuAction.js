@@ -8,7 +8,7 @@ class HanulseMenuAction {
 		"relics": "rgb(172, 172, 172)"
 	}
 
-	act(data) {
+	act(data, onFinished) {
 		var dialogBox = this.getDialogBox();
 
 		for (var menu of data.menu) {
@@ -19,17 +19,21 @@ class HanulseMenuAction {
 			}
 		}
 
-		this.showOverlay(dialogBox);
+		this.showOverlay(dialogBox, onFinished);
 	}
 
 	hideOverlay() {
 		var overlay = $(".hanulse-overlay");
+		var onFinished = overlay.data("onFinished");
+		if (onFinished) {
+			onFinished();
+		}
 		overlay.fadeOut(function() {
 			overlay.remove();
 		});
 	}
 
-	showOverlay(element) {
+	showOverlay(element, onFinished) {
 		var _this = this;
 
 		var overlay = $("<div class=\"hanulse-overlay\">").css({
@@ -44,6 +48,7 @@ class HanulseMenuAction {
 			"height": "100%",
 			"background-color": "rgba(0, 0, 0, 0.5)"
 		});
+		overlay.data("onFinished", onFinished);
 		overlay.append(element);
 		overlay.hide();
 

@@ -1,20 +1,24 @@
 class HanulseMessageAction {
-	act(data) {
+	act(data, onFinished) {
 		var dialogBox = this.getDialogBox();
 
 		this.getTextBox(data.message).appendTo(dialogBox);
 
-		this.showOverlay(dialogBox);
+		this.showOverlay(dialogBox, onFinished);
 	}
 
 	hideOverlay() {
 		var overlay = $(".hanulse-overlay");
+		var onFinished = overlay.data("onFinished");
+		if (onFinished) {
+			onFinished();
+		}
 		overlay.fadeOut(function() {
 			overlay.remove();
 		});
 	}
 
-	showOverlay(element) {
+	showOverlay(element, onFinished) {
 		var _this = this;
 
 		var overlay = $("<div class=\"hanulse-overlay\">").css({
@@ -29,6 +33,7 @@ class HanulseMessageAction {
 			"height": "100%",
 			"background-color": "rgba(0, 0, 0, 0.5)"
 		});
+		overlay.data("onFinished", onFinished);
 		overlay.append(element);
 		overlay.hide();
 

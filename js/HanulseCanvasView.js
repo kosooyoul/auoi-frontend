@@ -26,6 +26,9 @@ class HanulseCanvasView {
 	_playing = false;
 	
 	quality = 1;
+	qualityRatio = 1;
+	computedQuality = 1;
+	targetQualityRatio = 1;
 
 	activeObject = null;
 	hoverObject = null;
@@ -137,19 +140,25 @@ class HanulseCanvasView {
 	_compute() {
 		if (this.canvas.clientWidth * this.canvas.clientHeight > 480000) { // 800 * 600
 			this.quality = 1;
-			this.renderer.setQuality(1);
 		} else {
 			this.quality = 2;
-			this.renderer.setQuality(2);
 		}
+		this.computedQuality = this.quality * this.qualityRatio;
+		this.renderer.setQuality(this.computedQuality);
 
-		this.canvas.width = this.canvas.clientWidth * this.quality;
-		this.canvas.height = this.canvas.clientHeight * this.quality;
+		this.canvas.width = this.canvas.clientWidth * this.computedQuality;
+		this.canvas.height = this.canvas.clientHeight * this.computedQuality;
 		this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 
 		this.offset.x += (this.targetOffset.x - this.offset.x) * 0.4;
 		this.offset.y += (this.targetOffset.y - this.offset.y) * 0.4;
 		this.renderer.setOffset(this.offset.x, this.offset.y);
+
+		if (this.targetQualityRatio > this.qualityRatio) {
+			this.qualityRatio = Math.min(this.qualityRatio * 1.1, this.targetQualityRatio);
+		} else if (this.targetQualityRatio < this.qualityRatio) {
+			this.qualityRatio = Math.max(this.qualityRatio / 1.1, this.targetQualityRatio);
+		}
 	}
 
 	fadeOut(duration, onFaded) {
@@ -169,8 +178,8 @@ class HanulseCanvasView {
 	onPointerDown(evt) {
 		var pointer = this.slider.onPointerDown(evt);
 
-		var cursorX = pointer.x - this.canvas.width / 2 / this.quality;
-		var cursorY = pointer.y - this.canvas.height / 2 / this.quality;
+		var cursorX = pointer.x - this.canvas.width / 2 / this.computedQuality;
+		var cursorY = pointer.y - this.canvas.height / 2 / this.computedQuality;
 
 		// 활성화 개체 상태를 변경
 		if (this.activeObject) {
@@ -186,8 +195,8 @@ class HanulseCanvasView {
 		var pointer = this.slider.onPointerMove(evt);
 
 		// 포인터 중심 위치
-		var cursorX = pointer.x - this.canvas.width / 2 / this.quality;
-		var cursorY = pointer.y - this.canvas.height / 2 / this.quality;
+		var cursorX = pointer.x - this.canvas.width / 2 / this.computedQuality;
+		var cursorY = pointer.y - this.canvas.height / 2 / this.computedQuality;
 
 		// 다운 상태가 아니면 롤오버 상태를 교체
 		if (!pointer.moving) {
@@ -221,8 +230,8 @@ class HanulseCanvasView {
 		}
 
 		// 포인터 중심 위치
-		var cursorX = pointer.x - this.canvas.width / 2 / this.quality;
-		var cursorY = pointer.y - this.canvas.height / 2 / this.quality;
+		var cursorX = pointer.x - this.canvas.width / 2 / this.computedQuality;
+		var cursorY = pointer.y - this.canvas.height / 2 / this.computedQuality;
 
 		// 클릭 유효 범위 넘어서면, 상태 변경하고 끝
 		if (Math.abs(pointer.distanceX) > 20 || Math.abs(pointer.distanceY) > 20) {
@@ -243,7 +252,10 @@ class HanulseCanvasView {
 			if (actionData) {
 				var action = this.actionFactory.get(actionData.type);
 				if (action) {
-					action.act(actionData);
+					this.targetQualityRatio = 0.2;
+					action.act(actionData, () => {
+						this.targetQualityRatio = 1;
+					});
 				}
 			}
 		}
