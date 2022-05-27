@@ -115,7 +115,12 @@
                 {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous"},
                 {"title": "쿠키의 공간으로", "tag": "impossible", "link": "#cookie"},
                 {"type": "separator"},
-                {"title": "안내소", "tag": "working", "link": "#information"}
+                {"title": "안내소", "tag": "working", "link": "#information"},
+                {"type": "separator"},
+                {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html"},
+                {"title": "시험의 4차원의 세계로", "tag": "test", "link": "http://www.ahyane.net/map.html"},
+                {"type": "separator"},
+                {"title": "사라져가는 평형 세계로", "tag": "relics", "link": "http://www.ahyane.net/4d-world.php"}
             ]
         }
     }},
