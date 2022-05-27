@@ -135,9 +135,9 @@ class HanulseArticlesAction {
 			"border": "1px solid rgba(255, 255, 255, 0.8)",
 			"border-radius": "6px",
 			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
-			"margin": "0px",
+			"margin": "4px",
 			"padding": "10px 10px",
-			"pointer-events": "none",
+			// "pointer-events": "none",
 			"max-width": "100%",
 			"max-height": "100%",
 			"overflow": "auto"
@@ -160,7 +160,7 @@ class HanulseArticlesAction {
 			"text-overflow": "ellipsis",
 			"overflow": "hidden",
 			"text-decoration": "none",
-			"pointer-events": "all",
+			// "pointer-events": "all",
 			"cursor": "pointer",
 			"user-select": "none"
 		});
