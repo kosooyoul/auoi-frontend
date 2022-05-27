@@ -15,7 +15,8 @@
     {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}},
     {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "미식가의 비망록", "effect": "link", "action": {
         "top": {
-            "type": "articles"
+            "type": "articles",
+            "title": "미식가의 비망록"
         }
     }},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
@@ -25,7 +26,8 @@
     
     {"position": {"x": -3, "y": -2, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "pictures", "label": "기억의 파편", "effect": "link", "action": {
         "top": {
-            "type": "articles"
+            "type": "articles",
+            "title": "기억의 파편"
         }
     }},
     {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
@@ -46,7 +48,8 @@
 
     {"position": {"x": -3, "y":  0, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-1", "label": "휴식의 지침서", "effect": "link", "action": {
         "top": {
-            "type": "articles"
+            "type": "articles",
+            "title": "휴식의 지침서"
         }
     }},
     {"position": {"x": -2, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
@@ -67,7 +70,8 @@
     {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste"},
     {"position": {"x":  0, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
         "top": {
-            "type": "articles"
+            "type": "articles",
+            "title": "개발자로 사는 법 1권"
         }
     }},
     {"position": {"x":  1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},

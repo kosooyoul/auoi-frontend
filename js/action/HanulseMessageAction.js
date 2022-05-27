@@ -31,19 +31,20 @@ class HanulseMessageAction {
 			"top": "0px",
 			"width": "100%",
 			"height": "100%",
-			"background-color": "rgba(0, 0, 0, 0.5)"
+			"background-color": "rgba(0, 0, 0, 0.5)",
+			"z-index": "100001"
 		});
 		overlay.data("onFinished", onFinished);
 		overlay.append(element);
 		overlay.hide();
 
-		overlay.one("click", function(event) {
+		overlay.on("click", function(event) {
 			if (overlay.is(event.target)) {
 				_this.hideOverlay();
 			}
 		});
 
-		$(document).one("keyup", function(event) {
+		$(document).on("keyup", function(event) {
 			if (event.which == 27) {
 				_this.hideOverlay();
 			}
