@@ -75,13 +75,15 @@ function updateCounter() {
 }
 
 function updateWisesaying() {
-	$.ajax({
-		"url": "https://www.ahyane.net/backend/wisesaying.php",
+	$.post({
+		"url": "https://apis.auoi.net/v1.0/wisesaying",
 		"dataType": "json",
 		"success": function(data) {
-			if (!data.text) return;
+			const wisesaying = data && data.data && data.data.wisesaying;
 
-			$(".wisesaying-text").text(data.text);
+			if (wisesaying.sentense) {
+				$(".wisesaying").text(wisesaying.sentense);
+			}
 		}
 	});
 }
