@@ -135,7 +135,7 @@ class HanulseArticlesAction {
 			"border": "1px solid rgba(255, 255, 255, 0.8)",
 			"border-radius": "6px",
 			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
-			"margin": "4px",
+			"margin": "0px",
 			"padding": "10px 10px",
 			// "pointer-events": "none",
 			"max-width": "100%",
