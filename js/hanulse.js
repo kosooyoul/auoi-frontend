@@ -46,12 +46,12 @@ function createHanulse(canvas, data) {
 }
 
 function updateCounter() {
-	$.ajax({
-		"url": "https://apis.auoi.net/v1.0/visits",
+	$.post({
+		"url": "https://apis.auoi.net/v1.0/visit",
 		"dataType": "json",
 		"success": function(data) {
-			const visits = data && data.data && data.data.visits;
-			if (visits) {
+			const result = data && data.data && data.data.result;
+			if (result) {
 				var count = {"today": 0, "yesterday": 0, "total": 0};
 				var updateCount = function() {
 					$(".counter-count-today").text(parseInt(count.today));
@@ -59,13 +59,13 @@ function updateCounter() {
 					$(".counter-count-total").text(parseInt(count.total));
 				};
 
-				$(count).animate({"today": visits.today, "yesterday": visits.yesterday, "total": visits.total}, {
+				$(count).animate({"today": result.today, "yesterday": result.yesterday, "total": result.total}, {
 					"duration": 1000,
 					"progress": updateCount,
 					"done": updateCount
 				});
 
-				var ratioToday = visits.today / (visits.today + visits.yesterday);
+				var ratioToday = result.today / (result.today + result.yesterday);
 				var ratioYesterday = 1 - ratioToday;
 
 				$(".counter-bar-today").animate({"width": ratioToday * 60});
