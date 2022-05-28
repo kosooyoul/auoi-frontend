@@ -47,29 +47,32 @@ function createHanulse(canvas, data) {
 
 function updateCounter() {
 	$.ajax({
-		"url": "https://www.ahyane.net/counter/counter.php",
+		"url": "https://apis.auoi.net/v1.0/visits",
 		"dataType": "json",
 		"success": function(data) {
-			var count = {"today": 0, "yesterday": 0, "total": 0};
-			var updateCount = function() {
-				$(".counter-count-today").text(parseInt(count.today));
-				$(".counter-count-yesterday").text(parseInt(count.yesterday));
-				$(".counter-count-total").text(parseInt(count.total));
-			};
+			const visits = data && data.data && data.data.visits;
+			if (visits) {
+				var count = {"today": 0, "yesterday": 0, "total": 0};
+				var updateCount = function() {
+					$(".counter-count-today").text(parseInt(count.today));
+					$(".counter-count-yesterday").text(parseInt(count.yesterday));
+					$(".counter-count-total").text(parseInt(count.total));
+				};
 
-			$(count).animate({"today": data.today, "yesterday": data.yesterday, "total": data.total}, {
-				"duration": 1000,
-				"progress": updateCount,
-				"done": updateCount
-			});
+				$(count).animate({"today": visits.today, "yesterday": visits.yesterday, "total": visits.total}, {
+					"duration": 1000,
+					"progress": updateCount,
+					"done": updateCount
+				});
 
-			var ratioToday = data.today / (data.today + data.yesterday);
-			var ratioYesterday = 1 - ratioToday;
+				var ratioToday = visits.today / (visits.today + visits.yesterday);
+				var ratioYesterday = 1 - ratioToday;
 
-			$(".counter-bar-today").animate({"width": ratioToday * 60});
-			$(".counter-bar-yesterday").animate({"width": ratioYesterday * 60});
-			$(".counter-bar-long-today").animate({"width": ratioToday * 160});
-			$(".counter-bar-long-yesterday").animate({"width": ratioYesterday * 160});
+				$(".counter-bar-today").animate({"width": ratioToday * 60});
+				$(".counter-bar-yesterday").animate({"width": ratioYesterday * 60});
+				$(".counter-bar-long-today").animate({"width": ratioToday * 160});
+				$(".counter-bar-long-yesterday").animate({"width": ratioYesterday * 160});
+			}
 		}
 	});
 }
@@ -81,7 +84,7 @@ function updateWisesaying() {
 		"success": function(data) {
 			const wisesaying = data && data.data && data.data.wisesaying;
 
-			if (wisesaying.sentense) {
+			if (wisesaying) {
 				$(".wisesaying").text(wisesaying.sentense);
 			}
 		}
