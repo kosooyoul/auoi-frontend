@@ -101,11 +101,13 @@ function load(name) {
 function loadByHash() {
 	var hash = location.hash;
 	var name = hash.substr(1);
-	console.log("name: " + name);
+
+	console.log("Requested area: " + (name || "(Default)"));
 
 	if (name == "") {
 		name = "4d-world";
 	}
+
 	load(name);
 }
 

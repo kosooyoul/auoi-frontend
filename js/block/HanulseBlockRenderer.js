@@ -80,9 +80,9 @@ class HanulseBlockRenderer {
 		}
 
 		if (this.propEnabled) {
-			const prop = block.getProp();
-			if (prop) {
-				this.renderProp(context, prop);
+			const propName = block.getProp();
+			if (propName) {
+				this.renderProp(context, propName);
 			}
 		}
 
@@ -151,8 +151,8 @@ class HanulseBlockRenderer {
 			if (this.textureEnabled) {
 				context.save();
 				context.clip();
-				if (context.textures[textureName]) {
-					var texture = context.textures[textureName];
+				var texture = HanulseAssets.getTexture(textureName);
+				if (texture) {
 					context.drawImage(texture.image, texture.left, texture.top, texture.width, texture.height);
 				}
 				context.restore();
@@ -177,10 +177,10 @@ class HanulseBlockRenderer {
 		context.closePath();
 	}
 
-	renderProp(context, prop) {
-		if (context.props[prop]) {
-			var p = context.props[prop];
-			context.drawImage(p.image, p.left, p.top, p.width, p.height);
+	renderProp(context, propName) {
+		var prop = HanulseAssets.getProp(propName);
+		if (prop) {
+			context.drawImage(prop.image, prop.left, prop.top, prop.width, prop.height);
 		}
 	}
 
