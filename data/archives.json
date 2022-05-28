@@ -57,10 +57,10 @@
     {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y":  0, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
-    {"position": {"x":  6, "y": -1, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "book-left-1", "label": "봉인된 누군가의 일기장", "effect": "link", "action": {
+    {"position": {"x":  6, "y": -1, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "scrap-right", "label": "봉인된 쿠키의 연습장", "effect": "link", "action": {
         "top": {
             "type": "message",
-            "message": "봉인된 누군가의 일기장에 접근할 수 없습니다\n봉인을 해제하려면 권한이 필요합니다"
+            "message": "봉인된 쿠키의 연습장에 접근할 수 없습니다\n봉인이 해제되려면 아직 한참 기다려야 합니다"
         }
     }},
 
@@ -97,12 +97,5 @@
     {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x":  3, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  4, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
-
-    {"position": {"x":  2, "y":  6, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "scrap-right", "label": "봉인된 쿠키의 연습장", "effect": "link", "action": {
-        "top": {
-            "type": "message",
-            "message": "봉인된 쿠키의 연습장에 접근할 수 없습니다\n봉인이 해제되려면 아직 한참 기다려야 합니다"
-        }
-    }}
+    {"position": {"x":  4, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"}
 ]}
