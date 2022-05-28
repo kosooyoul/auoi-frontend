@@ -1,0 +1,115 @@
+{
+    "title": "쿠키의 공간",
+    "map": [
+    {"position": {"x": -2, "y": -4, "z":  3}, "texture": {"left": "blue-left"}},
+    {"position": {"x": -1, "y": -4, "z":  3}, "texture": {"left": "blue-left"}},
+    {"position": {"x":  0, "y": -4, "z":  3}, "texture": {"left": "blue-left"}},
+    {"position": {"x":  1, "y": -4, "z":  3}, "texture": {"left": "blue-left"}},
+    {"position": {"x":  2, "y": -4, "z":  3}, "texture": {"left": "blue-left"}},
+    {"position": {"x":  3, "y": -4, "z":  3}, "texture": {"left": "blue-left"}},
+
+    {"position": {"x": -2, "y": -4, "z":  4}, "texture": {"left": "pink-left"}},
+    {"position": {"x": -1, "y": -4, "z":  4}, "texture": {"left": "pink-left"}},
+    {"position": {"x":  0, "y": -4, "z":  4}, "texture": {"left": "glass-left"}},
+    {"position": {"x":  1, "y": -4, "z":  4}, "texture": {"left": "pink-left"}},
+    {"position": {"x":  2, "y": -4, "z":  4}, "texture": {"left": "glass-left"}},
+    {"position": {"x":  3, "y": -4, "z":  4}, "texture": {"left": "pink-left"}},
+    
+    {"position": {"x": -2, "y": -4, "z":  5}, "texture": {"left": "pink-left"}},
+    {"position": {"x": -1, "y": -4, "z":  5}, "texture": {"left": "pink-left"}},
+    {"position": {"x":  0, "y": -4, "z":  5}, "texture": {"left": "pink-left"}},
+    {"position": {"x":  1, "y": -4, "z":  5}, "texture": {"left": "pink-left"}},
+    {"position": {"x":  2, "y": -4, "z":  5}, "texture": {"left": "pink-left"}},
+    {"position": {"x":  3, "y": -4, "z":  5}, "texture": {"left": "pink-left"}},
+
+    {"position": {"x": -3, "y": -3, "z":  3}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -3, "y": -3, "z":  4}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -3, "y": -3, "z":  5}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -2, "y": -3, "z":  2}, "texture": {"top": "pink-top"}, "prop": "flower-palm-2"},
+    {"position": {"x": -1, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  0, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  3, "y": -3, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "flower-palm-2"},
+    
+    {"position": {"x": -3, "y": -2, "z":  3}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -3, "y": -2, "z":  4}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -3, "y": -2, "z":  5}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -2, "y": -2, "z":  2}, "texture": {"top": "pink-top"}, "prop": "bookontable", "label": "우여곡절 웹 라이프", "effect": "link"},
+    {"position": {"x": -1, "y": -2, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  0, "y": -2, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y": -2, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y": -2, "z":  1}, "texture": {"top": "blue-top"}},
+    {"position": {"x":  3, "y": -2, "z":  1}, "texture": {"top": "blue-top", "right": "blue-right"}},
+    {"position": {"x":  2, "y": -2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  3, "y": -2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
+    
+    {"position": {"x": -3, "y": -1, "z":  3}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -3, "y": -1, "z":  4}, "texture": {"right": "glass-right"}},
+    {"position": {"x": -3, "y": -1, "z":  5}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -2, "y": -1, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y": -1, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  0, "y": -1, "z":  1}, "texture": {"top": "pink-top"}, "prop": "pink-slide-left"},
+    {"position": {"x":  1, "y": -1, "z":  1}, "texture": {"top": "pink-top"}, "prop": "pink-slide-left"},
+    {"position": {"x":  2, "y": -1, "z":  1}, "texture": {"top": "blue-top"}, "effect": "prism"},
+    {"position": {"x":  3, "y": -1, "z":  1}, "texture": {"top": "blue-top"}, "effect": "prism"},
+    {"position": {"x":  4, "y": -1, "z":  1}, "texture": {"top": "blue-top", "right": "blue-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y":  0, "z":  3}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -3, "y":  0, "z":  4}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -3, "y":  0, "z":  5}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -2, "y":  0, "z":  2}, "texture": {"top": "pink-top"}, "prop": "pcontable-right", "label": "컴퓨터 486DX", "effect": "link"},
+    {"position": {"x": -1, "y":  0, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "chair-small"},
+    {"position": {"x":  0, "y":  0, "z":  1}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y":  0, "z":  1}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y":  0, "z":  1}, "texture": {"top": "blue-top"}, "effect": "prism"},
+    {"position": {"x":  3, "y":  0, "z":  1}, "texture": {"top": "hologram-top"}, "prop": "warp", "label": "워프", "effect": "warp", "action": {
+        "top": {
+            "type": "menu",
+            "menu": [
+                {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
+                {"type": "separator"},
+                {"title": "안내소", "tag": "working", "link": "#information"}
+            ]
+        }
+    }},
+    {"position": {"x":  4, "y":  0, "z":  1}, "texture": {"top": "blue-top", "right": "blue-right"}, "effect": "prism"},
+
+    {"position": {"x":  6, "y":  0, "z":  1}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
+    
+    {"position": {"x":  8, "y":  0, "z":  1}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y":  1, "z":  3}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -3, "y":  1, "z":  4}, "texture": {"right": "glass-right"}},
+    {"position": {"x": -3, "y":  1, "z":  5}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -2, "y":  1, "z":  2}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -1, "y":  1, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "pink-slide-left"},
+    {"position": {"x":  1, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "pink-slide-left"},
+    {"position": {"x":  2, "y":  1, "z":  1}, "texture": {"top": "blue-top", "left": "blue-left"}, "effect": "prism"},
+    {"position": {"x":  2, "y":  1, "z":  0}, "texture": {"right": "pink-right"}},
+    {"position": {"x":  3, "y":  1, "z":  1}, "texture": {"top": "blue-top", "left": "blue-left"}, "effect": "prism"},
+    {"position": {"x":  4, "y":  1, "z":  1}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y":  2, "z":  3}, "texture": {"right": "blue-right"}},
+    {"position": {"x": -3, "y":  2, "z":  4}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -3, "y":  2, "z":  5}, "texture": {"right": "pink-right"}},
+    {"position": {"x": -2, "y":  2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "flower-palm-2"},
+    {"position": {"x": -1, "y":  2, "z":  0}, "texture": {"left": "blue-left"}},
+    {"position": {"x": -1, "y":  2, "z":  1}, "texture": {"left": "blue-left", "right": "blue-right"}},
+    {"position": {"x": -1, "y":  2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y":  2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+
+    {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "bookontable", "label": "방명록", "effect": "link"},
+    {"position": {"x":  2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "chair-small"},
+
+    {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
+
+    {"position": {"x":  -2, "y":  4, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "book-left-1", "label": "봉인된 다이어리", "effect": "link"}
+]}

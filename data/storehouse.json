@@ -1,5 +1,5 @@
 {
-    "title": "잡동사니 창고",
+    "title": "너저분한 창고",
     "map": [
     {"position": {"x": -4, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
     {"position": {"x": -3, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},

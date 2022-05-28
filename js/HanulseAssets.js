@@ -34,17 +34,27 @@ class HanulseAssets {
 		context.props["table"] = {"image": this.getImage("./images/table.png"), "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		context.props["bookontable"] = {"image": this.getImage("./images/bookontable.png"), "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		context.props["scrapontable"] = {"image": this.getImage("./images/scrapontable.png"), "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
+		context.props["pcontable-left"] = {"image": this.getImage("./images/pcontable-left.png"), "left": -35 * 1.16, "top": -52 * 1.16, "width": 70 * 1.16, "height": 68 * 1.16};
+		context.props["pcontable-right"] = {"image": this.getImage("./images/pcontable-right.png"), "left": -35 * 1.16, "top": -52 * 1.16, "width": 70 * 1.16, "height": 68 * 1.16};
 		context.props["chair-small"] = {"image": this.getImage("./images/chair-small.png"), "left": -16.5 * 1.16, "top": -22 * 1.16, "width": 33 * 1.16, "height": 31 * 1.16};
 		context.props["bookshelf-left-2"] = {"image": this.getImage("./images/bookshelf-left-2.png"), "left": -35 * 1.16, "top": -76.5 * 1.16, "width": 70 * 1.16, "height": 95 * 1.16};
+		context.props["blocks-cube"] = {"image": this.getImage("./images/blocks-cube.png"), "left": -13.5, "top": -22, "width": 27, "height": 29};
+		context.props["blocks-xyz"] = {"image": this.getImage("./images/blocks-xyz.png"), "left": -19.5, "top": -32, "width": 39, "height": 36};
 
 		context.props["flower-berry-1"] = {"image": this.getImage("./images/flower-berry-1.png"), "left": -16, "top": -42, "width": 33, "height": 47};
+		context.props["flower-palm-2"] = {"image": this.getImage("./images/flower-palm-2.png"), "left": -16, "top": -45, "width": 33, "height": 55};
 		context.props["parquet-floor-left"] = {"image": this.getImage("./images/parquet-floor-left.png"), "left": -40, "top": -55, "width": 80, "height": 75};
 		context.props["grass-slide-right"] = {"image": this.getImage("./images/grass-slide-right.png"), "left": -40, "top": -55, "width": 80, "height": 75};
 		context.props["grass-slide-left"] = {"image": this.getImage("./images/grass-slide-left.png"), "left": -40, "top": -55, "width": 80, "height": 75};
-
+		context.props["grass-slide-right-back"] = {"image": this.getImage("./images/grass-slide-right-back.png"), "left": -40, "top": -37, "width": 80, "height": 57};
+		context.props["grass-slide-left-back"] = {"image": this.getImage("./images/grass-slide-left-back.png"), "left": -40, "top": -37, "width": 80, "height": 57};
+		context.props["pink-slide-right"] = {"image": this.getImage("./images/pink-slide-right.png"), "left": -40, "top": -55, "width": 80, "height": 75};
+		context.props["pink-slide-left"] = {"image": this.getImage("./images/pink-slide-left.png"), "left": -40, "top": -55, "width": 80, "height": 75};
+		
 		context.textures = {};
 		context.textures["grass-top"] =  {"image": this.getImage("./images/grass-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 		context.textures["gravel-top"] =  {"image": this.getImage("./images/gravel-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
+		context.textures["water-top"] =  {"image": this.getImage("./images/water-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 
 		context.textures["soil-top"] =  {"image": this.getImage("./images/soil-top.png"), "left": -40, "top": -20, "width": 80, "height": 40};
 		context.textures["soil-left"] =  {"image": this.getImage("./images/soil-left.png"), "left": -40, "top": 0, "width": 40, "height": 55};

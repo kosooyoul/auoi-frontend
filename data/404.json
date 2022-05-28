@@ -18,7 +18,7 @@
                 "menu": [
                     {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
                     {"type": "separator"},
-                    {"title": "마음의 숲으로 이동", "tag": "possible", "link": "#"},
+                    {"title": "4차원의 세계로 이동", "tag": "possible", "link": "#"},
                     {"title": "안내소로 이동", "tag": "working", "link": "#information"},
                     {"type": "separator"},
                     {"title": "공간 만들기", "tag": "working", "link": "/tools.html"}
