@@ -44,6 +44,10 @@ class HanulseRenderer {
 		HanulseAssets.initialize(context);
 	}
 
+	clearAssets() {
+		HanulseAssets.resetImages();
+	}
+
 	setBlocks(blocks) {
 		this.blocks = blocks;
 	}

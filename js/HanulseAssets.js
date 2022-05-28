@@ -3,6 +3,12 @@ class HanulseAssets {
 	static props = {};
 	static textures = {};
 
+	static resetImages() {
+		for (const path in this.images) {
+			delete this.images[path];
+		}
+	}
+
 	static getImage(path) {
 		if (this.images[path]) {
 			return this.images[path];

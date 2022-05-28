@@ -89,6 +89,8 @@ class HanulseCanvasView {
 			alpha: item.alpha
 		}));
 		this.blocks = HanulseBlock.sortBlocks(blocks);
+
+		this.renderer.clearAssets();
 		this.renderer.setBlocks(this.blocks);
 
 		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
