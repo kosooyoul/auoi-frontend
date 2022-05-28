@@ -117,15 +117,15 @@ class HanulseSlider {
 		// 최대 이동 범위 제한
 		var tempX = this.offsetX + (pointerX - this.lastPointerX);
 		var tempY = this.offsetY + (pointerY - this.lastPointerY);
-		if (tempX < this._boundary.left) {
-			tempX = this._boundary.left;
-		} else if (tempX > this._boundary.right) {
-			tempX = this._boundary.right;
+		if (tempX < -this._boundary.right) {
+			tempX = -this._boundary.right;
+		} else if (tempX > -this._boundary.left) {
+			tempX = -this._boundary.left;
 		}
-		if (tempY < this._boundary.top) {
-			tempY = this._boundary.top;
-		} else if (tempY > this._boundary.bottom) {
-			tempY = this._boundary.bottom;
+		if (tempY < -this._boundary.bottom) {
+			tempY = -this._boundary.bottom;
+		} else if (tempY > -this._boundary.top) {
+			tempY = -this._boundary.top;
 		}
 
 		// 위치 이동
@@ -233,18 +233,18 @@ class HanulseSlider {
 			// 최대 이동 범위 도달시 방향 전환
 			var tempX = self.offsetX + dx;
 			var tempY = self.offsetY + dy;
-			if (tempX < self._boundary.left) {
-				tempX = self._boundary.left;
+			if (tempX < -self._boundary.right) {
+				tempX = -self._boundary.right;
 				dx = -dx * 0.5;
-			} else if (tempX > self._boundary.right) {
-				tempX = self._boundary.right;
+			} else if (tempX > -self._boundary.left) {
+				tempX = -self._boundary.left;
 				dx = -dx * 0.5;
 			}
-			if (tempY < self._boundary.top) {
-				tempY = self._boundary.top;
+			if (tempY < -self._boundary.bottom) {
+				tempY = -self._boundary.bottom;
 				dy = -dy * 0.5;
-			} else if (tempY > self._boundary.bottom) {
-				tempY = self._boundary.bottom;
+			} else if (tempY > -self._boundary.top) {
+				tempY = -self._boundary.top;
 				dy = -dy * 0.5;
 			}
 
