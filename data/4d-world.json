@@ -1,8 +1,6 @@
 {
     "title": "4차원의 세계",
-    "so": {
-        "x": 0, "y": -40
-    },
+    "so": {"x": 0, "y": 0},
     "map": [
     {"position": {"x": -1, "y":   0, "z":  0}, "texture": {"top": "blue-top"}, "effect": "prism"},
     {"position": {"x": -1, "y":   1, "z":  0}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},

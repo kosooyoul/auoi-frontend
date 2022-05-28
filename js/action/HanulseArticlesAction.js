@@ -79,7 +79,7 @@ class HanulseArticlesAction {
 		}
 
 		dialogBoxLayout.appendTo(dialogBox)
-		this.showOverlay(dialogBox, onFinished);
+		this.showOverlay(this.getDialogBoxWarp().append(dialogBox), onFinished);
 	}
 
 	hideOverlay() {
@@ -128,6 +128,14 @@ class HanulseArticlesAction {
 		overlay.appendTo(document.body).fadeIn();
 	}
 
+	getDialogBoxWarp() {
+		return $("<div>").css({
+			"position": "relative",
+			"max-width": "100%",
+			"max-height": "100%"
+		}).append();
+	}
+
 	getDialogBox() {
 		return $("<div class='scrollbox'>").css({
 			"position": "relative",
@@ -135,13 +143,13 @@ class HanulseArticlesAction {
 			"border": "1px solid rgba(255, 255, 255, 0.8)",
 			"border-radius": "6px",
 			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
-			"margin": "0px",
-			"padding": "10px 10px",
+			// "margin": "0px",
+			// "padding": "10px 10px",
 			// "pointer-events": "none",
 			"max-width": "100%",
 			"max-height": "100%",
 			"overflow": "auto"
-		});
+		})
 	}
 
 	getArticleItem(article) {
