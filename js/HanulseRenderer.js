@@ -120,20 +120,20 @@ class HanulseRenderer {
 	}
 
 	renderOverlayOnCanvas(context) {
-		const size = 2 * this.quality;
-		context.fillStyle = "rgb(127, 127, 127)";
-		context.fillRect(0, 0, size, size);
-		context.fillRect(this.canvasSize.w - size, 0, size, size);
-		context.fillRect(0, this.canvasSize.h - size, size, size);
-		context.fillRect(this.canvasSize.w - size, this.canvasSize.h - size, size, size);
+		// const size = 2 * this.quality;
+		// context.fillStyle = "rgb(127, 127, 127)";
+		// context.fillRect(0, 0, size, size);
+		// context.fillRect(this.canvasSize.w - size, 0, size, size);
+		// context.fillRect(0, this.canvasSize.h - size, size, size);
+		// context.fillRect(this.canvasSize.w - size, this.canvasSize.h - size, size, size);
 	}
 
 	renderBackgroundOnRelativePosition(context) {
-		context.fillStyle = "rgb(127, 127, 127)";
-		context.fillRect(-300, -200, 2, 2);
-		context.fillRect(298, 198, 2, 2);
-		context.fillRect(298, -200, 2, 2);
-		context.fillRect(-300, 198, 2, 2);
+		// context.fillStyle = "rgb(127, 127, 127)";
+		// context.fillRect(-300, -200, 2, 2);
+		// context.fillRect(298, 198, 2, 2);
+		// context.fillRect(298, -200, 2, 2);
+		// context.fillRect(-300, 198, 2, 2);
 	}
 
 	renderOverlayOnRelativePosition(_context) {
@@ -142,11 +142,11 @@ class HanulseRenderer {
 
 
 	renderBackgroundOnScrolledPosition(context) {
-		context.fillStyle = "rgb(127, 127, 127)";
-		context.fillRect(-300, -200, 2, 2);
-		context.fillRect(298, 198, 2, 2);
-		context.fillRect(298, -200, 2, 2);
-		context.fillRect(-300, 198, 2, 2);
+		// context.fillStyle = "rgb(127, 127, 127)";
+		// context.fillRect(-300, -200, 2, 2);
+		// context.fillRect(298, 198, 2, 2);
+		// context.fillRect(298, -200, 2, 2);
+		// context.fillRect(-300, 198, 2, 2);
 	}
 
 	renderOverlayOnScrolledPosition(_context) {
