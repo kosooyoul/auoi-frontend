@@ -50,7 +50,7 @@ function updateCounter() {
 		"url": "https://apis.auoi.net/v1.0/visit",
 		"dataType": "json",
 		"xhrFields": {"withCredentials": true},
-		"data": {"td": 9},
+		"data": {"td": getTimeDifferenceHours()},
 		"success": function(data) {
 			const result = data && data.data && data.data.result;
 			if (result) {
@@ -91,4 +91,8 @@ function updateWisesaying() {
 			}
 		}
 	});
+}
+
+function getTimeDifferenceHours() {
+	return new Date().getTimezoneOffset() / 60;
 }
