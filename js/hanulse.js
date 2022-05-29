@@ -50,6 +50,7 @@ function updateCounter() {
 		"url": "https://apis.auoi.net/v1.0/visit",
 		"dataType": "json",
 		"xhrFields": {"withCredentials": true},
+		"data": {"td": 9},
 		"success": function(data) {
 			const result = data && data.data && data.data.result;
 			if (result) {
