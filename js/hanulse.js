@@ -94,5 +94,5 @@ function updateWisesaying() {
 }
 
 function getTimeDifferenceHours() {
-	return new Date().getTimezoneOffset() / 60;
+	return -new Date().getTimezoneOffset() / 60;
 }
