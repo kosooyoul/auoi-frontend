@@ -47,9 +47,11 @@ function createHanulse(canvas, data) {
 
 function updateCounter() {
 	$.post({
-		"url": "https://apis.auoi.net/v1.0/visit",
+		"url": "http://localhost:60000/v1.0/visit",
 		"dataType": "json",
-		"xhrFields": {"withCredentials": true},
+		// "url": "https://apis.auoi.net/v1.0/visit",
+		// "dataType": "json",
+		// "xhrFields": {"withCredentials": true},
 		"data": {"td": getTimeDifferenceHours()},
 		"success": function(data) {
 			const result = data && data.data && data.data.result;

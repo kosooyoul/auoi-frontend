@@ -79,7 +79,14 @@ class HanulseArticlesAction {
 		}
 
 		dialogBoxLayout.appendTo(dialogBox)
-		this.showOverlay(this.getDialogBoxWarp().append(dialogBox), onFinished);
+		this.showOverlay($("<div>").css({
+			"display": "flex",
+			"flex-direction": "column",
+			"justify-content": "center",
+			"align-items": "center",
+			"position": "absolute",
+			"inset": "10px 10px 40px"
+		}).append(this.getDialogBoxWarp().append(dialogBox)), onFinished);
 	}
 
 	hideOverlay() {
@@ -148,7 +155,8 @@ class HanulseArticlesAction {
 			// "pointer-events": "none",
 			"max-width": "100%",
 			"max-height": "100%",
-			"overflow": "auto"
+			"overflow": "auto",
+			"padding": "10px"
 		})
 	}
 
