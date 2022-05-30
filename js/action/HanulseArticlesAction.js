@@ -30,7 +30,7 @@ class HanulseArticlesAction {
 			"height": "100%",
 			"left": "0px",
 			"top": "0px",
-			"pointer-events": "auto",
+			"pointer-events": "none"
 		});
 		var dialogBoxTop = $("<div>").css({
 			// "position": "absolute",
@@ -85,7 +85,8 @@ class HanulseArticlesAction {
 			"justify-content": "center",
 			"align-items": "center",
 			"position": "absolute",
-			"inset": "10px 10px 40px"
+			"inset": "10px 10px 40px",
+			"pointer-event"
 		}).append(this.getDialogBoxWarp().append(dialogBox)), onFinished);
 	}
 
