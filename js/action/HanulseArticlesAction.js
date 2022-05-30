@@ -153,7 +153,7 @@ class HanulseArticlesAction {
 			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
 			// "margin": "0px",
 			// "padding": "10px 10px",
-			// "pointer-events": "none",
+			"pointer-events": "all",
 			"max-width": "100%",
 			"max-height": "100%",
 			"overflow": "auto",
