@@ -86,7 +86,7 @@ class HanulseArticlesAction {
 			"align-items": "center",
 			"position": "absolute",
 			"inset": "10px 10px 40px",
-			"pointer-event": "none"
+			"pointer-events": "none"
 		}).append(this.getDialogBoxWarp().append(dialogBox)), onFinished);
 	}
 
