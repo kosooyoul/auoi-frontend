@@ -22,72 +22,46 @@ class HanulseArticlesAction {
 		// {"no": 20, "title": "살기 위해선 밥을 먹어야지", "createdAt": "2022-04-01"},
 	].sort((a, b) => b.no - a.no);
 
+	templateArticleList = null;
+	templateArticleListItem = null
+	templateArticleListPaginationItem = null
+
+	constructor() {
+		this.initialize();
+	}
+
+	initialize() {
+		this.templateArticleList = HanulseArticlesAction.loadTemplate("./template/article-list.html");
+		this.templateArticleListItem = HanulseArticlesAction.loadTemplate("./template/article-list-item.html");
+		this.templateArticleListPaginationItem = HanulseArticlesAction.loadTemplate("./template/article-list-pagination-item.html");
+	}
+
+	static loadTemplate(url) {
+		const result = $.ajax({
+			"url": url,
+			"async": false
+		});
+		return result && result.responseText;
+	}
+
 	act(data, onFinished) {
-		var dialogBox = this.getDialogBox();
-		var dialogBoxLayout = $("<div>").css({
-			// "position": "absolute",
-			"width": "100%",
-			"height": "100%",
-			"left": "0px",
-			"top": "0px",
-			"pointer-events": "none"
-		});
-		var dialogBoxTop = $("<div>").css({
-			// "position": "absolute",
-			"width": "100%",
-			"left": "0px",
-			"top": "0px",
-			"height": "60px",
-			"color": "white",
-			"font-size": "16px",
-			"text-align": "center",
-			"line-height": "60px",
-		}).text(data.title || "제목 없음");
-		var dialogBoxList = $("<div class='scrollbox'>").css({
-			// "position": "absolute",
-			"width": "100%",
-			// "height": "100%",
-			"left": "0px",
-			"top": "60px",
-			"bottom": "0px",
-			// "max-height": "300px",
-			"overflow": "auto",
-			// "background-color": "yellow"
-		});
-		var dialogBoxBottom = $("<div>").css({
-			// "position": "absolute",
-			"width": "100%",
-			"left": "0px",
-			"top": "0px",
-			"height": "60px",
-			"color": "white",
-			"font-size": "12px",
-			"text-align": "center",
-			"line-height": "60px",
-		});
-		dialogBoxBottom.append($("<div>").css({"display": "inline-block", "background-color": "rgba(255, 255, 255, 0.5)", "width": "32px", "height": "32px", "line-height": "32px", "text-align": "center", "margin-left": "4px", "margin-right": "4px", "border": "1px solid white", "border-radius": "8px"}).text("1"));
-		dialogBoxBottom.append($("<div>").css({"display": "inline-block", "width": "32px", "height": "32px", "line-height": "32px", "text-align": "center", "margin-left": "4px", "margin-right": "4px", "border": "1px solid white", "border-radius": "8px"}).text("2"));
-		dialogBoxBottom.append($("<div>").css({"display": "inline-block", "width": "32px", "height": "32px", "line-height": "32px", "text-align": "center", "margin-left": "4px", "margin-right": "4px", "border": "1px solid white", "border-radius": "8px"}).text("3"));
-		dialogBoxBottom.append($("<div>").css({"display": "inline-block", "width": "32px", "height": "32px", "line-height": "32px", "text-align": "center", "margin-left": "4px", "margin-right": "4px", "border": "1px solid white", "border-radius": "8px"}).text("4"));
-		dialogBoxBottom.append($("<div>").css({"display": "inline-block", "width": "32px", "height": "32px", "line-height": "32px", "text-align": "center", "margin-left": "4px", "margin-right": "4px", "border": "1px solid white", "border-radius": "8px"}).text("5"));
-		dialogBoxLayout.append(dialogBoxTop);
-		dialogBoxLayout.append(dialogBoxList);
-		dialogBoxLayout.append(dialogBoxBottom);
+		const articleList = $($.parseHTML(this.templateArticleList));
+		articleList.find("._title").text(data.title || "제목 없음");
 
-		for (var article of HanulseArticlesAction.sampleArticles) {
-			this.getArticleItem(article).appendTo(dialogBoxList);
-		}
+		const articleListItems = articleList.find("._list")
+		HanulseArticlesAction.sampleArticles.forEach(article => {
+			const articleListItem = $($.parseHTML(this.templateArticleListItem));
+			
+			articleListItem.one("click", () => this.hideOverlay());
+			articleListItem.find("._no").text(article.no);
+			articleListItem.find("._title").text(article.title);
+			articleListItem.find("._author").text(article.author);
+			articleListItem.find("._created-at").text(article.createdAt);
 
-		dialogBoxLayout.appendTo(dialogBox)
-		this.showOverlay($("<div>").css({
-			"display": "flex",
-			"flex-direction": "column",
-			"justify-content": "center",
-			"align-items": "center",
-			"position": "absolute",
-			"inset": "10px 10px 40px",
-			"pointer-events": "none"
-		}).append(this.getDialogBoxWarp().append(dialogBox)), onFinished);
+			articleListItems.append(articleListItem);
+		});
+
+		this.showOverlay($(articleList), onFinished);
 	}
 
 	hideOverlay() {
@@ -134,85 +108,5 @@ class HanulseArticlesAction {
 		});
 
 		overlay.appendTo(document.body).fadeIn();
-	}
-
-	getDialogBoxWarp() {
-		return $("<div>").css({
-			"position": "relative",
-			"max-width": "100%",
-			"max-height": "100%"
-		}).append();
-	}
-
-	getDialogBox() {
-		return $("<div class='scrollbox'>").css({
-			"position": "relative",
-			"background-color": "rgba(0, 0, 60, 0.6)",
-			"border": "1px solid rgba(255, 255, 255, 0.8)",
-			"border-radius": "6px",
-			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
-			// "margin": "0px",
-			// "padding": "10px 10px",
-			"pointer-events": "all",
-			"max-width": "100%",
-			"max-height": "100%",
-			"overflow": "auto",
-			"padding": "10px"
-		})
-	}
-
-	getArticleItem(article) {
-		var _this = this;
-
-		var articleItem = $("<a>").css({
-			"display": "flex",
-			"position": "relative",
-			"border-radius": "4px",
-			"color": "white",
-			"margin": "2px 4px",
-			"padding": "2px 8px",
-			"font-size": "13px",
-			"line-height": "24px",
-			"word-break": "keep-all",
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"text-decoration": "none",
-			// "pointer-events": "all",
-			"cursor": "pointer",
-			"user-select": "none"
-		});
-
-		articleItem.one("click", function(event) {
-			_this.hideOverlay();
-		});
-
-		$("<span>").css({
-			"width": "40px",
-			"margin-right": "10px",
-		}).text(article.no).appendTo(articleItem);
-		$("<span>").css({
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"white-space": "nowrap",
-			"width": "100%"
-		}).text(article.title).appendTo(articleItem);
-		$("<span>").css({
-			"width": "100px",
-			"text-align": "center",
-			"margin-left": "10px",
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"white-space": "nowrap",
-		}).text("작성자").appendTo(articleItem);
-		$("<span>").css({
-			"width": "100px",
-			"text-align": "right",
-			"margin-left": "10px",
-			// "text-overflow": "ellipsis",
-			// "overflow": "hidden",
-			"white-space": "nowrap",
-		}).text(article.createdAt).appendTo(articleItem);
-
-		return articleItem;
 	}
 }
