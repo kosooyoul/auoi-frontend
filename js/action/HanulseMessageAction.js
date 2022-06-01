@@ -1,10 +1,27 @@
 class HanulseMessageAction {
+	templateMessage = null;
+
+	constructor() {
+		this.initialize();
+	}
+
+	initialize() {
+		this.templateMessage = HanulseMessageAction.loadTemplate("./template/message.html");
+	}
+
+	static loadTemplate(url) {
+		const result = $.ajax({
+			"url": url,
+			"async": false
+		});
+		return result && result.responseText;
+	}
+	
 	act(data, onFinished) {
-		var dialogBox = this.getDialogBox();
+		const message = $($.parseHTML(this.templateMessage));
+		message.find("._message").html(data.message.replace(/\n/g, "<br>"));
 
-		this.getTextBox(data.message).appendTo(dialogBox);
-
-		this.showOverlay(dialogBox, onFinished);
+		this.showOverlay(message, onFinished);
 	}
 
 	hideOverlay() {
@@ -51,37 +68,5 @@ class HanulseMessageAction {
 		});
 
 		overlay.appendTo(document.body).fadeIn();
-	}
-
-	getDialogBox() {
-		return $("<div class='scrollbox'>").css({
-			"position": "relative",
-			"background-color": "rgba(0, 0, 60, 0.6)",
-			"border": "1px solid rgba(255, 255, 255, 0.8)",
-			"border-radius": "6px",
-			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
-			"margin": "4px",
-			"padding": "10px 10px",
-			// "pointer-events": "none",
-			"max-width": "100%",
-			"max-height": "100%",
-			"overflow": "auto"
-		});
-	}
-
-	getTextBox(text) {
-		return $("<p>").css({
-			"position": "relative",
-			"color": "white",
-			"margin": "10px",
-			"padding": "0px",
-			"font-size": "13px",
-			"line-height": "24px",
-			"word-break": "keep-all",
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"pointer-events": "none",
-			"user-select": "none"
-		}).html(text.replace(/\n/g, "<br>"));
 	}
 }
