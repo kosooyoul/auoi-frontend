@@ -8,18 +8,55 @@ class HanulseMenuAction {
 		"relics": "rgb(172, 172, 172)"
 	}
 
+	templateMenuList = null;
+	templateMenuListItem = null
+	templateMenuListPaginationItem = null
+
+	constructor() {
+		this.initialize();
+	}
+
+	initialize() {
+		this.templateMenuList = HanulseMenuAction.loadTemplate("./template/menu-list.html");
+		this.templateMenuListItem = HanulseMenuAction.loadTemplate("./template/menu-list-item.html");
+		this.templateMenuListSeparator = HanulseMenuAction.loadTemplate("./template/menu-list-separator.html");
+	}
+
+	static loadTemplate(url) {
+		const result = $.ajax({
+			"url": url,
+			"async": false
+		});
+		return result && result.responseText;
+	}
+
 	act(data, onFinished) {
-		var dialogBox = this.getDialogBox();
+		const menuList = $($.parseHTML(this.templateMenuList));
+		menuList.find("._title").text(data.title || "제목 없음");
 
-		for (var menu of data.menu) {
+		const menuListItems = menuList.find("._list")
+		data.menu.forEach(menu => {
 			if (menu.type == "separator") {
-				this.getMenuSeparator().appendTo(dialogBox);
-			} else {
-				this.getMenuItem(menu).appendTo(dialogBox);
-			}
-		}
+				const menuListSeparator = $($.parseHTML(this.templateMenuListSeparator));
 
-		this.showOverlay(dialogBox, onFinished);
+				menuListItems.append(menuListSeparator);
+			} else {
+				const menuListItem = $($.parseHTML(this.templateMenuListItem));
+				
+				menuListItem.attr({
+					"href": menu.link || "javascript:void(0)"}
+				).one("click", () => this.hideOverlay());
+				menuListItem.find("._no").text(menu.no);
+				menuListItem.find("._title").text(menu.title);
+				menuListItem.find("._tag").css({
+					"color": HanulseMenuAction.colorByMenuTags[menu.tag] || "rgb(100, 100, 100)"
+				}).text(menu.tag);
+
+				menuListItems.append(menuListItem);
+			}
+		});
+
+		this.showOverlay($(menuList), onFinished);
 	}
 
 	hideOverlay() {
@@ -66,69 +103,5 @@ class HanulseMenuAction {
 		});
 
 		overlay.appendTo(document.body).fadeIn();
-	}
-
-	getDialogBox() {
-		return $("<div class='scrollbox'>").css({
-			"position": "relative",
-			"background-color": "rgba(0, 0, 60, 0.6)",
-			"border": "1px solid rgba(255, 255, 255, 0.8)",
-			"border-radius": "6px",
-			"box-shadow": "0px 0px 5px 0px rgba(255, 255, 255, 0.4)",
-			"margin": "4px",
-			"padding": "10px 10px",
-			// "pointer-events": "none",
-			"max-width": "100%",
-			"max-height": "100%",
-			"overflow": "auto"
-		});
-	}
-
-	getMenuSeparator() {
-		var _this = this;
-
-		var menuItem = $("<hr>").css({
-			"border-bottom": "1px solid rgba(255, 255, 255, 0.8)",
-			"border-top": "none",
-			"border-left": "none",
-			"border-right": "none"
-		});
-		
-		return menuItem;
-	}
-
-	getMenuItem(menu) {
-		var _this = this;
-
-		var menuItem = $("<a>").css({
-			"display": "block",
-			"position": "relative",
-			"border-radius": "4px",
-			"color": "white",
-			"margin": "2px 4px",
-			"padding": "2px 8px",
-			"font-size": "13px",
-			"line-height": "24px",
-			"word-break": "keep-all",
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"text-decoration": "none",
-			// "pointer-events": "all",
-			"cursor": "pointer",
-			"user-select": "none"
-		}).attr({"href": menu.link || "javascript:void(0)"});
-
-		menuItem.on("click", function(event) {
-			_this.hideOverlay();
-		});
-
-		$("<span>").text(menu.title).appendTo(menuItem);
-		$("<span>").css({
-			"float": "right",
-			"margin-left": "20px",
-			"color": HanulseMenuAction.colorByMenuTags[menu.tag] || "rgb(100, 100, 100)"
-		}).text(menu.tag).appendTo(menuItem);
-
-		return menuItem;
 	}
 }
