@@ -109,12 +109,13 @@
         "top": {
             "type": "menu",
             "menu": [
-                {"title": "기억의 공간으로", "tag": "possible", "link": "#memories"},
+                {"title": "기억의 공간으로", "tag": "working", "link": "#memories"},
                 {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous"},
                 {"title": "쿠키의 공간으로", "tag": "working", "link": "#cookie"},
                 {"type": "separator"},
                 {"title": "안내소", "tag": "working", "link": "#information"},
                 {"type": "separator"},
+                {"title": "404", "tag": "test", "link": "#404"},
                 {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html"},
                 {"title": "시험의 4차원의 세계로", "tag": "test", "link": "http://www.ahyane.net/map.html"},
                 {"type": "separator"},
