@@ -20,7 +20,12 @@
         }
     }},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
-    {"position": {"x":  1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm"},
+    {"position": {"x":  1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm", "action": {
+        "top": {
+            "type": "message",
+            "message": "화분에 물을 줄까요?"
+        }
+    }},
     {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
     
@@ -32,7 +37,12 @@
     }},
     {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
+    {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "message",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?"
+        }
+    }},
     {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
@@ -60,14 +70,19 @@
     {"position": {"x":  6, "y": -1, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "scrap-right", "label": "봉인된 쿠키의 연습장", "effect": "link", "action": {
         "top": {
             "type": "message",
-            "message": "봉인된 쿠키의 연습장에 접근할 수 없습니다\n봉인이 해제되려면 아직 한참 기다려야 합니다"
+            "message": "봉인된 쿠키의 연습장에 접근할 수 없습니다\n봉인이 해제되려면 시간이 많이 필요해요."
         }
     }},
 
     {"position": {"x": -3, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}},
     {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"left": "pink-left"}},
     {"position": {"x": -2, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
-    {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste"},
+    {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste", "action": {
+        "top": {
+            "type": "message",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?"
+        }
+    }},
     {"position": {"x":  0, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
         "top": {
             "type": "articles",

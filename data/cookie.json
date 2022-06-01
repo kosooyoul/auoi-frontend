@@ -35,7 +35,12 @@
     {"position": {"x": -3, "y": -2, "z":  3}, "texture": {"right": "blue-right"}},
     {"position": {"x": -3, "y": -2, "z":  4}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y": -2, "z":  5}, "texture": {"right": "pink-right"}},
-    {"position": {"x": -2, "y": -2, "z":  2}, "texture": {"top": "pink-top"}, "prop": "bookontable", "label": "우여곡절 웹 라이프", "effect": "link"},
+    {"position": {"x": -2, "y": -2, "z":  2}, "texture": {"top": "pink-top"}, "prop": "bookontable", "label": "우여곡절 웹 라이프", "effect": "link", "action": {
+        "top": {
+            "type": "articles",
+            "title": "우여곡절 웹 라이프"
+        }
+    }},
     {"position": {"x": -1, "y": -2, "z":  2}, "texture": {"top": "pink-top"}},
     {"position": {"x":  0, "y": -2, "z":  2}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y": -2, "z":  2}, "texture": {"top": "pink-top"}},
@@ -58,7 +63,12 @@
     {"position": {"x": -3, "y":  0, "z":  3}, "texture": {"right": "blue-right"}},
     {"position": {"x": -3, "y":  0, "z":  4}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y":  0, "z":  5}, "texture": {"right": "pink-right"}},
-    {"position": {"x": -2, "y":  0, "z":  2}, "texture": {"top": "pink-top"}, "prop": "pcontable-right", "label": "컴퓨터 486DX", "effect": "link"},
+    {"position": {"x": -2, "y":  0, "z":  2}, "texture": {"top": "pink-top"}, "prop": "pcontable-right", "label": "컴퓨터 486DX", "effect": "link", "action": {
+        "top": {
+            "type": "articles",
+            "title": "컴퓨터 486DX"
+        }
+    }},
     {"position": {"x": -1, "y":  0, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "chair-small"},
     {"position": {"x":  0, "y":  0, "z":  1}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y":  0, "z":  1}, "texture": {"top": "pink-top"}},
@@ -104,12 +114,22 @@
     {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
 
     {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "bookontable", "label": "방명록", "effect": "link"},
+    {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "bookontable", "label": "방명록", "effect": "link", "action": {
+        "top": {
+            "type": "articles",
+            "title": "방명록"
+        }
+    }},
     {"position": {"x":  2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "chair-small"},
 
     {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
     {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
     {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
 
-    {"position": {"x":  -2, "y":  4, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "book-left-1", "label": "봉인된 다이어리", "effect": "link"}
+    {"position": {"x":  -2, "y":  4, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "book-left-1", "label": "봉인된 다이어리", "effect": "link", "action": {
+        "top": {
+            "type": "message",
+            "message": "봉인된 다이어리에 접근할 수 없습니다\n봉인이 해제하려면 권한이 필요합니다."
+        }
+    }}
 ]}

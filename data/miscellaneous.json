@@ -39,9 +39,20 @@
     {"position": {"x":  0, "y": -1, "z": -1}, "texture": {"top": "water-top"}},
     {"position": {"x":  1, "y": -1, "z": -1}, "texture": {"top": "water-top"}},
     {"position": {"x":  2, "y": -1, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-left-back"},
-    {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "grass-top"}, "prop": "book-right-1"},
+    {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "grass-top"}, "prop": "book-right-1", "action": {
+        "top": {
+            "type": "message",
+            "message": "왜 이런 곳에 책이 있을까?\n책을 가져갈까요?"
+        }
+    }},
     {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "bush"},
-
+    
+    {"position": {"x": -5, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "label": "기억의 공간으로", "effect": "link", "action": {
+        "top": {
+            "type": "link",
+            "link": "javascript:history.replaceState({'data': 'replace'}, null, '#'); location.assign('#memories');"
+        }
+    }},
     {"position": {"x": -4, "y":  0, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x": -3, "y":  0, "z":  0}, "texture": {"top": "hologram-top"}, "prop": "warp", "label": "워프", "effect": "warp", "action": {
         "top": {
@@ -58,8 +69,19 @@
     {"position": {"x":  0, "y":  0, "z": -1}, "texture": {"top": "water-top"}},
     {"position": {"x":  1, "y":  0, "z": -1}, "texture": {"top": "water-top"}},
     {"position": {"x":  2, "y":  0, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-left-back"},
-    {"position": {"x":  3, "y":  0, "z":  0}, "texture": {"top": "grass-top"}, "prop": "blocks-cube"},
-    {"position": {"x":  4, "y":  0, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}},
+    {"position": {"x":  3, "y":  0, "z":  0}, "texture": {"top": "grass-top"}, "prop": "blocks-cube", "action": {
+        "top": {
+            "type": "message",
+            "message": "왜 이런 곳에 블럭이 있을까?\n블럭을 가져갈까요?"
+        }
+    }},
+    {"position": {"x":  4, "y":  0, "z":  0}, "texture": {"top": "grass-top"}},
+    {"position": {"x":  5, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "label": "쿠키의 공간으로", "effect": "link", "action": {
+        "top": {
+            "type": "link",
+            "link": "javascript:history.replaceState({'data': 'replace'}, null, '#'); location.assign('#cookie');"
+        }
+    }},
 
     {"position": {"x": -4, "y":  1, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"top": "grass-top"}},
@@ -84,7 +106,12 @@
     {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "flower"},
     {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x": -1, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
-    {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "blocks-xyz"},
+    {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "blocks-xyz", "action": {
+        "top": {
+            "type": "message",
+            "message": "왜 이런 곳에 블럭이 있을까?\n블럭을 가져갈까요?"
+        }
+    }},
     {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x":  2, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x":  3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},

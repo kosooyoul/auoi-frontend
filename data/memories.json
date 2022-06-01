@@ -45,7 +45,13 @@
     {"position": {"x":  1, "y": -1, "z": -1}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x":  2, "y": -1, "z": -1}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x":  3, "y": -1, "z": -1}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "bush"},
-    {"position": {"x":  4, "y": -1, "z": -1}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
+    {"position": {"x":  4, "y": -1, "z": -1}, "texture": {"top": "grass-top", "left": "soil-left"}},
+    {"position": {"x":  5, "y": -1, "z": -1}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "label": "잡부의 공간으로", "effect": "link", "action": {
+        "top": {
+            "type": "link",
+            "link": "javascript:history.replaceState({'data': 'replace'}, null, '#'); location.assign('#miscellaneous');"
+        }
+    }},
 
     {"position": {"x": -4, "y":  0, "z":  1}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x": -3, "y":  0, "z":  1}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "bush"},
