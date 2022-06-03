@@ -59,14 +59,15 @@
 	</div>
 
 	<div class="medium" style="position: absolute; width: 100%; top: 40px; text-align: center; user-select: all; pointer-events: all;">
-		<button onclick="rotate(window.rotation + 1)">시계방향</button>
-		<button onclick="rotate(window.rotation - 1)">반시계방향</button>
+		<button onclick="canvasView.rotateRight()">시계방향</button>
+		<button onclick="canvasView.rotateLeft()">반시계방향</button>
 	</div>
 </div>
 
 <script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="./src/cell.js"></script>
 <!--
+<script type="text/javascript" src="./src/cell.js"></script>
+-->
 <script type="text/javascript" src="./js/HanulseAssets.js"></script>
 <script type="text/javascript" src="./js/HanulseUtils.js"></script>
 <script type="text/javascript" src="./js/action/HanulseActionFactory.js"></script>
@@ -82,141 +83,59 @@
 <script type="text/javascript" src="./js/effect/HanulseFlashEffectRenderer.js"></script>
 <script type="text/javascript" src="./js/effect/HanulsePrismEffectRenderer.js"></script>
 <script type="text/javascript" src="./js/HanulseSlider.js"></script>
-<script type="text/javascript" src="./js/HanulseCanvasView.js"></script>
-<script type="text/javascript" src="./js/HanulseRenderer.js"></script>
+<script type="text/javascript" src="./js/HanulseEditorCanvasView.js"></script>
+<script type="text/javascript" src="./js/HanulseEditorRenderer.js"></script>
 <script type="text/javascript" src="./js/view/HanulseFPSCounterView.js"></script>
+<!--
 <script type="text/javascript" src="./js/hanulse.js"></script>
 -->
 <script>
-var canvas = $("canvas").get(0);
-var context = canvas.getContext("2d");
+window.env = location.host? 'server': 'local';
 
-setTimeout(draw, 1000/40);
+var canvasView = null;
 
+$(document).ready(function() {
+	var canvas = $("canvas").get(0);
+	canvas.addEventListener("mousedown", function(evt) {canvasView && canvasView.onPointerDown(evt);});
+	canvas.addEventListener("mousemove", function(evt) {canvasView && canvasView.onPointerMove(evt);});
+	canvas.addEventListener("mouseup", function(evt) {canvasView && canvasView.onPointerUp(evt);});
+	canvas.addEventListener("mouseout", function(evt) {canvasView && canvasView.onPointerUp(evt);});
+	canvas.addEventListener("mouseleave", function(evt) {canvasView && canvasView.onPointerUp(evt);});
+	canvas.addEventListener("touchstart", function(evt) {canvasView && canvasView.onPointerDown(evt);});
+	canvas.addEventListener("touchmove", function(evt) {canvasView && canvasView.onPointerMove(evt);});
+	canvas.addEventListener("touchend", function(evt) {canvasView && canvasView.onPointerUp(evt);});
 
-var cells = [];
-
-window.rotation = 0;
-// rotation: "none" | "quarter" | "half" | "rev-quarter"
-function rotate(rotation) {
-	window.rotation = (rotation + 4) % 4;
-	for (var cell of cells) {
-		cell.setRotation(rotation);
+	if (window.env == "server") {
+		updateCounter();
+		updateWisesaying();
 	}
-	sort();
-}
-
-function draw() {
-	canvas.width = $(document).width();
-	canvas.height = $(document).height();
-
-	context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-	context.translate(canvas.width / 2, canvas.height / 2);
-
-	var focusedCells = []
-
-	for (var cell of cells) {
-		if (cell.focused) {
-			focusedCells.push(cell);
-			continue;
-		}
-		context.save();
-
-		cell.draw(context);
-
-		context.restore();
-	}
-
-	for (var cell of focusedCells) {
-		context.save();
-
-		cell.draw(context);
-
-		context.restore();
-	}
-
-	setTimeout(draw, 1000/40);
-}
-
-function add(x, y, z) {
-	cells.push(new Cell().setPosition({x: x, y: y, z: z}));
-}
-
-function sort() {
-	cells.sort((a, b) => a.isFrontOf(b));	
-}
-
-function find(x, y) {
-	var result = -1;
-	var foundCell = null;
-	var foundSide = null;
 	
-	// TODO: Refactoring
-	var invisibleCell = downCell && downCell.cell;
-
-	for (var i = cells.length - 1; i >= 0; i--) {
-		var cell = cells[i];
-
-		if (cell == invisibleCell) {
-			continue;
-		}
-
-		if (cell.pick(x, y)) {
-			foundCell = cell;
-			foundSide = "top";
-			break;
-		}
-		if (cell.pickLeft(x,y)) {
-			foundCell = cell;
-			foundSide = "left";
-			break;
-		}
-		if (cell.pickRight(x,y)) {
-			foundCell = cell;
-			foundSide = "right";
-			break;
-		}
+	if (canvasView == null) {
+		canvasView = new HanulseEditorCanvasView(canvas, {
+			"autoplay": true,
+			"enabledFPSCounter": true
+		});
 	}
 
-	if (!foundCell) {
-		return null;
-	}
+	canvasView.fadeOut(200, () => {
+		// canvasView.updateMapData(data);
+		canvasView.fadeIn(200);
+	});
 
-	return {
-		cell: foundCell,
-		side: foundSide
-	};
-}
-
-function edit(i, x, y, z) {
-	var cell = cells[i];
-	cell.setPosition(x, y, z);
-}
-
-function prop(i, prop) {
-	var cell = cells[i];
-	cell.setProp(prop);
-}
-
-function label(i, label) {
-	var cell = cells[i];
-	cell.setLabel(label);
-}
-
-add(0, 0, 0)
-add(1, 2, 0)
-add(1, 1, 0)
-add(1, 0, 0)
-add(1, -1, 0)
-add(2, 0, 0)
-add(2, 2, 0)
-sort();
+	canvasView.addBlock({position: {x:  0, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  1, y:  2, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  1, y:  1, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  1, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  1, y: -1, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  2, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  2, y:  2, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+});
 
 //prop(6, 1)
 //label(0, "hello?")
 //label(15, "upstair")
 
+/*
 var hoverCell = null;
 
 var downed = false;
@@ -317,7 +236,61 @@ canvas.addEventListener("mouseleave", mouseupHandler);
 canvas.addEventListener("touchstart", mousedownHandler);
 canvas.addEventListener("touchmove", mousemoveHandler);
 canvas.addEventListener("touchend", mouseupHandler);
+*/
 
+function updateCounter() {
+	$.post({
+		// "url": "http://localhost:60000/v1.0/visit",
+		// "dataType": "json",
+		"url": "https://apis.auoi.net/v1.0/visit",
+		"dataType": "json",
+		"xhrFields": {"withCredentials": true},
+		"data": {"td": getTimeDifferenceHours()},
+		"success": function(data) {
+			const result = data && data.data && data.data.result;
+			if (result) {
+				var count = {"today": 0, "yesterday": 0, "total": 0};
+				var updateCount = function() {
+					$(".counter-count-today").text(parseInt(count.today));
+					$(".counter-count-yesterday").text(parseInt(count.yesterday));
+					$(".counter-count-total").text(parseInt(count.total));
+				};
+
+				$(count).animate({"today": result.today, "yesterday": result.yesterday, "total": result.total}, {
+					"duration": 1000,
+					"progress": updateCount,
+					"done": updateCount
+				});
+
+				var ratioToday = result.today / (result.today + result.yesterday);
+				var ratioYesterday = 1 - ratioToday;
+
+				$(".counter-bar-today").animate({"width": ratioToday * 60});
+				$(".counter-bar-yesterday").animate({"width": ratioYesterday * 60});
+				$(".counter-bar-long-today").animate({"width": ratioToday * 160});
+				$(".counter-bar-long-yesterday").animate({"width": ratioYesterday * 160});
+			}
+		}
+	});
+}
+
+function updateWisesaying() {
+	$.post({
+		"url": "https://apis.auoi.net/v1.0/wisesaying",
+		"dataType": "json",
+		"success": function(data) {
+			const wisesaying = data && data.data && data.data.wisesaying;
+
+			if (wisesaying) {
+				$(".wisesaying").text(wisesaying.sentense);
+			}
+		}
+	});
+}
+
+function getTimeDifferenceHours() {
+	return -new Date().getTimezoneOffset() / 60;
+}
 </script>
 </body>
 </html>

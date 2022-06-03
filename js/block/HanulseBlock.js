@@ -1,4 +1,10 @@
 class HanulseBlock {
+	_size = {
+		w: 0,
+		h: 0,
+		d: 0
+	};
+
 	_position = {
 		x: 0,
 		y: 0,
@@ -6,6 +12,17 @@ class HanulseBlock {
 	};
 
 	_offset = {
+		x: 0,
+		y: 0
+	};
+
+	_rotatedPosition = {
+		x: 0,
+		y: 0,
+		z: 0
+	};
+
+	_rotatedOffset = {
 		x: 0,
 		y: 0
 	};
@@ -35,19 +52,22 @@ class HanulseBlock {
 
 	_alpha = 1.0;
 	_timeOffset = 0;
+	_rotation = 0; // 0: "none" | 1: "quarter" | 2: "half" | 3: "rev-quarter"
 
 	constructor(options) {
 		if (options == null) {
 			return;
 		}
 
-		if (options.position && options.size) {
-			this._position.x = options.position.x;
-			this._position.y = options.position.y;
-			this._position.z = options.position.z;
-			
-			this._offset.x = ((options.size.w >> 1) * this._position.x - (options.size.w >> 1) * this._position.y)
-			this._offset.y = ((options.size.h >> 1) * this._position.y + (options.size.h >> 1) * this._position.x - this._position.z * options.size.d);
+		if (options.size) {
+			this._size.w = options.size.w;
+			this._size.h = options.size.h;
+			this._size.d = options.size.d;
+		}
+
+		if (options.position) {
+			this.setPosition(options.position);
+			this.setRotation(options.rotation || 0);
 		}
 
 		if (options.texture) {
@@ -82,8 +102,9 @@ class HanulseBlock {
 	}
 
 	pick(x, y) {
-		var rx = x - this._offset.x;
-		var ry = y - this._offset.y;
+		var offset = this.getOffset();
+		var rx = x - offset.x;
+		var ry = y - offset.y;
 
 		if (this._texture.top) {
 			if (this._pickTop(rx, ry)) {
@@ -158,11 +179,7 @@ class HanulseBlock {
 	}
 
 	getOffset() {
-		return this._offset;
-	}
-
-	getOffset() {
-		return this._offset;
+		return this._rotatedOffset;
 	}
 
 	getTexture() {
@@ -191,6 +208,60 @@ class HanulseBlock {
 
 	getTimeOffset() {
 		return this._timeOffset;
+	}
+
+	setProp(prop) {
+		this._prop = prop;
+	}
+
+	setLabel(label) {
+		this._label = label;
+	}
+
+	setEffect(effect) {
+		this._effect = effect;
+	}
+
+	setPosition(position) {
+		this._position.x = position.x;
+		this._position.y = position.y;
+		this._position.z = position.z;
+			
+		this._offset.x = ((this._size.w >> 1) * this._position.x - (this._size.w >> 1) * this._position.y);
+		this._offset.y = ((this._size.h >> 1) * this._position.y + (this._size.h >> 1) * this._position.x - this._position.z * this._size.d);
+
+		this.setRotation(this._rotation);
+	}
+
+	setRotation(rotation) {
+		const r = (rotation + 4) % 4;
+
+		if (r == 0) {
+			this._rotatedPosition.x = this._position.x;
+			this._rotatedPosition.y = this._position.y;
+			this._rotatedPosition.z = this._position.z;
+		} else if (r == 1) {
+			this._rotatedPosition.x = -this._position.y;
+			this._rotatedPosition.y = this._position.x;
+			this._rotatedPosition.z = this._position.z;
+		} else if (r == 2) {
+			this._rotatedPosition.x = -this._position.x;
+			this._rotatedPosition.y = -this._position.y;
+			this._rotatedPosition.z = this._position.z;
+		} else if (r == 3) {
+			this._rotatedPosition.x = this._position.y;
+			this._rotatedPosition.y = -this._position.x;
+			this._rotatedPosition.z = this._position.z;
+		} else {
+			this._rotatedPosition.x = this._position.x;
+			this._rotatedPosition.y = this._position.y;
+			this._rotatedPosition.z = this._position.z;
+		}
+
+		this._rotatedOffset.x = ((this._size.w >> 1) * this._rotatedPosition.x - (this._size.w >> 1) * this._rotatedPosition.y);
+		this._rotatedOffset.y = ((this._size.h >> 1) * this._rotatedPosition.y + (this._size.h >> 1) * this._rotatedPosition.x - this._rotatedPosition.z * this._size.d);
+
+		this._rotation = rotation;
 	}
 
 	setStatus(status, side) {
@@ -234,6 +305,10 @@ class HanulseBlock {
 		return null;
 	}
 
+	isFrontOf(targetBlock) {
+		return (this._rotatedPosition.z - targetBlock._rotatedPosition.z) || (this._rotatedPosition.y - targetBlock._rotatedPosition.y) || (this._rotatedPosition.x - targetBlock._rotatedPosition.x);
+	}
+
 	static getBlocksBoundary(blocks) {
 		var boundary = {
 			left: 0,
@@ -254,7 +329,7 @@ class HanulseBlock {
 
 	static sortBlocks(blocks) {
 		return blocks.sort((a, b) => {
-			return (a._position.x - b._position.x) || (a._position.y - b._position.y);
+			return (a._rotatedPosition.x - b._rotatedPosition.x) || (a._rotatedPosition.y - b._rotatedPosition.y);
 		});
 	}
 }
