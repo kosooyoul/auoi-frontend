@@ -66,27 +66,6 @@
 
 <script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="./src/cell.js"></script>
-<!--
-<script type="text/javascript" src="./js/HanulseAssets.js"></script>
-<script type="text/javascript" src="./js/HanulseUtils.js"></script>
-<script type="text/javascript" src="./js/action/HanulseActionFactory.js"></script>
-<script type="text/javascript" src="./js/action/HanulseArticlesAction.js"></script>
-<script type="text/javascript" src="./js/action/HanulseLinkAction.js"></script>
-<script type="text/javascript" src="./js/action/HanulseMenuAction.js"></script>
-<script type="text/javascript" src="./js/action/HanulseMessageAction.js"></script>
-<script type="text/javascript" src="./js/block/HanulseBlock.js"></script>
-<script type="text/javascript" src="./js/block/HanulseBlockRenderer.js"></script>
-<script type="text/javascript" src="./js/effect/HanulseEffectRendererFactory.js"></script>
-<script type="text/javascript" src="./js/effect/HanulseWarpEffectRenderer.js"></script>
-<script type="text/javascript" src="./js/effect/HanulseLinkEffectRenderer.js"></script>
-<script type="text/javascript" src="./js/effect/HanulseFlashEffectRenderer.js"></script>
-<script type="text/javascript" src="./js/effect/HanulsePrismEffectRenderer.js"></script>
-<script type="text/javascript" src="./js/HanulseSlider.js"></script>
-<script type="text/javascript" src="./js/HanulseCanvasView.js"></script>
-<script type="text/javascript" src="./js/HanulseRenderer.js"></script>
-<script type="text/javascript" src="./js/view/HanulseFPSCounterView.js"></script>
-<script type="text/javascript" src="./js/hanulse.js"></script>
--->
 <script>
 var canvas = $("canvas").get(0);
 var context = canvas.getContext("2d");
@@ -204,18 +183,161 @@ function label(i, label) {
 	cell.setLabel(label);
 }
 
+// add(0, 0, 0)
+// add(1, 2, 0)
+// add(1, 1, 0)
+// add(1, 0, 0)
+// add(1, -1, 0)
+// add(2, 0, 0)
+// add(2, 2, 0)
+add(3, 2, 1)
+add(4, 2, 2)
+add(4, 1, 2)
+add(4, 0, 2)
+add(5, 0, 2)
+add(5, 1, 2)
+add(5, 2, 2)
+add(5, 3, 2)
+add(5, 4, 2)
+add(5, 5, 2)
+
+add(-5, -5, 0)
+add(-5, -4, 0)
+add(-5, -3, 0)
+add(-5, -2, 0)
+add(-5, -1, 0)
+add(-5, 0, 0)
+add(-5, 1, 0)
+add(-5, 2, 0)
+add(-5, 3, 0)
+add(-5, 4, 0)
+add(-5, 5, 0)
+
+add(-4, -5, 0)
+add(-4, -4, 0)
+add(-4, -3, 0)
+add(-4, -2, 0)
+add(-4, -1, 0)
+add(-4, 0, 0)
+add(-4, 1, 0)
+add(-4, 2, 0)
+add(-4, 3, 0)
+add(-4, 4, 0)
+add(-4, 5, 0)
+
+add(-3, -5, 0)
+add(-3, -4, 0)
+add(-3, -3, 0)
+add(-3, -2, 0)
+add(-3, -1, 0)
+add(-3, 0, 0)
+add(-3, 1, 0)
+add(-3, 2, 0)
+add(-3, 3, 0)
+add(-3, 4, 0)
+add(-3, 5, 0)
+
+add(-2, -5, 0)
+add(-2, -4, 0)
+add(-2, -3, 0)
+add(-2, -2, 0)
+add(-2, -1, 0)
+add(-2, 0, 0)
+add(-2, 1, 0)
+add(-2, 2, 0)
+add(-2, 3, 0)
+add(-2, 4, 0)
+add(-2, 5, 0)
+
+add(-1, -5, 0)
+add(-1, -4, 0)
+add(-1, -3, 0)
+add(-1, -2, 0)
+add(-1, -1, 0)
+add(-1, 0, 0)
+add(-1, 1, 0)
+add(-1, 2, 0)
+add(-1, 3, 0)
+add(-1, 4, 0)
+add(-1, 5, 0)
+
+add(0, -5, 0)
+add(0, -4, 0)
+add(0, -3, 0)
+add(0, -2, 0)
+add(0, -1, 0)
 add(0, 0, 0)
-add(1, 2, 0)
-add(1, 1, 0)
-add(1, 0, 0)
-add(1, -1, 0)
+add(0, 1, 0)
+add(0, 2, 0)
+add(0, 3, 0)
+add(0, 4, 0)
+add(0, 5, 0)
+
+add(5, -5, 0)
+add(5, -4, 0)
+add(5, -3, 0)
+add(5, -2, 0)
+add(5, -1, 0)
+add(5, 0, 0)
+add(5, 1, 0)
+add(5, 2, 0)
+add(5, 3, 0)
+add(5, 4, 0)
+add(5, 5, 0)
+
+add(4, -5, 0)
+add(4, -4, 0)
+add(4, -3, 0)
+add(4, -2, 0)
+add(4, -1, 0)
+add(4, 0, 0)
+add(4, 1, 0)
+add(4, 2, 0)
+add(4, 3, 0)
+add(4, 4, 0)
+add(4, 5, 0)
+
+add(3, -5, 0)
+add(3, -4, 0)
+add(3, -3, 0)
+add(3, -2, 0)
+add(3, -1, 0)
+add(3, 0, 0)
+add(3, 1, 0)
+add(3, 2, 0)
+add(3, 3, 0)
+add(3, 4, 0)
+add(3, 5, 0)
+
+add(2, -5, 0)
+add(2, -4, 0)
+add(2, -3, 0)
+add(2, -2, 0)
+add(2, -1, 0)
 add(2, 0, 0)
+add(2, 1, 0)
 add(2, 2, 0)
+add(2, 3, 0)
+add(2, 4, 0)
+add(2, 5, 0)
+
+add(1, -5, 0)
+add(1, -4, 0)
+add(1, -3, 0)
+add(1, -2, 0)
+add(1, -1, 0)
+add(1, 0, 0)
+add(1, 1, 0)
+add(1, 2, 0)
+add(1, 3, 0)
+add(1, 4, 0)
+add(1, 5, 0)
+
 sort();
 
-//prop(6, 1)
-//label(0, "hello?")
-//label(15, "upstair")
+prop(6, 1)
+label(0, "hello?")
+label(15, "upstair")
 
 var hoverCell = null;
 
