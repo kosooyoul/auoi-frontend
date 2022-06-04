@@ -186,6 +186,9 @@ class HanulseEditorCanvasView {
 			size: this.blockSize
 		}));
 		HanulseBlock.sortBlocks(this.blocks);
+
+		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
+		this.slider.setBoundary(boundary);
 	}
 
 	rotateLeft() {

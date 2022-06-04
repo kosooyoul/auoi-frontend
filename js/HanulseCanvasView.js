@@ -22,6 +22,7 @@ class HanulseCanvasView {
 	fpsCounterView = null;
 
 	blocks = [];
+	rotation = 0;
 
 	_playing = false;
 	
@@ -52,6 +53,7 @@ class HanulseCanvasView {
 	
 		this.renderer = new HanulseRenderer();
 		this.renderer.initialize(this.context);
+		this.renderer.setBlocks(this.blocks);
 
 		this.actionFactory = new HanulseActionFactory();
 
@@ -175,6 +177,30 @@ class HanulseCanvasView {
 		setTimeout(function() {
 			onFaded && onFaded();
 		}, duration)
+	}
+
+	addBlock(options) {
+		console.log(options)
+		this.blocks.push(new HanulseBlock({
+			... options,
+			size: this.blockSize
+		}));
+		HanulseBlock.sortBlocks(this.blocks);
+
+		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
+		this.slider.setBoundary(boundary);
+	}
+
+	rotateLeft() {
+		this.rotation = (this.rotation + 3) % 4;
+		this.blocks.forEach(block => block.setRotation(this.rotation));
+		HanulseBlock.sortBlocks(this.blocks);
+	}
+
+	rotateRight() {
+		this.rotation = (this.rotation + 1) % 4;
+		this.blocks.forEach(block => block.setRotation(this.rotation));
+		HanulseBlock.sortBlocks(this.blocks);
 	}
 
 	onPointerDown(evt) {
