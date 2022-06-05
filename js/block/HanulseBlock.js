@@ -51,6 +51,7 @@ class HanulseBlock {
 	};
 
 	_alpha = 1.0;
+	_dark = 0.0;
 	_timeOffset = 0;
 	_rotation = 0; // 0: "none" | 1: "quarter" | 2: "half" | 3: "rev-quarter"
 
@@ -178,6 +179,10 @@ class HanulseBlock {
 		return false;
 	}
 
+	getPosition() {
+		return this._position;
+	}
+
 	getOffset() {
 		return this._rotatedOffset;
 	}
@@ -220,6 +225,10 @@ class HanulseBlock {
 
 	setEffect(effect) {
 		this._effect = effect;
+	}
+
+	setDark(dark) {
+		this._dark = dark;
 	}
 
 	setPosition(position) {

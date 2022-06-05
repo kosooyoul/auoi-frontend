@@ -159,7 +159,6 @@ class HanulseEditorRenderer {
 
 	renderMap(context) {
 		var count = this.blocks.length;
-		console.log("render blocks: " + count);
 		for (var i = 0; i < count; i++) {
 			this.blockRenderer.render(context, this.blocks[i]);
 		}

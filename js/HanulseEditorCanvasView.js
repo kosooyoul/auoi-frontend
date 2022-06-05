@@ -195,12 +195,34 @@ class HanulseEditorCanvasView {
 		this.rotation = (this.rotation + 3) % 4;
 		this.blocks.forEach(block => block.setRotation(this.rotation));
 		HanulseBlock.sortBlocks(this.blocks);
+		
+		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
+		this.slider.setBoundary(boundary);
 	}
 
 	rotateRight() {
 		this.rotation = (this.rotation + 1) % 4;
 		this.blocks.forEach(block => block.setRotation(this.rotation));
 		HanulseBlock.sortBlocks(this.blocks);
+		
+		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
+		this.slider.setBoundary(boundary);
+	}
+
+	editorOverlayMenuView = new HanulseEditorOverlayMenuView();
+
+	onBlockUnselected() {
+		this.blocks.forEach(block => block.setDark(0));
+
+		this.editorOverlayMenuView.hide();
+	}
+
+	onBlockSelected(selectedObject) {
+		const currentZ = selectedObject.block.getPosition().z;
+
+		this.blocks.forEach(block => block.setDark(block.getPosition().z == currentZ? 0: 0.5));
+
+		this.editorOverlayMenuView.show(selectedObject.block);
 	}
 
 	onPointerDown(evt) {
@@ -217,6 +239,8 @@ class HanulseEditorCanvasView {
 		if (this.activeObject) {
 			this.activeObject.block.setStatus("active", this.activeObject.side);
 		}
+
+		this.onBlockUnselected();
 	}
 
 	onPointerMove(evt) {
@@ -276,16 +300,8 @@ class HanulseEditorCanvasView {
 			this.slider.moveTo(-offset.x, -offset.y);
 
 			this.activeObject.block.setStatus("focus", this.activeObject.side);
-			var actionData = this.activeObject.block.getAction(this.activeObject.side);
-			if (actionData) {
-				var action = this.actionFactory.get(actionData.type);
-				if (action) {
-					this.targetQualityRatio = 0.2;
-					action.act(actionData, () => {
-						this.targetQualityRatio = 1;
-					});
-				}
-			}
+			
+			this.onBlockSelected(this.activeObject);
 		}
 	}
 

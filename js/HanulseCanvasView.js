@@ -203,6 +203,19 @@ class HanulseCanvasView {
 		HanulseBlock.sortBlocks(this.blocks);
 	}
 
+	onBlockSelected(selectedObject) {
+		var actionData = selectedObject.block.getAction(selectedObject.side);
+		if (actionData) {
+			var action = this.actionFactory.get(actionData.type);
+			if (action) {
+				this.targetQualityRatio = 0.2;
+				action.act(actionData, () => {
+					this.targetQualityRatio = 1;
+				});
+			}
+		}
+	}
+
 	onPointerDown(evt) {
 		var pointer = this.slider.onPointerDown(evt);
 
@@ -276,16 +289,8 @@ class HanulseCanvasView {
 			this.slider.moveTo(-offset.x, -offset.y);
 
 			this.activeObject.block.setStatus("focus", this.activeObject.side);
-			var actionData = this.activeObject.block.getAction(this.activeObject.side);
-			if (actionData) {
-				var action = this.actionFactory.get(actionData.type);
-				if (action) {
-					this.targetQualityRatio = 0.2;
-					action.act(actionData, () => {
-						this.targetQualityRatio = 1;
-					});
-				}
-			}
+			
+			this.onBlockSelected(this.activeObject);
 		}
 	}
 
