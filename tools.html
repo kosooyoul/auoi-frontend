@@ -47,14 +47,14 @@
 		<p class="_wisesaying text-white-13 sh-m" style="margin: 0px 20px 10px 20px;">
 			<span class="wisesaying" style="display: inline-block; max-width: 600px;"></span>
 		</p>
-		<p class="_copyright text-white-12" style="margin: 0px 20px;">
+		<p class="_copyright text-white-11" style="margin: 0px 20px;">
 			<span>Copyright 2007-2022. Ahyane. All right reserved.</span>
 		</p>
 	</div>
 	<div class="_fps text-white-10" style="position: absolute; left: 10px; bottom: 10px;">
 		<span class="fps">- FPS</span>
 	</div>
-	<div class="_copyright text-white-12 sh-xs sh-s" style="position: absolute; right: 10px; bottom: 10px;">
+	<div class="_copyright text-white-11 sh-xs sh-s" style="position: absolute; right: 10px; bottom: 10px;">
 		<span>ⓒAhyane</span>
 	</div>
 
@@ -123,12 +123,12 @@ $(document).ready(function() {
 		canvasView.fadeIn(200);
 	});
 
-	canvasView.addBlock({position: {x:  0, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  0, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}, "label": "Label", "effect": "flash", "prop": "blocks-cube"});
 	canvasView.addBlock({position: {x:  1, y:  2, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
 	canvasView.addBlock({position: {x:  1, y:  1, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
 	canvasView.addBlock({position: {x:  1, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
 	canvasView.addBlock({position: {x:  1, y: -1, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
-	canvasView.addBlock({position: {x:  2, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
+	canvasView.addBlock({position: {x:  2, y:  0, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}, "label": "Here", "effect": "flash", "prop": "blocks-xyz"});
 	canvasView.addBlock({position: {x:  2, y:  2, z:  0}, texture: {top: "grass-top", left: "soil-left", right: "soil-right"}});
 });
 

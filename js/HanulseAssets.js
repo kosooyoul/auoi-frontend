@@ -81,6 +81,10 @@ class HanulseAssets {
 		this.props["pink-slide-right"] = {"path": "./images/pink-slide-right.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		this.props["pink-slide-left"] = {"path": "./images/pink-slide-left.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		
+		this.textures["none-top"] =  {"path": "./images/none.png", "left": -40, "top": -20, "width": 80, "height": 40};
+		this.textures["none-left"] =  {"path": "./images/none.png", "left": -40, "top": 0, "width": 40, "height": 55};
+		this.textures["none-right"] =  {"path": "./images/none.png", "left": 0, "top": 0, "width": 40, "height": 55};
+
 		this.textures["grass-top"] =  {"path": "./images/grass-top.png", "left": -40, "top": -20, "width": 80, "height": 40};
 		this.textures["gravel-top"] =  {"path": "./images/gravel-top.png", "left": -40, "top": -20, "width": 80, "height": 40};
 		this.textures["water-top"] =  {"path": "./images/water-top.png", "left": -40, "top": -20, "width": 80, "height": 40};
