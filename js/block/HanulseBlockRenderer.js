@@ -165,16 +165,22 @@ class HanulseBlockRenderer {
 	}
 
 	renderColoredPath(context, path, strokeStyle, fillStyle) {
+		context.save();
+		context.clip();
 		context.beginPath();
 		context.moveTo(path[0][0], path[0][1]);
 		for (let i = 1; i < path.length; i++) {
 			context.lineTo(path[i][0], path[i][1]);
 		}
 		context.strokeStyle = strokeStyle;
+		context.lineWidth = 1;
+		context.lineJoin = "round";
+		context.lineCap = "round";
 		context.stroke();
 		context.fillStyle = fillStyle;
 		context.fill();
 		context.closePath();
+		context.restore();
 	}
 
 	renderProp(context, propName) {

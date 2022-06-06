@@ -24,6 +24,9 @@ class HanulseUtils {
 		context.beginPath();
 		this.roundedRectangle(context, x - (size.width + 20) / 2, y, size.width + 20, 25, 6);
 		context.strokeStyle = "white";
+		context.lineWidth = 1;
+		context.lineJoin = "round";
+		context.lineCap = "round";
 		context.fillStyle = "rgba(0, 0, 0, 0.6)";
 		context.fill();
 		context.stroke();
@@ -46,6 +49,9 @@ class HanulseUtils {
 		context.beginPath();
 		this.roundedRectangle(context, x - (size.width + 20) / 2, y, size.width + 20, 25, 6);
 		context.strokeStyle = "rgb(0, 200, 255)";
+		context.lineWidth = 1;
+		context.lineJoin = "round";
+		context.lineCap = "round";
 		context.fillStyle = "rgba(0, 0, 0, 0.6)";
 		context.fill();
 		context.stroke();
@@ -68,6 +74,9 @@ class HanulseUtils {
 		context.beginPath();
 		this.roundedRectangle(context, x - (size.width + 20) / 2, y, size.width + 20, 25, 6);
 		context.strokeStyle = "rgb(0, 200, 255)";
+		context.lineWidth = 1;
+		context.lineJoin = "round";
+		context.lineCap = "round";
 		context.fillStyle = "rgba(0, 0, 0, 0.6)";
 		context.fill();
 		context.stroke();
@@ -90,6 +99,9 @@ class HanulseUtils {
 		context.beginPath();
 		this.roundedRectangle(context, x - (size.width + 20) / 2, y, size.width + 20, 25, 6);
 		context.strokeStyle = "rgb(255, 200, 0)";
+		context.lineWidth = 1;
+		context.lineJoin = "round";
+		context.lineCap = "round";
 		context.fillStyle = "rgba(0, 0, 0, 0.6)";
 		context.fill();
 		context.stroke();
@@ -112,6 +124,9 @@ class HanulseUtils {
 		context.beginPath();
 		this.roundedRectangle(context, x - (size.width + 20) / 2, y, size.width + 20, 25, 6);
 		context.strokeStyle = "rgb(255, 200, 200)";
+		context.lineWidth = 1;
+		context.lineJoin = "round";
+		context.lineCap = "round";
 		context.fillStyle = "rgba(150, 0, 0, 0.6)";
 		context.fill();
 		context.stroke();
