@@ -58,9 +58,13 @@
 		<span>ⓒAhyane</span>
 	</div>
 
-	<div class="medium" style="position: absolute; width: 100%; top: 40px; text-align: center; user-select: all; pointer-events: all;">
-		<button onclick="canvasView.rotateRight()">시계방향</button>
-		<button onclick="canvasView.rotateLeft()">반시계방향</button>
+	<div class="medium" style="width: 100%; user-select: none; pointer-events: none;">
+		<div style="pointer-events: all; position: absolute; right: 30%; bottom: 50px; width: 40px; height: 40px; margin-left: -20px; margin-top: -20px; background-color: rgba(0, 60, 120, 0.4); border-radius: 12px; border: 1px solid white; text-align: center;" onclick="canvasView.rotateRight()">
+			<span class="text-white-11" style="line-height: 40px; vertical-align: top;">회전</span>
+		</div>
+		<div style="pointer-events: all; position: absolute; left: 30%; bottom: 50px; width: 40px; height: 40px; margin-left: -20px; margin-top: -20px; background-color: rgba(0, 60, 120, 0.4); border-radius: 12px; border: 1px solid white; text-align: center;" onclick="canvasView.rotateLeft()">
+			<span class="text-white-11" style="line-height: 40px; vertical-align: top;">역회전</span>
+		</div>
 	</div>
 </div>
 
