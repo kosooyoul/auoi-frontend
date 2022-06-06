@@ -70,7 +70,7 @@ class HanulseArticlesAction {
 		if (onFinished) {
 			onFinished();
 		}
-		overlay.fadeOut(function() {
+		overlay.css({"pointer-events": "none"}).fadeOut(function() {
 			overlay.remove();
 		});
 	}
@@ -78,7 +78,7 @@ class HanulseArticlesAction {
 	showOverlay(element, onFinished) {
 		var _this = this;
 
-		var overlay = $("<div class=\"hanulse-overlay\">").css({
+		var overlay = $("<div class=\"hanulse-overlay _dismiss\">").css({
 			"display": "flex",
 			"flex-direction": "column",
 			"justify-content": "center",
@@ -96,7 +96,7 @@ class HanulseArticlesAction {
 		overlay.hide();
 
 		overlay.on("click", function(event) {
-			if (overlay.is(event.target)) {
+			if ($(event.target).is("._dismiss")) {
 				_this.hideOverlay();
 			}
 		});
