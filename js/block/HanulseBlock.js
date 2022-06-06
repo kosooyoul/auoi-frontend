@@ -327,10 +327,10 @@ class HanulseBlock {
 		};
 
 		blocks.forEach(block => {
-			boundary.left = Math.min(boundary.left, block._offset.x);
-			boundary.right = Math.max(boundary.right, block._offset.x);
-			boundary.top = Math.min(boundary.top, block._offset.y);
-			boundary.bottom = Math.max(boundary.bottom, block._offset.y);
+			boundary.left = Math.min(boundary.left, block._rotatedOffset.x);
+			boundary.right = Math.max(boundary.right, block._rotatedOffset.x);
+			boundary.top = Math.min(boundary.top, block._rotatedOffset.y);
+			boundary.bottom = Math.max(boundary.bottom, block._rotatedOffset.y);
 		});
 
 		return boundary;
