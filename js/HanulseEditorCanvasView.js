@@ -145,7 +145,9 @@ class HanulseEditorCanvasView {
 		if (this.canvas.clientWidth * this.canvas.clientHeight > 480000) { // 800 * 600
 			this.quality = 1;
 		} else {
-			this.quality = 2;
+			// Note: 2022-06-29: 저사양 모바일 고려, 퀄리티 줄이지 않음
+			// this.quality = 2;
+			this.quality = 1;
 		}
 		this.computedQuality = this.quality * this.qualityRatio;
 		this.renderer.setQuality(this.computedQuality);
