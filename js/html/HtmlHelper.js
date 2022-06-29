@@ -1,15 +1,16 @@
 class HtmlHelper {
-	createTag(tag) {
+	static createTag(tag) {
 		const element = document.createElement(tag);
 		return new HtmlElementBuilder(element);
 	}
 
-	createHtml(html) {
+	static createHtml(html) {
 		const element = document.createElement("div");
-		return new HtmlElementBuilder(element).outerHtml(html);
+		element.innerHTML = html;
+		return new HtmlElementBuilder(element.children[0]);
 	}
 
-	createFromUrl(url) {
+	static createFromUrl(url) {
 		const element = document.createElement("div");
 		const html = $.ajax({
 			"url": url,
@@ -18,12 +19,12 @@ class HtmlHelper {
 		return new HtmlElementBuilder(element).outerHtml(html);
 	}
 
-	find(selector, parentElement) {
+	static find(selector, parentElement) {
 		const element = (parentElement || window.document).querySelector(selector);
 		return new HtmlElementBuilder(element);
 	}
 	
-	findAll(selector, parentElement) {
+	static findAll(selector, parentElement) {
 		const elements = (parentElement || window.document).querySelector(selector);
 		return new HtmlElementBuilder(elements);
 	}

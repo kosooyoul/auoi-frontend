@@ -1,8 +1,15 @@
 class HtmlElementBuilder {
+	static _dataIndex = 0;
+	static _dataMap = {};
+
 	_elements;
 
 	constructor(elements) {
-		this._elements = elements instanceof Array? elements: [elements];
+		if (!elements) {
+			this._elements = [];
+		} else {
+			this._elements = elements instanceof Array? elements: [elements];
+		}
 	}
 
 	get() {
@@ -13,26 +20,108 @@ class HtmlElementBuilder {
 		return this._elements;
 	}
 
-	outerHtml(html) {
-		this._elements.forEach(element => element.outerHtml = html);
+	static _registerData(value) {
+		const index = HtmlElementBuilder._dataIndex++;
+		HtmlElementBuilder._dataMap[index] = {"value": value, "ref": 0};
+		return index;
+	}
+
+	static _getData(index) {
+		const data = HtmlElementBuilder._dataMap[index];
+		return data && data["value"];
+	}
+
+	static _refData(index) {
+		const data = HtmlElementBuilder._dataMap[index];
+		if (data) {
+			data["ref"]++;
+		}
+	}
+
+	static _unrefData(index) {
+		const data = HtmlElementBuilder._dataMap[index];
+		if (data) {
+			if (--data["ref"] == 0) {
+				delete HtmlElementBuilder._dataMap[index];
+			}
+		}
+	}
+
+	setData(key, value) {
+		const index = HtmlElementBuilder._registerData(value);
+		this._elements.forEach(element => {
+			if (element.dataset[key] != null) {
+				HtmlElementBuilder._unrefData(element.dataset[key]);
+			}
+			element.dataset[key] = index;
+			HtmlElementBuilder._refData(index);
+		})
+	}
+
+	getData(key) {
+		for (const i in this._elements) {
+			const index = this._elements[i].dataset[key];
+			const value = HtmlElementBuilder._getData(index);
+			if (value) return value;
+		}
+		return null;
+	}
+
+	remove() {
+		this._elements.forEach(element => {
+			for (const key in element.dataset) {
+				const index = element.dataset[key];
+				HtmlElementBuilder._unrefData(index);
+			}
+			element.remove();
+		});
+		this._elements.splice(0);
+	}
+
+	html(html) {
+		this._elements.forEach(element => element.innerHTML = html);
 		return this;
 	}
 
-	innerHtml(html) {
-		this._elements.forEach(element => element.oinnerHtml = html);
-		return this;
+	htmlFromText(text) {
+		return this.html(text.replace(/\n/g, "<br>"));
 	}
-
+	
 	css(styleObject) {
-		for (const key of styleObject) {
+		for (const key in styleObject) {
 			this._elements.forEach(element => element.style[key] = styleObject[key]);
 		}
+		return this;
+	}
+
+	cssAsync(styleObject) {
+		setTimeout(() => this.css(styleObject));
 		return this;
 	}
 
 	text(text) {
 		this._elements.forEach(element => element.textContent = text);
 		return this;
+	}
+
+	append(childElement) {
+		this._elements.forEach(element => element.appendChild(childElement));
+		return this;
+	}
+
+	appendTo(parentElement) {
+		this._elements.forEach(element => parentElement.appendChild(element));
+		return this;
+	}
+
+	find(selector) {
+		for (const element of this._elements) {
+			const e = element.querySelector(selector);
+			if (e) {
+				return new HtmlElementBuilder(e);
+			}
+		}
+		return new HtmlElementBuilder();
 	}
 
 	listenEvent(eventName, eventHandler) {

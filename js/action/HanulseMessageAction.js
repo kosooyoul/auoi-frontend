@@ -18,27 +18,28 @@ class HanulseMessageAction {
 	}
 	
 	act(data, onFinished) {
-		const message = $($.parseHTML(this.templateMessage));
-		message.find("._message").html(data.message.replace(/\n/g, "<br>"));
+		const message = HtmlHelper.createHtml(this.templateMessage);
+		message.find("._message").htmlFromText(data.message);
 
-		this.showOverlay(message, onFinished);
+		this.showOverlay(message.get(), onFinished);
 	}
 
 	hideOverlay() {
-		var overlay = $(".hanulse-overlay");
-		var onFinished = overlay.data("onFinished");
+		var overlay = HtmlHelper.find(".hanulse-overlay");
+		var onFinished = overlay.getData("onFinished");
 		if (onFinished) {
 			onFinished();
 		}
-		overlay.css({"pointer-events": "none"}).fadeOut(function() {
-			overlay.remove();
-		});
+		overlay.css({"pointer-events": "none"});
+		overlay.cssAsync({"opacity": 0});
+		setTimeout(() => overlay.remove(), 1000);
 	}
 
 	showOverlay(element, onFinished) {
 		var _this = this;
 
-		var overlay = $("<div class=\"hanulse-overlay _dismiss\">").css({
+		var overlay = HtmlHelper.createHtml("<div class=\"hanulse-overlay _dismiss\">");
+		overlay.css({
 			"display": "flex",
 			"flex-direction": "column",
 			"justify-content": "center",
@@ -50,23 +51,28 @@ class HanulseMessageAction {
 			"height": "100%",
 			"background-color": "rgba(0, 0, 0, 0.5)",
 			"z-index": "100001"
-		});
-		overlay.data("onFinished", onFinished);
+		})
+		overlay.setData("onFinished", onFinished);
 		overlay.append(element);
-		overlay.hide();
+		overlay.css({
+			"transition": "opacity 0.5s linear",
+			"opacity": 0
+		});
 
-		overlay.on("click", function(event) {
-			if ($(event.target).is("._dismiss")) {
+		overlay.listenEvent("click", function(event) {
+			if (event.target.webkitMatchesSelector("._dismiss")) {
 				_this.hideOverlay();
 			}
 		});
 
-		$(document).on("keyup", function(event) {
+		var body = new HtmlElementBuilder(document.body);
+		body.listenEvent("keyup", function(event) {
 			if (event.which == 27) {
 				_this.hideOverlay();
 			}
 		});
 
-		overlay.appendTo(document.body).fadeIn();
+		overlay.appendTo(document.body);
+		overlay.cssAsync({"opacity": 1});
 	}
 }
