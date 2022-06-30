@@ -30,6 +30,7 @@ class HanulseMessageAction {
 		if (onFinished) {
 			onFinished();
 		}
+		overlay.removeClass("hanulse-overlay");
 		overlay.css({"pointer-events": "none"});
 		overlay.cssAsync({"opacity": 0});
 		setTimeout(() => overlay.remove(), 1000);

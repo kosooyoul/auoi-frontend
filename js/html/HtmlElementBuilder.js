@@ -87,6 +87,11 @@ class HtmlElementBuilder {
 		return this.html(text.replace(/\n/g, "<br>"));
 	}
 	
+	removeClass(name) {
+		this._elements.forEach(element => element.classList.remove(name));
+		return this;
+	}
+
 	css(styleObject) {
 		for (const key in styleObject) {
 			this._elements.forEach(element => element.style[key] = styleObject[key]);
