@@ -60,7 +60,7 @@ function updateCounter() {
 				var token = data.token;
 				localStorage.setItem("token", token);
 
-				var targetCount = data.count;
+				var targetCount = data.counts;
 				var count = {"today": 0, "yesterday": 0, "total": 0};
 				var updateCount = function() {
 					$(".counter-count-today").text(parseInt(count.today));
