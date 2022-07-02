@@ -18,10 +18,10 @@ class HanulseMenuView extends HanulseOverlayView {
 	constructor() {
 		super();
 
-		this._initializeMessageView();
+		this._initializeMenuView();
 	}
 
-	_initializeMessageView() {
+	_initializeMenuView() {
 		this._menuElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListPath)));
 		this._menuListElementWrap = this._menuElementWrap.find("._list");
 
