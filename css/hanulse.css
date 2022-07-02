@@ -3,7 +3,12 @@ html, body {
 	height: 100%;
 	margin: 0px;
 	overflow: hidden;
-	background-color: black;
+}
+
+body {
+	/* background: linear-gradient(20deg, #00181c 0%, #00271e 50%, #00352a 100%); */
+	background: linear-gradient(20deg, #2c0b58 0%, #4e0b57 50%, #09858a 100%);
+	/* background: linear-gradient(20deg, #0b2c58 0%, #0b4e77 50%, #09858a 100%); */
 }
 
 a {color: white;}
