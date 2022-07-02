@@ -19,6 +19,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	_initializeArticleView() {
 		this._articleElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListPath)));
 		this._articleListElementWrap = this._articleElementWrap.find("._list");
+		this._articleListPaginationElementWrap = this._articleElementWrap.find("._pagination");
 		
 		this.addOverlayElement(this._articleElementWrap.get(0));
 	}
@@ -34,7 +35,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	load() {
 		this._requestArticleList();
 	}
-
+	
 	addArticleItem(articleItem) {
 		const articleListItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListItemPath)));
 
@@ -46,6 +47,30 @@ class HanulseArticleView extends HanulseOverlayView {
 		articleListItem.find("._created-at").text(this._formatDate(articleItem.createdAt));
 		
 		this._articleListElementWrap.append(articleListItem);
+	}
+
+	addPaginationItem(pageIndex, selected) {
+		const paginationItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListPaginationItemPath)));
+		
+		paginationItem.text(pageIndex + 1);
+		if (selected) {
+			paginationItem.css({"background-color": "rgba(255, 255, 255, 0.5)"}); 
+		} else {
+			paginationItem.one("click", () => {
+				this._pageIndex = pageIndex;
+				this._requestArticleList();
+			});
+		}
+		
+		this._articleListPaginationElementWrap.append(paginationItem);
+	}
+
+	clearArticleItems() {
+		this._articleListElementWrap.empty();
+	}
+
+	clearPaginationItem() {
+		this._articleListPaginationElementWrap.empty();
 	}
 
 	_requestArticleList() {
@@ -79,7 +104,17 @@ class HanulseArticleView extends HanulseOverlayView {
 				createdAt: this._formatDate(article.createdAt),
 			};
 		});
+		this.clearArticleItems();
 		articleItems.forEach(articleItem => this.addArticleItem(articleItem));
+
+		const countOfPage = Math.ceil(articleList.countOfTotal / articleList.countPerPage);
+		const firstPageIndex = Math.max(articleList.pageIndex - 2, 0);
+		const lastPageIndex = Math.min(articleList.pageIndex + 4, countOfPage - 1);
+
+		this.clearPaginationItem();
+		for (let i = firstPageIndex; i <= lastPageIndex; i++) {
+			this.addPaginationItem(i, i == articleList.pageIndex);
+		}
 	}
 
 	_formatDate(dateString) {
