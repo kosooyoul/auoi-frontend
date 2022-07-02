@@ -1,8 +1,8 @@
 class HanulseLinkAction {
-	act(data, onFinished) {
+	act(data, onFinishedCallback) {
 		location.assign(data.link);
-		if (onFinished) {
-			onFinished();
+		if (onFinishedCallback) {
+			onFinishedCallback();
 		}
 	}
 }

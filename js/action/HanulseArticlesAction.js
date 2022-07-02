@@ -44,7 +44,7 @@ class HanulseArticlesAction {
 		return result && result.responseText;
 	}
 
-	act(data, onFinished) {
+	act(data, onFinishedCallback) {
 		const articleList = $($.parseHTML(this.templateArticleList));
 		articleList.find("._title").text(data.title || "제목 없음");
 
@@ -61,21 +61,21 @@ class HanulseArticlesAction {
 			articleListItems.append(articleListItem);
 		});
 
-		this.showOverlay($(articleList), onFinished);
+		this.showOverlay($(articleList), onFinishedCallback);
 	}
 
 	hideOverlay() {
 		var overlay = $(".hanulse-overlay");
-		var onFinished = overlay.data("onFinished");
-		if (onFinished) {
-			onFinished();
+		var onFinishedCallback = overlay.data("onFinishedCallback");
+		if (onFinishedCallback) {
+			onFinishedCallback();
 		}
 		overlay.css({"pointer-events": "none"}).fadeOut(function() {
 			overlay.remove();
 		});
 	}
 
-	showOverlay(element, onFinished) {
+	showOverlay(element, onFinishedCallback) {
 		var _this = this;
 
 		var overlay = $("<div class=\"hanulse-overlay _dismiss\">").css({
@@ -91,7 +91,7 @@ class HanulseArticlesAction {
 			"background-color": "rgba(0, 0, 0, 0.5)",
 			"z-index": "100001"
 		});
-		overlay.data("onFinished", onFinished);
+		overlay.data("onFinishedCallback", onFinishedCallback);
 		overlay.append(element);
 		overlay.hide();
 
