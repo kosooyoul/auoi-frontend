@@ -74,7 +74,7 @@ function updateCounter() {
 					"done": updateCount
 				});
 
-				var ratioToday = data.today / (data.today + data.yesterday);
+				var ratioToday = targetCount.today / (targetCount.today + targetCount.yesterday);
 				var ratioYesterday = 1 - ratioToday;
 
 				$(".counter-bar-today").animate({"width": ratioToday * 60});
