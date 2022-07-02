@@ -83,10 +83,10 @@ function updateCounter() {
 
 function updateWisesaying() {
 	$.post({
-		"url": "https://apis.auoi.net/v1.0/wisesaying",
+		"url": "https://apis.auoi.net/v1/wisesaying",
 		"dataType": "json",
 		"success": function(data) {
-			const wisesaying = data && data.data && data.data.wisesaying;
+			const wisesaying = data && data.data && data.data.data;
 
 			if (wisesaying) {
 				$(".wisesaying").text(wisesaying.sentense);
