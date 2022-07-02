@@ -82,7 +82,7 @@ function updateCounter() {
 }
 
 function updateWisesaying() {
-	$.post({
+	$.get({
 		"url": "https://apis.auoi.net/v1/wisesaying",
 		"dataType": "json",
 		"success": function(data) {
