@@ -46,16 +46,21 @@ function createHanulse(canvas, data) {
 }
 
 function updateCounter() {
+	const token = localStorage.getItem("token");
 	$.post({
-		// "url": "http://localhost:60000/v1.0/visit",
-		// "dataType": "json",
-		"url": "https://apis.auoi.net/v1.0/visit",
+		"url": "https://apis.auoi.net/v1/visit",
 		"dataType": "json",
-		"xhrFields": {"withCredentials": true},
-		"data": {"td": getTimeDifferenceHours()},
-		"success": function(data) {
-			const result = data && data.data && data.data.result;
-			if (result) {
+		"data": {
+			"token": token,
+			"timeOffsetHours": getTimeDifferenceHours()
+		},
+		"success": function(response) {
+			const data = response && response.data;
+			if (data) {
+				var token = data.token;
+				localStorage.setItem("token", token);
+
+				var targetCount = data.count;
 				var count = {"today": 0, "yesterday": 0, "total": 0};
 				var updateCount = function() {
 					$(".counter-count-today").text(parseInt(count.today));
@@ -63,13 +68,13 @@ function updateCounter() {
 					$(".counter-count-total").text(parseInt(count.total));
 				};
 
-				$(count).animate({"today": result.today, "yesterday": result.yesterday, "total": result.total}, {
+				$(count).animate({"today": targetCount.today, "yesterday": targetCount.yesterday, "total": targetCount.total}, {
 					"duration": 1000,
 					"progress": updateCount,
 					"done": updateCount
 				});
 
-				var ratioToday = result.today / (result.today + result.yesterday);
+				var ratioToday = data.today / (data.today + data.yesterday);
 				var ratioYesterday = 1 - ratioToday;
 
 				$(".counter-bar-today").animate({"width": ratioToday * 60});
@@ -85,8 +90,8 @@ function updateWisesaying() {
 	$.get({
 		"url": "https://apis.auoi.net/v1/wisesaying",
 		"dataType": "json",
-		"success": function(data) {
-			const wisesaying = data && data.data && data.data.data;
+		"success": function(response) {
+			const wisesaying = response && response.data;
 
 			if (wisesaying) {
 				$(".wisesaying").text(wisesaying.sentense);
