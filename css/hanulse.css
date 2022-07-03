@@ -42,3 +42,6 @@ a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px 
 
 .scrollbox::-webkit-scrollbar {height: 6px; width: 6px;}
 .scrollbox::-webkit-scrollbar-thumb {background: white;border-radius: 3px;}
+
+.knead {animation-name: knead; animation-duration: 0.8s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.54, 0.17, 1, 1);}
+@keyframes knead {0% {transform: rotate(0deg) scaleX(0.8);} 50% {transform: rotate(180deg) scaleX(1.2);} 100% {transform: rotate(360deg) scaleX(0.8);}}

@@ -21,6 +21,7 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListPath)));
 		this._articleListElementWrap = this._articleElementWrap.find("._list");
 		this._articleListPaginationElementWrap = this._articleElementWrap.find("._pagination");
+		this._loadingElementWrap = this._articleElementWrap.find("._loading");
 		
 		this.addOverlayElement(this._articleElementWrap.get(0));
 	}
@@ -63,6 +64,8 @@ class HanulseArticleView extends HanulseOverlayView {
 		} else {
 			paginationItem.one("click", () => {
 				this._pageIndex = pageIndex;
+				this.clearArticleItems();
+				this.clearPaginationItem();
 				this._requestArticleList();
 			});
 		}
@@ -79,6 +82,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	}
 
 	_requestArticleList() {
+		this._showLoading();
 		$.get({
 			"url": "https://apis.auoi.net/v1/article/search",
 			"dataType": "json",
@@ -92,6 +96,7 @@ class HanulseArticleView extends HanulseOverlayView {
 				const articleList = response && response.data;
 	
 				if (articleList) {
+					this._hideLoading();
 					this._updateArticleList(articleList);
 				}
 			}
@@ -110,14 +115,12 @@ class HanulseArticleView extends HanulseOverlayView {
 				createdAt: this._formatDate(article.createdAt),
 			};
 		});
-		this.clearArticleItems();
 		articleItems.forEach(articleItem => this.addArticleItem(articleItem));
 
 		const countOfPage = Math.ceil(articleList.countOfTotal / articleList.countPerPage);
 		const firstPageIndex = Math.max(articleList.pageIndex - 2, 0);
 		const lastPageIndex = Math.min(articleList.pageIndex + 4, countOfPage - 1);
 
-		this.clearPaginationItem();
 		for (let i = firstPageIndex; i <= lastPageIndex; i++) {
 			this.addPaginationItem(i, i == articleList.pageIndex);
 		}
@@ -129,5 +132,13 @@ class HanulseArticleView extends HanulseOverlayView {
 		const month = ("0" + (date.getMonth() + 1)).slice(-2);
 		const dom = ("0" + date.getDate()).slice(-2);
 		return year + "-" + month + "-" + dom;
+	}
+	
+	_showLoading() {
+		this._loadingElementWrap.show();
+	}
+	
+	_hideLoading() {
+		this._loadingElementWrap.hide();
 	}
 }
