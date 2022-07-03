@@ -64,8 +64,6 @@ class HanulseArticleView extends HanulseOverlayView {
 		} else {
 			paginationItem.one("click", () => {
 				this._pageIndex = pageIndex;
-				this.clearArticleItems();
-				this.clearPaginationItem();
 				this._requestArticleList();
 			});
 		}
@@ -73,15 +71,8 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleListPaginationElementWrap.append(paginationItem);
 	}
 
-	clearArticleItems() {
-		this._articleListElementWrap.empty();
-	}
-
-	clearPaginationItem() {
-		this._articleListPaginationElementWrap.empty();
-	}
-
 	_requestArticleList() {
+		this._invisibleArticleList();
 		this._showLoading();
 		$.get({
 			"url": "https://apis.auoi.net/v1/article/search",
@@ -97,6 +88,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	
 				if (articleList) {
 					this._hideLoading();
+					this._clearArticleList();
 					this._updateArticleList(articleList);
 				}
 			}
@@ -134,6 +126,16 @@ class HanulseArticleView extends HanulseOverlayView {
 		return year + "-" + month + "-" + dom;
 	}
 	
+	_invisibleArticleList() {
+		this._articleListElementWrap.children().css({"visibility": "invisible"});
+		this._articleListPaginationElementWrap.children().css({"visibility": "invisible"});
+	}
+
+	_clearArticleList() {
+		this._articleListElementWrap.empty();
+		this._articleListPaginationElementWrap.empty();
+	}
+
 	_showLoading() {
 		this._loadingElementWrap.fadeIn();
 	}
