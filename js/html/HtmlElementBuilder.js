@@ -100,7 +100,7 @@ class HtmlElementBuilder {
 	}
 
 	cssAsync(styleObject) {
-		setTimeout(() => this.css(styleObject));
+		setTimeout(() => this.css(styleObject), 10);
 		return this;
 	}
 
