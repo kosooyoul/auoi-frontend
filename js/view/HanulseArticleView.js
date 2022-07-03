@@ -7,6 +7,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	_articleListElementWrap;
 
 	_tag;
+	_authorId;
 	_pageIndex = 0;
 	_countPerPage = 10;
 
@@ -30,6 +31,10 @@ class HanulseArticleView extends HanulseOverlayView {
 
 	setTag(tag) {
 		this._tag = tag;
+	}
+
+	setAuthorId(authorId) {
+		this._authorId = authorId;
 	}
 
 	load() {
@@ -79,6 +84,7 @@ class HanulseArticleView extends HanulseOverlayView {
 			"dataType": "json",
 			"data": {
 				"tag": this._tag,
+				"authorId": this._authorId,
 				"pageIndex": this._pageIndex,
 				"countPerPage": this._countPerPage
 			},
