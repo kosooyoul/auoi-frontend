@@ -135,10 +135,10 @@ class HanulseArticleView extends HanulseOverlayView {
 	}
 	
 	_showLoading() {
-		this._loadingElementWrap.fedeIn();
+		this._loadingElementWrap.fadeIn();
 	}
 	
 	_hideLoading() {
-		this._loadingElementWrap.fadeOut();
+		this._loadingElementWrap.stop().fadeOut();
 	}
 }
