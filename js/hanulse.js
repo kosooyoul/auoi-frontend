@@ -32,16 +32,21 @@ function setTitle(title) {
 }
 
 function createHanulse(canvas, data) {
-	if (canvasView == null) {
-		canvasView = new HanulseCanvasView(canvas, {
-			"autoplay": true,
-			"enabledFPSCounter": true
-		});
+	if (canvasView) {
+		canvasView.updateMapData(data);
+		canvasView.fadeIn(400);
+		$("._loading-area").stop().fadeOut();
+		return;
 	}
 
-	canvasView.fadeOut(200, () => {
+	canvasView = new HanulseCanvasView(canvas, {
+		"autoplay": true,
+		"enabledFPSCounter": true
+	});
+	canvasView.fadeOut(0, () => {
 		canvasView.updateMapData(data);
-		canvasView.fadeIn(200);
+		canvasView.fadeIn(400);
+		$("._loading-area").stop().fadeOut();
 	});
 }
 

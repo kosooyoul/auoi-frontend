@@ -168,17 +168,11 @@ class HanulseCanvasView {
 	}
 
 	fadeOut(duration, onFaded) {
-		// TODO: implement fade out
-		setTimeout(function() {
-			onFaded && onFaded();
-		}, duration)
+		$(this.canvas).stop().fadeOut(duration, () => onFaded && onFaded());
 	}
 	
 	fadeIn(duration, onFaded) {
-		// TODO: implement fade in
-		setTimeout(function() {
-			onFaded && onFaded();
-		}, duration)
+		$(this.canvas).stop().fadeIn(duration, () => onFaded && onFaded());
 	}
 
 	addBlock(options) {
