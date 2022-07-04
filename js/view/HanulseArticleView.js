@@ -21,6 +21,7 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListPath)));
 		this._articleListElementWrap = this._articleElementWrap.find("._list");
 		this._articleListPaginationElementWrap = this._articleElementWrap.find("._pagination");
+		this._pageElementWrap = this._articleElementWrap.find("._page");
 		this._loadingElementWrap = this._articleElementWrap.find("._loading");
 		
 		this.addOverlayElement(this._articleElementWrap.get(0));
@@ -109,13 +110,16 @@ class HanulseArticleView extends HanulseOverlayView {
 		});
 		articleItems.forEach(articleItem => this.addArticleItem(articleItem));
 
+		const pageIndex = parseInt(articleList.pageIndex);
 		const countOfPage = Math.ceil(articleList.countOfTotal / articleList.countPerPage);
-		const firstPageIndex = Math.max(articleList.pageIndex - 2, 0);
-		const lastPageIndex = Math.min(articleList.pageIndex + 4, countOfPage - 1);
+		const firstPageIndex = Math.max(pageIndex - 2, 0);
+		const lastPageIndex = Math.min(pageIndex + 4, countOfPage - 1);
 
 		for (let i = firstPageIndex; i <= lastPageIndex; i++) {
-			this.addPaginationItem(i, i == articleList.pageIndex);
+			this.addPaginationItem(i, i == pageIndex);
 		}
+
+		this._pageElementWrap.text(pageIndex + 1);
 	}
 
 	_formatDate(dateString) {
