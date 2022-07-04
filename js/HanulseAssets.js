@@ -51,6 +51,8 @@ class HanulseAssets {
 		this.props["staff"] = {"path": "./images/staff.png", "left": -6, "top": -48, "width": 38, "height": 77};
 		this.props["waste"] = {"path": "./images/waste.png", "left": -6, "top": -12, "width": 12, "height": 12};
 		this.props["trash"] = {"path": "./images/trash.png", "left": -9, "top": -21, "width": 18, "height": 21};
+		this.props["lighthand-right"] = {"path": "./images/lighthand-right.png", "left": -14, "top": -54, "width": 28, "height": 38};
+		this.props["lighthand-left"] = {"path": "./images/lighthand-left.png", "left": -14, "top": -54, "width": 28, "height": 38};
 
 		this.props["flower-palm"] = {"path": "./images/flower-palm.png", "left": -12 * 1.16, "top": -26 * 1.16, "width": 24 * 1.16, "height": 28 * 1.16};
 		this.props["picture"] = {"path": "./images/picture.png", "left": -13 * 1.16, "top": -7.5 * 1.16, "width": 26 * 1.16, "height": 15 * 1.16};

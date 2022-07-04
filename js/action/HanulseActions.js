@@ -9,6 +9,7 @@ class HanulseActions {
 			case "link": return this._actLink(data, onActionFinishedCallback);
 			case "menu": return this._actMenu(data, onActionFinishedCallback);
 			case "message": return this._actMessage(data, onActionFinishedCallback);
+			case "writer": return this._actWriter(data, onActionFinishedCallback);
 		}
 	}
 	
@@ -41,5 +42,13 @@ class HanulseActions {
 		messageView.setMessage(data.message);
 		messageView.setOnHideCallback(onActionFinishedCallback);
 		messageView.show();
+	}
+
+	_actWriter(data, onActionFinishedCallback) {
+		const writerView = new HanulseMessageView();
+		writerView.setMessage(data.title);
+		// writerView.setTag(data.tag);
+		writerView.setOnHideCallback(onActionFinishedCallback);
+		writerView.show();
 	}
 }
