@@ -17,7 +17,7 @@ class HanulseCanvasView {
 	context = null;
 
 	renderer = null;
-	actionFactory = null;
+	actions = null;
 	slider = null;
 	fpsCounterView = null;
 
@@ -55,7 +55,7 @@ class HanulseCanvasView {
 		this.renderer.initialize(this.context);
 		this.renderer.setBlocks(this.blocks);
 
-		this.actionFactory = new HanulseActionFactory();
+		this.actions = new HanulseActions();
 
 		this.slider = new HanulseSlider();
 		this.slider.setOnSlide((x, y) => {
@@ -202,13 +202,10 @@ class HanulseCanvasView {
 	onBlockSelected(selectedObject) {
 		var actionData = selectedObject.block.getAction(selectedObject.side);
 		if (actionData) {
-			var action = this.actionFactory.get(actionData.type);
-			if (action) {
-				this.targetQualityRatio = 0.2;
-				action.act(actionData, () => {
-					this.targetQualityRatio = 1;
-				});
-			}
+			this.targetQualityRatio = 0.2;
+			this.actions.act(actionData.type, actionData, () => {
+				this.targetQualityRatio = 1;
+			});
 		}
 	}
 

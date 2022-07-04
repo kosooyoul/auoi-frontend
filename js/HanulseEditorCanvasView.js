@@ -17,7 +17,7 @@ class HanulseEditorCanvasView {
 	context = null;
 
 	renderer = null;
-	actionFactory = null;
+	actions = null;
 	slider = null;
 	fpsCounterView = null;
 
@@ -55,7 +55,7 @@ class HanulseEditorCanvasView {
 		this.renderer.initialize(this.context);
 		this.renderer.setBlocks(this.blocks);
 
-		this.actionFactory = new HanulseActionFactory();
+		this.actions = new HanulseActions();
 
 		this.slider = new HanulseSlider();
 		this.slider.setOnSlide((x, y) => {

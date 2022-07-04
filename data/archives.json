@@ -51,9 +51,9 @@
 
     {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2"},
     {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "table"},
+    {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
-    {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "table", "label": "기록 남기기", "effect": "link"},
     {"position": {"x":  2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
