@@ -64,6 +64,7 @@ class HanulseAssets {
 		this.props["book-left-2"] = {"path": "./images/book-left-2.png", "left": -19 * 1.16, "top": -22 * 1.16, "width": 38 * 1.16, "height": 33 * 1.16};
 
 		this.props["table"] = {"path": "./images/table.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
+		this.props["penpageontable"] = {"path": "./images/penpageontable.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		this.props["bookontable"] = {"path": "./images/bookontable.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		this.props["scrapontable"] = {"path": "./images/scrapontable.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		this.props["pcontable-left"] = {"path": "./images/pcontable-left.png", "left": -35 * 1.16, "top": -52 * 1.16, "width": 70 * 1.16, "height": 68 * 1.16};
