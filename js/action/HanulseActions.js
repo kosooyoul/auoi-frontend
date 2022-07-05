@@ -45,9 +45,8 @@ class HanulseActions {
 	}
 
 	_actWriter(data, onActionFinishedCallback) {
-		const writerView = new HanulseMessageView();
-		writerView.setMessage(data.title);
-		// writerView.setTag(data.tag);
+		const writerView = new HanulseWritterView();
+		writerView.setTitle(data.title);
 		writerView.setOnHideCallback(onActionFinishedCallback);
 		writerView.show();
 	}

@@ -62,7 +62,7 @@
         "top": {
             "type": "writer",
             "tag": "developer",
-            "title": "TODO 게시글 작성"
+            "title": "기록을 남겨요"
         }
     }},
     {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
