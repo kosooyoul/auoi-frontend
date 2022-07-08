@@ -39,6 +39,10 @@ class HanulseAuthorizationManager {
 		return !!window.localStorage.getItem("_at");
 	}
 
+	static getAccessToken() {
+		return window.localStorage.getItem("_at");
+	}
+
 	static saveAuthorization(accessToken, refreshToken, expiresIn) {
 		window.localStorage.setItem("_at", accessToken);
 		window.localStorage.setItem("_rt", refreshToken);
