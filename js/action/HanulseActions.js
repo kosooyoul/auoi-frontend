@@ -16,7 +16,7 @@ class HanulseActions {
 	_actArticles(data, onActionFinishedCallback) {
 		const articleView = new HanulseArticleView();
 		articleView.setAuthorId(data.author);
-		articleView.setTag(data.tag);
+		articleView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 		articleView.setTitle(data.title);
 		articleView.setOnHideCallback(onActionFinishedCallback);
 		articleView.show();

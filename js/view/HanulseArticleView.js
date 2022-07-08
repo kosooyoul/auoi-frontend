@@ -6,7 +6,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	_articleElementWrap;
 	_articleListElementWrap;
 
-	_tag;
+	_tags;
 	_authorId;
 	_pageIndex = 0;
 	_countPerPage = 10;
@@ -31,8 +31,8 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleElementWrap.find("._title").text(title || "제목 없음");
 	}
 
-	setTag(tag) {
-		this._tag = tag;
+	setTags(tags) {
+		this._tags = tags;
 	}
 
 	setAuthorId(authorId) {
@@ -79,7 +79,7 @@ class HanulseArticleView extends HanulseOverlayView {
 			"url": "https://apis.auoi.net/v1/article/search",
 			"dataType": "json",
 			"data": {
-				"tag": this._tag,
+				"tags": this._tags,
 				"authorId": this._authorId,
 				"pageIndex": this._pageIndex,
 				"countPerPage": this._countPerPage

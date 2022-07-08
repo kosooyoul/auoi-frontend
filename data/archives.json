@@ -21,7 +21,7 @@
     {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
         "top": {
-            "tag": "developer",
+            "tags": "developer,개발",
             "type": "articles",
             "author": "62c0513854a9058e21419fb2",
             "title": "개발자로 사는 법 1권"
@@ -52,7 +52,7 @@
     {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2", "label": "미식가의 비망록", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "tag": "cook",
+            "tags": "cook,요리",
             "author": "62c0513854a9058e21419fb2",
             "title": "미식가의 비망록"
         }
@@ -61,7 +61,7 @@
     {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "penpageontable", "label": "기록 남기기", "effect": "link", "action": {
         "top": {
             "type": "writer",
-            "tag": "developer",
+            "tags": "개발,요리,휴식",
             "title": "기록을 남겨요"
         }
     }},
@@ -89,7 +89,7 @@
     {"position": {"x": -2, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1", "label": "휴식의 지침서", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "tag": "rest",
+            "tags": "rest,휴식",
             "author": "62c0513854a9058e21419fb2",
             "title": "휴식의 지침서"
         }
