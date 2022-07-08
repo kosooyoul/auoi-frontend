@@ -1,14 +1,19 @@
 class HanulseAuthorizationManager {
 	static _loginButton;
+
 	static bindLoginButton(selector) {
 		this._loginButton = $(selector);
 		this._initLoginButtonEvent();
 		this._updateLoginButtonStatus();
-		this.me(me => this._updateLoginButtonLabel(me && me.username));
+		if (this.hasAuthorization()) {
+			this.refreshSign();
+		} else {
+			this.clearAuthorization();
+		}
 	}
 
 	static _initLoginButtonEvent() {
-		this._loginButton.on("click", (evt) => {
+		this._loginButton.on("click", () => {
 			const loginView = new HanulseLoginView();
 			this.targetQualityRatio = 0.2;
 			loginView.setOnHideCallback(() => {
@@ -34,16 +39,19 @@ class HanulseAuthorizationManager {
 		return !!window.localStorage.getItem("_at");
 	}
 
-	static saveAuthorization(accessToken, refreshToken) {
+	static saveAuthorization(accessToken, refreshToken, expiresIn) {
 		window.localStorage.setItem("_at", accessToken);
 		window.localStorage.setItem("_rt", refreshToken);
+		window.localStorage.setItem("_exp", expiresIn);
 		this._updateLoginButtonStatus();
 		this.me(me => this._updateLoginButtonLabel(me && me.username));
+		setTimeout(() => this.refreshSign(), Math.max(expiresIn - Date.now(), 60000));
 	}
 
 	static clearAuthorization() {
 		window.localStorage.removeItem("_at");
 		window.localStorage.removeItem("_rt");
+		window.localStorage.removeItem("_exp");
 		this._updateLoginButtonStatus();
 		this._updateLoginButtonLabel();
 	}
@@ -60,12 +68,47 @@ class HanulseAuthorizationManager {
 				const authorization = response && response.data;
 	
 				if (authorization) {
-					this.saveAuthorization(authorization["accessToken"], authorization["refreshToken"]);
+					this.saveAuthorization(authorization["accessToken"], authorization["refreshToken"], new Date(authorization["expiresIn"]));
+				} else {
+					this.clearAuthorization();
 				}
 
 				callback && callback(!!authorization);
 			},
 			"error": () => {
+				this.clearAuthorization();
+
+				callback && callback(null);
+			}
+		});
+	}
+
+	static refreshSign(callback) {
+		const accessToken = window.localStorage.getItem("_at");
+		const refreshToken = window.localStorage.getItem("_rt");
+		$.post({
+			"url": "https://apis.auoi.net/v1/account/refresh-sign",
+			"dataType": "json",
+			"data": {
+				"refreshToken": refreshToken
+			},
+			"headers": {
+				"authorization": accessToken
+			},
+			"success": (response) => {
+				const authorization = response && response.data;
+	
+				if (authorization) {
+					this.saveAuthorization(authorization["accessToken"], authorization["refreshToken"], new Date(authorization["expiresIn"]));
+				} else {
+					this.clearAuthorization();
+				}
+
+				callback && callback(!!authorization);
+			},
+			"error": () => {
+				this.clearAuthorization();
+
 				callback && callback(null);
 			}
 		});
