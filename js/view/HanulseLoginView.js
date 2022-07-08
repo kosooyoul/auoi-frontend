@@ -42,6 +42,7 @@ class HanulseLoginView extends HanulseOverlayView {
 			this._loginButtonElementWrap.on("click", (evt) => this._login());
 
 			this._loginLayerElementWrap.show();
+			setTimeout(() => this._emailInputElementWrap.focus());
 		}
 
 		this.addOverlayElement(this._elementWrap.get(0));
