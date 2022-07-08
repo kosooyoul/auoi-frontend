@@ -4,6 +4,7 @@ class HanulseWritterView extends HanulseOverlayView {
 	_elementWrap;
 	_titleInputElementWrap;
 	_contentInputElementWrap;
+	_tagsInputElementWrap;
 	_saveButtonElementWrap;
 	_loadingElementWrap;
 
@@ -19,12 +20,19 @@ class HanulseWritterView extends HanulseOverlayView {
 		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseWritterView._templatePath)));
 		this._titleInputElementWrap = this._elementWrap.find("._title-input");
 		this._contentInputElementWrap = this._elementWrap.find("._content-input");
+		this._tagsInputElementWrap = this._elementWrap.find("._tags-input");
 		this._saveButtonElementWrap = this._elementWrap.find("._save-button");
 		this._loadingElementWrap = this._elementWrap.find("._loading");
 
 		this._titleInputElementWrap.on("keydown", (evt) => {
 			if (evt.which == 13) {
-				this._contentInputElementWrap.focus();
+				this._save()
+				return false;
+			}
+		});
+		this._tagsInputElementWrap.on("keydown", (evt) => {
+			if (evt.which == 13) {
+				this._save()
 				return false;
 			}
 		});
@@ -34,6 +42,10 @@ class HanulseWritterView extends HanulseOverlayView {
 		this.addOverlayElement(this._elementWrap.get(0));
 	}
 
+	setTags(tags) {
+		this._tagsInputElementWrap.val(tags.join(", "));
+	}
+
 	setTitle(title) {
 		this._elementWrap.find("._title").text(title);
 	}
@@ -41,6 +53,7 @@ class HanulseWritterView extends HanulseOverlayView {
 	_save() {
 		const title = this._titleInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
+		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
 		if (title.length == 0) {
 			return this._titleInputElementWrap.focus();
 		}
@@ -48,7 +61,7 @@ class HanulseWritterView extends HanulseOverlayView {
 			return this._contentInputElementWrap.focus();
 		}
 
-		this._requestSave(title, content);
+		this._requestSave(title, content, tags);
 	}
 
 	_disableInputs() {
@@ -78,7 +91,7 @@ class HanulseWritterView extends HanulseOverlayView {
 		this._passwordInputElementWrap.val("");
 	}
 
-	_requestSave(title, content) {
+	_requestSave(title, content, tags) {
 		if (this._saveRequested) {
 			return;
 		}
@@ -97,7 +110,8 @@ class HanulseWritterView extends HanulseOverlayView {
 			"dataType": "json",
 			"data": {
 				"title": title,
-				"content": content
+				"content": content,
+				"tags": tags
 			},
 			"headers": {
 				"authorization": accessToken

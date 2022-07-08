@@ -47,6 +47,7 @@ class HanulseActions {
 	_actWriter(data, onActionFinishedCallback) {
 		if (HanulseAuthorizationManager.hasAuthorization()) {
 			const writerView = new HanulseWritterView();
+			writerView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 			writerView.setTitle(data.title);
 			writerView.setOnHideCallback(onActionFinishedCallback);
 			writerView.show();
