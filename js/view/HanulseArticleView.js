@@ -61,7 +61,7 @@ class HanulseArticleView extends HanulseOverlayView {
 		
 		paginationItem.text(pageIndex + 1);
 		if (selected) {
-			paginationItem.css({"background-color": "rgba(255, 255, 255, 0.5)"}); 
+			paginationItem.css({"background-color": "rgba(0, 127, 127, 0.5)"}); 
 		} else {
 			paginationItem.one("click", () => {
 				this._pageIndex = pageIndex;
