@@ -8,6 +8,7 @@ class HanulseLoginView extends HanulseOverlayView {
 	_passwordInputElementWrap;
 	_loginButtonElementWrap;
 	_logoutButtonElementWrap;
+	_loadingElementWrap;
 
 	_loginRequested = false;
 
@@ -33,11 +34,16 @@ class HanulseLoginView extends HanulseOverlayView {
 			this._loginButtonElementWrap = this._elementWrap.find("._login-button");
 
 			this._emailInputElementWrap.on("keydown", (evt) => {
-				console.log(evt);
-				if (evt.which == 13) this._login();
+				if (evt.which == 13) {
+					this._login();
+					return false;
+				}
 			});
 			this._passwordInputElementWrap.on("keydown", (evt) => {
-				if (evt.which == 13) this._login();
+				if (evt.which == 13) {
+					this._login();
+					return false;
+				}
 			});
 			this._loginButtonElementWrap.on("click", (evt) => this._login());
 
