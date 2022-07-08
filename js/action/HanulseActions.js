@@ -45,9 +45,23 @@ class HanulseActions {
 	}
 
 	_actWriter(data, onActionFinishedCallback) {
-		const writerView = new HanulseWritterView();
-		writerView.setTitle(data.title);
-		writerView.setOnHideCallback(onActionFinishedCallback);
-		writerView.show();
+		if (HanulseAuthorizationManager.hasAuthorization()) {
+			const writerView = new HanulseWritterView();
+			writerView.setTitle(data.title);
+			writerView.setOnHideCallback(onActionFinishedCallback);
+			writerView.show();
+		} else {
+			const loginView = new HanulseLoginView();
+			loginView.setOnHideCallback(() => {
+				if (HanulseAuthorizationManager.hasAuthorization()) {
+					this._actWriter(data, onActionFinishedCallback);
+				} else {
+					if (onActionFinishedCallback) {
+						onActionFinishedCallback();
+					}
+				}
+			});
+			loginView.show();
+		}
 	}
 }
