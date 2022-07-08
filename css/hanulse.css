@@ -46,10 +46,10 @@ a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px 
 .knead {animation-name: knead; animation-duration: 0.8s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.54, 0.17, 1, 1);}
 @keyframes knead {0% {transform: rotate(0deg) scaleX(0.8);} 50% {transform: rotate(180deg) scaleX(1.2);} 100% {transform: rotate(360deg) scaleX(0.8);}}
 
-.title-input {font-family: sans-serif; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #cccccc; text-overflow: ellipsis;}
-.title-input:focus {outline: none; border-bottom: 1px solid #22bbee;}
-.content-input {font-family: sans-serif; line-height: 150%; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #cccccc; overflow: hidden; resize: none;}
-.content-input:focus {outline: none; border-bottom: 1px solid #22bbee;}
+.input {font-family: sans-serif; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #cccccc; text-overflow: ellipsis;}
+.input:focus {outline: none; border-bottom: 1px solid #22bbee;}
+.textarea {font-family: sans-serif; line-height: 150%; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #cccccc; overflow: hidden; resize: none;}
+.textarea:focus {outline: none; border-bottom: 1px solid #22bbee;}
 
 .identity {display: inline-block; padding: 4px 16px 4px 26px; background-image: url("../icons/sign-off.png"); background-position: left; background-repeat: no-repeat; background-position-x: 10px; background-color: rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 8px; color: white; box-shadow: inset 0px 0px 8px rgba(255, 255, 255, 0.4); text-align: center; font-family: sans-serif; pointer-events: all; cursor: pointer;}
 .identity.on {display: inline-block; padding: 4px 16px 4px 26px; background-image: url("../icons/sign-on.png"); background-position: left; background-repeat: no-repeat; background-position-x: 10px; background-color: rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 8px; color: white; box-shadow: inset 0px 0px 8px rgba(255, 255, 255, 0.4); text-align: center; font-family: sans-serif; pointer-events: all; cursor: pointer;}

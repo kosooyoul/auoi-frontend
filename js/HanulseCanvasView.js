@@ -67,16 +67,9 @@ class HanulseCanvasView {
 		if (options.enabledFPSCounter) {
 			this.fpsCounterView = new HanulseFPSCounterView($(".fps").get(0));
 		}
+
 		// TODO: 2022-07-07: modulize view
-		$(".identity").on("click", (evt) => {
-			const messageView = new HanulseMessageView();
-			messageView.setMessage("로그인 모달 구현중");
-			this.targetQualityRatio = 0.2;
-			messageView.setOnHideCallback(() => {
-				this.targetQualityRatio = 1;
-			});
-			messageView.show();
-		});
+		HanulseAuthorizationManager.bindLoginButton(".identity");
 		
 		// Autoplay
 		if (options.autoplay) {

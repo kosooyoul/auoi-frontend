@@ -66,6 +66,9 @@ class HanulseEditorCanvasView {
 		if (options.enabledFPSCounter) {
 			this.fpsCounterView = new HanulseFPSCounterView($(".fps").get(0));
 		}
+
+		// TODO: 2022-07-07: modulize view
+		HanulseAuthorizationManager.bindLoginButton(".identity");
 		
 		// Autoplay
 		if (options.autoplay) {
