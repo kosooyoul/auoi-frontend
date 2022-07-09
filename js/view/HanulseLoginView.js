@@ -69,7 +69,7 @@ class HanulseLoginView extends HanulseOverlayView {
 
 	_logout() {
 		HanulseAuthorizationManager.clearAuthorization();
-		this.hide();
+		this._showMessageView("로그아웃 완료!\n또 놀러오세요~ ^^", () => this.hide());
 	}
 
 	_disableInputs() {
@@ -116,6 +116,7 @@ class HanulseLoginView extends HanulseOverlayView {
 				this._clearInputs();
 				this._enableInputs();
 				this._hideLoading();
+				this._showMessageView("로그인이 실패했어요!\n다시 확인하시고 입력해주세요");
 			}
 
 			this._loginRequested = false;
@@ -128,5 +129,12 @@ class HanulseLoginView extends HanulseOverlayView {
 	
 	_hideLoading() {
 		this._loadingElementWrap.stop().fadeOut();
+	}
+
+	_showMessageView(message, onHideCallback) {
+		const messageView = new HanulseMessageView();
+		messageView.setMessage(message);
+		messageView.setOnHideCallback(onHideCallback);
+		messageView.show();
 	}
 }
