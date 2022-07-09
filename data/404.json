@@ -12,7 +12,7 @@
         {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
         {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
         {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top"}, "prop": "warp", "effect": "warp", "label": "귀환 워프", "action": {
+        {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top"}, "prop": "warp", "effect": "warp", "label": "워프", "action": {
             "top": {
                 "type": "menu",
                 "menu": [
