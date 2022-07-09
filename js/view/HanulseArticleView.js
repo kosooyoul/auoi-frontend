@@ -46,7 +46,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	addArticleItem(articleItem) {
 		const articleListItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListItemPath)));
 
-		articleListItem.one("click", () => this._showArticleDetailView(articleItem.id));
+		articleListItem.on("click", () => this._showArticleDetailView(articleItem.id));
 		
 		articleListItem.find("._no").text(articleItem.no);
 		articleListItem.find("._title").text(articleItem.title);
