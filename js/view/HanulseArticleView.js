@@ -46,7 +46,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	addArticleItem(articleItem) {
 		const articleListItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListItemPath)));
 
-		articleListItem.one("click", () => this.hide());
+		articleListItem.one("click", () => this._showArticleDetailView(articleItem.id));
 		
 		articleListItem.find("._no").text(articleItem.no);
 		articleListItem.find("._title").text(articleItem.title);
@@ -61,7 +61,7 @@ class HanulseArticleView extends HanulseOverlayView {
 		
 		paginationItem.text(pageIndex + 1);
 		if (selected) {
-			paginationItem.css({"background-color": "rgba(0, 127, 127, 0.5)"}); 
+			paginationItem.css({"background-color": "rgba(127, 127, 127, 0.5)"}); 
 		} else {
 			paginationItem.one("click", () => {
 				this._pageIndex = pageIndex;
@@ -146,5 +146,11 @@ class HanulseArticleView extends HanulseOverlayView {
 	
 	_hideLoading() {
 		this._loadingElementWrap.stop().fadeOut();
+	}
+	
+	_showArticleDetailView(articleId) {
+		const messageView = new HanulseMessageView();
+		messageView.setMessage(articleId);
+		messageView.show();
 	}
 }
