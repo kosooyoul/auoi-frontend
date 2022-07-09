@@ -70,7 +70,15 @@ class HanulseCanvasView {
 
 		// TODO: 2022-07-07: modulize view
 		HanulseAuthorizationManager.bindLoginButton(".identity");
-		
+		$(".identity").on("click", () => {
+			const loginView = new HanulseLoginView();
+			this.targetQualityRatio = 0.2;
+			loginView.setOnHideCallback(() => {
+				this.targetQualityRatio = 1;
+			});
+			loginView.show();
+		});
+
 		// Autoplay
 		if (options.autoplay) {
 			this.play();

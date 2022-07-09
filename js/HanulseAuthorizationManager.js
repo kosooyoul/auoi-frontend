@@ -3,24 +3,12 @@ class HanulseAuthorizationManager {
 
 	static bindLoginButton(selector) {
 		this._loginButton = $(selector);
-		this._initLoginButtonEvent();
 		this._updateLoginButtonStatus();
 		if (this.hasAuthorization()) {
 			this.refreshSign();
 		} else {
 			this.clearAuthorization();
 		}
-	}
-
-	static _initLoginButtonEvent() {
-		this._loginButton.on("click", () => {
-			const loginView = new HanulseLoginView();
-			this.targetQualityRatio = 0.2;
-			loginView.setOnHideCallback(() => {
-				this.targetQualityRatio = 1;
-			});
-			loginView.show();
-		});
 	}
 
 	static _updateLoginButtonStatus() {
