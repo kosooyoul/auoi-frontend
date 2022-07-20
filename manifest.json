@@ -51,8 +51,8 @@
       "url": "/",
       "icons": [
         {
-          "src": "icons/ahyane-20y-m.png",
-          "sizes": "32x32"
+          "src": "icons/ahyane-20y-l.png",
+          "sizes": "96x96"
         }
       ]
     }
