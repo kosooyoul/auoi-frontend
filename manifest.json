@@ -2,6 +2,7 @@
   "dir": "ltr",
   "lang": "en",
   "name": "Auoi",
+  "version": "1.22.7.20",
   "scope": "/",
   "display": "standalone",
   "start_url": "/",
@@ -30,8 +31,7 @@
       "icons": [
         {
           "src": "icons/ahyane-20y-xl.png",
-          "sizes": "192x192",
-          "purpose": "maskable"
+          "sizes": "192x192"
         }
       ]
     }
