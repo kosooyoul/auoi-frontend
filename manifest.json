@@ -1,83 +1,75 @@
 {
-  "dir": "ltr",
-  "lang": "en",
-  "name": "A universe of imaginations",
-  "version": "1.22.7.20",
-  "scope": "/",
-  "display": "standalone",
-  "start_url": "/",
-  "short_name": "Auoi",
-  "theme_color": "#000000",
+  "background_color": "#000000",
+  "categories": [
+    "blog",
+    "personal"
+  ],
   "description": "thinking and thinking, my story and portfolio in my place",
-  "orientation": "landscape-primary",
-  "background_color": "#ffffff",
-  "related_applications": [],
+  "dir": "ltr",
+  "display": "standalone",
+  "gcm_sender_id": "0000000000",
+  "gcm_user_visible_only": true,
+  "icons": [
+    {
+      "purpose": "maskable",
+      "src": "icons/ahyane-20y-xxl.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/ahyane-20y-xxl.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "lang": "ko-KR",
+  "name": "A universe of imaginations",
+  "orientation": "any",
+  "screenshots": [
+    {
+      "label": "main area of auoi (portrait)",
+      "platform": "android",
+      "src": "assets/screenshots/portrait.jpg",
+      "sizes": "682x1440",
+      "type": "image/png"
+    },
+    {
+      "label": "main area of auoi (landscape)",
+      "platform": "android",
+      "src": "assets/screenshots/landscape.jpg",
+      "sizes": "1440x682",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Create area",
+      "url": "/tools.html",
+      "icons": [
+        {
+          "src": "icons/ahyane-20y-xxl.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "short_name": "Auoi",
+  "start_url": "/",
+  "theme_color": "#000000",
+  "scope": "/",
+  "android_package_name": null,
   "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": {
+    "route_to": "existing-client",
+    "navigate_existing_client": "never"
+  },
   "protocol_handlers": [
     {
       "protocol": "web+auoi",
       "url": "/#%s"
     }
   ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/portrait.jpg",
-      "sizes": "682x1440",
-      "type": "image/png",
-      "platform": "android",
-      "label": "main area of auoi (portrait)"
-    },
-    {
-      "src": "assets/screenshots/landscape.jpg",
-      "sizes": "1440x682",
-      "type": "image/png",
-      "platform": "android",
-      "label": "main area of auoi (landscape)"
-    }
-  ],
-  "categories": [
-    "blog",
-    "personal"
-  ],
-  "features": [
-    "blog",
-    "personal"
-  ],
-  "shortcuts": [
-    {
-      "name": "A universe of imaginations",
-      "short_name": "Auoi",
-      "description": "thinking and thinking, my story and portfolio in my place",
-      "url": "/",
-      "icons": [
-        {
-          "src": "icons/ahyane-20y-l.png",
-          "sizes": "96x96"
-        }
-      ]
-    }
-  ],
-  "icons": [
-    {
-      "src": "icons/ahyane-20y-xxl.maskable.png",
-      "sizes": "192x192",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icons/ahyane-20y-xxl.png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "icons/ahyane-20y-xl.png",
-      "sizes": "144x144"
-    },
-    {
-      "src": "icons/ahyane-20y-l.png",
-      "sizes": "96x96"
-    },
-    {
-      "src": "icons/ahyane-20y-m.png",
-      "sizes": "32x32"
-    }
-  ]
+  "version": "1.22.7.21"
 }
