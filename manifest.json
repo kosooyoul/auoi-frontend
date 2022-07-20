@@ -6,15 +6,15 @@
   "display": "standalone",
   "start_url": "/",
   "short_name": "Auoi",
-  "theme_color": "#black",
+  "theme_color": "#000000",
   "description": "Thinking and thinking, my story and portfolio in my place",
   "orientation": "landscape",
-  "background_color": "#black",
+  "background_color": "#000000",
   "related_applications": [],
   "prefer_related_applications": false,
   "screenshots": [
     {
-      "src": "assets/ahyane-20y-m.png"
+      "src": "icons/ahyane-20y-m.png"
     }
   ],
   "features": [
