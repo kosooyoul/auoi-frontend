@@ -59,7 +59,7 @@
   ],
   "icons": [
     {
-      "src": "icons/ahyane-20y-xxl.opacity.maskable.png",
+      "src": "icons/ahyane-20y-xxl.maskable.png",
       "sizes": "192x192",
       "purpose": "maskable"
     },
