@@ -1,32 +1,57 @@
 {
   "dir": "ltr",
   "lang": "en",
-  "name": "Auoi",
+  "name": "A universe of imaginations",
   "version": "1.22.7.20",
   "scope": "/",
   "display": "standalone",
   "start_url": "/",
   "short_name": "Auoi",
   "theme_color": "#000000",
-  "description": "Thinking and thinking, my story and portfolio in my place",
-  "orientation": "landscape",
+  "description": "thinking and thinking, my story and portfolio in my place",
+  "orientation": "landscape-primary",
   "background_color": "#000000",
   "related_applications": [],
   "prefer_related_applications": false,
-  "screenshots": [],
+  "protocol_handlers": [
+    {
+      "protocol": "web+auoi",
+      "url": "/#%s"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/portrait.jpg",
+      "sizes": "682x1440",
+      "type": "image/png",
+      "platform": "android",
+      "label": "main area of auoi (portrait)"
+    },
+    {
+      "src": "assets/screenshots/landscape.jpg",
+      "sizes": "1440x682",
+      "type": "image/png",
+      "platform": "android",
+      "label": "main area of auoi (landscape)"
+    }
+  ],
+  "categories": [
+    "blog",
+    "personal"
+  ],
   "features": [
-    "Blog",
-    "Personal"
+    "blog",
+    "personal"
   ],
   "shortcuts": [
     {
-      "name": "Auoi",
+      "name": "A universe of imaginations",
       "short_name": "Auoi",
-      "description": "Thinking and thinking, my story and portfolio in my place",
+      "description": "thinking and thinking, my story and portfolio in my place",
       "url": "/",
       "icons": [
         {
-          "src": "icons/ahyane-20y-xxl.png",
+          "src": "icons/ahyane-20y-xxl.maskable.png",
           "sizes": "192x192"
         }
       ]
@@ -34,9 +59,13 @@
   ],
   "icons": [
     {
-      "src": "icons/ahyane-20y-xxl.png",
+      "src": "icons/ahyane-20y-xxl.maskable.png",
       "sizes": "192x192",
       "purpose": "maskable"
+    },
+    {
+      "src": "icons/ahyane-20y-xxl.png",
+      "sizes": "192x192"
     },
     {
       "src": "icons/ahyane-20y-xl.png",
