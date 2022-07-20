@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "screenshots": [
     {
-      "src": "ahyane-20y-m.png"
+      "src": "assets/ahyane-20y-m.png"
     }
   ],
   "features": [
@@ -29,13 +29,24 @@
       "url": "/",
       "icons": [
         {
-          "src": "icons/ahyane-20y-m.png",
-          "sizes": "32x32"
+          "src": "icons/ahyane-20y-xl.png",
+          "sizes": "192x192",
+          "purpose": "maskable"
         }
       ]
     }
   ],
   "icons": [
+    {
+      "src": "icons/ahyane-20y-xl.png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/ahyane-20y-l.png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
     {
       "src": "icons/ahyane-20y-m.png",
       "sizes": "32x32"
