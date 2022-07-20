@@ -6,11 +6,11 @@
   "scope": "/",
   "display": "standalone",
   "start_url": "/",
-  "short_name": "A universe of imaginations",
+  "short_name": "Auoi",
   "theme_color": "#000000",
   "description": "thinking and thinking, my story and portfolio in my place",
   "orientation": "landscape-primary",
-  "background_color": "#000000",
+  "background_color": "#ffffff",
   "related_applications": [],
   "prefer_related_applications": false,
   "protocol_handlers": [
@@ -58,11 +58,6 @@
     }
   ],
   "icons": [
-    {
-      "src": "icons/ahyane-20y-xxl.maskable.png",
-      "sizes": "192x192",
-      "purpose": "maskable"
-    },
     {
       "src": "icons/ahyane-20y-xxl.opacity.maskable.png",
       "sizes": "192x192",
