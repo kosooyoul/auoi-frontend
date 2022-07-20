@@ -15,6 +15,7 @@
 <meta property="og:image" content="https://www.auoi.net/icons/ahyane-20y-m.png">
 <meta property="og:url" content="https://www.auoi.net">
 <meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="./manifest.json">
 <link rel="shortcut icon" type="image/x-icon" href="https://www.auoi.net/icons/ahyane-20y-m.png">
 <link rel="stylesheet" href="./css/hanulse.css">
@@ -158,15 +159,24 @@ window.onhashchange = function() {
 };
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("/service-worker.js").then(function(registration) {
-      // Registration was successful
-      console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log("ServiceWorker registration failed: ", err);
-    });
-  });
+	window.addEventListener("load", function() {
+		navigator.serviceWorker.register("/service-worker.js").then(function(registration) {
+			// Registration was successful
+			console.log("ServiceWorker registration successful with scope: ", registration.scope);
+		}, function(err) {
+			// registration failed :(
+			console.log("ServiceWorker registration failed: ", err);
+		});
+	});
+
+	window.addEventListener("beforeinstallprompt", function(e) {
+		e.preventDefault();
+
+		// Stash the event so it can be triggered later.
+		window["deferredPrompt"] = e;
+
+		return false;
+	});
 }
 </script>
 </body>

@@ -10,6 +10,7 @@ class HanulseActions {
 			case "menu": return this._actMenu(data, onActionFinishedCallback);
 			case "message": return this._actMessage(data, onActionFinishedCallback);
 			case "writer": return this._actWriter(data, onActionFinishedCallback);
+			case "pwa": return this._actPwa(data, onActionFinishedCallback);
 		}
 	}
 	
@@ -63,6 +64,48 @@ class HanulseActions {
 				}
 			});
 			loginView.show();
+		}
+	}
+
+	_actPwa(_data, onActionFinishedCallback) {
+		const deferredPrompt = window["deferredPrompt"];
+		if (deferredPrompt == null) {
+			if (navigator.serviceWorker) {
+				const messageView = new HanulseMessageView();
+				messageView.setMessage("앱을 이미 설치한 것 같아요!");
+				messageView.setOnHideCallback(onActionFinishedCallback);
+				messageView.show();
+			} else {
+				const messageView = new HanulseMessageView();
+				messageView.setMessage("설치할 수 있는 앱이 없어요.");
+				messageView.setOnHideCallback(onActionFinishedCallback);
+				messageView.show();
+			}
+		} else {
+			const messageView = new HanulseMessageView();
+			messageView.setMessage("앱을 바로 설치할 수 있어요!\n프로그레시브 웹 앱이거든요~~\n브라우저가 앱 설치를 도와줄 거예요!");
+			messageView.setOnHideCallback(onActionFinishedCallback);
+			messageView.show();
+
+			setTimeout(() => {
+				// The user has had a postive interaction with our app and Chrome
+				// has tried to prompt previously, so let's show the prompt.
+				deferredPrompt.prompt();
+			
+				// Follow what the user has done with the prompt.
+				deferredPrompt.userChoice.then(function(choiceResult) {
+					console.log(choiceResult.outcome);
+			
+					if(choiceResult.outcome == "dismissed") {
+						console.log("User cancelled home screen install");
+					} else {
+						console.log("User added to home screen");
+					}
+			
+					// We no longer need the prompt.  Clear it up.
+					delete window["deferredPrompt"];
+				});
+			}, 500);
 		}
 	}
 }

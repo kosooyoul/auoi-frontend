@@ -45,7 +45,11 @@
     {"position": {"x":  5, "y":   3, "z":  0}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
     {"position": {"x":  5, "y":   3, "z": -1}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.4},
     {"position": {"x":  5, "y":   3, "z": -2}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.2},
-    {"position": {"x":  5, "y":   2, "z":  0}, "texture": {"top": "blue-top"}, "effect": "prism"},
+    {"position": {"x":  5, "y":   2, "z":  0}, "texture": {"top": "blue-top"}, "effect": "prism", "prop": "blocks-cube", "label": "앱 조각", "action": {
+        "top": {
+            "type": "pwa"
+        }
+    }},
     {"position": {"x":  6, "y":   2, "z":  0}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
     {"position": {"x":  6, "y":   2, "z": -1}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.4},
     {"position": {"x":  6, "y":   2, "z": -2}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.2},
