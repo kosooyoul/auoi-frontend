@@ -38,14 +38,17 @@
   ],
   "icons": [
     {
-      "src": "icons/ahyane-20y-xl.png",
+      "src": "icons/ahyane-20y-xxl.png",
       "sizes": "192x192",
       "purpose": "maskable"
     },
     {
+      "src": "icons/ahyane-20y-xl.png",
+      "sizes": "144x144"
+    },
+    {
       "src": "icons/ahyane-20y-l.png",
-      "sizes": "96x96",
-      "purpose": "maskable"
+      "sizes": "96x96"
     },
     {
       "src": "icons/ahyane-20y-m.png",
