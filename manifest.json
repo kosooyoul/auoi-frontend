@@ -13,11 +13,7 @@
   "background_color": "#000000",
   "related_applications": [],
   "prefer_related_applications": false,
-  "screenshots": [
-    {
-      "src": "icons/ahyane-20y-m.png"
-    }
-  ],
+  "screenshots": [],
   "features": [
     "Blog",
     "Personal"
@@ -30,7 +26,7 @@
       "url": "/",
       "icons": [
         {
-          "src": "icons/ahyane-20y-xl.png",
+          "src": "icons/ahyane-20y-xxl.png",
           "sizes": "192x192"
         }
       ]
