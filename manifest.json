@@ -1,0 +1,44 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "Auoi",
+  "scope": "/",
+  "display": "standalone",
+  "start_url": "/",
+  "short_name": "Auoi",
+  "theme_color": "#black",
+  "description": "Thinking and thinking, my story and portfolio in my place",
+  "orientation": "landscape",
+  "background_color": "#black",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "ahyane-20y-m.png"
+    }
+  ],
+  "features": [
+    "Blog",
+    "Personal"
+  ],
+  "shortcuts": [
+    {
+      "name": "Auoi",
+      "short_name": "Auoi",
+      "description": "Thinking and thinking, my story and portfolio in my place",
+      "url": "/",
+      "icons": [
+        {
+          "src": "icons/ahyane-20y-m.png",
+          "sizes": "32x32"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "icons/ahyane-20y-m.png",
+      "sizes": "32x32"
+    }
+  ]
+}
