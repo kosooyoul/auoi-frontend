@@ -170,6 +170,10 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleDetailElementWrap.find("._content").text(articleItem.content);
 		this._articleDetailElementWrap.find("._updated-at").text(articleItem.updatedAt);
 		this._articleDetailElementWrap.find("._created-at").text(articleItem.createdAt);
+
+		const tagsElementWrap = this._articleDetailElementWrap.find("._tags").empty();
+		articleItem.tags.forEach(tag => tagsElementWrap.append($("<span class=\"tag\">").text("#" + tag)));
+
 		this._articleDetailElementWrap.find("._back-button").on("click", () => {
 			this._articleDetailElementWrap.hide();
 			this._showArticleList();

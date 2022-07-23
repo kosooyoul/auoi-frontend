@@ -55,3 +55,5 @@ a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px 
 .identity.on {display: inline-block; padding: 4px 16px 4px 26px; background-image: url("../icons/sign-on.png"); background-position: left; background-repeat: no-repeat; background-position-x: 10px; background-color: rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 8px; color: white; box-shadow: inset 0px 0px 8px rgba(255, 255, 255, 0.4); text-align: center; font-family: sans-serif; pointer-events: all; cursor: pointer;}
 .identity:hover {background-color: rgba(0, 100, 150, 0.8);}
 .identity:active {background-color: rgba(0, 180, 220, 0.8);}
+
+.tag {padding: 4px 8px; margin: 2px; background-color: rgba(0, 0, 0, 0.4); border-radius: 4px;}
