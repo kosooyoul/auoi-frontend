@@ -9,7 +9,7 @@ class HanulseActions {
 			case "link": return this._actLink(data, onActionFinishedCallback);
 			case "menu": return this._actMenu(data, onActionFinishedCallback);
 			case "message": return this._actMessage(data, onActionFinishedCallback);
-			case "writer": return this._actWriter(data, onActionFinishedCallback);
+			case "article-writer": return this._actArticleWriter(data, onActionFinishedCallback);
 			case "pwa": return this._actPwa(data, onActionFinishedCallback);
 		}
 	}
@@ -45,18 +45,18 @@ class HanulseActions {
 		messageView.show();
 	}
 
-	_actWriter(data, onActionFinishedCallback) {
+	_actArticleWriter(data, onActionFinishedCallback) {
 		if (HanulseAuthorizationManager.hasAuthorization()) {
-			const writerView = new HanulseWritterView();
-			writerView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
-			writerView.setTitle(data.title);
-			writerView.setOnHideCallback(onActionFinishedCallback);
-			writerView.show();
+			const articleWriterView = new HanulseArticleWriterView();
+			articleWriterView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
+			articleWriterView.setTitle(data.title);
+			articleWriterView.setOnHideCallback(onActionFinishedCallback);
+			articleWriterView.show();
 		} else {
 			const loginView = new HanulseLoginView();
 			loginView.setOnHideCallback(() => {
 				if (HanulseAuthorizationManager.hasAuthorization()) {
-					this._actWriter(data, onActionFinishedCallback);
+					this._actArticleWriter(data, onActionFinishedCallback);
 				} else {
 					if (onActionFinishedCallback) {
 						onActionFinishedCallback();

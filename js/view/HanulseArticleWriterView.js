@@ -1,5 +1,5 @@
-class HanulseWritterView extends HanulseOverlayView {
-	static _templatePath = "./template/writer.html";
+class HanulseArticleWriterView extends HanulseOverlayView {
+	static _templatePath = "./template/article-writer.html";
 
 	_elementWrap;
 	_titleInputElementWrap;
@@ -13,11 +13,11 @@ class HanulseWritterView extends HanulseOverlayView {
 	constructor() {
 		super();
 
-		this._initializeWritterView();
+		this._initializeArticleWriterView();
 	}
 
-	_initializeWritterView() {
-		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseWritterView._templatePath)));
+	_initializeArticleWriterView() {
+		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleWriterView._templatePath)));
 		this._titleInputElementWrap = this._elementWrap.find("._title-input");
 		this._contentInputElementWrap = this._elementWrap.find("._content-input");
 		this._tagsInputElementWrap = this._elementWrap.find("._tags-input");
