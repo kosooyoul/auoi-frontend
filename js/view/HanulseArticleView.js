@@ -161,8 +161,8 @@ class HanulseArticleView extends HanulseOverlayView {
 			links: article.links,
 			attachments: article.attachments,
 			tags: article.tags,
-			updatedAt: article.updatedAt && this._formatDate(article.updatedAt),
-			createdAt: this._formatDate(article.createdAt)
+			updatedAt: article.updatedAt && this._formatDateTime(article.updatedAt),
+			createdAt: this._formatDateTime(article.createdAt)
 		};
 		
 		this._articleDetailElementWrap.find("._title").text(articleItem.title);
@@ -183,6 +183,17 @@ class HanulseArticleView extends HanulseOverlayView {
 		const month = ("0" + (date.getMonth() + 1)).slice(-2);
 		const dom = ("0" + date.getDate()).slice(-2);
 		return year + "-" + month + "-" + dom;
+	}
+	
+	_formatDateTime(dateString) {
+		const date = new Date(dateString);
+		const year = ("000" + date.getFullYear()).slice(-4);
+		const month = ("0" + (date.getMonth() + 1)).slice(-2);
+		const dom = ("0" + date.getDate()).slice(-2);
+		const hours = ("0" + (date.getHours() + 1)).slice(-2);
+		const minutes = ("0" + date.getMinutes()).slice(-2);
+		const seconds = ("0" + date.getSeconds()).slice(-2);
+		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds;
 	}
 	
 	_invisibleArticleList() {
