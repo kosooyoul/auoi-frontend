@@ -21,6 +21,7 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleListPath)));
 		this._articleListElementWrap = this._articleElementWrap.find("._list");
 		this._articleListPaginationElementWrap = this._articleElementWrap.find("._pagination");
+		this._articleDetailElementWrap = this._articleElementWrap.find("._detail");
 		this._pageElementWrap = this._articleElementWrap.find("._page");
 		this._loadingElementWrap = this._articleElementWrap.find("._loading");
 		
@@ -96,6 +97,34 @@ class HanulseArticleView extends HanulseOverlayView {
 		});
 	}
 	
+	_requestArticleDetail(articleId) {
+		const accessToken = HanulseAuthorizationManager.getAccessToken();
+		if (!accessToken) {
+			return;
+		}
+
+		this._hideArticleList();
+		this._showLoading();
+		$.get({
+			"url": "https://apis.auoi.net/v1/article",
+			"dataType": "json",
+			"data": {
+				"articleId": articleId
+			},
+			"headers": {
+				"authorization": accessToken
+			},
+			"success": (response) => {
+				const article = response && response.data;
+	
+				if (article) {
+					this._hideLoading();
+					this._updateArticleDetail(article);
+				}
+			}
+		});
+	}
+
 	_updateArticleList(articleList) {
 		const firstArticleNo = articleList.countOfTotal - (articleList.countPerPage * articleList.pageIndex);
 		const articleItems = articleList.articles.map((article, index) => {
@@ -122,6 +151,32 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._pageElementWrap.text(pageIndex + 1);
 	}
 
+	_updateArticleDetail(article) {
+		const articleItem = {
+			id: article.id,
+			title: article.title,
+			content: article.content,
+			authorId: article.authorId,
+			authorName: article.authorName,
+			links: article.links,
+			attachments: article.attachments,
+			tags: article.tags,
+			updatedAt: article.updatedAt && this._formatDate(article.updatedAt),
+			createdAt: this._formatDate(article.createdAt)
+		};
+		
+		this._articleDetailElementWrap.find("._title").text(articleItem.title);
+		this._articleDetailElementWrap.find("._author").text(articleItem.authorName);
+		this._articleDetailElementWrap.find("._content").text(articleItem.content);
+		this._articleDetailElementWrap.find("._updated-at").text(articleItem.updatedAt);
+		this._articleDetailElementWrap.find("._created-at").text(articleItem.createdAt);
+		this._articleDetailElementWrap.find("._back-button").on("click", () => {
+			this._articleDetailElementWrap.hide();
+			this._showArticleList();
+		});
+		this._articleDetailElementWrap.show();
+	}
+
 	_formatDate(dateString) {
 		const date = new Date(dateString);
 		const year = ("000" + date.getFullYear()).slice(-4);
@@ -133,6 +188,16 @@ class HanulseArticleView extends HanulseOverlayView {
 	_invisibleArticleList() {
 		this._articleListElementWrap.children().css({"visibility": "invisible"});
 		this._articleListPaginationElementWrap.children().css({"visibility": "invisible"});
+	}
+
+	_hideArticleList() {
+		this._articleListElementWrap.hide();
+		this._articleListPaginationElementWrap.hide();
+	}
+
+	_showArticleList() {
+		this._articleListElementWrap.show();
+		this._articleListPaginationElementWrap.show();
 	}
 
 	_clearArticleList() {
@@ -149,8 +214,6 @@ class HanulseArticleView extends HanulseOverlayView {
 	}
 	
 	_showArticleDetailView(articleId) {
-		const messageView = new HanulseMessageView();
-		messageView.setMessage(articleId);
-		messageView.show();
+		this._requestArticleDetail(articleId);
 	}
 }
