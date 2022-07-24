@@ -43,7 +43,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	}
 
 	setTags(tags) {
-		this._tagsInputElementWrap.val(tags.join(", "));
+		// this._tagsInputElementWrap.val(tags.join(", "));
 	}
 
 	setTitle(title) {
