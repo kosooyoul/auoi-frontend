@@ -12,7 +12,7 @@ body {
 	background-color: black;
 }
 
-a {color: white;}
+a {color: white; text-decoration: none;}
 a:hover {background-color: rgba(40, 120, 160, 0.8); box-shadow: 0px 0px 4px 0px rgba(40, 120, 160, 0.4);}
 a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px rgba(20, 60, 80, 0.4);}
 
@@ -56,4 +56,4 @@ a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px 
 .identity:hover {background-color: rgba(0, 100, 150, 0.8);}
 .identity:active {background-color: rgba(0, 180, 220, 0.8);}
 
-.tag {padding: 4px 8px; margin: 2px; background-color: rgba(0, 0, 0, 0.4); border-radius: 4px;}
+.tag {display: inline-block; padding: 4px 8px; margin-right: 6px; background-color: rgba(0, 0, 0, 0.4); border-radius: 4px;}

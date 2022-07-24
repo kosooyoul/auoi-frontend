@@ -2,6 +2,7 @@ class HanulseArticleView extends HanulseOverlayView {
 	static _templateArticleListPath = "./template/article-list.html";
 	static _templateArticleListItemPath = "./template/article-list-item.html";
 	static _templateArticleListPaginationItemPath = "./template/article-list-pagination-item.html";
+	static _templateArticleDetailPath = "./template/article-detail.html";
 
 	_articleElementWrap;
 	_articleListElementWrap;
@@ -165,17 +166,20 @@ class HanulseArticleView extends HanulseOverlayView {
 			createdAt: this._formatDateTime(article.createdAt)
 		};
 		
-		this._articleDetailElementWrap.find("._title").text(articleItem.title);
-		this._articleDetailElementWrap.find("._author").text(articleItem.authorName);
-		this._articleDetailElementWrap.find("._content").text(articleItem.content);
-		this._articleDetailElementWrap.find("._updated-at").text(articleItem.updatedAt);
-		this._articleDetailElementWrap.find("._created-at").text(articleItem.createdAt);
+		const _articleDetail = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleDetailPath)));
+		_articleDetail.find("._title").text(articleItem.title);
+		_articleDetail.find("._author").text(articleItem.authorName);
+		_articleDetail.find("._content").text(articleItem.content);
+		_articleDetail.find("._updated-at").text(articleItem.updatedAt);
+		_articleDetail.find("._created-at").text(articleItem.createdAt);
 
-		const tagsElementWrap = this._articleDetailElementWrap.find("._tags").empty();
-		articleItem.tags.forEach(tag => tagsElementWrap.append($("<span class=\"tag\">").text("#" + tag)));
+		this._articleDetailElementWrap.append(_articleDetail);
 
-		this._articleDetailElementWrap.find("._back-button").on("click", () => {
-			this._articleDetailElementWrap.hide();
+		const tagsElementWrap = _articleDetail.find("._tags");
+		articleItem.tags.forEach(tag => tagsElementWrap.append($("<a href=\"javascript:void(0)\" class=\"tag\">").text("#" + tag)));
+
+		_articleDetail.find("._back-button").on("click", () => {
+			this._articleDetailElementWrap.empty().hide();
 			this._showArticleList();
 		});
 		this._articleDetailElementWrap.show();
