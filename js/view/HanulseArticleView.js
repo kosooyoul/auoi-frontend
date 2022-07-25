@@ -142,7 +142,7 @@ class HanulseArticleView extends HanulseOverlayView {
 
 		const pageIndex = parseInt(articleList.pageIndex);
 		const countOfPage = Math.ceil(articleList.countOfTotal / articleList.countPerPage);
-		const firstPageIndex = Math.max(pageIndex - 2, 0);
+		const firstPageIndex = Math.max(pageIndex - 4, 0);
 		const lastPageIndex = Math.min(pageIndex + 4, countOfPage - 1);
 
 		for (let i = firstPageIndex; i <= lastPageIndex; i++) {
