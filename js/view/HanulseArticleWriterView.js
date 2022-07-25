@@ -4,6 +4,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	_elementWrap;
 	_titleInputElementWrap;
 	_contentInputElementWrap;
+	_linkInputElementWrap;
 	_tagsInputElementWrap;
 	_saveButtonElementWrap;
 	_loadingElementWrap;
@@ -20,13 +21,20 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleWriterView._templatePath)));
 		this._titleInputElementWrap = this._elementWrap.find("._title-input");
 		this._contentInputElementWrap = this._elementWrap.find("._content-input");
+		this._linkInputElementWrap = this._elementWrap.find("._link-input");
 		this._tagsInputElementWrap = this._elementWrap.find("._tags-input");
 		this._saveButtonElementWrap = this._elementWrap.find("._save-button");
 		this._loadingElementWrap = this._elementWrap.find("._loading");
 
 		this._titleInputElementWrap.on("keydown", (evt) => {
 			if (evt.which == 13) {
-				this._save()
+				this._contentInputElementWrap.focus();
+				return false;
+			}
+		});
+		this._linkInputElementWrap.on("keydown", (evt) => {
+			if (evt.which == 13) {
+				this._tagsInputElementWrap.focus();
 				return false;
 			}
 		});
@@ -53,6 +61,8 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	_save() {
 		const title = this._titleInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
+		const link = this._linkInputElementWrap.val().trim();
+		const links = link && [link];
 		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
 		if (title.length == 0) {
 			return this._titleInputElementWrap.focus();
@@ -61,7 +71,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 			return this._contentInputElementWrap.focus();
 		}
 
-		this._requestSave(title, content, tags);
+		this._requestSave(title, content, links, tags);
 	}
 
 	_disableInputs() {
@@ -91,7 +101,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		this._passwordInputElementWrap.val("");
 	}
 
-	_requestSave(title, content, tags) {
+	_requestSave(title, content, links, tags) {
 		if (this._saveRequested) {
 			return;
 		}
@@ -111,6 +121,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 			"data": {
 				"title": title,
 				"content": content,
+				"links": links,
 				"tags": tags
 			},
 			"headers": {
