@@ -64,7 +64,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		const title = this._titleInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
 		const link = this._linkInputElementWrap.val().trim();
-		const links = link && [link];
+		const links = link? [link]: [];
 		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
 		if (title.length == 0) {
 			return this._titleInputElementWrap.focus();
