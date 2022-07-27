@@ -181,6 +181,21 @@ class HanulseArticleView extends HanulseOverlayView {
 		const linksElementWrap = _articleDetail.find("._links");
 		articleItem.links.forEach(link => linksElementWrap.append($("<a href=\"" + link + "\" class=\"link\" target=\"_blank\">").text(link)));
 
+		_articleDetail.find("._delete-button").on("click", () => {
+			const messageView = new HanulseMessageView();
+			messageView.setMessage("기록을 삭제할까요?");
+			messageView.setOnHideCallback(() => {
+				this._articleDetailElementWrap.empty().hide();
+				this._showArticleList();
+			});
+			messageView.show();
+		});
+
+		_articleDetail.find("._edit-button").on("click", () => {
+			this._articleDetailElementWrap.empty().hide();
+			this._showArticleList();
+		});
+
 		_articleDetail.find("._back-button").on("click", () => {
 			this._articleDetailElementWrap.empty().hide();
 			this._showArticleList();
