@@ -6,6 +6,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	_contentInputElementWrap;
 	_linkInputElementWrap;
 	_tagsInputElementWrap;
+	_createdAtInputElementWrap;
 	_saveButtonElementWrap;
 	_loadingElementWrap;
 
@@ -23,6 +24,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		this._contentInputElementWrap = this._elementWrap.find("._content-input");
 		this._linkInputElementWrap = this._elementWrap.find("._link-input");
 		this._tagsInputElementWrap = this._elementWrap.find("._tags-input");
+		this._createdAtInputElementWrap = this._elementWrap.find("._created-at-input");
 		this._saveButtonElementWrap = this._elementWrap.find("._save-button");
 		this._loadingElementWrap = this._elementWrap.find("._loading");
 
@@ -70,29 +72,31 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		if (content.length == 0) {
 			return this._contentInputElementWrap.focus();
 		}
+		const createdAtString = this._createdAtInputElementWrap.val().trim();
+		const createdAt = new Date(createdAtString);
 
-		this._requestSave(title, content, links, tags);
+		this._requestSave(title, content, links, tags, createdAt);
 	}
 
 	_disableInputs() {
 		if (this._loginLayerElementWrap) {
-			this._loginLayerElementWrap.css({"pointer-events": "none"});
+			this._loginLayerElementWrap.css({ "pointer-events": "none" });
 			this._emailInputElementWrap.attr("disabled", true);
 			this._passwordInputElementWrap.attr("disabled", true);
 		}
 		if (this._logoutLayerElementWrap) {
-			this._logoutLayerElementWrap.css({"pointer-events": "none"});
+			this._logoutLayerElementWrap.css({ "pointer-events": "none" });
 		}
 	}
 
 	_enableInputs() {
 		if (this._loginLayerElementWrap) {
-			this._loginLayerElementWrap.css({"pointer-events": "all"});
+			this._loginLayerElementWrap.css({ "pointer-events": "all" });
 			this._emailInputElementWrap.removeAttr("disabled");
 			this._passwordInputElementWrap.removeAttr("disabled");
 		}
 		if (this._logoutLayerElementWrap) {
-			this._logoutLayerElementWrap.css({"pointer-events": "all"});
+			this._logoutLayerElementWrap.css({ "pointer-events": "all" });
 		}
 	}
 
@@ -101,7 +105,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		this._passwordInputElementWrap.val("");
 	}
 
-	_requestSave(title, content, links, tags) {
+	_requestSave(title, content, links, tags, createdAt) {
 		if (this._saveRequested) {
 			return;
 		}
@@ -122,7 +126,8 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 				"title": title,
 				"content": content,
 				"links": links,
-				"tags": tags
+				"tags": tags,
+				"createdAt": createdAt
 			},
 			"headers": {
 				"authorization": accessToken
@@ -137,7 +142,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 					this._enableInputs();
 					this._hideLoading();
 				}
-	
+
 				this._loginRequested = false;
 			},
 			"error": () => {
@@ -152,7 +157,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	_showLoading() {
 		this._loadingElementWrap.fadeIn();
 	}
-	
+
 	_hideLoading() {
 		this._loadingElementWrap.stop().fadeOut();
 	}
