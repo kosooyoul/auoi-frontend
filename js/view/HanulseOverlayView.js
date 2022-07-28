@@ -6,6 +6,10 @@ class HanulseOverlayView {
 			this._globalDismissListeners.forEach(listener => listener(event));
 			this._globalDismissListeners.splice(0);
 		});
+		window.addEventListener("hashchange", (event) => {
+			this._globalDismissListeners.forEach(listener => listener(event));
+			this._globalDismissListeners.splice(0);
+		});
 		return [];
 	})();
 
@@ -49,6 +53,10 @@ class HanulseOverlayView {
 
 	addOverlayElement(element) {
 		this._rootElementWrap.append(element);
+	}
+
+	setContentView(view) {
+		this._rootElementWrap.append(view.getElement());
 	}
 
 	show() {
