@@ -1,8 +1,9 @@
-class HanulseMenuView extends HanulseOverlayView {
+class HanulseMenuView extends HanulseView {
 	static _templateMenuListPath = "./template/menu-list.html";
 	static _templateMenuListItemPath = "./template/menu-list-item.html";
 	static _templateMenuListSeparatorPath = "./template/menu-list-separator.html";
 
+	static _defaultTagColor = "rgb(100, 100, 100)";
 	static _tagColors = {
 		"possible": "rgb(0, 255, 200)",
 		"working": "rgb(255, 200, 0)",
@@ -21,29 +22,36 @@ class HanulseMenuView extends HanulseOverlayView {
 		this._initializeMenuView();
 	}
 
-	_initializeMenuView() {
-		this._menuElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListPath)));
-		this._menuListElementWrap = this._menuElementWrap.find("._list");
-
-		this.addOverlayElement(this._menuElementWrap.get(0));
+	getElement() {
+		return this._menuElementWrap.get(0);
 	}
 
 	addMenuItem(menuItem) {
 		if (menuItem.type == "separator") {
-			const menuListSeparator = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListSeparatorPath)));
-			this._menuListElementWrap.append(menuListSeparator);
-			return;
+			this._menuListElementWrap.append(this._createMenuSeparator());
+		} else {
+			this._menuListElementWrap.append(this._createMenuItem(menuItem));
 		}
+	}
 
+	_initializeMenuView() {
+		this._menuElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListPath)));
+		this._menuListElementWrap = this._menuElementWrap.find("._list");
+	}
+
+	_createMenuSeparator() {
+		return $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListSeparatorPath)));
+	}
+
+	_createMenuItem(menuItem) {
 		const menuListItem = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListItemPath)));
-		menuListItem.attr({"href": menuItem.link || "javascript:void(0)"});
-		menuListItem.one("click", () => this.hide());
-		
+		menuListItem.attr({"href": menuItem.link});
 		menuListItem.find("._title").text(menuItem.title);
-		menuListItem.find("._tag").text(menuItem.tag).css({
-			"color": HanulseMenuView._tagColors[menuItem.tag] || "rgb(100, 100, 100)"
-		});
+		menuListItem.find("._tag").text(menuItem.tag).css({"color": this._getTagColor(menuItem.tag)});
+		return menuListItem;
+	}
 
-		this._menuListElementWrap.append(menuListItem);
+	_getTagColor(tag) {
+		return HanulseMenuView._tagColors[tag] || HanulseMenuView._defaultTagColor;
 	}
 }
