@@ -1,16 +1,24 @@
-<div style="max-width: 100%; width: 600px; left: 0px; color: white;">
-    <div style="margin: 0px 20px; font-size: 12px; text-align: right;"><span class="_author"></span>가 <span class="_created-at"></span>에 작성함</div>
-    <div class="_title" style="margin: 10px; padding: 10px; font-size: 16px; text-align: left; background-color: rgba(0, 0, 0, 0.4); border-radius: 5px; user-select: text;"></div>
-    <div class="scrollbox" style="margin: 10px; font-size: 14px; text-align: left; max-height: 240px; padding: 10px; background-color: rgba(0, 0, 0, 0.4); border-radius: 5px; overflow: auto;">
-        <pre class="_content" style="font-family: system-ui; margin: 0px; padding: 0px; white-space: break-spaces; word-break: break-all; line-height: 200%; user-select: text;"></pre>
-    </div>
-    <div class="_links" style="margin: 10px; font-size: 14px; text-align: left;"></div>
-    <div class="_tags" style="margin: 10px; font-size: 14px; text-align: left;"></div>
-    <div style="display: flex; justify-content: space-between; margin: 0px 10px;">
-        <div style="display: flex;">
-            <a class="_delete-button" href="javascript:void(0)" style="cursor: pointer; display: inline-block; min-width: 64px; height: 32px; line-height: 32px; text-align: center; margin-top: 8px; margin-bottom: 10px; padding: 2px 20px; border-radius: 6px; box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2); margin-right: 10px;">삭제</a>
-            <a class="_edit-button" href="javascript:void(0)" style="cursor: pointer; display: inline-block; min-width: 64px; height: 32px; line-height: 32px; text-align: center; margin-top: 8px; margin-bottom: 10px; padding: 2px 20px; border-radius: 6px; box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2);">수정</a>
+<div class="_dismiss" style="display: flex; flex-direction: column; justify-content: center; align-items: center; position: absolute; inset: 12px 12px 48px;">
+    <div style="position: relative; max-width: 100%; max-height: 100%;">
+        <div class="scrollbox" style="position: relative; background-color: rgba(0, 0, 60, 0.6); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 6px; box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 5px 0px; max-width: 100%; max-height: 100%; overflow: hidden auto; padding: 10px; user-select: none;">
+            <div style="max-width: 100%; width: 600px; left: 0px; color: white;">
+                <div style="left: 0px; top: 0px; height: 60px; margin: 0px 32px; color: white; font-size: 16px; text-align: center; line-height: 60px;"><span class="_title"></span></div>
+                <div style="margin: 0px 20px; font-size: 12px; text-align: right;"><span class="_author"></span>가 <span class="_created-at"></span>에 작성함</div>
+                <div class="_subject" style="margin: 10px; padding: 10px; font-size: 16px; text-align: left; background-color: rgba(0, 0, 0, 0.4); border-radius: 5px; user-select: text;"></div>
+                <div class="scrollbox" style="margin: 10px; font-size: 14px; text-align: left; max-height: 240px; padding: 10px; background-color: rgba(0, 0, 0, 0.4); border-radius: 5px; overflow: auto;">
+                    <pre class="_content" style="font-family: system-ui; margin: 0px; padding: 0px; white-space: break-spaces; word-break: break-all; line-height: 200%; user-select: text;"></pre>
+                </div>
+                <div class="_links" style="margin: 10px; font-size: 14px; text-align: left;"></div>
+                <div class="_tags" style="margin: 10px; font-size: 14px; text-align: left;"></div>
+                <div style="display: flex; justify-content: space-between; margin: 0px 10px;">
+                    <div style="display: flex;">
+                        <a class="_delete-button" href="javascript:void(0)" style="cursor: pointer; display: inline-block; min-width: 64px; height: 32px; line-height: 32px; text-align: center; margin-top: 8px; margin-bottom: 10px; padding: 2px 20px; border-radius: 6px; box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2); margin-right: 10px;">삭제</a>
+                        <a class="_edit-button" href="javascript:void(0)" style="cursor: pointer; display: inline-block; min-width: 64px; height: 32px; line-height: 32px; text-align: center; margin-top: 8px; margin-bottom: 10px; padding: 2px 20px; border-radius: 6px; box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2);">수정</a>
+                    </div>
+                    <a class="_back-button" href="javascript:void(0)" style="cursor: pointer; display: inline-block; min-width: 64px; height: 32px; line-height: 32px; text-align: center; margin-top: 8px; margin-bottom: 10px; padding: 2px 20px; border-radius: 6px; box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2);">목록으로</a>
+                </div>
+                <div class="_loading knead" style="display: none; position: absolute; left: 50%; top: 50%; margin-left: -13px; margin-top: 16px; width: 24px; height: 8px; background-color: white; border: 1px solid white; border-radius: 10px; box-shadow: 0px 0px 8px rgb(0 255 231);"></div>
+            </div>
         </div>
-        <a class="_back-button" href="javascript:void(0)" style="cursor: pointer; display: inline-block; min-width: 64px; height: 32px; line-height: 32px; text-align: center; margin-top: 8px; margin-bottom: 10px; padding: 2px 20px; border-radius: 6px; box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2);">목록으로</a>
     </div>
 </div>

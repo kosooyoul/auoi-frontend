@@ -1,7 +1,19 @@
-class HanulseArticleDetailView extends HanulseOverlayView {
+class HanulseArticleDetailView extends HanulseView {
 	static _templateArticleDetailPath = "./template/article-detail.html";
 
+	_rootElementWrap;
+	_subjectElementWrap;
+	_authorElementWrap;
+	_contentElementWrap;
+	_linksElementWrap;
+	_tagsElementWrap;
+	_updatedAtElementWrap;
+	_createdAtElementWrap;
+	_loadingElementWrap;
+
 	_articleId;
+
+	_onBackCallback;
 
 	constructor() {
 		super();
@@ -10,9 +22,53 @@ class HanulseArticleDetailView extends HanulseOverlayView {
 	}
 
 	_initializeArticleDetailView() {
-		this._articleDetailElementWrap = this._articleElementWrap.find("._detail");
+		this._rootElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleDetailView._templateArticleDetailPath)));
+		this._subjectElementWrap = this._rootElementWrap.find("._subject");
+		this._authorElementWrap = this._rootElementWrap.find("._author");
+		this._contentElementWrap = this._rootElementWrap.find("._content");
+		this._linksElementWrap = this._rootElementWrap.find("._links");
+		this._tagsElementWrap = this._rootElementWrap.find("._tags");
+		this._updatedAtElementWrap = this._rootElementWrap.find("._updated-at");
+		this._createdAtElementWrap = this._rootElementWrap.find("._created-at");
+		this._loadingElementWrap = this._rootElementWrap.find("._loading");
 		
-		this.addOverlayElement(this._articleDetailElementWrap.get(0));
+		this._rootElementWrap.find("._back-button").on("click", () => {
+			if (this._onBackCallback) {
+				this._onBackCallback();
+			}
+		});
+
+		/*
+		_articleDetail.find("._delete-button").on("click", () => {
+			const messageView = new HanulseMessageView();
+			messageView.setMessage("기록을 삭제할까요?");
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.setOnHideCallback(() => {
+				this._articleDetailElementWrap.empty().hide();
+				this._showArticleList();
+			});
+			overlayView.show();
+		});
+
+		_articleDetail.find("._edit-button").on("click", () => {
+			this._articleDetailElementWrap.empty().hide();
+			this._showArticleList();
+		});
+		*/
+	}
+
+	getElement() {
+		return this._rootElementWrap.get(0);
+	}
+	
+	setOnBackCallback(onBackCallback) {
+		this._onBackCallback = onBackCallback;
+	}
+
+	setTitle(title) {
+		this._rootElementWrap.find("._title").text(title || "제목 없음");
 	}
 
 	setArticleId(articleId) {
@@ -29,8 +85,8 @@ class HanulseArticleDetailView extends HanulseOverlayView {
 			return;
 		}
 
-		this._hideArticleList();
 		this._showLoading();
+		this._clearArticleDetail();
 		$.get({
 			"url": "https://apis.auoi.net/v1/article",
 			"dataType": "json",
@@ -51,10 +107,20 @@ class HanulseArticleDetailView extends HanulseOverlayView {
 		});
 	}
 
+	_clearArticleDetail() {
+		this._subjectElementWrap.text("");
+		this._authorElementWrap.text("");
+		this._contentElementWrap.text("");
+		this._tagsElementWrap.empty();
+		this._linksElementWrap.empty();
+		this._updatedAtElementWrap.text("");
+		this._createdAtElementWrap.text("");
+	}
+
 	_updateArticleDetail(article) {
 		const articleItem = {
 			id: article.id,
-			title: article.title,
+			subject: article.title,
 			content: article.content,
 			authorId: article.authorId,
 			authorName: article.authorName,
@@ -65,44 +131,13 @@ class HanulseArticleDetailView extends HanulseOverlayView {
 			createdAt: this._formatDateTime(article.createdAt)
 		};
 		
-		const _articleDetail = $($.parseHTML(HtmlTemplate.get(HanulseArticleView._templateArticleDetailPath)));
-		_articleDetail.find("._title").text(articleItem.title);
-		_articleDetail.find("._author").text(articleItem.authorName);
-		_articleDetail.find("._content").text(articleItem.content);
-		_articleDetail.find("._updated-at").text(articleItem.updatedAt);
-		_articleDetail.find("._created-at").text(articleItem.createdAt);
-
-		this._articleDetailElementWrap.append(_articleDetail);
-
-		const tagsElementWrap = _articleDetail.find("._tags");
-		articleItem.tags.forEach(tag => tagsElementWrap.append($("<a href=\"javascript:void(0)\" class=\"tag\">").text(tag)));
-
-		const linksElementWrap = _articleDetail.find("._links");
-		articleItem.links.forEach(link => linksElementWrap.append($("<a href=\"" + link + "\" class=\"link\" target=\"_blank\">").text(link)));
-
-		_articleDetail.find("._delete-button").on("click", () => {
-			const messageView = new HanulseMessageView();
-			messageView.setMessage("기록을 삭제할까요?");
-
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(messageView);
-			overlayView.setOnHideCallback(() => {
-				this._articleDetailElementWrap.empty().hide();
-				this._showArticleList();
-			});
-			overlayView.show();
-		});
-
-		_articleDetail.find("._edit-button").on("click", () => {
-			this._articleDetailElementWrap.empty().hide();
-			this._showArticleList();
-		});
-
-		_articleDetail.find("._back-button").on("click", () => {
-			this._articleDetailElementWrap.empty().hide();
-			this._showArticleList();
-		});
-		this._articleDetailElementWrap.show();
+		this._subjectElementWrap.text(articleItem.subject);
+		this._authorElementWrap.text(articleItem.authorName);
+		this._contentElementWrap.text(articleItem.content);
+		articleItem.tags.forEach(tag => this._tagsElementWrap.append($("<a href=\"javascript:void(0)\" class=\"tag\">").text(tag)));
+		articleItem.links.forEach(link => this._linksElementWrap.append($("<a href=\"" + link + "\" class=\"link\" target=\"_blank\">").text(link)));
+		this._updatedAtElementWrap.text(articleItem.updatedAt);
+		this._createdAtElementWrap.text(articleItem.createdAt);
 	}
 
 	_formatDateTime(dateString) {

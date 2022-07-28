@@ -16,10 +16,11 @@ class HanulseActions {
 	
 	_actArticles(data, onActionFinishedCallback) {
 		const articleView = new HanulseArticleView();
-		articleView.setAuthorId(data.author);
-		articleView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 		articleView.setTitle(data.title);
-		articleView.load();
+		articleView.load({
+			"tags": data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag),
+			"author": data.author
+		});
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(articleView);
