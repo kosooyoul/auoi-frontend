@@ -19,9 +19,12 @@ class HanulseActions {
 		articleView.setAuthorId(data.author);
 		articleView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 		articleView.setTitle(data.title);
-		articleView.setOnHideCallback(onActionFinishedCallback);
-		articleView.show();
 		articleView.load();
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(articleView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
 	}
 
 	_actLink(data, onActionFinishedCallback) {

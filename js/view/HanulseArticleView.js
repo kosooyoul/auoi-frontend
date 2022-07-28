@@ -1,4 +1,4 @@
-class HanulseArticleView extends HanulseOverlayView {
+class HanulseArticleView extends HanulseView {
 	static _templateArticleListPath = "./template/article-list.html";
 	static _templateArticleListItemPath = "./template/article-list-item.html";
 	static _templateArticleListPaginationItemPath = "./template/article-list-pagination-item.html";
@@ -25,8 +25,10 @@ class HanulseArticleView extends HanulseOverlayView {
 		this._articleDetailElementWrap = this._articleElementWrap.find("._detail");
 		this._pageElementWrap = this._articleElementWrap.find("._page");
 		this._loadingElementWrap = this._articleElementWrap.find("._loading");
-		
-		this.addOverlayElement(this._articleElementWrap.get(0));
+	}
+
+	getElement() {
+		return this._articleElementWrap.get(0);
 	}
 
 	setTitle(title) {
