@@ -1,0 +1,10 @@
+class HanulseView {
+
+	constructor() {
+
+	}
+
+	getElement() {
+		
+	}
+}
