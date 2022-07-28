@@ -1,4 +1,4 @@
-class HanulseMessageView extends HanulseOverlayView {
+class HanulseMessageView extends HanulseView {
 	static _templatePath = "./template/message.html";
 
 	_elementWrap;
@@ -11,8 +11,10 @@ class HanulseMessageView extends HanulseOverlayView {
 
 	_initializeMessageView() {
 		this._elementWrap = HtmlHelper.createHtml(HtmlTemplate.get(HanulseMessageView._templatePath));
+	}
 
-		this.addOverlayElement(this._elementWrap.get());
+	getElement() {
+		return this._elementWrap.get(0);
 	}
 
 	setMessage(message) {

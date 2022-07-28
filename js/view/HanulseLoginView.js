@@ -134,7 +134,10 @@ class HanulseLoginView extends HanulseOverlayView {
 	_showMessageView(message, onHideCallback) {
 		const messageView = new HanulseMessageView();
 		messageView.setMessage(message);
-		messageView.setOnHideCallback(onHideCallback);
-		messageView.show();
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(messageView);
+		overlayView.setOnHideCallback(onHideCallback);
+		overlayView.show();
 	}
 }

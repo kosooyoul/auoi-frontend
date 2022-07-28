@@ -83,11 +83,14 @@ class HanulseArticleDetailView extends HanulseOverlayView {
 		_articleDetail.find("._delete-button").on("click", () => {
 			const messageView = new HanulseMessageView();
 			messageView.setMessage("기록을 삭제할까요?");
-			messageView.setOnHideCallback(() => {
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.setOnHideCallback(() => {
 				this._articleDetailElementWrap.empty().hide();
 				this._showArticleList();
 			});
-			messageView.show();
+			overlayView.show();
 		});
 
 		_articleDetail.find("._edit-button").on("click", () => {
