@@ -42,6 +42,14 @@ class HanulseArticleListView extends HanulseView {
 		this._titleElementWrap.text(title || "제목 없음");
 	}
 
+	updateItem(articeId, article) {
+		const articleListItem = $(this.findChildElement("[data-id=" + articeId + "]"));
+
+		articleListItem.find("._subject").text(article.subject);
+		articleListItem.find("._author").text(article.authorName);
+		articleListItem.find("._created-at").text(this._formatDate(article.createdAt));
+	}
+
 	load(filter) {
 		this._filter.tags = filter.tags;
 		this._filter.authorId = filter.authorId;
@@ -51,17 +59,18 @@ class HanulseArticleListView extends HanulseView {
 	_addArticleItem(articleItem) {
 		const articleListItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleListView._templateArticleListItemPath)));
 
+		articleListItem.attr("data-id", articleItem.id);
+		articleListItem.find("._no").text(articleItem.no);
+		articleListItem.find("._subject").text(articleItem.subject);
+		articleListItem.find("._author").text(articleItem.authorName);
+		articleListItem.find("._created-at").text(this._formatDate(articleItem.createdAt));
+
 		articleListItem.on("click", () => {
 			if (this._onClickItemCallback) {
 				this._onClickItemCallback(articleItem.id);
 			}
 		});
-		
-		articleListItem.find("._no").text(articleItem.no);
-		articleListItem.find("._subject").text(articleItem.subject);
-		articleListItem.find("._author").text(articleItem.authorName);
-		articleListItem.find("._created-at").text(this._formatDate(articleItem.createdAt));
-		
+
 		this._articleListElementWrap.append(articleListItem);
 	}
 
@@ -111,10 +120,10 @@ class HanulseArticleListView extends HanulseView {
 			return {
 				id: article.id,
 				no: firstArticleNo - index,
-				subject: article.title,
+				subject: article.subject,
 				authorId: article.authorId,
 				authorName: article.authorName,
-				createdAt: this._formatDate(article.createdAt),
+				createdAt: article.createdAt,
 			};
 		});
 		articleItems.forEach(articleItem => this._addArticleItem(articleItem));

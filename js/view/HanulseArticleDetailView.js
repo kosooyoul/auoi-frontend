@@ -10,13 +10,15 @@ class HanulseArticleDetailView extends HanulseView {
 	_updatedAtElementWrap;
 	_createdAtElementWrap;
 	_loadingElementWrap;
-	_backButtonElementWrap;
 	_deleteButtonElementWrap;
 	_editButtonElementWrap;
+	_backButtonElementWrap;
 
 	_onBackCallback;
 	_onDeleteCallback;
 	_onEditCallback;
+
+	_article;
 
 	constructor() {
 		super();
@@ -36,31 +38,25 @@ class HanulseArticleDetailView extends HanulseView {
 		this._updatedAtElementWrap = $(this.findChildElement("._updated-at"));
 		this._createdAtElementWrap = $(this.findChildElement("._created-at"));
 		this._loadingElementWrap = $(this.findChildElement("._loading"));
-		this._backButtonElementWrap = $(this.findChildElement("._back-button"));
 		this._deleteButtonElementWrap = $(this.findChildElement("._delete-button"));
 		this._editButtonElementWrap = $(this.findChildElement("._edit-button"));
-		
-		this._backButtonElementWrap.on("click", () => {
-			if (this._onBackCallback) {
-				this._onBackCallback(this._articleId);
-			}
-		});
+		this._backButtonElementWrap = $(this.findChildElement("._back-button"));
 
 		this._deleteButtonElementWrap.on("click", () => {
 			if (this._onDeleteCallback) {
-				this._onDeleteCallback(this._articleId);
+				this._onDeleteCallback(this._article);
 			}
 		});
-
 		this._editButtonElementWrap.on("click", () => {
 			if (this._onEditCallback) {
-				this._onEditCallback(this._articleId);
+				this._onEditCallback(this._article);
 			}
 		});
-	}
-
-	setOnBackCallback(onBackCallback) {
-		this._onBackCallback = onBackCallback;
+		this._backButtonElementWrap.on("click", () => {
+			if (this._onBackCallback) {
+				this._onBackCallback();
+			}
+		});
 	}
 
 	setOnDeleteCallback(onDeleteCallback) {
@@ -71,18 +67,22 @@ class HanulseArticleDetailView extends HanulseView {
 		this._onEditCallback = onEditCallback;
 	}
 
+	setOnBackCallback(onBackCallback) {
+		this._onBackCallback = onBackCallback;
+	}
+
 	setTitle(title) {
 		this._titleElementWrap.text(title || "제목 없음");
 	}
 
 	setArticle(article) {
-		this._updateArticleDetail(article);
+		this._updateArticleDetail(this._article = article);
 	}
 
 	_updateArticleDetail(article) {
 		const articleItem = {
 			id: article.id,
-			subject: article.title,
+			subject: article.subject,
 			content: article.content,
 			authorId: article.authorId,
 			authorName: article.authorName,
@@ -112,6 +112,7 @@ class HanulseArticleDetailView extends HanulseView {
 		const hours = ("0" + date.getHours()).slice(-2);
 		const minutes = ("0" + date.getMinutes()).slice(-2);
 		const seconds = ("0" + date.getSeconds()).slice(-2);
-		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds;
+		const millis = ("00" + date.getMilliseconds()).slice(-3);
+		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds + "." + millis;
 	}
 }
