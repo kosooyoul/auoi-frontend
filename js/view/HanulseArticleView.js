@@ -4,6 +4,7 @@ class HanulseArticleView extends HanulseView {
 
 	_articleListView;
 	_articleDetailView;
+	_loadingView;
 
 	_articleListViewElementWrap;
 	_articleDetailViewElementWrap;
@@ -23,10 +24,29 @@ class HanulseArticleView extends HanulseView {
 
 		this._articleDetailView = new HanulseArticleDetailView();
 		this._articleDetailView.setOnBackCallback(() => this._closeArticleDetail());
+		this._articleDetailView.setOnDeleteCallback((articleId) => {
+			const messageView = new HanulseMessageView();
+			messageView.setMessage("기록을 삭제할까요?\n" + articleId);
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.show();
+		});
+		this._articleDetailView.setOnEditCallback((articleId) => {
+			const messageView = new HanulseMessageView();
+			messageView.setMessage("기록을 수정합니다.\n" + articleId);
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.show();
+		});
 		this._articleDetailViewElementWrap = $(this._articleDetailView.getElement());
+
+		this._loadingView = new HanulseLoadingView();
 
 		this._rootElementWrap.append(this._articleListViewElementWrap);
 		this._rootElementWrap.append(this._articleDetailViewElementWrap);
+		this._rootElementWrap.append(this._loadingView.getElement());
 	}
 
 	getElement() {
@@ -47,16 +67,47 @@ class HanulseArticleView extends HanulseView {
 		this._articleListView.load();
 	}
 
-	_openArticleDetail(articleId) {
-		this._rootElementWrap.children().hide();
-		this._articleDetailViewElementWrap.show();
+	_requestArticleDetail(articleId, callback) {
+		const accessToken = HanulseAuthorizationManager.getAccessToken();
+		if (!accessToken) {
+			return;
+		}
 
-		this._articleDetailView.setArticleId(articleId);
-		this._articleDetailView.load();
+		$.get({
+			"url": "https://apis.auoi.net/v1/article",
+			"dataType": "json",
+			"data": {
+				"articleId": articleId
+			},
+			"headers": {
+				"authorization": accessToken
+			},
+			"success": (response) => {
+				const article = response && response.data;
+	
+				if (article) {
+					if (callback) {
+						callback(article);
+					}
+				}
+			}
+		});
+	}
+
+	_openArticleDetail(articleId) {
+		this._loadingView.show();
+		this._requestArticleDetail(articleId, (article) => {
+			this._articleDetailView.setArticle(article);
+
+			this._articleListViewElementWrap.hide();
+			this._articleDetailViewElementWrap.show();
+
+			this._loadingView.hide();
+		});
 	}
 
 	_closeArticleDetail() {
-		this._rootElementWrap.children().hide();
+		this._articleDetailViewElementWrap.hide();
 		this._articleListViewElementWrap.show();
 	}
 }

@@ -11,9 +11,9 @@ class HanulseArticleDetailView extends HanulseView {
 	_createdAtElementWrap;
 	_loadingElementWrap;
 
-	_articleId;
-
 	_onBackCallback;
+	_onDeleteCallback;
+	_onEditCallback;
 
 	constructor() {
 		super();
@@ -34,29 +34,21 @@ class HanulseArticleDetailView extends HanulseView {
 		
 		this._rootElementWrap.find("._back-button").on("click", () => {
 			if (this._onBackCallback) {
-				this._onBackCallback();
+				this._onBackCallback(this._articleId);
 			}
 		});
 
-		/*
-		_articleDetail.find("._delete-button").on("click", () => {
-			const messageView = new HanulseMessageView();
-			messageView.setMessage("기록을 삭제할까요?");
-
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(messageView);
-			overlayView.setOnHideCallback(() => {
-				this._articleDetailElementWrap.empty().hide();
-				this._showArticleList();
-			});
-			overlayView.show();
+		this._rootElementWrap.find("._delete-button").on("click", () => {
+			if (this._onDeleteCallback) {
+				this._onDeleteCallback(this._articleId);
+			}
 		});
 
-		_articleDetail.find("._edit-button").on("click", () => {
-			this._articleDetailElementWrap.empty().hide();
-			this._showArticleList();
+		this._rootElementWrap.find("._edit-button").on("click", () => {
+			if (this._onEditCallback) {
+				this._onEditCallback(this._articleId);
+			}
 		});
-		*/
 	}
 
 	getElement() {
@@ -67,54 +59,20 @@ class HanulseArticleDetailView extends HanulseView {
 		this._onBackCallback = onBackCallback;
 	}
 
+	setOnDeleteCallback(onDeleteCallback) {
+		this._onDeleteCallback = onDeleteCallback;
+	}
+
+	setOnEditCallback(onEditCallback) {
+		this._onEditCallback = onEditCallback;
+	}
+
 	setTitle(title) {
 		this._rootElementWrap.find("._title").text(title || "제목 없음");
 	}
 
-	setArticleId(articleId) {
-		this._articleId = articleId;
-	}
-
-	load() {
-		this._requestArticleDetail();
-	}
-
-	_requestArticleDetail() {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-		if (!accessToken) {
-			return;
-		}
-
-		this._showLoading();
-		this._clearArticleDetail();
-		$.get({
-			"url": "https://apis.auoi.net/v1/article",
-			"dataType": "json",
-			"data": {
-				"articleId": this._articleId
-			},
-			"headers": {
-				"authorization": accessToken
-			},
-			"success": (response) => {
-				const article = response && response.data;
-	
-				if (article) {
-					this._hideLoading();
-					this._updateArticleDetail(article);
-				}
-			}
-		});
-	}
-
-	_clearArticleDetail() {
-		this._subjectElementWrap.text("");
-		this._authorElementWrap.text("");
-		this._contentElementWrap.text("");
-		this._tagsElementWrap.empty();
-		this._linksElementWrap.empty();
-		this._updatedAtElementWrap.text("");
-		this._createdAtElementWrap.text("");
+	setArticle(article) {
+		this._updateArticleDetail(article);
 	}
 
 	_updateArticleDetail(article) {
@@ -134,7 +92,9 @@ class HanulseArticleDetailView extends HanulseView {
 		this._subjectElementWrap.text(articleItem.subject);
 		this._authorElementWrap.text(articleItem.authorName);
 		this._contentElementWrap.text(articleItem.content);
+		this._tagsElementWrap.empty();
 		articleItem.tags.forEach(tag => this._tagsElementWrap.append($("<a href=\"javascript:void(0)\" class=\"tag\">").text(tag)));
+		this._linksElementWrap.empty();
 		articleItem.links.forEach(link => this._linksElementWrap.append($("<a href=\"" + link + "\" class=\"link\" target=\"_blank\">").text(link)));
 		this._updatedAtElementWrap.text(articleItem.updatedAt);
 		this._createdAtElementWrap.text(articleItem.createdAt);
@@ -149,13 +109,5 @@ class HanulseArticleDetailView extends HanulseView {
 		const minutes = ("0" + date.getMinutes()).slice(-2);
 		const seconds = ("0" + date.getSeconds()).slice(-2);
 		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds;
-	}
-
-	_showLoading() {
-		this._loadingElementWrap.fadeIn();
-	}
-	
-	_hideLoading() {
-		this._loadingElementWrap.stop().fadeOut();
 	}
 }
