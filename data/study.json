@@ -31,6 +31,8 @@
         {"position": {"x":  1, "y": -3, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "bookshelf-left-2", "label": "강의 자료", "effect": "link", "action": {
             "top": {
                 "type": "articles",
+                "tags": "강의",
+                "author": "62c0513854a9058e21419fb2",
                 "title": "강의 자료"
             }
         }},
@@ -93,6 +95,7 @@
         {"position": {"x":  1, "y":  0, "z":  1}, "texture": {"top": "parquet-top"}, "prop": "bookontable", "label": "정리 노트", "effect": "link", "action": {
             "top": {
                 "type": "articles",
+                "tags": "자습",
                 "title": "정리 노트"
             }
         }},

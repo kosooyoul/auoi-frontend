@@ -15,13 +15,14 @@
     {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "pictures", "label": "기억의 파편", "effect": "link", "action": {
         "top": {
             "type": "articles",
+            "author": "62c0513854a9058e21419fb2",
             "title": "기억의 파편"
         }
     }},
     {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
         "top": {
-            "tags": "developer,개발",
+            "tags": "컴퓨터",
             "type": "articles",
             "author": "62c0513854a9058e21419fb2",
             "title": "개발자로 사는 법 1권"
@@ -52,7 +53,7 @@
     {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2", "label": "미식가의 비망록", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "tags": "cook,요리",
+            "tags": "요리",
             "author": "62c0513854a9058e21419fb2",
             "title": "미식가의 비망록"
         }
@@ -89,7 +90,7 @@
     {"position": {"x": -2, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1", "label": "휴식의 지침서", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "tags": "rest,휴식",
+            "tags": "휴식,여행",
             "author": "62c0513854a9058e21419fb2",
             "title": "휴식의 지침서"
         }
