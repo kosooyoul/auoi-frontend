@@ -97,8 +97,8 @@ class HanulseArticleListView extends HanulseView {
 			"url": "https://apis.auoi.net/v1/article/search",
 			"dataType": "json",
 			"data": {
-				"tags": this._tags,
-				"authorId": this._authorId,
+				"tags": this._filter.tags,
+				"authorId": this._filter.authorId,
 				"pageIndex": this._pageIndex,
 				"countPerPage": this._countPerPage
 			},
