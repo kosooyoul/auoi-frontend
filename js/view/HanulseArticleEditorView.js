@@ -94,8 +94,7 @@ class HanulseArticleEditorView extends HanulseView {
 		const hours = ("0" + date.getHours()).slice(-2);
 		const minutes = ("0" + date.getMinutes()).slice(-2);
 		const seconds = ("0" + date.getSeconds()).slice(-2);
-		const millis = ("00" + date.getMilliseconds()).slice(-3);
-		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds + "." + millis;
+		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds;
 	}
 
 	_getChanges() {
