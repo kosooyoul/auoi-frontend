@@ -2,7 +2,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	static _templatePath = "./template/article-writer.html";
 
 	_elementWrap;
-	_titleInputElementWrap;
+	_subjectInputElementWrap;
 	_contentInputElementWrap;
 	_linkInputElementWrap;
 	_tagsInputElementWrap;
@@ -20,7 +20,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 
 	_initializeArticleWriterView() {
 		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleWriterView._templatePath)));
-		this._titleInputElementWrap = this._elementWrap.find("._title-input");
+		this._subjectInputElementWrap = this._elementWrap.find("._subject-input");
 		this._contentInputElementWrap = this._elementWrap.find("._content-input");
 		this._linkInputElementWrap = this._elementWrap.find("._link-input");
 		this._tagsInputElementWrap = this._elementWrap.find("._tags-input");
@@ -28,7 +28,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		this._saveButtonElementWrap = this._elementWrap.find("._save-button");
 		this._loadingElementWrap = this._elementWrap.find("._loading");
 
-		this._titleInputElementWrap.on("keydown", (evt) => {
+		this._subjectInputElementWrap.on("keydown", (evt) => {
 			if (evt.which == 13) {
 				this._contentInputElementWrap.focus();
 				return false;
@@ -47,7 +47,8 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 			}
 		});
 		this._saveButtonElementWrap.on("click", () => this._save());
-		setTimeout(() => this._titleInputElementWrap.focus());
+
+		setTimeout(() => this._subjectInputElementWrap.focus());
 
 		this.addOverlayElement(this._elementWrap.get(0));
 	}
@@ -61,13 +62,13 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	}
 
 	_save() {
-		const title = this._titleInputElementWrap.val().trim();
+		const subject = this._subjectInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
 		const link = this._linkInputElementWrap.val().trim();
 		const links = link? [link]: [];
 		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
-		if (title.length == 0) {
-			return this._titleInputElementWrap.focus();
+		if (subject.length == 0) {
+			return this._subjectInputElementWrap.focus();
 		}
 		if (content.length == 0) {
 			return this._contentInputElementWrap.focus();
@@ -75,37 +76,19 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 		const createdAtString = this._createdAtInputElementWrap.val().trim();
 		const createdAt = new Date(createdAtString);
 
-		this._requestSave(title, content, links, tags, createdAt);
+		const articleFields = {}
+		articleFields.subject = subject;
+		articleFields.content = content;
+		articleFields.links = links;
+		articleFields.tags = tags;
+		if (isNaN(createdAt) == false) {
+			articleFields.createdAt = createdAt;
+		}
+
+		this._requestSave(articleFields);
 	}
 
-	_disableInputs() {
-		if (this._loginLayerElementWrap) {
-			this._loginLayerElementWrap.css({ "pointer-events": "none" });
-			this._emailInputElementWrap.attr("disabled", true);
-			this._passwordInputElementWrap.attr("disabled", true);
-		}
-		if (this._logoutLayerElementWrap) {
-			this._logoutLayerElementWrap.css({ "pointer-events": "none" });
-		}
-	}
-
-	_enableInputs() {
-		if (this._loginLayerElementWrap) {
-			this._loginLayerElementWrap.css({ "pointer-events": "all" });
-			this._emailInputElementWrap.removeAttr("disabled");
-			this._passwordInputElementWrap.removeAttr("disabled");
-		}
-		if (this._logoutLayerElementWrap) {
-			this._logoutLayerElementWrap.css({ "pointer-events": "all" });
-		}
-	}
-
-	_clearInputs() {
-		this._emailInputElementWrap.val("");
-		this._passwordInputElementWrap.val("");
-	}
-
-	_requestSave(title, content, links, tags, createdAt) {
+	_requestSave(articleFields) {
 		if (this._saveRequested) {
 			return;
 		}
@@ -117,20 +100,19 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 
 		this._saveRequested = true;
 
-		this._disableInputs();
 		this._showLoading();
 		$.post({
 			"url": "https://apis.auoi.net/v1/article/register",
 			"dataType": "json",
 			"data": {
-				"title": title,
-				"content": content,
-				"links": links,
-				"tags": tags,
-				"createdAt": createdAt
+				"subject": articleFields.subject,
+				"content": articleFields.content,
+				"links": articleFields.links,
+				"tags": articleFields.tags,
+				"createdAt": articleFields.createdAt,
 			},
 			"headers": {
-				"authorization": accessToken
+				"authorization": accessToken,
 			},
 			"success": (response) => {
 				const result = response && response.data;
@@ -139,14 +121,12 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 					this._hideLoading();
 					this.hide();
 				} else {
-					this._enableInputs();
 					this._hideLoading();
 				}
 
 				this._loginRequested = false;
 			},
 			"error": () => {
-				this._enableInputs();
 				this._hideLoading();
 
 				this._loginRequested = false;

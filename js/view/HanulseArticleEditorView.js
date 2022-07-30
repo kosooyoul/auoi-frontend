@@ -76,7 +76,7 @@ class HanulseArticleEditorView extends HanulseView {
 			attachments: article.attachments,
 			tags: article.tags,
 			updatedAt: article.updatedAt && this._formatDateTime(article.updatedAt),
-			createdAt: this._formatDateTime(article.createdAt)
+			createdAt: this._formatDateTime(article.createdAt),
 		};
 
 		this._subjectInputElementWrap.val(articleItem.subject);
@@ -115,7 +115,11 @@ class HanulseArticleEditorView extends HanulseView {
 		if (this._article.content != content) changes.content = content;
 		if (this._isEqual(this._article.links, links) == false) changes.links = links;
 		if (this._isEqual(this._article.tags, tags) == false) changes.tags = tags;
-		if (this._isEqual(new Date(this._article.createdAt), createdAt) == false) changes.createdAt = createdAt;
+		if (this._isEqual(new Date(this._article.createdAt), createdAt) == false) {
+			if (isNaN(createdAt) == false) {
+				changes.createdAt = createdAt;
+			}
+		}
 
 		return changes;
 	}
