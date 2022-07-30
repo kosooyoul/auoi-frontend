@@ -43,13 +43,23 @@ class HanulseArticleView extends HanulseView {
 		const articleDetailView = new HanulseArticleDetailView();
 		articleDetailView.hide();
 
-		articleDetailView.setOnDeleteCallback((articleId) => {
-			const messageView = new HanulseMessageView();
-			messageView.setMessage("기록을 삭제할까요?\n" + articleId);
+		articleDetailView.setOnDeleteCallback((article) => {
+			this._requestDelete("TODO: article.id", (success) => {
+				const messageView = new HanulseMessageView();
+				if (success) {
+					messageView.setMessage("기록을 삭제할까요?\n" + article.id);
+				} else {
+					messageView.setMessage("기록 삭제에 실패하였습니다.\n" + article.id);
+				}
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(messageView);
-			overlayView.show();
+				const overlayView = new HanulseOverlayView();
+				overlayView.setContentView(messageView);
+				overlayView.show();
+
+				this._articleDetailView.hide();
+				this._articleListView.show();
+				this._articleListView.load();
+			});
 		});
 		articleDetailView.setOnEditCallback((article) => {
 			this._articleEditorView.setArticle(article);
@@ -103,7 +113,8 @@ class HanulseArticleView extends HanulseView {
 
 	load(filter) {
 		this._articleListView.show();
-		this._articleListView.load(filter);
+		this._articleListView.setFilter(filter);
+		this._articleListView.load();
 	}
 
 	_requestArticleDetail(articleId, callback) {
@@ -116,10 +127,10 @@ class HanulseArticleView extends HanulseView {
 			"url": "https://apis.auoi.net/v1/article",
 			"dataType": "json",
 			"data": {
-				"articleId": articleId
+				"articleId": articleId,
 			},
 			"headers": {
-				"authorization": accessToken
+				"authorization": accessToken,
 			},
 			"success": (response) => {
 				const article = response && response.data;
@@ -127,7 +138,7 @@ class HanulseArticleView extends HanulseView {
 				if (article) {
 					callback(article);
 				}
-			}
+			},
 		});
 	}
 
@@ -138,7 +149,7 @@ class HanulseArticleView extends HanulseView {
 		}
 
 		if (Object.keys(articleChanges).length == 0) {
-			callback(null);
+			return callback(null);
 		}
 
 		$.post({
@@ -150,10 +161,10 @@ class HanulseArticleView extends HanulseView {
 				"content": articleChanges.content,
 				"links": articleChanges.links,
 				"tags": articleChanges.tags,
-				"createdAt": articleChanges.createdAt
+				"createdAt": articleChanges.createdAt,
 			},
 			"headers": {
-				"authorization": accessToken
+				"authorization": accessToken,
 			},
 			"success": (response) => {
 				const article = response && response.data;
@@ -162,7 +173,33 @@ class HanulseArticleView extends HanulseView {
 			},
 			"error": () => {
 				callback(null);
-			}
+			},
+		});
+	}
+
+	_requestDelete(articleId, callback) {
+		const accessToken = HanulseAuthorizationManager.getAccessToken();
+		if (!accessToken) {
+			return;
+		}
+
+		$.post({
+			"url": "https://apis.auoi.net/v1/article/delete",
+			"dataType": "json",
+			"data": {
+				"articleId": articleId,
+			},
+			"headers": {
+				"authorization": accessToken,
+			},
+			"success": (response) => {
+				const result = response && response.data;
+
+				callback(result && result.success);
+			},
+			"error": () => {
+				callback(null);
+			},
 		});
 	}
 }

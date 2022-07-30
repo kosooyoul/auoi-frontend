@@ -42,6 +42,11 @@ class HanulseArticleListView extends HanulseView {
 		this._titleElementWrap.text(title || "제목 없음");
 	}
 
+	setFilter(filter) {
+		this._filter.tags = filter.tags;
+		this._filter.authorId = filter.authorId;
+	}
+
 	updateItem(articeId, article) {
 		const articleListItem = $(this.findChildElement("[data-id=" + articeId + "]"));
 
@@ -50,9 +55,7 @@ class HanulseArticleListView extends HanulseView {
 		articleListItem.find("._created-at").text(this._formatDate(article.createdAt));
 	}
 
-	load(filter) {
-		this._filter.tags = filter.tags;
-		this._filter.authorId = filter.authorId;
+	load() {
 		this._requestArticleList();
 	}
 	
