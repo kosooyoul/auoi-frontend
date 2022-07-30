@@ -3,14 +3,16 @@ class HanulseArticleListView extends HanulseView {
 	static _templateArticleListItemPath = "./template/article-list-item.html";
 	static _templateArticleListPaginationItemPath = "./template/article-list-pagination-item.html";
 
-	_rootElementWrap;
 	_articleListElementWrap;
 	_articleListPaginationElementWrap;
 	_pageElementWrap;
 	_loadingElementWrap;
 
-	_tags;
-	_authorId;
+	_filter = {
+		tags: null,
+		authorId: null,
+	};
+
 	_pageIndex = 0;
 	_countPerPage = 10;
 
@@ -23,15 +25,13 @@ class HanulseArticleListView extends HanulseView {
 	}
 
 	_initializeArticleListView() {
-		this._rootElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleListView._templateArticleListPath)));
-		this._articleListElementWrap = this._rootElementWrap.find("._list");
-		this._articleListPaginationElementWrap = this._rootElementWrap.find("._pagination");
-		this._pageElementWrap = this._rootElementWrap.find("._page");
-		this._loadingElementWrap = this._rootElementWrap.find("._loading");
-	}
+		this.setElement($.parseHTML(HtmlTemplate.get(HanulseArticleListView._templateArticleListPath)));
 
-	getElement() {
-		return this._rootElementWrap.get(0);
+		this._titleElementWrap = $(this.findChildElement("._title"));
+		this._articleListElementWrap = $(this.findChildElement("._list"));
+		this._articleListPaginationElementWrap = $(this.findChildElement("._pagination"));
+		this._pageElementWrap = $(this.findChildElement("._page"));
+		this._loadingElementWrap = $(this.findChildElement("._loading"));
 	}
 
 	setOnClickItemCallback(onClickItemCallback) {
@@ -39,18 +39,12 @@ class HanulseArticleListView extends HanulseView {
 	}
 
 	setTitle(title) {
-		this._rootElementWrap.find("._title").text(title || "제목 없음");
+		this._titleElementWrap.text(title || "제목 없음");
 	}
 
-	setTags(tags) {
-		this._tags = tags;
-	}
-
-	setAuthorId(authorId) {
-		this._authorId = authorId;
-	}
-
-	load() {
+	load(filter) {
+		this._filter.tags = filter.tags;
+		this._filter.authorId = filter.authorId;
 		this._requestArticleList();
 	}
 	

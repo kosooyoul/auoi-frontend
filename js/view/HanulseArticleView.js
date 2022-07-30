@@ -1,13 +1,8 @@
 class HanulseArticleView extends HanulseView {
 
-	_rootElementWrap;
-
 	_articleListView;
 	_articleDetailView;
 	_loadingView;
-
-	_articleListViewElementWrap;
-	_articleDetailViewElementWrap;
 
 	constructor() {
 		super();
@@ -16,15 +11,32 @@ class HanulseArticleView extends HanulseView {
 	}
 
 	_initializeArticleView() {
-		this._rootElementWrap = $("<div>");
+		this.setElement($("<div>").get(0));
 
-		this._articleListView = new HanulseArticleListView();
-		this._articleListView.setOnClickItemCallback((articleId) => this._openArticleDetail(articleId));
-		this._articleListViewElementWrap = $(this._articleListView.getElement());
+		this._initializeArticleListView();
+		this._initializeArticleDetailView();
+		this._initializeLoadingView();
+	}
 
-		this._articleDetailView = new HanulseArticleDetailView();
-		this._articleDetailView.setOnBackCallback(() => this._closeArticleDetail());
-		this._articleDetailView.setOnDeleteCallback((articleId) => {
+	_initializeArticleListView() {
+		const articleListView = new HanulseArticleListView();
+		articleListView.hide();
+
+		articleListView.setOnClickItemCallback((articleId) => {
+			this._openArticleDetail(articleId)
+		});
+
+		this.addChildView(this._articleListView = articleListView);
+	}
+
+	_initializeArticleDetailView() {
+		const articleDetailView = new HanulseArticleDetailView();
+		articleDetailView.hide();
+
+		articleDetailView.setOnBackCallback(() => {
+			this._closeArticleDetail()
+		});
+		articleDetailView.setOnDeleteCallback((articleId) => {
 			const messageView = new HanulseMessageView();
 			messageView.setMessage("기록을 삭제할까요?\n" + articleId);
 
@@ -32,7 +44,7 @@ class HanulseArticleView extends HanulseView {
 			overlayView.setContentView(messageView);
 			overlayView.show();
 		});
-		this._articleDetailView.setOnEditCallback((articleId) => {
+		articleDetailView.setOnEditCallback((articleId) => {
 			const messageView = new HanulseMessageView();
 			messageView.setMessage("기록을 수정합니다.\n" + articleId);
 
@@ -40,17 +52,12 @@ class HanulseArticleView extends HanulseView {
 			overlayView.setContentView(messageView);
 			overlayView.show();
 		});
-		this._articleDetailViewElementWrap = $(this._articleDetailView.getElement());
 
-		this._loadingView = new HanulseLoadingView();
-
-		this._rootElementWrap.append(this._articleListViewElementWrap);
-		this._rootElementWrap.append(this._articleDetailViewElementWrap);
-		this._rootElementWrap.append(this._loadingView.getElement());
+		this.addChildView(this._articleDetailView = articleDetailView);
 	}
 
-	getElement() {
-		return this._rootElementWrap.get(0);
+	_initializeLoadingView() {
+		this.addChildView(this._loadingView = new HanulseLoadingView());
 	}
 
 	setTitle(title) {
@@ -59,12 +66,8 @@ class HanulseArticleView extends HanulseView {
 	}
 
 	load(filter) {
-		this._rootElementWrap.children().hide();
-		this._articleListViewElementWrap.show();
-
-		this._articleListView.setTags(filter.tags);
-		this._articleListView.setAuthorId(filter.authorId);
-		this._articleListView.load();
+		this._articleListView.show();
+		this._articleListView.load(filter);
 	}
 
 	_requestArticleDetail(articleId, callback) {
@@ -99,15 +102,15 @@ class HanulseArticleView extends HanulseView {
 		this._requestArticleDetail(articleId, (article) => {
 			this._articleDetailView.setArticle(article);
 
-			this._articleListViewElementWrap.hide();
-			this._articleDetailViewElementWrap.show();
+			this._articleListView.hide();
+			this._articleDetailView.show();
 
 			this._loadingView.hide();
 		});
 	}
 
 	_closeArticleDetail() {
-		this._articleDetailViewElementWrap.hide();
-		this._articleListViewElementWrap.show();
+		this._articleDetailView.hide();
+		this._articleListView.show();
 	}
 }

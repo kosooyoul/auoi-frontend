@@ -1,7 +1,7 @@
 class HanulseArticleDetailView extends HanulseView {
 	static _templateArticleDetailPath = "./template/article-detail.html";
 
-	_rootElementWrap;
+	_titleElementWrap;
 	_subjectElementWrap;
 	_authorElementWrap;
 	_contentElementWrap;
@@ -10,6 +10,9 @@ class HanulseArticleDetailView extends HanulseView {
 	_updatedAtElementWrap;
 	_createdAtElementWrap;
 	_loadingElementWrap;
+	_backButtonElementWrap;
+	_deleteButtonElementWrap;
+	_editButtonElementWrap;
 
 	_onBackCallback;
 	_onDeleteCallback;
@@ -22,39 +25,40 @@ class HanulseArticleDetailView extends HanulseView {
 	}
 
 	_initializeArticleDetailView() {
-		this._rootElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleDetailView._templateArticleDetailPath)));
-		this._subjectElementWrap = this._rootElementWrap.find("._subject");
-		this._authorElementWrap = this._rootElementWrap.find("._author");
-		this._contentElementWrap = this._rootElementWrap.find("._content");
-		this._linksElementWrap = this._rootElementWrap.find("._links");
-		this._tagsElementWrap = this._rootElementWrap.find("._tags");
-		this._updatedAtElementWrap = this._rootElementWrap.find("._updated-at");
-		this._createdAtElementWrap = this._rootElementWrap.find("._created-at");
-		this._loadingElementWrap = this._rootElementWrap.find("._loading");
+		this.setElement($.parseHTML(HtmlTemplate.get(HanulseArticleDetailView._templateArticleDetailPath)));
+
+		this._titleElementWrap = $(this.findChildElement("._title"));
+		this._subjectElementWrap = $(this.findChildElement("._subject"));
+		this._authorElementWrap = $(this.findChildElement("._author"));
+		this._contentElementWrap = $(this.findChildElement("._content"));
+		this._linksElementWrap = $(this.findChildElement("._links"));
+		this._tagsElementWrap = $(this.findChildElement("._tags"));
+		this._updatedAtElementWrap = $(this.findChildElement("._updated-at"));
+		this._createdAtElementWrap = $(this.findChildElement("._created-at"));
+		this._loadingElementWrap = $(this.findChildElement("._loading"));
+		this._backButtonElementWrap = $(this.findChildElement("._back-button"));
+		this._deleteButtonElementWrap = $(this.findChildElement("._delete-button"));
+		this._editButtonElementWrap = $(this.findChildElement("._edit-button"));
 		
-		this._rootElementWrap.find("._back-button").on("click", () => {
+		this._backButtonElementWrap.on("click", () => {
 			if (this._onBackCallback) {
 				this._onBackCallback(this._articleId);
 			}
 		});
 
-		this._rootElementWrap.find("._delete-button").on("click", () => {
+		this._deleteButtonElementWrap.on("click", () => {
 			if (this._onDeleteCallback) {
 				this._onDeleteCallback(this._articleId);
 			}
 		});
 
-		this._rootElementWrap.find("._edit-button").on("click", () => {
+		this._editButtonElementWrap.on("click", () => {
 			if (this._onEditCallback) {
 				this._onEditCallback(this._articleId);
 			}
 		});
 	}
 
-	getElement() {
-		return this._rootElementWrap.get(0);
-	}
-	
 	setOnBackCallback(onBackCallback) {
 		this._onBackCallback = onBackCallback;
 	}
@@ -68,7 +72,7 @@ class HanulseArticleDetailView extends HanulseView {
 	}
 
 	setTitle(title) {
-		this._rootElementWrap.find("._title").text(title || "제목 없음");
+		this._titleElementWrap.text(title || "제목 없음");
 	}
 
 	setArticle(article) {
@@ -88,7 +92,7 @@ class HanulseArticleDetailView extends HanulseView {
 			updatedAt: article.updatedAt && this._formatDateTime(article.updatedAt),
 			createdAt: this._formatDateTime(article.createdAt)
 		};
-		
+
 		this._subjectElementWrap.text(articleItem.subject);
 		this._authorElementWrap.text(articleItem.authorName);
 		this._contentElementWrap.text(articleItem.content);
