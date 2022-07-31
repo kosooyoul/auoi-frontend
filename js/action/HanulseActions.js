@@ -105,6 +105,7 @@ class HanulseActions {
 			} else {
 				this._actMessage({"message": "설치할 수 있는 앱이 없어요."}, onActionFinishedCallback);
 			}
+			return;
 		}
 
 		this._actMessage({
