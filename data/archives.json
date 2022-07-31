@@ -30,8 +30,18 @@
     }},
     {"position": {"x":  1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm", "action": {
         "top": {
-            "type": "message",
-            "message": "화분에 물을 줄까요?"
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
         }
     }},
     {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
@@ -42,8 +52,18 @@
     {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
         "top": {
-            "type": "message",
-            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?"
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
         }
     }},
     {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
@@ -97,8 +117,18 @@
     }},
     {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste", "action": {
         "top": {
-            "type": "message",
-            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?"
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
         }
     }},
     {"position": {"x":  0, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2"},
