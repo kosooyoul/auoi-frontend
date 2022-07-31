@@ -44,22 +44,30 @@ class HanulseArticleView extends HanulseView {
 		articleDetailView.hide();
 
 		articleDetailView.setOnDeleteCallback((article) => {
-			this._requestDelete("TODO: article.id", (success) => {
-				const messageView = new HanulseMessageView();
-				if (success) {
-					messageView.setMessage("기록을 삭제할까요?\n" + article.id);
-				} else {
-					messageView.setMessage("기록 삭제에 실패하였습니다.\n" + article.id);
+			const selectionView = new HanulseSelectionView();
+			selectionView.setMessage("다음 기록을 삭제할까요?\n'" + article.subject + "'");
+			selectionView.setOptions([
+				{"title": "네, 삭제합니다.", "value": true},
+				{"title": "아니요, 그만둘래요.", "value": false},
+			]);
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(selectionView);
+			overlayView.show();
+
+			selectionView.setOnSelectOptionCallback((option) => {
+				if (option.value != true) {
+					return overlayView.hide();
 				}
 
-				const overlayView = new HanulseOverlayView();
-				overlayView.setContentView(messageView);
-				overlayView.show();
+				this._requestDelete(article.id, (_success) => {
+					overlayView.hide();
 
-				this._articleDetailView.hide();
-				this._articleListView.show();
-				this._articleListView.load();
-			});
+					this._articleDetailView.hide();
+					this._articleListView.show();
+					this._articleListView.load();
+				});
+			})
 		});
 		articleDetailView.setOnEditCallback((article) => {
 			this._articleEditorView.setArticle(article);
