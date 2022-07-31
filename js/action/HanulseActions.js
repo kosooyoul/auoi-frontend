@@ -9,6 +9,7 @@ class HanulseActions {
 			case "link": return this._actLink(data, onActionFinishedCallback);
 			case "menu": return this._actMenu(data, onActionFinishedCallback);
 			case "message": return this._actMessage(data, onActionFinishedCallback);
+			case "selection": return this._actSelection(data, onActionFinishedCallback);
 			case "article-writer": return this._actArticleWriter(data, onActionFinishedCallback);
 			case "pwa": return this._actPwa(data, onActionFinishedCallback);
 		}
@@ -53,6 +54,28 @@ class HanulseActions {
 		overlayView.setContentView(messageView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
+	}
+
+	_actSelection(data, onActionFinishedCallback) {
+		const selectionView = new HanulseSelectionView();
+		selectionView.setMessage(data.message);
+		selectionView.setOptions(data.options);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(selectionView);
+		overlayView.show();
+
+		selectionView.setOnSelectOptionCallback((option) => {
+			const action = option.action;
+			if (action) {
+				this.act(action.type, action, onActionFinishedCallback);
+			} else {
+				if (onActionFinishedCallback) {
+					onActionFinishedCallback();
+				}
+			}
+			overlayView.hide();
+		});
 	}
 
 	_actArticleWriter(data, onActionFinishedCallback) {
