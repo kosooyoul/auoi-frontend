@@ -63,16 +63,14 @@ class HanulseActions {
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(selectionView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
 
 		selectionView.setOnSelectOptionCallback((option) => {
 			const action = option.action;
 			if (action) {
+				overlayView.setOnHideCallback(null);
 				this.act(action.type, action, onActionFinishedCallback);
-			} else {
-				if (onActionFinishedCallback) {
-					onActionFinishedCallback();
-				}
 			}
 			overlayView.hide();
 		});
