@@ -156,7 +156,5 @@
     {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x":  3, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x":  4, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
-
-    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
-    {"position": {"x": -2, "y":  5, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right", "left": "pink-left"}, "effect": "prism", "prop": "lighthand-left"}
+    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right", "left": "pink-left"}, "effect": "prism"}
 ]}
