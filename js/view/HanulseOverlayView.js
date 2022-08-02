@@ -3,8 +3,10 @@ class HanulseOverlayView {
 		var body = new HtmlElementBuilder(document.body);
 		body.listenEvent("keydown", (event) => {
 			if (event.which != 27) return;
-			this._globalDismissListeners.forEach(listener => listener(event));
-			this._globalDismissListeners.splice(0);
+			const listener = this._globalDismissListeners.pop();
+			if (listener) {
+				listener(event);
+			}
 		});
 		window.addEventListener("hashchange", (event) => {
 			this._globalDismissListeners.forEach(listener => listener(event));
