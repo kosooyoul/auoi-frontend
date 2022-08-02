@@ -94,6 +94,8 @@ class HanulseArticleListView extends HanulseView {
 	}
 
 	_requestArticleList() {
+		const accessToken = HanulseAuthorizationManager.getAccessToken();
+
 		this._invisibleArticleList();
 		this._showLoading();
 		$.get({
@@ -104,6 +106,9 @@ class HanulseArticleListView extends HanulseView {
 				"authorId": this._filter.authorId,
 				"pageIndex": this._pageIndex,
 				"countPerPage": this._countPerPage
+			},
+			"headers": {
+				"authorization": accessToken,
 			},
 			"success": (response) => {
 				const articleList = response && response.data;
