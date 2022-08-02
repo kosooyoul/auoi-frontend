@@ -2,6 +2,7 @@ class HanulseArticleDetailView extends HanulseView {
 	static _templateArticleDetailPath = "./template/article-detail.html";
 
 	_titleElementWrap;
+	_scrollboxElementsWrap;
 	_subjectElementWrap;
 	_authorElementWrap;
 	_contentElementWrap;
@@ -30,6 +31,7 @@ class HanulseArticleDetailView extends HanulseView {
 		this.setElement($.parseHTML(HtmlTemplate.get(HanulseArticleDetailView._templateArticleDetailPath)));
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
+		this._scrollboxElementsWrap = $(this.findChildElements(".scrollbox"));
 		this._subjectElementWrap = $(this.findChildElement("._subject"));
 		this._authorElementWrap = $(this.findChildElement("._author"));
 		this._contentElementWrap = $(this.findChildElement("._content"));
@@ -77,6 +79,10 @@ class HanulseArticleDetailView extends HanulseView {
 
 	setArticle(article) {
 		this._updateArticleDetail(this._article = article);
+	}
+
+	onShow() {
+		this._scrollboxElementsWrap.scrollTop(0);
 	}
 
 	_updateArticleDetail(article) {

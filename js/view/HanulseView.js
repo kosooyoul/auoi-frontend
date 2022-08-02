@@ -18,15 +18,29 @@ class HanulseView {
 		return $(this._element).find(selector).get(0);
 	}
 
+	findChildElements(selector) {
+		return $(this._element).find(selector);
+	}
+
 	addChildView(view) {
 		$(this.getElement()).append(view.getElement());
 	}
 
 	show() {
 		$(this.getElement()).show();
+		this.onShow();
 	}
 
 	hide() {
 		$(this.getElement()).hide();
+		this.onHide();
+	}
+
+	onShow() {
+
+	}
+
+	onHide() {
+
 	}
 }
