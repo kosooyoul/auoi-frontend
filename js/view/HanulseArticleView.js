@@ -34,7 +34,7 @@ class HanulseArticleView extends HanulseView {
 					this._articleDetailView.show();
 				} else {
 					const messageView = new HanulseMessageView();
-					messageView.setMessage("선택하신 글을 조회할 권한이 없습니다.");
+					messageView.setMessage("선택하신 기록을 조회할 권한이 없습니다.");
 		
 					const overlayView = new HanulseOverlayView();
 					overlayView.setContentView(messageView);
@@ -69,12 +69,21 @@ class HanulseArticleView extends HanulseView {
 					return overlayView.hide();
 				}
 
-				this._requestDelete(article.id, (_success) => {
+				this._requestDelete(article.id, (success) => {
+					if (success) {
+						this._articleDetailView.hide();
+						this._articleListView.show();
+						this._articleListView.load();
+					} else {
+						const messageView = new HanulseMessageView();
+						messageView.setMessage("기록을 삭제할 수 없습니다.");
+			
+						const overlayView = new HanulseOverlayView();
+						overlayView.setContentView(messageView);
+						overlayView.show();
+					}
+					
 					overlayView.hide();
-
-					this._articleDetailView.hide();
-					this._articleListView.show();
-					this._articleListView.load();
 				});
 			})
 		});
@@ -102,10 +111,17 @@ class HanulseArticleView extends HanulseView {
 				if (article) {
 					this._articleListView.updateItem(article.id, article);
 					this._articleDetailView.setArticle(article);
-				}
 
-				this._articleEditorView.hide();
-				this._articleDetailView.show();
+					this._articleEditorView.hide();
+					this._articleDetailView.show();
+				} else {
+					const messageView = new HanulseMessageView();
+					messageView.setMessage("기록을 수정할 수 없습니다.");
+		
+					const overlayView = new HanulseOverlayView();
+					overlayView.setContentView(messageView);
+					overlayView.show();
+				}
 
 				this._loadingView.hide();
 			});
@@ -137,7 +153,7 @@ class HanulseArticleView extends HanulseView {
 	_requestArticleDetail(articleId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return;
+			return callback(null);
 		}
 
 		$.get({
@@ -154,13 +170,16 @@ class HanulseArticleView extends HanulseView {
 	
 				callback(article);
 			},
+			"error": () => {
+				callback(null);
+			}
 		});
 	}
 
 	_requestUpdate(articleId, articleChanges, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return;
+			return callback(null);
 		}
 
 		if (Object.keys(articleChanges).length == 0) {
@@ -195,7 +214,7 @@ class HanulseArticleView extends HanulseView {
 	_requestDelete(articleId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return;
+			return callback(null);
 		}
 
 		$.post({
