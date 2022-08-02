@@ -152,9 +152,6 @@ class HanulseArticleView extends HanulseView {
 
 	_requestArticleDetail(articleId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
-		if (!accessToken) {
-			return callback(null);
-		}
 
 		$.get({
 			"url": "https://apis.auoi.net/v1/article",
