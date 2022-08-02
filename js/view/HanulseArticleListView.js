@@ -68,11 +68,15 @@ class HanulseArticleListView extends HanulseView {
 		articleListItem.find("._author").text(articleItem.authorName);
 		articleListItem.find("._created-at").text(this._formatDate(articleItem.createdAt));
 
-		articleListItem.on("click", () => {
-			if (this._onClickItemCallback) {
-				this._onClickItemCallback(articleItem.id);
-			}
-		});
+		if (articleItem.readable == false) {
+			articleListItem.css({"color": "rgb(144, 144, 144)"})
+		} else {
+			articleListItem.on("click", () => {
+				if (this._onClickItemCallback) {
+					this._onClickItemCallback(articleItem.id);
+				}
+			});
+		}
 
 		this._articleListElementWrap.append(articleListItem);
 	}
@@ -131,6 +135,7 @@ class HanulseArticleListView extends HanulseView {
 				subject: article.subject,
 				authorId: article.authorId,
 				authorName: article.authorName,
+				readable: article.readable,
 				createdAt: article.createdAt,
 			};
 		});
