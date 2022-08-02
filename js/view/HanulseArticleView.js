@@ -27,11 +27,20 @@ class HanulseArticleView extends HanulseView {
 		articleListView.setOnClickItemCallback((articleId) => {
 			this._loadingView.show();
 			this._requestArticleDetail(articleId, (article) => {
-				this._articleDetailView.setArticle(article);
-	
-				this._articleListView.hide();
-				this._articleDetailView.show();
-	
+				if (article) {
+					this._articleDetailView.setArticle(article);
+		
+					this._articleListView.hide();
+					this._articleDetailView.show();
+				} else {
+					const messageView = new HanulseMessageView();
+					messageView.setMessage("선택하신 글을 조회할 권한이 없습니다.");
+		
+					const overlayView = new HanulseOverlayView();
+					overlayView.setContentView(messageView);
+					overlayView.show();
+				}
+
 				this._loadingView.hide();
 			});
 		});
@@ -143,9 +152,7 @@ class HanulseArticleView extends HanulseView {
 			"success": (response) => {
 				const article = response && response.data;
 	
-				if (article) {
-					callback(article);
-				}
+				callback(article);
 			},
 		});
 	}
