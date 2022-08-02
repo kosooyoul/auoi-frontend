@@ -56,7 +56,7 @@ a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px 
 .identity:hover {background-color: rgba(0, 100, 150, 0.8);}
 .identity:active {background-color: rgba(0, 180, 220, 0.8);}
 
-.link {display: inline-block; padding: 4px 8px; margin-right: 6px; background-color: rgba(0, 0, 0, 0.4); border-radius: 4px;}
+.link {display: inline-block; padding: 4px 8px; margin-right: 6px; background-color: rgba(0, 0, 0, 0.4); border-radius: 4px; word-break: break-all;}
 .link::before {content: "🔗"; margin-right: 4px;}
 
 .tag {display: inline-block; padding: 4px 8px; margin-right: 6px; background-color: rgba(0, 0, 0, 0.4); border-radius: 4px;}
