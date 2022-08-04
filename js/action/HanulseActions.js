@@ -79,10 +79,17 @@ class HanulseActions {
 	_actArticleWriter(data, onActionFinishedCallback) {
 		if (HanulseAuthorizationManager.hasAuthorization()) {
 			const articleWriterView = new HanulseArticleWriterView();
-			articleWriterView.setTags(data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
+			articleWriterView.setTags(data.tags == null? null: data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 			articleWriterView.setTitle(data.title);
-			articleWriterView.setOnHideCallback(onActionFinishedCallback);
-			articleWriterView.show();
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(articleWriterView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
+
+			articleWriterView.setOnSaveCallback(() => {
+				overlayView.hide();
+			});
 		} else {
 			const loginView = new HanulseLoginView();
 			loginView.setOnHideCallback(() => {

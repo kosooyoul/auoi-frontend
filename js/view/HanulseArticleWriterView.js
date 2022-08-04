@@ -1,7 +1,7 @@
-class HanulseArticleWriterView extends HanulseOverlayView {
+class HanulseArticleWriterView extends HanulseView {
 	static _templatePath = "./template/article-writer.html";
 
-	_elementWrap;
+	_titleElementWrap;
 	_subjectInputElementWrap;
 	_contentInputElementWrap;
 	_linkInputElementWrap;
@@ -10,7 +10,7 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	_saveButtonElementWrap;
 	_loadingElementWrap;
 
-	_saveRequested;
+	_onSaveCallback;
 
 	constructor() {
 		super();
@@ -19,86 +19,63 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 	}
 
 	_initializeArticleWriterView() {
-		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseArticleWriterView._templatePath)));
-		this._subjectInputElementWrap = this._elementWrap.find("._subject-input");
-		this._contentInputElementWrap = this._elementWrap.find("._content-input");
-		this._linkInputElementWrap = this._elementWrap.find("._link-input");
-		this._tagsInputElementWrap = this._elementWrap.find("._tags-input");
-		this._createdAtInputElementWrap = this._elementWrap.find("._created-at-input");
-		this._saveButtonElementWrap = this._elementWrap.find("._save-button");
-		this._loadingElementWrap = this._elementWrap.find("._loading");
+		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleWriterView._templatePath)).get());
 
-		this._subjectInputElementWrap.on("keydown", (evt) => {
-			if (evt.which == 13) {
-				this._contentInputElementWrap.focus();
-				return false;
-			}
+		this._titleElementWrap = $(this.findChildElement("._title"));
+		this._subjectInputElementWrap = $(this.findChildElement("._subject-input"));
+		this._contentInputElementWrap = $(this.findChildElement("._content-input"));
+		this._linkInputElementWrap = $(this.findChildElement("._link-input"));
+		this._tagsInputElementWrap = $(this.findChildElement("._tags-input"));
+		this._createdAtInputElementWrap = $(this.findChildElement("._created-at-input"));
+		this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
+		this._loadingElementWrap = $(this.findChildElement("._loading"));
+
+		this._saveButtonElementWrap.on("click", () => {
+			this._requestSave(this._getFields());
 		});
-		this._linkInputElementWrap.on("keydown", (evt) => {
-			if (evt.which == 13) {
-				this._tagsInputElementWrap.focus();
-				return false;
-			}
-		});
-		this._tagsInputElementWrap.on("keydown", (evt) => {
-			if (evt.which == 13) {
-				this._save()
-				return false;
-			}
-		});
-		this._saveButtonElementWrap.on("click", () => this._save());
 
 		setTimeout(() => this._subjectInputElementWrap.focus());
+	}
 
-		this.addOverlayElement(this._elementWrap.get(0));
+	setOnSaveCallback(onSaveCallback) {
+		this._onSaveCallback = onSaveCallback;
 	}
 
 	setTags(tags) {
-		// this._tagsInputElementWrap.val(tags.join(", "));
+		this._tagsInputElementWrap.val(tags.join(", "));
 	}
 
 	setTitle(title) {
-		this._elementWrap.find("._title").text(title);
+		this._titleElementWrap.text(title);
 	}
 
-	_save() {
+	_getFields() {
 		const subject = this._subjectInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
 		const link = this._linkInputElementWrap.val().trim();
 		const links = link? [link]: [];
 		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
-		if (subject.length == 0) {
-			return this._subjectInputElementWrap.focus();
-		}
-		if (content.length == 0) {
-			return this._contentInputElementWrap.focus();
-		}
 		const createdAtString = this._createdAtInputElementWrap.val().trim();
 		const createdAt = new Date(createdAtString);
+
+		if (subject.length == 0) return this._subjectInputElementWrap.focus();
+		if (content.length == 0) return this._contentInputElementWrap.focus();
 
 		const articleFields = {}
 		articleFields.subject = subject;
 		articleFields.content = content;
 		articleFields.links = links;
 		articleFields.tags = tags;
-		if (isNaN(createdAt) == false) {
-			articleFields.createdAt = createdAt;
-		}
+		if (isNaN(createdAt) == false) articleFields.createdAt = createdAt;
 
-		this._requestSave(articleFields);
+		return articleFields;
 	}
 
-	_requestSave(articleFields) {
-		if (this._saveRequested) {
-			return;
-		}
-
+	_requestSave(articleFields, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
 			return;
 		}
-
-		this._saveRequested = true;
 
 		this._showLoading();
 		$.post({
@@ -118,18 +95,15 @@ class HanulseArticleWriterView extends HanulseOverlayView {
 				const result = response && response.data;
 
 				if (result) {
-					this._hideLoading();
-					this.hide();
-				} else {
-					this._hideLoading();
+					if (callback) {
+						callback();
+					}
 				}
 
-				this._loginRequested = false;
+				this._hideLoading();
 			},
 			"error": () => {
 				this._hideLoading();
-
-				this._loginRequested = false;
 			}
 		});
 	}
