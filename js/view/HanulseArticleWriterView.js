@@ -10,6 +10,8 @@ class HanulseArticleWriterView extends HanulseView {
 	_saveButtonElementWrap;
 	_loadingElementWrap;
 
+	_loadingView;
+
 	_onSaveCallback;
 
 	constructor() {
@@ -31,10 +33,32 @@ class HanulseArticleWriterView extends HanulseView {
 		this._loadingElementWrap = $(this.findChildElement("._loading"));
 
 		this._saveButtonElementWrap.on("click", () => {
-			this._requestSave(this._getFields());
+			this._loadingView.show();
+			HanulseArticleApis.createArticle(this._getFields(), (article) => {
+				if (article) {
+					if (this._onSaveCallback) {
+						this._onSaveCallback();
+					}
+				} else {
+					const messageView = new HanulseMessageView();
+					messageView.setMessage("기록을 저장할 수 없습니다.");
+		
+					const overlayView = new HanulseOverlayView();
+					overlayView.setContentView(messageView);
+					overlayView.show();
+				}
+
+				this._loadingView.hide();
+			});
 		});
 
+		this._initializeLoadingView();
+
 		setTimeout(() => this._subjectInputElementWrap.focus());
+	}
+
+	_initializeLoadingView() {
+		this.addChildView(this._loadingView = new HanulseLoadingView());
 	}
 
 	setOnSaveCallback(onSaveCallback) {
@@ -46,7 +70,7 @@ class HanulseArticleWriterView extends HanulseView {
 	}
 
 	setTitle(title) {
-		this._titleElementWrap.text(title);
+		this._titleElementWrap.text(title || "제목 없음");
 	}
 
 	_getFields() {
@@ -69,50 +93,5 @@ class HanulseArticleWriterView extends HanulseView {
 		if (isNaN(createdAt) == false) articleFields.createdAt = createdAt;
 
 		return articleFields;
-	}
-
-	_requestSave(articleFields, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-		if (!accessToken) {
-			return;
-		}
-
-		this._showLoading();
-		$.post({
-			"url": "https://apis.auoi.net/v1/article/register",
-			"dataType": "json",
-			"data": {
-				"subject": articleFields.subject,
-				"content": articleFields.content,
-				"links": articleFields.links,
-				"tags": articleFields.tags,
-				"createdAt": articleFields.createdAt,
-			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const result = response && response.data;
-
-				if (result) {
-					if (callback) {
-						callback();
-					}
-				}
-
-				this._hideLoading();
-			},
-			"error": () => {
-				this._hideLoading();
-			}
-		});
-	}
-
-	_showLoading() {
-		this._loadingElementWrap.fadeIn();
-	}
-
-	_hideLoading() {
-		this._loadingElementWrap.stop().fadeOut();
 	}
 }
