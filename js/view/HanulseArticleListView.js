@@ -16,7 +16,7 @@ class HanulseArticleListView extends HanulseView {
 	_pageIndex = 0;
 	_countPerPage = 10;
 
-	_onClickItemCallback;
+	_onClickArticleItemCallback;
 
 	constructor() {
 		super();
@@ -34,8 +34,8 @@ class HanulseArticleListView extends HanulseView {
 		this._loadingElementWrap = $(this.findChildElement("._loading"));
 	}
 
-	setOnClickItemCallback(onClickItemCallback) {
-		this._onClickItemCallback = onClickItemCallback;
+	setOnClickArticleItemCallback(onClickArticleItemCallback) {
+		this._onClickArticleItemCallback = onClickArticleItemCallback;
 	}
 
 	setTitle(title) {
@@ -72,8 +72,8 @@ class HanulseArticleListView extends HanulseView {
 			articleListItem.css({"color": "rgb(144, 144, 144)"})
 		} else {
 			articleListItem.on("click", () => {
-				if (this._onClickItemCallback) {
-					this._onClickItemCallback(articleItem.id);
+				if (this._onClickArticleItemCallback) {
+					this._onClickArticleItemCallback(articleItem.id);
 				}
 			});
 		}

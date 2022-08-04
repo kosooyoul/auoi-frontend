@@ -24,9 +24,9 @@ class HanulseArticleView extends HanulseView {
 		const articleListView = new HanulseArticleListView();
 		articleListView.hide();
 
-		articleListView.setOnClickItemCallback((articleId) => {
+		articleListView.setOnClickArticleItemCallback((articleId) => {
 			this._loadingView.show();
-			this._requestArticleDetail(articleId, (article) => {
+			HanulseArticleApis.getArticle(articleId, (article) => {
 				if (article) {
 					this._articleDetailView.setArticle(article);
 		
@@ -69,7 +69,7 @@ class HanulseArticleView extends HanulseView {
 					return overlayView.hide();
 				}
 
-				this._requestDelete(article.id, (success) => {
+				HanulseArticleApis.deleteArticle(article.id, (success) => {
 					if (success) {
 						this._articleDetailView.hide();
 						this._articleListView.show();
@@ -107,7 +107,7 @@ class HanulseArticleView extends HanulseView {
 
 		articleEditorView.setOnSaveCallback((articleId, articleChanges) => {
 			this._loadingView.show();
-			this._requestUpdate(articleId, articleChanges, (article) => {
+			HanulseArticleApis.updateArticle(articleId, articleChanges, (article) => {
 				if (article) {
 					this._articleListView.updateItem(article.id, article);
 					this._articleDetailView.setArticle(article);
@@ -148,89 +148,5 @@ class HanulseArticleView extends HanulseView {
 		this._articleListView.show();
 		this._articleListView.setFilter(filter);
 		this._articleListView.load();
-	}
-
-	_requestArticleDetail(articleId, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-
-		$.get({
-			"url": "https://apis.auoi.net/v1/article",
-			"dataType": "json",
-			"data": {
-				"articleId": articleId,
-			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const article = response && response.data;
-	
-				callback(article);
-			},
-			"error": () => {
-				callback(null);
-			}
-		});
-	}
-
-	_requestUpdate(articleId, articleChanges, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-		if (!accessToken) {
-			return callback(null);
-		}
-
-		if (Object.keys(articleChanges).length == 0) {
-			return callback(null);
-		}
-
-		$.post({
-			"url": "https://apis.auoi.net/v1/article/update",
-			"dataType": "json",
-			"data": {
-				"articleId": articleId,
-				"subject": articleChanges.subject,
-				"content": articleChanges.content,
-				"links": articleChanges.links,
-				"tags": articleChanges.tags,
-				"createdAt": articleChanges.createdAt,
-			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const article = response && response.data;
-
-				callback(article);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
-	}
-
-	_requestDelete(articleId, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-		if (!accessToken) {
-			return callback(null);
-		}
-
-		$.post({
-			"url": "https://apis.auoi.net/v1/article/delete",
-			"dataType": "json",
-			"data": {
-				"articleId": articleId,
-			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const result = response && response.data;
-
-				callback(result && result.success);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
 	}
 }
