@@ -25,7 +25,7 @@ class HanulseArticleListView extends HanulseView {
 	}
 
 	_initializeArticleListView() {
-		this.setElement($.parseHTML(HtmlTemplate.get(HanulseArticleListView._templateArticleListPath)));
+		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleListView._templateArticleListPath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._articleListElementWrap = $(this.findChildElement("._list"));

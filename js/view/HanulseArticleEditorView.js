@@ -23,7 +23,7 @@ class HanulseArticleEditorView extends HanulseView {
 	}
 
 	_initializeArticleEditorView() {
-		this.setElement($.parseHTML(HtmlTemplate.get(HanulseArticleEditorView._templatePath)));
+		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleEditorView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._subjectInputElementWrap = $(this.findChildElement("._subject-input"));
@@ -115,9 +115,7 @@ class HanulseArticleEditorView extends HanulseView {
 		if (this._isEqual(this._article.links, links) == false) changes.links = links;
 		if (this._isEqual(this._article.tags, tags) == false) changes.tags = tags;
 		if (this._isEqual(new Date(this._article.createdAt), createdAt) == false) {
-			if (isNaN(createdAt) == false) {
-				changes.createdAt = createdAt;
-			}
+			if (isNaN(createdAt) == false) changes.createdAt = createdAt;
 		}
 
 		return changes;
