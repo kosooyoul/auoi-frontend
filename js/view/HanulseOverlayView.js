@@ -1,11 +1,13 @@
 class HanulseOverlayView {
+	static KEYCODE_ESCAPE = 27;
 	static _globalDismissListeners = (() => {
 		var body = new HtmlElementBuilder(document.body);
 		body.listenEvent("keydown", (event) => {
-			if (event.which != 27) return;
-			const listener = this._globalDismissListeners.pop();
-			if (listener) {
-				listener(event);
+			if (event.which == this.KEYCODE_ESCAPE) {
+				const listener = this._globalDismissListeners.pop();
+				if (listener) {
+					listener(event);
+				}
 			}
 		});
 		window.addEventListener("hashchange", (event) => {
