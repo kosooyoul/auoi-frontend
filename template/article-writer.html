@@ -6,6 +6,18 @@
                 <div style="width: 600px; max-width: 100%;">
                     <input class="input _subject-input" type="text" placeholder="제목은 여기에 간단하게!" maxlength="255" style="display: block; width: 100%; padding: 8px 0px; margin: 8px 0px; color: white; background-color: transparent; font-size: 16px;">
                     <textarea class="textarea scrollbox _content-input" placeholder="내용을 여기에 자세하게!" style="display: block; width: 100%; height: 160px; padding: 8px 0px; margin: 8px 0px; font-size: 16px; color: white; background-color: transparent;"></textarea>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <select class="select _content-type-input" style="display: block; width: 120px; padding: 8px 0px; margin: 8px 10px 8px 0px; color: white; background-color: transparent; font-size: 16px;" disabled>
+                            <option value="TEXT" selected>서식 없음</option>
+                            <option value="HTML">웹 서식</option>
+                            <option value="MARKDOWN">MD 서식</option>
+                        </select>
+                        <select class="select _readable-target-input" style="display: block; width: 120px; padding: 8px 0px; margin: 8px 0px; color: white; background-color: transparent; font-size: 16px;">
+                            <option value="ONLY_ME" selected>나만 보기</option>
+                            <option value="MEMBER">이웃 공개</option>
+                            <option value="ALL">전체 공개</option>
+                        </select>
+                    </div>
                     <div>
                         <input class="input _link-input" type="url" placeholder="관련 링크를 여기에 적어주세요!" maxlength="1024" style="display: block; width: 100%; padding: 8px 0px; margin: 8px 0px; color: white; background-color: transparent; font-size: 16px;">
                     </div>

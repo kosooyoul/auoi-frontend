@@ -6,6 +6,8 @@ class HanulseArticleEditorView extends HanulseView {
 	_contentInputElementWrap;
 	_linkInputElementWrap;
 	_tagsInputElementWrap;
+	_contentTypeInputElementWrap;
+	_readableTargetInputElementWrap;
 	_createdAtInputElementWrap;
 	_saveButtonElementWrap;
 	_cancelButtonElementWrap;
@@ -30,6 +32,8 @@ class HanulseArticleEditorView extends HanulseView {
 		this._contentInputElementWrap = $(this.findChildElement("._content-input"));
 		this._linkInputElementWrap = $(this.findChildElement("._link-input"));
 		this._tagsInputElementWrap = $(this.findChildElement("._tags-input"));
+		this._contentTypeInputElementWrap = $(this.findChildElement("._content-type-input"));
+		this._readableTargetInputElementWrap = $(this.findChildElement("._readable-target-input"));
 		this._createdAtInputElementWrap = $(this.findChildElement("._created-at-input"));
 		this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
 		this._cancelButtonElementWrap = $(this.findChildElement("._cancel-button"));
@@ -75,14 +79,18 @@ class HanulseArticleEditorView extends HanulseView {
 			links: article.links,
 			attachments: article.attachments,
 			tags: article.tags,
+			contentType: article.contentType,
+			readableTarget: article.readableTarget,
 			updatedAt: article.updatedAt && this._formatDateTime(article.updatedAt),
 			createdAt: this._formatDateTime(article.createdAt),
 		};
 
 		this._subjectInputElementWrap.val(articleItem.subject);
 		this._contentInputElementWrap.val(articleItem.content);
-		this._tagsInputElementWrap.val(articleItem.tags.join(" "));
 		this._linkInputElementWrap.val(articleItem.links[0]);
+		this._tagsInputElementWrap.val(articleItem.tags.join(" "));
+		this._contentTypeInputElementWrap.val(articleItem.contentType);
+		this._readableTargetInputElementWrap.val(articleItem.readableTarget);
 		this._createdAtInputElementWrap.val(articleItem.createdAt);
 	}
 
@@ -103,6 +111,8 @@ class HanulseArticleEditorView extends HanulseView {
 		const link = this._linkInputElementWrap.val().trim();
 		const links = link? [link]: [];
 		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
+		const contentType = this._contentTypeInputElementWrap.val().trim();
+		const readableTarget = this._readableTargetInputElementWrap.val().trim();
 		const createdAtString = this._createdAtInputElementWrap.val().trim();
 		const createdAt = new Date(createdAtString);
 
@@ -114,6 +124,8 @@ class HanulseArticleEditorView extends HanulseView {
 		if (this._article.content != content) changes.content = content;
 		if (this._isEqual(this._article.links, links) == false) changes.links = links;
 		if (this._isEqual(this._article.tags, tags) == false) changes.tags = tags;
+		if (this._article.contentType != contentType) changes.contentType = contentType;
+		if (this._article.readableTarget != readableTarget) changes.readableTarget = readableTarget;
 		if (this._isEqual(new Date(this._article.createdAt), createdAt) == false) {
 			if (isNaN(createdAt) == false) changes.createdAt = createdAt;
 		}

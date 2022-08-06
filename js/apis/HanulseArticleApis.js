@@ -41,6 +41,8 @@ class HanulseArticleApis {
 				"content": articleChanges.content,
 				"links": articleChanges.links,
 				"tags": articleChanges.tags,
+				"contentType": articleChanges.contentType,
+				"readableTarget": articleChanges.readableTarget,
 				"createdAt": articleChanges.createdAt,
 			},
 			"headers": {
@@ -97,6 +99,8 @@ class HanulseArticleApis {
 				"content": articleFields.content,
 				"links": articleFields.links,
 				"tags": articleFields.tags,
+				"contentType": articleFields.contentType,
+				"readableTarget": articleFields.readableTarget,
 				"createdAt": articleFields.createdAt,
 			},
 			"headers": {

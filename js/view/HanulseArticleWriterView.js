@@ -6,6 +6,8 @@ class HanulseArticleWriterView extends HanulseView {
 	_contentInputElementWrap;
 	_linkInputElementWrap;
 	_tagsInputElementWrap;
+	_contentTypeInputElementWrap;
+	_readableTargetInputElementWrap;
 	_createdAtInputElementWrap;
 	_saveButtonElementWrap;
 	_loadingElementWrap;
@@ -28,6 +30,8 @@ class HanulseArticleWriterView extends HanulseView {
 		this._contentInputElementWrap = $(this.findChildElement("._content-input"));
 		this._linkInputElementWrap = $(this.findChildElement("._link-input"));
 		this._tagsInputElementWrap = $(this.findChildElement("._tags-input"));
+		this._contentTypeInputElementWrap = $(this.findChildElement("._content-type-input"));
+		this._readableTargetInputElementWrap = $(this.findChildElement("._readable-target-input"));
 		this._createdAtInputElementWrap = $(this.findChildElement("._created-at-input"));
 		this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
 		this._loadingElementWrap = $(this.findChildElement("._loading"));
@@ -79,6 +83,8 @@ class HanulseArticleWriterView extends HanulseView {
 		const link = this._linkInputElementWrap.val().trim();
 		const links = link? [link]: [];
 		const tags = this._tagsInputElementWrap.val().trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag);
+		const contentType = this._contentTypeInputElementWrap.val().trim();
+		const readableTarget = this._readableTargetInputElementWrap.val().trim();
 		const createdAtString = this._createdAtInputElementWrap.val().trim();
 		const createdAt = new Date(createdAtString);
 
@@ -90,6 +96,8 @@ class HanulseArticleWriterView extends HanulseView {
 		articleFields.content = content;
 		articleFields.links = links;
 		articleFields.tags = tags;
+		articleFields.contentType = contentType;
+		articleFields.readableTarget = readableTarget;
 		if (isNaN(createdAt) == false) articleFields.createdAt = createdAt;
 
 		return articleFields;
