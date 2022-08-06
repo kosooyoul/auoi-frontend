@@ -8,6 +8,8 @@ class HanulseArticleDetailView extends HanulseView {
 	_contentElementWrap;
 	_linksElementWrap;
 	_tagsElementWrap;
+	_contentTypeElementWrap;
+	_readableTargetElementWrap;
 	_updatedAtElementWrap;
 	_createdAtElementWrap;
 	_loadingElementWrap;
@@ -37,6 +39,8 @@ class HanulseArticleDetailView extends HanulseView {
 		this._contentElementWrap = $(this.findChildElement("._content"));
 		this._linksElementWrap = $(this.findChildElement("._links"));
 		this._tagsElementWrap = $(this.findChildElement("._tags"));
+		this._contentTypeElementWrap = $(this.findChildElement("._content-type"));
+		this._readableTargetElementWrap = $(this.findChildElement("._readable-target"));
 		this._updatedAtElementWrap = $(this.findChildElement("._updated-at"));
 		this._createdAtElementWrap = $(this.findChildElement("._created-at"));
 		this._loadingElementWrap = $(this.findChildElement("._loading"));
@@ -95,6 +99,8 @@ class HanulseArticleDetailView extends HanulseView {
 			links: article.links,
 			attachments: article.attachments,
 			tags: article.tags,
+			contentType: this._getContentTypeText(article.contentType),
+			readableTarget: this._getReadableTargetText(article.readableTarget),
 			updatedAt: article.updatedAt && this._formatDateTime(article.updatedAt),
 			createdAt: this._formatDateTime(article.createdAt)
 		};
@@ -102,10 +108,12 @@ class HanulseArticleDetailView extends HanulseView {
 		this._subjectElementWrap.text(articleItem.subject);
 		this._authorElementWrap.text(articleItem.authorName);
 		this._contentElementWrap.text(articleItem.content);
-		this._tagsElementWrap.empty();
-		articleItem.tags.forEach(tag => this._tagsElementWrap.append($("<a href=\"javascript:void(0)\" class=\"tag\">").text(tag)));
 		this._linksElementWrap.empty();
 		articleItem.links.forEach(link => this._linksElementWrap.append($("<a href=\"" + link + "\" class=\"link\" target=\"_blank\">").text(link)));
+		this._tagsElementWrap.empty();
+		articleItem.tags.forEach(tag => this._tagsElementWrap.append($("<a href=\"javascript:void(0)\" class=\"tag\">").text(tag)));
+		this._contentTypeElementWrap.text(articleItem.contentType);
+		this._readableTargetElementWrap.text(articleItem.readableTarget);
 		this._updatedAtElementWrap.text(articleItem.updatedAt);
 		this._createdAtElementWrap.text(articleItem.createdAt);
 	}
@@ -119,5 +127,23 @@ class HanulseArticleDetailView extends HanulseView {
 		const minutes = ("0" + date.getMinutes()).slice(-2);
 		const seconds = ("0" + date.getSeconds()).slice(-2);
 		return year + "-" + month + "-" + dom + " " + hours + ":" + minutes + ":" + seconds;
+	}
+
+	_getContentTypeText(contentType) {
+		switch (contentType) {
+			case "TEXT": "서식 없음";
+			case "HTML": "웹 서식";
+			case "MARKDOWN": "MD 서식";
+		}
+		return "서식 없음";
+	}
+
+	_getReadableTargetText(readableTarget) {
+		switch (readableTarget) {
+			case "ONLY_ME": "나만 보기";
+			case "MEMBER": "이웃 공개";
+			case "ALL": "전체 공개";
+		}
+		return "나만 보기";
 	}
 }
