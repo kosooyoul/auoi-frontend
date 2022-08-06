@@ -285,6 +285,7 @@ class HanulseBlock {
 			this._status.left = status;
 			this._status.right = status;
 		}
+		this._status.some = status;
 	}
 
 	resetStatus(side) {
@@ -299,6 +300,7 @@ class HanulseBlock {
 			this._status.left = null;
 			this._status.right = null;
 		}
+		this._status.some = this._status.top || this._status.left || this._status.right;
 	}
 
 	getAction(side) {

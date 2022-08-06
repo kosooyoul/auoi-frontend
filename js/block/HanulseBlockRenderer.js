@@ -89,7 +89,7 @@ class HanulseBlockRenderer {
 		if (this.labelEnabled) {
 			const label = block.getLabel();
 			if (label) {
-				this.renderLabelWithStatus(context, label, status);
+				this.renderLabelWithStatusCode(context, label, status.some);
 			}
 		}
 
@@ -190,12 +190,12 @@ class HanulseBlockRenderer {
 		}
 	}
 
-	renderLabelWithStatus(context, label, status) {
-		if (status == "active") {
+	renderLabelWithStatusCode(context, label, statusCode) {
+		if (statusCode == "active") {
 			HanulseUtils.drawActiveLabel(context, label, 0, -85);
-		} else if (status == "hover") {
+		} else if (statusCode == "hover") {
 			HanulseUtils.drawHoverLabel(context, label, 0, -85);
-		} else if (status == "focus") {
+		} else if (statusCode == "focus") {
 			HanulseUtils.drawFocusLabel(context, label, 0, -85);
 		} else {
 			HanulseUtils.drawLabel(context, label, 0, -85);
