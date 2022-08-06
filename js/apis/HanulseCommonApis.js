@@ -39,4 +39,23 @@ class HanulseCommonApis {
 			},
 		});
 	}
+
+	static getArea(name, callback) {
+		console.log("Load area: " + name);
+
+		const timeForCache = parseInt(Date.now() / 1000 / 60 / 60 / 24);
+
+		$.ajax({
+			"url": "./data/" + name + ".json?ts=" + timeForCache,
+			"dataType": "json",
+			"success": (data) => {
+				callback(data);
+			},
+			"error": () => {
+				console.log("Failed loading area: " + name);
+
+				this.getArea("404", callback);
+			}
+		});
+	}
 }

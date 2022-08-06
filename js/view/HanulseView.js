@@ -2,8 +2,8 @@ class HanulseView {
 
 	_element;
 
-	constructor() {
-
+	constructor(element) {
+		this.setElement(element);
 	}
 
 	setElement(element) {
