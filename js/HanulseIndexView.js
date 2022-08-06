@@ -24,6 +24,8 @@ class HanulseIndexView extends HanulseView {
 
 		this._updateCounter();
 		this._updateWisesaying();
+
+		this._loadArea();
 	}
 
 	_initializeCanvasView() {
@@ -52,14 +54,7 @@ class HanulseIndexView extends HanulseView {
 	}
 
 	onChangeArea() {
-		this._canvasView.fadeOut(200, () => {
-			const areaName = this._getAreaNameFromLocationHash() || HanulseIndexView._defaultAreaName;
-			if (this._areaName == areaName) {
-				return;
-			}
-
-			HanulseCommonApis.getArea(areaName, (data) => this.onLoadArea(data));
-		});
+		this._loadArea();
 		this._loadingView.show();
 	}
 
@@ -69,8 +64,20 @@ class HanulseIndexView extends HanulseView {
 		this._canvasView.updateMapData(data);
 		this._canvasView.fadeIn(400);
 		this._loadingView.hide();
+	}
 
-		this._areaName = areaName;
+	_loadArea() {
+		const areaName = this._getAreaNameFromLocationHash() || HanulseIndexView._defaultAreaName;
+		if (this._areaName == areaName) {
+			return;
+		}
+
+		this._canvasView.fadeOut(200, () => {
+			HanulseCommonApis.getArea(areaName, (data) => {
+				this.onLoadArea(data);
+				this._areaName = areaName;
+			});
+		});
 	}
 
 	_getAreaNameFromLocationHash() {
