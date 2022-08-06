@@ -1,7 +1,7 @@
 class HanulseArticleListView extends HanulseView {
-	static _templateArticleListPath = "./template/article-list.html";
-	static _templateArticleListItemPath = "./template/article-list-item.html";
-	static _templateArticleListPaginationItemPath = "./template/article-list-pagination-item.html";
+	static _templateArticleListPath = "./template/article/article-list.html";
+	static _templateArticleListItemPath = "./template/article/article-list-item.html";
+	static _templateArticleListPaginationItemPath = "./template/article/article-list-pagination-item.html";
 
 	_articleListElementWrap;
 	_articleListPaginationElementWrap;

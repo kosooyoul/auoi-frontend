@@ -1,5 +1,5 @@
 class HanulseArticleWriterView extends HanulseView {
-	static _templatePath = "./template/article-writer.html";
+	static _templatePath = "./template/article/article-writer.html";
 
 	_titleElementWrap;
 	_subjectInputElementWrap;

@@ -1,5 +1,5 @@
 class HanulseArticleDetailView extends HanulseView {
-	static _templateArticleDetailPath = "./template/article-detail.html";
+	static _templateArticleDetailPath = "./template/article/article-detail.html";
 
 	_titleElementWrap;
 	_scrollboxElementsWrap;
