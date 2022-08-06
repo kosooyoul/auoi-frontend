@@ -131,18 +131,18 @@ class HanulseArticleDetailView extends HanulseView {
 
 	_getContentTypeText(contentType) {
 		switch (contentType) {
-			case "TEXT": "서식 없음";
-			case "HTML": "웹 서식";
-			case "MARKDOWN": "MD 서식";
+			case "TEXT": return "서식 없음";
+			case "HTML": return "웹 서식";
+			case "MARKDOWN": return "MD 서식";
 		}
 		return "서식 없음";
 	}
 
 	_getReadableTargetText(readableTarget) {
 		switch (readableTarget) {
-			case "ONLY_ME": "나만 보기";
-			case "MEMBER": "이웃 공개";
-			case "ALL": "전체 공개";
+			case "ONLY_ME": return "나만 보기";
+			case "MEMBER": return "이웃 공개";
+			case "ALL": return "전체 공개";
 		}
 		return "나만 보기";
 	}
