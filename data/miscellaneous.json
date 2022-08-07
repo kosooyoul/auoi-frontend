@@ -1,10 +1,10 @@
 {
     "title": "잡부의 공간",
     "map": [
-    {"position": {"x":  0, "y": -5, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "label": "너저분한 창고", "effect": "link", "action": {
+    {"position": {"x":  0, "y": -5, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "label": "삽질실", "effect": "link", "action": {
         "top": {
             "type": "link",
-            "link": "#storehouse"
+            "link": "#workspace"
         }
     }},
 
@@ -122,10 +122,10 @@
     {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}},
     {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "soil-top", "left": "soil-left", "right": "soil-right"}},
 
-    {"position": {"x":  0, "y":  5, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "label": "삽질실", "effect": "link", "action": {
+    {"position": {"x":  0, "y":  5, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "label": "너저분한 창고", "effect": "link", "action": {
         "top": {
             "type": "link",
-            "link": "#workspace"
+            "link": "#storehouse"
         }
     }}
 ]}

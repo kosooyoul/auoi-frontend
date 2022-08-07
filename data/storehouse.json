@@ -1,100 +1,146 @@
 {
     "title": "너저분한 창고",
     "map": [
-    {"position": {"x": -4, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -3, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -2, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -1, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x":  0, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  1, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x":  2, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  3, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  4, "y": -4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-
-    {"position": {"x": -4, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -3, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x": -2, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  1, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  3, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -4, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-
-    {"position": {"x": -3, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "traveler"},
-    {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x":  3, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -4, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-
-    {"position": {"x": -3, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  2, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-
-    {"position": {"x": -4, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -3, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -2, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top"}, "prop": "warp", "effect": "warp", "label": "워프", "action": {
+    {"position": {"x": -2, "y": -4, "z":  1}, "texture": {"left": "green-left"}},
+    {"position": {"x": -2, "y": -4, "z":  2}, "texture": {"left": "green-left"}},
+    {"position": {"x": -2, "y": -4, "z":  3}, "texture": {"left": "green-left", "right": "green-right"}},
+    {"position": {"x": -1, "y": -4, "z":  1}, "texture": {"left": "green-left"}},
+    {"position": {"x": -1, "y": -4, "z":  2}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
+    {"position": {"x":  0, "y": -4, "z":  1}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
+    {"position": {"x":  1, "y": -4, "z":  0}, "texture": {"top": "green-top", "right": "green-right"}, "label": "나가기", "effect": "link", "action": {
         "top": {
-            "type": "menu",
-            "menu": [
-                {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"}
+            "type": "link",
+            "link": "javascript:history.back()"
+        }
+    }},
+
+    {"position": {"x": -3, "y": -3, "z":  1}, "texture": {"right": "green-right"}},
+    {"position": {"x": -3, "y": -3, "z":  2}, "texture": {"right": "green-right"}},
+    {"position": {"x": -3, "y": -3, "z":  3}, "texture": {"right": "green-right"}},
+    {"position": {"x": -2, "y": -3, "z":  0}, "texture": {"top": "green-top"}, "prop": "flower-berry-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
             ]
         }
     }},
-    {"position": {"x":  1, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  2, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  3, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  4, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
+    {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x":  1, "y": -3, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x":  3, "y": -3, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "green-top", "right": "green-right"}, "prop": "flower-berry-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
+    
+    {"position": {"x": -3, "y": -2, "z":  1}, "texture": {"left": "green-left", "right": "green-right"}},
+    {"position": {"x": -3, "y": -2, "z":  2}, "texture": {"left": "green-left", "right": "green-right"}},
+    {"position": {"x": -3, "y": -2, "z":  3}, "texture": {"left": "green-left", "right": "green-right"}},
+    {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
+    {"position": {"x":  0, "y": -2, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-left"},
+    {"position": {"x":  1, "y": -2, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-left"},
+    {"position": {"x":  2, "y": -2, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-left"},
+    {"position": {"x":  3, "y": -2, "z":  0}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "green-top", "right": "green-right"}},
 
-    {"position": {"x": -4, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -2, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  0, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  1, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  2, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  3, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  4, "y":  1, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
+    {"position": {"x": -4, "y": -1, "z":  1}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y": -1, "z":  2}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y": -1, "z":  3}, "texture": {"right": "green-right"}},
+    {"position": {"x": -3, "y": -1, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
+    {"position": {"x": -1, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  0, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  1, "y": -1, "z": -1}, "texture": {"top": "green-top"}, "prop": "traveler"},
+    {"position": {"x":  2, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  3, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x":  5, "y": -1, "z":  0}, "texture": {"top": "green-top", "right": "green-right"}},
 
-    {"position": {"x": -4, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x": -3, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -2, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -1, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  0, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  1, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  3, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  4, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
+    {"position": {"x": -4, "y":  0, "z":  1}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y":  0, "z":  2}, "texture": {"right": "glass-right"}},
+    {"position": {"x": -4, "y":  0, "z":  3}, "texture": {"right": "green-right"}},
+    {"position": {"x": -3, "y":  0, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x": -2, "y":  0, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-right"},
+    {"position": {"x": -1, "y":  0, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  0, "y":  0, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  1, "y":  0, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  2, "y":  0, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  3, "y":  0, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  4, "y":  0, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-left-back"},
+    {"position": {"x":  5, "y":  0, "z":  0}, "texture": {"top": "green-top", "right": "green-right"}},
 
-    {"position": {"x": -4, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -1, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  2, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  4, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
+    {"position": {"x": -4, "y":  1, "z":  1}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y":  1, "z":  2}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y":  1, "z":  3}, "texture": {"right": "green-right"}},
+    {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"top": "green-top"}},
+    {"position": {"x": -2, "y":  1, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-right"},
+    {"position": {"x": -1, "y":  1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  0, "y":  1, "z": -1}, "texture": {"top": "green-top"}, "prop": "pcontable-left", "label": "컴퓨터", "effect": "link", "action": {
+        "top": {
+            "type": "articles",
+            "title": "컴퓨터"
+        }
+    }},
+    {"position": {"x":  1, "y":  1, "z": -1}, "texture": {"top": "green-top"}, "prop": "bookontable-left", "label": "문서 자료", "effect": "link", "action": {
+        "top": {
+            "type": "articles",
+            "title": "문서 자료"
+        }
+    }},
+    {"position": {"x":  2, "y":  1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  3, "y":  1, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  4, "y":  1, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-left-back"},
+    {"position": {"x":  5, "y":  1, "z":  0}, "texture": {"top": "green-top", "right": "green-right"}},
 
-    {"position": {"x": -4, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x": -3, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x": -1, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
-    {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"},
-    {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "bush"},
-    {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  3, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
-    {"position": {"x":  4, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "flower"}
+    {"position": {"x": -4, "y":  2, "z":  1}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y":  2, "z":  2}, "texture": {"right": "green-right"}},
+    {"position": {"x": -4, "y":  2, "z":  3}, "texture": {"right": "green-right"}},
+    {"position": {"x": -3, "y":  2, "z":  0}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x": -3, "y":  2, "z": -1}, "texture": {"left": "green-left"}},
+    {"position": {"x": -2, "y":  2, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-right"},
+    {"position": {"x": -1, "y":  2, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  0, "y":  2, "z": -1}, "texture": {"top": "green-top"}, "prop": "chair-small"},
+    {"position": {"x":  1, "y":  2, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  2, "y":  2, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  3, "y":  2, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  4, "y":  2, "z": -1}, "texture": {"top": "green-top"}, "prop": "green-slide-left-back"},
+    {"position": {"x":  5, "y":  2, "z":  0}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
+    {"position": {"x":  5, "y":  2, "z": -1}, "texture": {"left": "green-left", "right": "green-right"}},
+
+    {"position": {"x": -2, "y":  3, "z": -1}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x": -1, "y":  3, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  0, "y":  3, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  1, "y":  3, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  2, "y":  3, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  3, "y":  3, "z": -1}, "texture": {"top": "green-top"}},
+    {"position": {"x":  4, "y":  3, "z": -1}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
+
+    {"position": {"x": -1, "y":  4, "z": -1}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x":  0, "y":  4, "z": -1}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x":  1, "y":  4, "z": -1}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x":  2, "y":  4, "z": -1}, "texture": {"top": "green-top", "left": "green-left"}},
+    {"position": {"x":  3, "y":  4, "z": -1}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}}
 ]}

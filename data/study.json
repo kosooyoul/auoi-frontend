@@ -152,7 +152,7 @@
         {"position": {"x": -2, "y":  0, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}},
         {"position": {"x": -1, "y":  0, "z":  1}, "texture": {"top": "parquet-top"}},
         {"position": {"x":  0, "y":  0, "z":  1}, "texture": {"top": "parquet-top"}, "prop": "table"},
-        {"position": {"x":  1, "y":  0, "z":  1}, "texture": {"top": "parquet-top"}, "prop": "bookontable", "label": "정리 노트", "effect": "link", "action": {
+        {"position": {"x":  1, "y":  0, "z":  1}, "texture": {"top": "parquet-top"}, "prop": "bookontable-right", "label": "정리 노트", "effect": "link", "action": {
             "top": {
                 "type": "articles",
                 "tags": "자습",

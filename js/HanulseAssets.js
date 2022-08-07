@@ -66,7 +66,8 @@ class HanulseAssets {
 
 		this.props["table"] = {"path": "./images/table.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		this.props["penpageontable"] = {"path": "./images/penpageontable.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
-		this.props["bookontable"] = {"path": "./images/bookontable.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
+		this.props["bookontable-right"] = {"path": "./images/bookontable-right.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
+		this.props["bookontable-left"] = {"path": "./images/bookontable-left.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		this.props["scrapontable"] = {"path": "./images/scrapontable.png", "left": -35 * 1.16, "top": -36 * 1.16, "width": 70 * 1.16, "height": 52 * 1.16};
 		this.props["pcontable-left"] = {"path": "./images/pcontable-left.png", "left": -35 * 1.16, "top": -52 * 1.16, "width": 70 * 1.16, "height": 68 * 1.16};
 		this.props["pcontable-right"] = {"path": "./images/pcontable-right.png", "left": -35 * 1.16, "top": -52 * 1.16, "width": 70 * 1.16, "height": 68 * 1.16};
@@ -75,13 +76,18 @@ class HanulseAssets {
 		this.props["blocks-cube"] = {"path": "./images/blocks-cube.png", "left": -13.5, "top": -22, "width": 27, "height": 29};
 		this.props["blocks-xyz"] = {"path": "./images/blocks-xyz.png", "left": -19.5, "top": -32, "width": 39, "height": 36};
 
-		this.props["flower-berry-1"] = {"path": "./images/flower-berry-1.png", "left": -16, "top": -42, "width": 33, "height": 47};
+		this.props["flower-berry-1"] = {"path": "./images/flower-berry-1.png", "left": -16, "top": -37, "width": 33, "height": 47};
+		this.props["flower-berry-2"] = {"path": "./images/flower-berry-2.png", "left": -16, "top": -43, "width": 33, "height": 53};
 		this.props["flower-palm-2"] = {"path": "./images/flower-palm-2.png", "left": -16, "top": -45, "width": 33, "height": 55};
 		this.props["parquet-floor-left"] = {"path": "./images/parquet-floor-left.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		this.props["grass-slide-right"] = {"path": "./images/grass-slide-right.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		this.props["grass-slide-left"] = {"path": "./images/grass-slide-left.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		this.props["grass-slide-right-back"] = {"path": "./images/grass-slide-right-back.png", "left": -40, "top": -37, "width": 80, "height": 57};
 		this.props["grass-slide-left-back"] = {"path": "./images/grass-slide-left-back.png", "left": -40, "top": -37, "width": 80, "height": 57};
+		this.props["green-slide-right"] = {"path": "./images/green-slide-right.png", "left": -40, "top": -55, "width": 80, "height": 75};
+		this.props["green-slide-left"] = {"path": "./images/green-slide-left.png", "left": -40, "top": -55, "width": 80, "height": 75};
+		this.props["green-slide-right-back"] = {"path": "./images/green-slide-right-back.png", "left": -40, "top": -37, "width": 80, "height": 57};
+		this.props["green-slide-left-back"] = {"path": "./images/green-slide-left-back.png", "left": -40, "top": -37, "width": 80, "height": 57};
 		this.props["pink-slide-right"] = {"path": "./images/pink-slide-right.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		this.props["pink-slide-left"] = {"path": "./images/pink-slide-left.png", "left": -40, "top": -55, "width": 80, "height": 75};
 		
@@ -109,6 +115,7 @@ class HanulseAssets {
 		this.textures["blue-left"] =  {"path": "./images/blue-left.png", "left": -40, "top": 0, "width": 40, "height": 55};
 		this.textures["blue-right"] =  {"path": "./images/blue-right.png", "left": 0, "top": 0, "width": 40, "height": 55};
 
+		this.textures["green-top"] =  {"path": "./images/green-top.png", "left": -40, "top": -20, "width": 80, "height": 40};
 		this.textures["green-left"] =  {"path": "./images/green-left.png", "left": -40, "top": 0, "width": 40, "height": 55};
 		this.textures["green-right"] =  {"path": "./images/green-right.png", "left": 0, "top": 0, "width": 40, "height": 55};
 
