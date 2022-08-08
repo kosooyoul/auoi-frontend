@@ -129,7 +129,7 @@
     {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "bookontable-right", "label": "방명록", "effect": "link", "action": {
         "top": {
-            "type": "articles",
+            "type": "guestbook",
             "title": "방명록"
         }
     }},
