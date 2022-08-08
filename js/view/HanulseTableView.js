@@ -2,6 +2,7 @@ class HanulseTableView extends HanulseView {
 	static _templatePath = "./template/table.html";
 
 	_titleElementWrap;
+	_tableElementWrap;
 
 	constructor() {
 		super();
@@ -13,6 +14,7 @@ class HanulseTableView extends HanulseView {
 		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseTableView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
+		this._tableElementWrap = $(this.findChildElement("._table"));
 	}
 
 	setTitle(title) {
@@ -20,6 +22,21 @@ class HanulseTableView extends HanulseView {
 	}
 
 	setTable(table) {
-		console.log(table);
+		this._tableElementWrap.empty();
+
+		const tableWrap = $("<table>").css({"padding": "10px"});
+		const tableBody = $("<tbody>");
+		tableWrap.append(tableBody);
+		table.forEach(row => {
+			const rowWrap = $("<tr>").css({"background-color": "rgba(0, 0, 0, 0.4)"});
+			tableBody.append(rowWrap);
+			row.forEach(col => {
+				const colWrap = $("<td>").css({"padding": "6px"});
+				colWrap.text(col);
+				rowWrap.append(colWrap);
+			});
+		});
+
+		this._tableElementWrap.append(tableWrap);
 	}
 }
