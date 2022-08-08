@@ -40,6 +40,7 @@ a:active {background-color: rgba(20, 80, 120, 0.8); box-shadow: 0px 0px 4px 0px 
 .counter-bar-long-today {display: inline-block; width: 0px; height: 4px; margin: 2px 0px 2px 2px; background-color: red;}
 .counter-bar-long-yesterday {display: inline-block; width: 160px; height: 4px; margin: 2px 2px 2px 0px; background-color: white;}
 
+.scrollbox {scroll-behavior: smooth;}
 .scrollbox::-webkit-scrollbar {height: 6px; width: 6px;}
 .scrollbox::-webkit-scrollbar-thumb {background: white;border-radius: 3px;}
 
