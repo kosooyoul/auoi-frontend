@@ -10,6 +10,7 @@ class HanulseActions {
 			case "menu": return this._actMenu(data, onActionFinishedCallback);
 			case "message": return this._actMessage(data, onActionFinishedCallback);
 			case "selection": return this._actSelection(data, onActionFinishedCallback);
+			case "table": return this._actTable(data, onActionFinishedCallback);
 			case "article-writer": return this._actArticleWriter(data, onActionFinishedCallback);
 			case "pwa": return this._actPwa(data, onActionFinishedCallback);
 		}
@@ -74,6 +75,17 @@ class HanulseActions {
 			}
 			overlayView.hide();
 		});
+	}
+
+	_actTable(data, onActionFinishedCallback) {
+		const tableView = new HanulseTableView();
+		tableView.setTitle(data.title);
+		tableView.setTable(data.table);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(tableView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
 	}
 
 	_actArticleWriter(data, onActionFinishedCallback) {
