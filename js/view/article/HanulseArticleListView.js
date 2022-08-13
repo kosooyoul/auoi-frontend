@@ -98,31 +98,21 @@ class HanulseArticleListView extends HanulseView {
 	}
 
 	_requestArticleList() {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
+		const options = {
+			"pageIndex": this._pageIndex,
+			"countPerPage": this._countPerPage,
+		}
 
 		this._invisibleArticleList();
 		this._showLoading();
-		$.get({
-			"url": "https://apis.auoi.net/v1/article/search",
-			"dataType": "json",
-			"data": {
-				"tags": this._filter.tags,
-				"authorId": this._filter.authorId,
-				"pageIndex": this._pageIndex,
-				"countPerPage": this._countPerPage
-			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const articleList = response && response.data;
-	
-				if (articleList) {
-					this._hideLoading();
-					this._clearArticleList();
-					this._updateArticleList(articleList);
-				}
+		HanulseArticleApis.requestArticleList(this._filter, options, (articleList) => {
+			if (articleList == null) {
+				return;
 			}
+
+			this._hideLoading();
+			this._clearArticleList();
+			this._updateArticleList(articleList);
 		});
 	}
 

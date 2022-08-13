@@ -26,6 +26,32 @@ class HanulseArticleApis {
 		});
 	}
 
+	static requestArticleList(filter, options, callback) {
+		const accessToken = HanulseAuthorizationManager.getAccessToken();
+
+		$.get({
+			"url": "https://apis.auoi.net/v1/article/search",
+			"dataType": "json",
+			"data": {
+				"tags": filter.tags,
+				"authorId": filter.authorId,
+				"pageIndex": options.pageIndex,
+				"countPerPage": options.countPerPage,
+			},
+			"headers": {
+				"authorization": accessToken,
+			},
+			"success": (response) => {
+				const articleList = response && response.data;
+	
+				callback(articleList);
+			},
+			"error": () => {
+				callback(null);
+			},
+		});
+	}
+
 	static updateArticle(articleId, articleChanges, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
