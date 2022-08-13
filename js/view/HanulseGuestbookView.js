@@ -12,7 +12,7 @@ class HanulseGuestbookView extends HanulseView {
 	}
 
 	_initializeGuestbookView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseTableView._templatePath)).get());
+		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseGuestbookView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 
