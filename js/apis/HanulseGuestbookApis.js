@@ -26,7 +26,7 @@ class HanulseGuestbookApis {
 		});
 	}
 
-	static requestGuestbookList(filter, options) {
+	static requestGuestbookList(filter, options, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 
 		$.get({
@@ -116,6 +116,7 @@ class HanulseGuestbookApis {
 			"dataType": "json",
 			"data": {
 				"ownerId": guestbookFields.ownerId,
+				"authorName": guestbookFields.authorName,
 				"content": guestbookFields.content,
 				"createdAt": guestbookFields.createdAt,
 			},

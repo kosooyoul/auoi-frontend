@@ -130,7 +130,8 @@
     {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "bookontable-right", "label": "방명록", "effect": "link", "action": {
         "top": {
             "type": "guestbook",
-            "title": "방명록"
+            "title": "방명록",
+            "owner": "62c0513854a9058e21419fb2"
         }
     }},
     {"position": {"x":  2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "chair-small"},

@@ -92,11 +92,18 @@ class HanulseActions {
 	_actGuestbook(data, onActionFinishedCallback) {
 		const guestbookView = new HanulseGuestbookView();
 		guestbookView.setTitle(data.title);
+		guestbookView.load({
+			"owner": data.owner
+		});
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(guestbookView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
+
+		guestbookView.setOnSaveCallback(() => {
+			overlayView.hide();
+		});
 	}
 
 	_actArticleWriter(data, onActionFinishedCallback) {

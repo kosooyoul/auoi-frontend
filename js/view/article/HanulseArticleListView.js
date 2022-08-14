@@ -44,7 +44,7 @@ class HanulseArticleListView extends HanulseView {
 
 	setFilter(filter) {
 		this._filter.tags = filter.tags;
-		this._filter.authorId = filter.authorId;
+		this._filter.authorId = filter.author;
 	}
 
 	updateItem(articeId, article) {

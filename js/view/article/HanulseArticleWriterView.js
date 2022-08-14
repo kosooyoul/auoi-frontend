@@ -91,7 +91,7 @@ class HanulseArticleWriterView extends HanulseView {
 		if (subject.length == 0) return this._subjectInputElementWrap.focus();
 		if (content.length == 0) return this._contentInputElementWrap.focus();
 
-		const articleFields = {}
+		const articleFields = {};
 		articleFields.subject = subject;
 		articleFields.content = content;
 		articleFields.links = links;
