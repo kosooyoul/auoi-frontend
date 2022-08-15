@@ -10,6 +10,7 @@ class HanulseArticleListView extends HanulseView {
 
 	_filter = {
 		tags: null,
+		ownerId: null,
 		authorId: null,
 	};
 
@@ -44,6 +45,7 @@ class HanulseArticleListView extends HanulseView {
 
 	setFilter(filter) {
 		this._filter.tags = filter.tags;
+		this._filter.ownerId = filter.owner;
 		this._filter.authorId = filter.author;
 	}
 

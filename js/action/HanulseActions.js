@@ -22,6 +22,7 @@ class HanulseActions {
 		articleView.setTitle(data.title);
 		articleView.load({
 			"tags": data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag),
+			"owner": data.owner,
 			"author": data.author
 		});
 
@@ -111,6 +112,7 @@ class HanulseActions {
 			const articleWriterView = new HanulseArticleWriterView();
 			articleWriterView.setTags(data.tags == null? null: data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 			articleWriterView.setTitle(data.title);
+			articleWriterView.setOwner(data.owner);
 
 			const overlayView = new HanulseOverlayView();
 			overlayView.setContentView(articleWriterView);

@@ -14,6 +14,7 @@ class HanulseArticleWriterView extends HanulseView {
 
 	_loadingView;
 
+	_ownerId;
 	_onSaveCallback;
 
 	constructor() {
@@ -77,6 +78,10 @@ class HanulseArticleWriterView extends HanulseView {
 		this._titleElementWrap.text(title || "제목 없음");
 	}
 
+	setOwner(owner) {
+		this._ownerId = owner;
+	}
+
 	_getFields() {
 		const subject = this._subjectInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
@@ -92,6 +97,7 @@ class HanulseArticleWriterView extends HanulseView {
 		if (content.length == 0) return this._contentInputElementWrap.focus();
 
 		const articleFields = {};
+		articleFields.ownerId = this._ownerId;
 		articleFields.subject = subject;
 		articleFields.content = content;
 		articleFields.links = links;

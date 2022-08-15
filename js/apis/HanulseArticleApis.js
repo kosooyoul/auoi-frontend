@@ -34,6 +34,7 @@ class HanulseArticleApis {
 			"dataType": "json",
 			"data": {
 				"tags": filter.tags,
+				"ownerId": filter.ownerId,
 				"authorId": filter.authorId,
 				"pageIndex": options.pageIndex,
 				"countPerPage": options.countPerPage,
@@ -121,6 +122,7 @@ class HanulseArticleApis {
 			"url": "https://apis.auoi.net/v1/article/register",
 			"dataType": "json",
 			"data": {
+				"ownerId": articleFields.ownerId,
 				"subject": articleFields.subject,
 				"content": articleFields.content,
 				"links": articleFields.links,

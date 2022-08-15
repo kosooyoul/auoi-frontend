@@ -15,17 +15,17 @@
     {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "pictures", "label": "기억의 파편", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "author": "62c0513854a9058e21419fb2",
-            "title": "기억의 파편"
+            "title": "기억의 파편",
+            "owner": "62c0513854a9058e21419fb2"
         }
     }},
     {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
         "top": {
-            "tags": "컴퓨터",
             "type": "articles",
-            "author": "62c0513854a9058e21419fb2",
-            "title": "개발자로 사는 법 1권"
+            "title": "개발자로 사는 법 1권",
+            "owner": "62c0513854a9058e21419fb2",
+            "tags": "컴퓨터"
         }
     }},
     {"position": {"x":  1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm", "action": {
@@ -73,17 +73,18 @@
     {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2", "label": "미식가의 비망록", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "tags": "요리",
-            "author": "62c0513854a9058e21419fb2",
-            "title": "미식가의 비망록"
+            "title": "미식가의 비망록",
+            "owner": "62c0513854a9058e21419fb2",
+            "tags": "요리"
         }
     }},
     {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "penpageontable", "label": "기록 남기기", "effect": "link", "action": {
         "top": {
             "type": "article-writer",
-            "tags": "",
-            "title": "기록을 남겨요"
+            "title": "기록을 남겨요",
+            "owner": "62c0513854a9058e21419fb2",
+            "tags": ""
         }
     }},
     {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
@@ -110,9 +111,9 @@
     {"position": {"x": -2, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1", "label": "휴식의 지침서", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "tags": "휴식,여행",
-            "author": "62c0513854a9058e21419fb2",
-            "title": "휴식의 지침서"
+            "title": "휴식의 지침서",
+            "owner": "62c0513854a9058e21419fb2",
+            "tags": "휴식,여행"
         }
     }},
     {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste", "action": {
