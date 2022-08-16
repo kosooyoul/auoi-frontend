@@ -13,7 +13,7 @@ class HanulseGuestbookListView extends HanulseView {
 	};
 
 	_pageIndex = 0;
-	_countPerPage = 10;
+	_countPerPage = 5;
 
 	_onClickGuestbookItemCallback;
 
@@ -41,6 +41,7 @@ class HanulseGuestbookListView extends HanulseView {
 			this._showLoading();
 			HanulseGuestbookApis.createGuestbook(this._getFields(), (guestbook) => {
 				if (guestbook) {
+					this._clearFields();
 					this._requestGuestbookList();
 				} else {
 					const messageView = new HanulseMessageView();
@@ -206,5 +207,11 @@ class HanulseGuestbookListView extends HanulseView {
 		if (isNaN(createdAt) == false) guestbookFields.createdAt = createdAt;
 
 		return guestbookFields;
+	}
+
+	_clearFields() {
+		this._authorInputElementWrap.val(null);
+		this._contentInputElementWrap.val(null);
+		this._createdAtInputElementWrap.val(null);
 	}
 }
