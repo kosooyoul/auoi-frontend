@@ -41,7 +41,10 @@ class HanulseTableView extends HanulseView {
 			const rowWrap = $("<tr>").css({"background-color": "rgba(0, 0, 0, 0.4)"});
 			tableBody.append(rowWrap);
 			row.forEach((col, i) => {
-				const colWrap = $("<td>").css({"padding": "6px"});
+				const colWrap = $("<td>").css({
+					"padding": "10px",
+					"border-radius": "8px",
+				});
 				colWrap.text(col);
 				rowWrap.append(colWrap);
 
