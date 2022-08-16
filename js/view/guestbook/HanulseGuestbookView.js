@@ -27,10 +27,6 @@ class HanulseGuestbookView extends HanulseView {
 		this.addChildView(this._loadingView = new HanulseLoadingView());
 	}
 
-	setOnSaveCallback(onSaveCallback) {
-		this._guestbookListView.setOnSaveCallback(onSaveCallback);
-	}
-
 	setTitle(title) {
 		this._guestbookListView.setTitle(title);
 	}

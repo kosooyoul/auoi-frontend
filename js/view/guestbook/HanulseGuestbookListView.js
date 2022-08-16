@@ -41,9 +41,7 @@ class HanulseGuestbookListView extends HanulseView {
 			this._showLoading();
 			HanulseGuestbookApis.createGuestbook(this._getFields(), (guestbook) => {
 				if (guestbook) {
-					if (this._onSaveCallback) {
-						this._onSaveCallback();
-					}
+					this._requestGuestbookList();
 				} else {
 					const messageView = new HanulseMessageView();
 					messageView.setMessage("방명록을 저장할 수 없습니다.");
@@ -56,10 +54,6 @@ class HanulseGuestbookListView extends HanulseView {
 				this._hideLoading();
 			});
 		});
-	}
-
-	setOnSaveCallback(onSaveCallback) {
-		this._onSaveCallback = onSaveCallback;
 	}
 
 	setTitle(title) {

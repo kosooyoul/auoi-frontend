@@ -101,10 +101,6 @@ class HanulseActions {
 		overlayView.setContentView(guestbookView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
-
-		guestbookView.setOnSaveCallback(() => {
-			overlayView.hide();
-		});
 	}
 
 	_actArticleWriter(data, onActionFinishedCallback) {
