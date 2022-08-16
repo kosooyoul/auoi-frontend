@@ -30,7 +30,11 @@ class HanulseTableView extends HanulseView {
 	setTable(table) {
 		this._tableElementWrap.empty();
 
-		const tableWrap = $("<table>").css({"padding": "10px"});
+		const tableWrap = $("<table>").css({
+			"padding": "10px",
+			"user-select": "text",
+			"word-break": "break-all"
+		});
 		const tableBody = $("<tbody>");
 		tableWrap.append(tableBody);
 		table.forEach(row => {
@@ -45,6 +49,8 @@ class HanulseTableView extends HanulseView {
 				if (options == null) return;
 				if (options["line-wrap"] === false) {
 					colWrap.css({"white-space": "nowrap"});
+				} else {
+					colWrap.css({"white-space": "pre-line"});
 				}
 			});
 		});
