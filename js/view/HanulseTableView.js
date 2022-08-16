@@ -4,6 +4,8 @@ class HanulseTableView extends HanulseView {
 	_titleElementWrap;
 	_tableElementWrap;
 
+	_colsOptions = [];
+
 	constructor() {
 		super();
 
@@ -21,6 +23,10 @@ class HanulseTableView extends HanulseView {
 		this._titleElementWrap.text(title || "제목 없음");
 	}
 
+	setColsOptions(colsOptions) {
+		this._colsOptions = colsOptions;
+	}
+
 	setTable(table) {
 		this._tableElementWrap.empty();
 
@@ -30,10 +36,16 @@ class HanulseTableView extends HanulseView {
 		table.forEach(row => {
 			const rowWrap = $("<tr>").css({"background-color": "rgba(0, 0, 0, 0.4)"});
 			tableBody.append(rowWrap);
-			row.forEach(col => {
+			row.forEach((col, i) => {
 				const colWrap = $("<td>").css({"padding": "6px"});
 				colWrap.text(col);
 				rowWrap.append(colWrap);
+
+				const options = this._colsOptions[i];
+				if (options == null) return;
+				if (options["line-wrap"] === false) {
+					colWrap.css({"white-space": "nowrap"});
+				}
 			});
 		});
 

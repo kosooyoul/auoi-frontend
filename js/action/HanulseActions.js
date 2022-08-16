@@ -81,8 +81,9 @@ class HanulseActions {
 
 	_actTable(data, onActionFinishedCallback) {
 		const tableView = new HanulseTableView();
-		tableView.setTitle(data.title);
-		tableView.setTable(data.table);
+		tableView.setTitle(data["title"]);
+		tableView.setColsOptions(data["cols-options"]);
+		tableView.setTable(data["table"]);
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(tableView);
