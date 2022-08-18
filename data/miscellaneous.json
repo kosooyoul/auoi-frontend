@@ -55,7 +55,7 @@
     {"position": {"x": -5, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "label": "기억의 공간으로", "effect": "link", "action": {
         "top": {
             "type": "link",
-            "link": "javascript:history.replaceState({'data': 'replace'}, null, '#'); location.assign('#memories');"
+            "link": "#memories"
         }
     }},
     {"position": {"x": -4, "y":  0, "z":  0}, "texture": {"top": "grass-top"}},
@@ -84,7 +84,7 @@
     {"position": {"x":  5, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "label": "쿠키의 공간으로", "effect": "link", "action": {
         "top": {
             "type": "link",
-            "link": "javascript:history.replaceState({'data': 'replace'}, null, '#'); location.assign('#cookie');"
+            "link": "#cookie"
         }
     }},
 
