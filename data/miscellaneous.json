@@ -17,20 +17,30 @@
     {"position": {"x": -3, "y": -3, "z":  0}, "texture": {"top": "soil-top"}},
     {"position": {"x": -2, "y": -3, "z":  0}, "texture": {"top": "soil-top"}},
     {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
-    {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "grass-top"}},
-    {"position": {"x":  1, "y": -3, "z":  0}, "texture": {"top": "grass-top"}},
+    {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "traveler", "label": {"text": "잡화상", "position": "top"}, "action": {
+        "top": {
+            "type": "message",
+            "message": "안녕? 팔고 싶은 것이 많은데~\n아직 준비가 안되었어"
+        }
+    }},
+    {"position": {"x":  1, "y": -3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "book-right-1", "action": {
+        "top": {
+            "type": "message",
+            "message": "왜 이런 곳에 책이 있을까?\n책을 가져갈까요?"
+        }
+    }},
     {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x":  3, "y": -3, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}},
 
-    {"position": {"x": -4, "y": -2, "z":  0}, "texture": {"top": "soil-top"}},
+    {"position": {"x": -4, "y": -2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "tree"},
     {"position": {"x": -3, "y": -2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "flower"},
-    {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
+    {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
     {"position": {"x": -1, "y": -2, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-left"},
     {"position": {"x":  0, "y": -2, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-left"},
     {"position": {"x":  1, "y": -2, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-left"},
-    {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "tree"},
+    {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "flower"},
     {"position": {"x":  3, "y": -2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
-    {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}},
+    {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "tree"},
 
     {"position": {"x": -4, "y": -1, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x": -3, "y": -1, "z":  0}, "texture": {"top": "grass-top"}},
@@ -39,12 +49,7 @@
     {"position": {"x":  0, "y": -1, "z": -1}, "texture": {"top": "water-top"}},
     {"position": {"x":  1, "y": -1, "z": -1}, "texture": {"top": "water-top"}},
     {"position": {"x":  2, "y": -1, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-left-back"},
-    {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "grass-top"}, "prop": "book-right-1", "action": {
-        "top": {
-            "type": "message",
-            "message": "왜 이런 곳에 책이 있을까?\n책을 가져갈까요?"
-        }
-    }},
+    {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "bush"},
     
     {"position": {"x": -5, "y":  0, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "label": "기억의 공간으로", "effect": "link", "action": {
@@ -93,17 +98,17 @@
     {"position": {"x":  3, "y":  1, "z":  0}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x":  4, "y":  1, "z":  0}, "texture": {"top": "soil-top", "right": "soil-right"}},
 
-    {"position": {"x": -4, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "bush"},
+    {"position": {"x": -4, "y":  2, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}},
     {"position": {"x": -3, "y":  2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
-    {"position": {"x": -2, "y":  2, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "tree"},
+    {"position": {"x": -2, "y":  2, "z":  0}, "texture": {"top": "grass-top", "right": "soil-right"}, "prop": "flower"},
     {"position": {"x": -1, "y":  2, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-right-back"},
     {"position": {"x":  0, "y":  2, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-right-back"},
     {"position": {"x":  1, "y":  2, "z": -1}, "texture": {"top": "water-top"}, "prop": "grass-slide-right-back"},
-    {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "tree"},
+    {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "flower"},
     {"position": {"x":  3, "y":  2, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
     {"position": {"x":  4, "y":  2, "z":  0}, "texture": {"top": "soil-top", "left": "soil-left", "right": "soil-right"}},
 
-    {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "flower"},
+    {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "soil-top", "left": "soil-left"}},
     {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x": -1, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "bush"},
     {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "blocks-xyz", "action": {
@@ -114,9 +119,9 @@
     }},
     {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x":  2, "y":  3, "z":  0}, "texture": {"top": "grass-top"}, "prop": "flower"},
-    {"position": {"x":  3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}},
+    {"position": {"x":  3, "y":  3, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left", "right": "soil-right"}, "prop": "tree"},
 
-    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "soil-top", "left": "soil-left"}},
+    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}, "prop": "tree"},
     {"position": {"x": -1, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}},
     {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "grass-top"}},
     {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "grass-top", "left": "soil-left"}},
