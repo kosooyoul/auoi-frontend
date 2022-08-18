@@ -191,14 +191,35 @@ class HanulseBlockRenderer {
 	}
 
 	renderLabelWithStatusCode(context, label, statusCode) {
-		if (statusCode == "active") {
-			HanulseUtils.drawActiveLabel(context, label, 0, -85);
-		} else if (statusCode == "hover") {
-			HanulseUtils.drawHoverLabel(context, label, 0, -85);
-		} else if (statusCode == "focus") {
-			HanulseUtils.drawFocusLabel(context, label, 0, -85);
+		let text;
+		let position;
+		if (typeof label == "string") {
+			text = label;
+			position = "medium";
 		} else {
-			HanulseUtils.drawLabel(context, label, 0, -85);
+			text = label.text;
+			position = label.position || "medium";
+		}
+
+		let y;
+		if (position == "top") {
+			y = -115;
+		} else if (position == "medium") {
+			y = -85;
+		} else if (position == "bottom") {
+			y = -55;
+		} else {
+			y = -85;
+		}
+
+		if (statusCode == "active") {
+			HanulseUtils.drawActiveLabel(context, text, 0, y);
+		} else if (statusCode == "hover") {
+			HanulseUtils.drawHoverLabel(context, text, 0, y);
+		} else if (statusCode == "focus") {
+			HanulseUtils.drawFocusLabel(context, text, 0, y);
+		} else {
+			HanulseUtils.drawLabel(context, text, 0, y);
 		}
 	}
 
