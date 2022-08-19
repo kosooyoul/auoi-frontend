@@ -93,7 +93,12 @@
     {"position": {"x": -4, "y":  3, "z":  2}, "texture": {"right": "pink-right"}},
     {"position": {"x": -4, "y":  3, "z":  3}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "flower-berry-2"},
-    {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "table", "effect": "link", "label": "도트"},
+    {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "table", "effect": "link", "label": "도트", "action": {
+        "top": {
+            "type": "gallery",
+            "title": "도트"
+        }
+    }},
     {"position": {"x": -1, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
     {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},

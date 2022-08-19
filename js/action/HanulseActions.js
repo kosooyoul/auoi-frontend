@@ -11,6 +11,7 @@ class HanulseActions {
 			case "message": return this._actMessage(data, onActionFinishedCallback);
 			case "selection": return this._actSelection(data, onActionFinishedCallback);
 			case "table": return this._actTable(data, onActionFinishedCallback);
+			case "gallery": return this._actGallery(data, onActionFinishedCallback);
 			case "calendar": return this._actCalendar(data, onActionFinishedCallback);
 			case "guestbook": return this._actGuestbook(data, onActionFinishedCallback);
 			case "article-writer": return this._actArticleWriter(data, onActionFinishedCallback);
@@ -88,6 +89,16 @@ class HanulseActions {
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(tableView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
+	}
+
+	_actGallery(data, onActionFinishedCallback) {
+		const galleryView = new HanulseGalleryView();
+		galleryView.setTitle(data["title"]);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(galleryView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
 	}
