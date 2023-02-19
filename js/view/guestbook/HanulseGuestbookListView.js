@@ -194,8 +194,8 @@ class HanulseGuestbookListView extends HanulseView {
 	_getFields() {
 		const author = this._authorInputElementWrap.val().trim();
 		const content = this._contentInputElementWrap.val().trim();
-		const createdAtString = this._createdAtInputElementWrap.val().trim();
-		const createdAt = new Date(createdAtString);
+		// const createdAtString = this._createdAtInputElementWrap.val().trim();
+		// const createdAt = new Date(createdAtString);
 
 		if (author.length == 0) return this._authorInputElementWrap.focus();
 		if (content.length == 0) return this._contentInputElementWrap.focus();
@@ -204,7 +204,7 @@ class HanulseGuestbookListView extends HanulseView {
 		guestbookFields.ownerId = this._filter.ownerId;
 		guestbookFields.authorName = author;
 		guestbookFields.content = content;
-		if (isNaN(createdAt) == false) guestbookFields.createdAt = createdAt;
+		// if (isNaN(createdAt) == false) guestbookFields.createdAt = createdAt;
 
 		return guestbookFields;
 	}

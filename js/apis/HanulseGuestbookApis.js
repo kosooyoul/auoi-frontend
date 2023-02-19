@@ -118,7 +118,7 @@ class HanulseGuestbookApis {
 				"ownerId": guestbookFields.ownerId,
 				"authorName": guestbookFields.authorName,
 				"content": guestbookFields.content,
-				"createdAt": guestbookFields.createdAt,
+				// "createdAt": guestbookFields.createdAt,
 			},
 			"headers": {
 				"authorization": accessToken,
