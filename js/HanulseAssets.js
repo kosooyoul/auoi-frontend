@@ -16,9 +16,7 @@ class HanulseAssets {
 
 		var image = new Image();
 		image.onload = function(e) {
-			e.path.forEach(img => {
-				console.log("Image loaded: '" + img.src + "'");
-			});
+			console.log("Image loaded: '" + image.src + "'");
 		};
 		image.src = path;
 		this.images[path] = image;
