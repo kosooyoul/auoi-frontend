@@ -11,6 +11,7 @@ class HanulseActions {
 			case "message": return this._actMessage(data, onActionFinishedCallback);
 			case "selection": return this._actSelection(data, onActionFinishedCallback);
 			case "table": return this._actTable(data, onActionFinishedCallback);
+			case "cards": return this._actCards(data, onActionFinishedCallback);
 			case "gallery": return this._actGallery(data, onActionFinishedCallback);
 			case "calendar": return this._actCalendar(data, onActionFinishedCallback);
 			case "guestbook": return this._actGuestbook(data, onActionFinishedCallback);
@@ -89,6 +90,17 @@ class HanulseActions {
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(tableView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
+	}
+
+	_actCards(data, onActionFinishedCallback) {
+		const cardsView = new HanulseCardsView();
+		cardsView.setTitle(data["title"]);
+		cardsView.setCards(data["cards"]);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(cardsView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
 	}
