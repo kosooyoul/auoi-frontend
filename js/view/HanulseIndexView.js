@@ -1,6 +1,9 @@
 class HanulseIndexView extends HanulseView {
 	static _defaultAreaName = "4d-world";
 
+	$canvas;
+
+	_hanulseElement;
 	_canvasElement;
 
 	_canvasView;
@@ -15,7 +18,13 @@ class HanulseIndexView extends HanulseView {
 	}
 
 	_initializeIndexView() {
-		this._canvasElement = document.querySelector("canvas");
+		const $hanulse = $("[data-view=hanulse]");
+		const $canvas = $("<canvas>").css({"position": "absolute"});
+		$hanulse.append($canvas);
+		
+		this.$canvas = $canvas;
+		this._hanulseElement = $hanulse.get(0);
+		this._canvasElement = $canvas.get(0);
 
 		this._initializeCanvasView();
 		this._initializeLoadingView();
@@ -29,7 +38,9 @@ class HanulseIndexView extends HanulseView {
 	}
 
 	_initializeCanvasView() {
-		this._canvasView = new HanulseCanvasView(this._canvasElement, {
+		this._canvasView = new HanulseCanvasView({
+			"root": this._hanulseElement,
+			"canvas": this._canvasElement,
 			"autoplay": true,
 			"enabledFPSCounter": true,
 		});
@@ -43,14 +54,14 @@ class HanulseIndexView extends HanulseView {
 		window.addEventListener("load", () => this.onChangeArea());
 		window.addEventListener("hashchange", () => this.onChangeArea());
 
-		this._canvasElement.addEventListener("mousedown", (evt) => this._canvasView.onPointerDown(evt));
-		this._canvasElement.addEventListener("mousemove", (evt) => this._canvasView.onPointerMove(evt));
-		this._canvasElement.addEventListener("mouseup", (evt) => this._canvasView.onPointerUp(evt));
-		this._canvasElement.addEventListener("mouseout", (evt) => this._canvasView.onPointerUp(evt));
-		this._canvasElement.addEventListener("mouseleave", (evt) => this._canvasView.onPointerUp(evt));
-		this._canvasElement.addEventListener("touchstart", (evt) => this._canvasView.onPointerDown(evt));
-		this._canvasElement.addEventListener("touchmove", (evt) => this._canvasView.onPointerMove(evt));
-		this._canvasElement.addEventListener("touchend", (evt) => this._canvasView.onPointerUp(evt));
+		window.addEventListener("mousedown", (evt) => this._canvasView.onPointerDown(evt));
+		window.addEventListener("mousemove", (evt) => this._canvasView.onPointerMove(evt));
+		window.addEventListener("mouseup", (evt) => this._canvasView.onPointerUp(evt));
+		// window.addEventListener("mouseout", (evt) => this._canvasView.onPointerUp(evt));
+		// window.addEventListener("mouseleave", (evt) => this._canvasView.onPointerUp(evt));
+		window.addEventListener("touchstart", (evt) => this._canvasView.onPointerDown(evt));
+		window.addEventListener("touchmove", (evt) => this._canvasView.onPointerMove(evt));
+		window.addEventListener("touchend", (evt) => this._canvasView.onPointerUp(evt));
 	}
 
 	onChangeArea() {

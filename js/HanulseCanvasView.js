@@ -16,6 +16,8 @@ class HanulseCanvasView {
 	canvas = null;
 	context = null;
 
+	boundary = null;
+
 	renderer = null;
 	actions = null;
 	slider = null;
@@ -27,7 +29,9 @@ class HanulseCanvasView {
 
 	_playing = false;
 	
-	quality = 1;
+	enabled = true;
+
+	quality = 1.5;
 	qualityRatio = 1;
 	computedQuality = 1;
 	targetQualityRatio = 1;
@@ -45,11 +49,13 @@ class HanulseCanvasView {
 		y: 0
 	};
 
-	constructor(canvas, options) {
+	constructor(options) {
 		console.log("initialize");
 
-		this.canvas = canvas;
-		this.context = canvas.getContext("2d");
+		this.root = options.root;
+		this.canvas = options.canvas;
+
+		this.context = this.canvas.getContext("2d");
 		this.context.imageSmoothingEnabled = false;
 	
 		this.renderer = new HanulseRenderer();
@@ -60,8 +66,8 @@ class HanulseCanvasView {
 
 		this.slider = new HanulseSlider();
 		this.slider.setOnSlide((x, y) => {
-			this.targetOffset.x = x;
-			this.targetOffset.y = y;
+			this.canvas.style.left = (x + (this.root.clientWidth - this.canvas.width / this.computedQuality) / 2) + 'px';
+			this.canvas.style.top = (y + (this.root.clientHeight - this.canvas.height / this.computedQuality) / 2) + 'px';
 		});
 
 		if (options.enabledFPSCounter) {
@@ -72,9 +78,11 @@ class HanulseCanvasView {
 		HanulseAuthorizationManager.bindLoginButton(".identity");
 		$(".identity").on("click", () => {
 			const loginView = new HanulseLoginView();
-			this.targetQualityRatio = 0.2;
+			this.targetQualityRatio = 0.1;
+			this.enabled = false;
 			loginView.setOnHideCallback(() => {
 				this.targetQualityRatio = 1;
+				this.enabled = true;
 			});
 			loginView.show();
 		});
@@ -107,8 +115,18 @@ class HanulseCanvasView {
 		this.renderer.clearAssets();
 		this.renderer.setBlocks(this.blocks);
 
-		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
-		this.slider.setBoundary(boundary);
+		this.boundary = HanulseBlock.getBlocksBoundary(this.blocks);
+
+		// Update canvas size
+		const width = this.boundary.right - this.boundary.left + 240;
+		const height = this.boundary.bottom - this.boundary.top + 240;
+		this.canvas.width = width * this.computedQuality;
+		this.canvas.height = height * this.computedQuality;
+		this.canvas.style.width = width + 'px';
+		this.canvas.style.height = height + 'px';
+		this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
+
+		this.slider.setBoundary(this.boundary);
 		this.slider.moveTo(startOffset.x, startOffset.y);
 	}
 
@@ -154,19 +172,19 @@ class HanulseCanvasView {
 	}
 
 	_compute() {
-		if (this.canvas.clientWidth * this.canvas.clientHeight > 480000) { // 800 * 600
-			this.quality = 1;
-		} else {
-			// Note: 2022-06-29: 저사양 모바일 고려, 퀄리티 줄이지 않음
-			// this.quality = 2;
-			this.quality = 1;
-		}
+		// Update quality
 		this.computedQuality = this.quality * this.qualityRatio;
 		this.renderer.setQuality(this.computedQuality);
 
-		this.canvas.width = this.canvas.clientWidth * this.computedQuality;
-		this.canvas.height = this.canvas.clientHeight * this.computedQuality;
-		this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
+		// this.canvas.width = this.canvas.clientWidth * this.computedQuality;
+		// this.canvas.height = this.canvas.clientHeight * this.computedQuality;
+		// this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
+		this.slider.resizeBoundary({
+			left: -(this.root.clientWidth / 2),
+			top: -(this.root.clientHeight / 2),
+			right: (this.root.clientWidth / 2),
+			bottom: (this.root.clientHeight / 2)
+		});
 
 		this.offset.x += (this.targetOffset.x - this.offset.x) * 0.4;
 		this.offset.y += (this.targetOffset.y - this.offset.y) * 0.4;
@@ -174,8 +192,34 @@ class HanulseCanvasView {
 
 		if (this.targetQualityRatio > this.qualityRatio) {
 			this.qualityRatio = Math.min(this.qualityRatio * 1.2, this.targetQualityRatio);
+
+			// Update quality
+			this.computedQuality = this.quality * this.qualityRatio;
+			this.renderer.setQuality(this.computedQuality);
+	
+			// Update canvas size
+			const width = this.boundary.right - this.boundary.left + 240;
+			const height = this.boundary.bottom - this.boundary.top + 240;
+			this.canvas.width = width * this.computedQuality;
+			this.canvas.height = height * this.computedQuality;
+			this.canvas.style.width = width + 'px';
+			this.canvas.style.height = height + 'px';
+			this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 		} else if (this.targetQualityRatio < this.qualityRatio) {
 			this.qualityRatio = Math.max(this.qualityRatio / 1.2, this.targetQualityRatio);
+
+			// Update quality
+			this.computedQuality = this.quality * this.qualityRatio;
+			this.renderer.setQuality(this.computedQuality);
+	
+			// Update canvas size
+			const width = this.boundary.right - this.boundary.left + 240;
+			const height = this.boundary.bottom - this.boundary.top + 240;
+			this.canvas.width = width * this.computedQuality;
+			this.canvas.height = height * this.computedQuality;
+			this.canvas.style.width = width + 'px';
+			this.canvas.style.height = height + 'px';
+			this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 		}
 	}
 
@@ -195,8 +239,8 @@ class HanulseCanvasView {
 		}));
 		HanulseBlock.sortBlocks(this.blocks);
 
-		var boundary = HanulseBlock.getBlocksBoundary(this.blocks);
-		this.slider.setBoundary(boundary);
+		this.boundary = HanulseBlock.getBlocksBoundary(this.blocks);
+		this.slider.setBoundary(this.boundary);
 	}
 
 	rotateLeft() {
@@ -214,18 +258,23 @@ class HanulseCanvasView {
 	onBlockSelected(selectedObject) {
 		var actionData = selectedObject.block.getAction(selectedObject.side);
 		if (actionData) {
-			this.targetQualityRatio = 0.2;
+			this.targetQualityRatio = 0.1;
+			this.enabled = false;
 			this.actions.act(actionData.type, actionData, () => {
 				this.targetQualityRatio = 1;
+				this.enabled = true;
 			});
 		}
 	}
 
 	onPointerDown(evt) {
+		if (!this.enabled) return;
+
 		var pointer = this.slider.onPointerDown(evt);
 
-		var cursorX = pointer.x - this.canvas.width / 2 / this.computedQuality;
-		var cursorY = pointer.y - this.canvas.height / 2 / this.computedQuality;
+		// 포인터 중심 위치
+		var cursorX = pointer.x  - this.root.clientWidth / 2 - this.slider.offsetX;
+		var cursorY = pointer.y - this.root.clientHeight / 2 - this.slider.offsetY;
 
 		// 활성화 개체 상태를 변경
 		if (this.activeObject) {
@@ -238,11 +287,13 @@ class HanulseCanvasView {
 	}
 
 	onPointerMove(evt) {
+		if (!this.enabled) return;
+
 		var pointer = this.slider.onPointerMove(evt);
 
 		// 포인터 중심 위치
-		var cursorX = pointer.x - this.canvas.width / 2 / this.computedQuality;
-		var cursorY = pointer.y - this.canvas.height / 2 / this.computedQuality;
+		var cursorX = pointer.x  - this.root.clientWidth / 2 - this.slider.offsetX;
+		var cursorY = pointer.y - this.root.clientHeight / 2 - this.slider.offsetY;
 
 		// 다운 상태가 아니면 롤오버 상태를 교체
 		if (!pointer.moving) {
@@ -270,14 +321,16 @@ class HanulseCanvasView {
 	}
 	
 	onPointerUp(evt) {
+		if (!this.enabled) return;
+
 		var pointer = this.slider.onPointerUp(evt);
 		if (!pointer) {
 			return;
 		}
 
 		// 포인터 중심 위치
-		var cursorX = pointer.x - this.canvas.width / 2 / this.computedQuality;
-		var cursorY = pointer.y - this.canvas.height / 2 / this.computedQuality;
+		var cursorX = pointer.x  - this.root.clientWidth / 2 - this.slider.offsetX;
+		var cursorY = pointer.y - this.root.clientHeight / 2 - this.slider.offsetY;
 
 		// 클릭 유효 범위 넘어서면, 상태 변경하고 끝
 		if (Math.abs(pointer.distanceX) > 20 || Math.abs(pointer.distanceY) > 20) {
