@@ -64,6 +64,7 @@ class HanulseRenderer {
 		// Cache canvas
 		this.baseCacheCanvas.width = w;
 		this.baseCacheCanvas.height = h;
+		this.baseCacheUpdated = null;
 	}
 
 	setQuality(quality) {
