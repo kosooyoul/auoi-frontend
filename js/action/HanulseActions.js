@@ -44,7 +44,7 @@ class HanulseActions {
 
 	_actMenu(data, onActionFinishedCallback) {
 		const menuView = new HanulseMenuView();
-		data.menu.forEach(menuItem => menuView.addMenuItem(menuItem));
+		data.menu.forEach(menuItem => (menuItem.visible !== false) && menuView.addMenuItem(menuItem));
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(menuView);

@@ -49,7 +49,9 @@
         "top": {
             "type": "menu",
             "menu": [
-                {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"}
+                {"title": "4차원의 세계로 돌아가기", "tag": "possible", "link": "#"},
+                {"type": "separator"},
+                {"title": "공간 만들기", "tag": "working", "link": "/tools.html"}
             ]
         }
     }},

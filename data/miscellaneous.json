@@ -68,7 +68,7 @@
         "top": {
             "type": "menu",
             "menu": [
-                {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
+                {"title": "4차원의 세계로", "tag": "possible", "link": "#"},
                 {"type": "separator"},
                 {"title": "안내소", "tag": "working", "link": "#information"}
             ]

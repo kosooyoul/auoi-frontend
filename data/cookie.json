@@ -97,7 +97,9 @@
         "top": {
             "type": "menu",
             "menu": [
-                {"title": "돌아가기", "tag": "possible", "link": "javascript:history.back()"},
+                {"title": "4차원의 세계로", "tag": "possible", "link": "#"},
+                {"type": "separator"},
+                {"title": "잡부의 공간으로", "tag": "possible", "link": "#miscellaneous"},
                 {"type": "separator"},
                 {"title": "안내소", "tag": "working", "link": "#information"}
             ]

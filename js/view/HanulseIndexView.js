@@ -1,8 +1,6 @@
 class HanulseIndexView extends HanulseView {
 	static _defaultAreaName = "4d-world";
 
-	$canvas;
-
 	_hanulseElement;
 	_canvasElement;
 
@@ -59,9 +57,9 @@ class HanulseIndexView extends HanulseView {
 		window.addEventListener("mouseup", (evt) => this._canvasView.onPointerUp(evt));
 		// window.addEventListener("mouseout", (evt) => this._canvasView.onPointerUp(evt));
 		// window.addEventListener("mouseleave", (evt) => this._canvasView.onPointerUp(evt));
-		window.addEventListener("touchstart", (evt) => this._canvasView.onPointerDown(evt));
-		window.addEventListener("touchmove", (evt) => this._canvasView.onPointerMove(evt));
-		window.addEventListener("touchend", (evt) => this._canvasView.onPointerUp(evt));
+		this._hanulseElement.addEventListener("touchstart", (evt) => this._canvasView.onPointerDown(evt));
+		this._hanulseElement.addEventListener("touchmove", (evt) => this._canvasView.onPointerMove(evt));
+		this._hanulseElement.addEventListener("touchend", (evt) => this._canvasView.onPointerUp(evt));
 	}
 
 	onChangeArea() {
