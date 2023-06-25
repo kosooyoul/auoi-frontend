@@ -73,7 +73,22 @@
     {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "green-top", "left": "green-left", "right": "green-right"}},
     {"position": {"x": -1, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
     {"position": {"x":  0, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
-    {"position": {"x":  1, "y": -1, "z": -1}, "texture": {"top": "green-top"}, "prop": "waste"},
+    {"position": {"x":  1, "y": -1, "z": -1}, "texture": {"top": "green-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x":  2, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
     {"position": {"x":  3, "y": -1, "z": -1}, "texture": {"top": "green-top"}},
     {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "green-top", "left": "green-left"}},

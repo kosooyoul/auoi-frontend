@@ -29,8 +29,38 @@
     {"position": {"x": -3, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "flower-berry-2"},
     {"position": {"x": -2, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "pcontable-left", "effect": "link", "label": "작업물"},
     {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "trash"},
-    {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
-    {"position": {"x":  1, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
+    {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
+    {"position": {"x":  1, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "scrapontable", "effect": "link", "label": "연습장"},
     {"position": {"x":  3, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "table", "effect": "link", "label": "작업 준비 자료"},
 
@@ -39,11 +69,41 @@
     {"position": {"x": -4, "y": -2, "z":  3}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
-    {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
+    {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
-    {"position": {"x":  3, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "waste"},
+    {"position": {"x":  3, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
 
     {"position": {"x": -4, "y": -1, "z":  1}, "texture": {"right": "pink-right"}},
     {"position": {"x": -4, "y": -1, "z":  2}, "texture": {"right": "glass-right"}},
@@ -52,7 +112,22 @@
     {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
+    {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x":  2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
 
@@ -71,8 +146,38 @@
     {"position": {"x": -4, "y":  1, "z":  2}, "texture": {"right": "glass-right"}},
     {"position": {"x": -4, "y":  1, "z":  3}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x": -2, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
-    {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste"},
+    {"position": {"x": -2, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
+    {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+        "top": {
+            "type": "selection",
+            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 치울 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x":  0, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
