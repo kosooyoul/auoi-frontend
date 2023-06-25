@@ -103,9 +103,84 @@ class HanulseBlockRenderer {
 		context.restore();
 	}
 
-	renderTopWithStatusCode(context, textureName, statusCode) {
-		this.renderTexturedPath(context, this.topPath, textureName);
+	renderBase(context, block) {
+		context.save();
 
+		context.globalAlpha = block.getAlpha();
+
+		const offset = block.getOffset();
+		const texture = block.getTexture();
+		
+		context.translate(offset.x, offset.y);
+
+		if (texture.top) {
+			this.renderTop(context, texture.top);
+		}
+		if (texture.left) {
+			this.renderLeft(context, texture.left);
+		}
+		if (texture.right) {
+			this.renderRight(context, texture.right);
+		}
+
+		if (this.propEnabled) {
+			const propName = block.getProp();
+			if (propName) {
+				this.renderProp(context, propName);
+			}
+		}
+
+		context.restore();
+	}
+
+	renderOverlay(context, block) {
+		context.save();
+
+		const offset = block.getOffset();
+		const status = block.getStatus();
+		
+		context.translate(offset.x, offset.y);
+
+		if (status.top) {
+			this.renderTopHighlight(context, status.top);
+		}
+		if (status.left) {
+			this.renderLeftHighlight(context, status.left);
+		}
+		if (status.right) {
+			this.renderRightHighlight(context, status.right);
+		}
+
+		if (this.labelEnabled) {
+			const label = block.getLabel();
+			if (label) {
+				this.renderLabelWithStatusCode(context, label, status.some);
+			}
+		}
+
+		if (this.effectEnabled) {
+			const effect = block.getEffect();
+			if (effect) {
+				this.renderEffect(context, effect, block.getTimeOffset());
+			}
+		}
+
+		context.restore();
+	}
+
+	renderTop(context, textureName) {
+		this.renderTexturedPath(context, this.topPath, textureName);
+	}
+
+	renderLeft(context, textureName) {
+		this.renderTexturedPath(context, this.leftPath, textureName);
+	}
+
+	renderRight(context, textureName) {
+		this.renderTexturedPath(context, this.rightPath, textureName);
+	}
+
+	renderTopHighlight(context, statusCode) {
 		if (statusCode == "hover") {
 			this.renderColoredPath(context, this.topSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
 		} else if (statusCode == "active") {
@@ -115,9 +190,7 @@ class HanulseBlockRenderer {
 		}
 	}
 
-	renderLeftWithStatusCode(context, textureName, statusCode) {
-		this.renderTexturedPath(context, this.leftPath, textureName);
-
+	renderLeftHighlight(context, statusCode) {
 		if (statusCode == "hover") {
 			this.renderColoredPath(context, this.leftSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
 		} else if (statusCode == "active") {
@@ -127,9 +200,7 @@ class HanulseBlockRenderer {
 		}
 	}
 
-	renderRightWithStatusCode(context, textureName, statusCode) {
-		this.renderTexturedPath(context, this.rightPath, textureName);
-
+	renderRightHighlight(context, statusCode) {
 		if (statusCode == "hover") {
 			this.renderColoredPath(context, this.rightSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
 		} else if (statusCode == "active") {
@@ -166,7 +237,7 @@ class HanulseBlockRenderer {
 
 	renderColoredPath(context, path, strokeStyle, fillStyle) {
 		context.save();
-		context.clip();
+		// context.clip();
 		context.beginPath();
 		context.moveTo(path[0][0], path[0][1]);
 		for (let i = 1; i < path.length; i++) {

@@ -19,15 +19,14 @@ class HanulseRenderer {
 		h: 0
 	};
 
-	offset = {
-		x: 0,
-		y: 0
-	};
-
 	quality = 1;
 
 	effectRendererFactory = null;
 	blockRenderer = null;
+
+	baseCacheCanvas = null;
+	baseCacheContext = null;
+	baseCacheUpdated = null;
 
 	constructor() {
 		this.blocks = [];
@@ -38,6 +37,12 @@ class HanulseRenderer {
 			size: this.blockSize,
 			effectRendererFactory: this.effectRendererFactory
 		});
+		
+		// Cache canvas
+		this.baseCacheCanvas = document.createElement("canvas");
+		this.baseCacheContext = this.baseCacheCanvas.getContext("2d");
+		this.baseCacheCanvas.width = 1;
+		this.baseCacheCanvas.height = 1;
 	}
 
 	initialize(context) {
@@ -55,11 +60,10 @@ class HanulseRenderer {
 	setCanvasSize(w, h) {
 		this.canvasSize.w = w;
 		this.canvasSize.h = h;
-	}
-
-	setOffset(x, y) {
-		this.offset.x = x;
-		this.offset.y = y;
+		
+		// Cache canvas
+		this.baseCacheCanvas.width = w;
+		this.baseCacheCanvas.height = h;
 	}
 
 	setQuality(quality) {
@@ -73,54 +77,11 @@ class HanulseRenderer {
 	render(context) {
 		this._clearCanvas(context);
 
-		this.renderBackgroundOnCanvas(context);
-
-		this._beginRelativePosition(context);
-		{
-			this.renderBackgroundOnRelativePosition(context);
-
-			this._beginScrolledPosition(context);
-			{
-				this.renderBackgroundOnScrolledPosition(context);
-
-				this.renderMap(context);
-
-				this.renderOverlayOnScrolledPosition(context);
-			}
-			this._endScrolledPosition(context);
-
-			this.renderOverlayOnRelativePosition(context);
-		}
-		this._endRelativePosition(context);
-
-		this.renderOverlayOnCanvas(context);
+		this.renderMap(context);
 	}
 
 	_clearCanvas(context) {
 		context.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
-	}
-
-	_beginRelativePosition(context) {
-		context.save();
-		context.translate(this.canvasSize.w >> 1, this.canvasSize.h >> 1);
-		context.scale(this.quality, this.quality);
-	}
-
-	_endRelativePosition(context) {
-		context.restore();
-	}
-
-	_beginScrolledPosition(context) {
-		context.save();
-		context.translate(this.offset.x, this.offset.y);
-	}
-
-	_endScrolledPosition(context) {
-		context.restore();
-	}
-
-	renderBackgroundOnCanvas(_context) {
-
 	}
 
 	renderOverlayOnCanvas(context) {
@@ -158,9 +119,35 @@ class HanulseRenderer {
 	}
 
 	renderMap(context) {
+		// Draw cache
+		if (Date.now() - this.baseCacheUpdated > 100) {
+			this.baseCacheContext.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+
+			this.baseCacheContext.save();
+			this.baseCacheContext.translate(this.canvasSize.w >> 1, this.canvasSize.h >> 1);
+			this.baseCacheContext.scale(this.quality, this.quality);
+
+			var count = this.blocks.length;
+			for (var i = 0; i < count; i++) {
+				this.blockRenderer.renderBase(this.baseCacheContext, this.blocks[i]);
+			}
+
+			this.baseCacheContext.restore();
+
+			this.baseCacheUpdated = Date.now();
+		}
+
+		context.drawImage(this.baseCacheCanvas, 0, 0, this.canvasSize.w, this.canvasSize.h);
+		
+		context.save();
+		context.translate(this.canvasSize.w >> 1, this.canvasSize.h >> 1);
+		context.scale(this.quality, this.quality);
+		
 		var count = this.blocks.length;
 		for (var i = 0; i < count; i++) {
-			this.blockRenderer.render(context, this.blocks[i]);
+			this.blockRenderer.renderOverlay(context, this.blocks[i]);
 		}
+
+		context.restore();
 	}
 }

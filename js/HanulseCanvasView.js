@@ -188,7 +188,6 @@ class HanulseCanvasView {
 
 		this.offset.x += (this.targetOffset.x - this.offset.x) * 0.4;
 		this.offset.y += (this.targetOffset.y - this.offset.y) * 0.4;
-		this.renderer.setOffset(this.offset.x, this.offset.y);
 
 		if (this.targetQualityRatio > this.qualityRatio) {
 			this.qualityRatio = Math.min(this.qualityRatio * 1.2, this.targetQualityRatio);
