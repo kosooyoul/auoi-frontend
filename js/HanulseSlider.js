@@ -24,6 +24,11 @@ class HanulseSlider {
 		this._boundary = boundary;
 	}
 
+	resizeBoundary(boundary) {
+		this._boundary = boundary;
+		this.setPosition(this.offsetX, this.offsetY);
+	}
+
 	setOnSlide(onSlide) {
 		this._onSlide = onSlide;
 	}
@@ -33,6 +38,12 @@ class HanulseSlider {
 		if (this.intervalSliding) {
 			clearInterval(this.intervalSliding);
 		}
+	}
+
+	setPosition(x, y) {
+		this.offsetX = x;
+		this.offsetY = y;
+		this._onSlide(this.offsetX, this.offsetY);
 	}
 
 	moveTo(x, y) {
