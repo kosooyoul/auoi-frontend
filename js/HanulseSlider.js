@@ -219,7 +219,10 @@ class HanulseSlider {
 	startSliding() {
 		// 마지막 기록된 위치 샘플 검사
 		var lastRecords = this.records.slice(-3);
-		if (lastRecords.length < 3) return;
+		if (lastRecords.length == 0) return;
+		while (lastRecords.length < 3) {
+			lastRecords.unshift(lastRecords[0]);
+		}
 
 		// 추가 위치 이동량 계산
 		var first = lastRecords[0], prev = lastRecords[1], curr = lastRecords[2];
