@@ -180,10 +180,10 @@ class HanulseCanvasView {
 		// this.canvas.height = this.canvas.clientHeight * this.computedQuality;
 		// this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 		this.slider.resizeBoundary({
-			left: -(this.root.clientWidth / 2),
-			top: -(this.root.clientHeight / 2),
-			right: (this.root.clientWidth / 2),
-			bottom: (this.root.clientHeight / 2)
+			left: -(Math.max(this.root.clientWidth, this.canvas.clientWidth) / 2),
+			top: -(Math.max(this.root.clientHeight, this.canvas.clientHeight) / 2),
+			right: (Math.max(this.root.clientWidth, this.canvas.clientWidth) / 2),
+			bottom: (Math.max(this.root.clientHeight, this.canvas.clientHeight) / 2)
 		});
 
 		this.offset.x += (this.targetOffset.x - this.offset.x) * 0.4;
