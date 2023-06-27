@@ -118,7 +118,7 @@ class HanulseCanvasView {
 		this.boundary = HanulseBlock.getBlocksBoundary(this.blocks);
 
 		// Update canvas size
-		const width = this.boundary.right - this.boundary.left + 240;
+		const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
 		const height = this.boundary.bottom - this.boundary.top + 240;
 		this.canvas.width = width * this.computedQuality;
 		this.canvas.height = height * this.computedQuality;
@@ -197,7 +197,7 @@ class HanulseCanvasView {
 			this.renderer.setQuality(this.computedQuality);
 	
 			// Update canvas size
-			const width = this.boundary.right - this.boundary.left + 240;
+			const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
 			const height = this.boundary.bottom - this.boundary.top + 240;
 			this.canvas.width = width * this.computedQuality;
 			this.canvas.height = height * this.computedQuality;
@@ -212,7 +212,7 @@ class HanulseCanvasView {
 			this.renderer.setQuality(this.computedQuality);
 	
 			// Update canvas size
-			const width = this.boundary.right - this.boundary.left + 240;
+			const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
 			const height = this.boundary.bottom - this.boundary.top + 240;
 			this.canvas.width = width * this.computedQuality;
 			this.canvas.height = height * this.computedQuality;
