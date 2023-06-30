@@ -218,18 +218,24 @@ class HanulseSlider {
 
 	startSliding() {
 		// 마지막 기록된 위치 샘플 검사
-		var lastRecords = this.records.slice(-3);
+		var lastRecords = this.records.slice(-5);
 		if (lastRecords.length == 0) return;
-		while (lastRecords.length < 3) {
+		while (lastRecords.length < 5) {
 			lastRecords.unshift(lastRecords[0]);
 		}
 
 		// 추가 위치 이동량 계산
-		var first = lastRecords[0], prev = lastRecords[1], curr = lastRecords[2];
-		var pdx = first.x - curr.x, pdy = first.y - curr.y;
-		var cdx = curr.x - prev.x, cdy = curr.y - prev.y;
-		var dx = cdx + (cdx - pdx) * 0.1; // expected next dx is added prev dx x 0.1
-		var dy = cdy + (cdy - pdy) * 0.1; // expected next dy is added prev dy x 0.1
+		// var first = lastRecords[0], prev = lastRecords[1], curr = lastRecords[2];
+		// var pdx = first.x - curr.x, pdy = first.y - curr.y;
+		// var cdx = curr.x - prev.x, cdy = curr.y - prev.y;
+		// var dx = cdx + (cdx - pdx) * 0.1; // expected next dx is added prev dx x 0.1
+		// var dy = cdy + (cdy - pdy) * 0.1; // expected next dy is added prev dy x 0.1
+		var dx = 0;
+		var dy = 0;
+		for (var i = 1; i < 5; i++) {
+			dx += (lastRecords[i].x - lastRecords[i - 1].x) * 0.1 * i;
+			dy += (lastRecords[i].y - lastRecords[i - 1].y) * 0.1 * i;
+		}
 
 		// 슬라이딩 이전 타이머 제거
 		if (this.intervalSliding) {
