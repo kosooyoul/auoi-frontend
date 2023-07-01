@@ -228,8 +228,8 @@ class HanulseSlider {
 		var dx = 0;
 		var dy = 0;
 		for (var i = 1; i < 5; i++) {
-			dx += (lastRecords[i].x - lastRecords[i - 1].x) * 0.2 * i;
-			dy += (lastRecords[i].y - lastRecords[i - 1].y) * 0.2 * i;
+			dx += (lastRecords[i].x - lastRecords[i - 1].x) * 0.1 * i;
+			dy += (lastRecords[i].y - lastRecords[i - 1].y) * 0.1 * i;
 		}
 
 		// 슬라이딩 이전 타이머 제거
