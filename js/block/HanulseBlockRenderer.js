@@ -37,6 +37,7 @@ class HanulseBlockRenderer {
 	propEnabled = true;
 	effectEnabled = true;
 	labelEnabled = true;
+	descriptionEnabled = true;
 
 	constructor(options) {
 		if (options.size) {
@@ -90,6 +91,13 @@ class HanulseBlockRenderer {
 			const label = block.getLabel();
 			if (label) {
 				this.renderLabelWithStatusCode(context, label, status.some);
+			}
+		}
+
+		if (this.descriptionEnabled) {
+			const description = block.getDescription();
+			if (description) {
+				this.renderDescription(context, description);
 			}
 		}
 
@@ -155,6 +163,13 @@ class HanulseBlockRenderer {
 			const label = block.getLabel();
 			if (label) {
 				this.renderLabelWithStatusCode(context, label, status.some);
+			}
+		}
+		
+		if (this.descriptionEnabled) {
+			const description = block.getDescription();
+			if (description) {
+				this.renderDescription(context, description);
 			}
 		}
 
@@ -259,6 +274,10 @@ class HanulseBlockRenderer {
 		if (prop) {
 			context.drawImage(prop.image, prop.left, prop.top, prop.width, prop.height);
 		}
+	}
+
+	renderDescription(context, description) {
+		HanulseUtils.drawDescription(context, description, 0, 0);
 	}
 
 	renderLabelWithStatusCode(context, label, statusCode) {

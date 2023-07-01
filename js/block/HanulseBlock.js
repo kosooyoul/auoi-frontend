@@ -36,6 +36,7 @@ class HanulseBlock {
 	_prop = null;
 	_effect = null;
 	_label = null;
+	_description = null;
 
 	_action = {
 		top: null,
@@ -80,6 +81,7 @@ class HanulseBlock {
 		this._prop = options.prop;
 		this._effect = options.effect;
 		this._label = options.label;
+		this._description = options.description;
 
 		if (options.action) {
 			if (options.action.all) {
@@ -203,6 +205,10 @@ class HanulseBlock {
 		return this._label;
 	}
 
+	getDescription() {
+		return this._description;
+	}
+
 	getEffect() {
 		return this._effect;
 	}
@@ -221,6 +227,10 @@ class HanulseBlock {
 
 	setLabel(label) {
 		this._label = label;
+	}
+	
+	setDescription(description) {
+		this._description = description;
 	}
 
 	setEffect(effect) {

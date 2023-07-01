@@ -107,6 +107,7 @@ class HanulseCanvasView {
 			prop: item.prop,
 			effect: item.effect,
 			label: item.label,
+			description: item.description,
 			action: item.action,
 			alpha: item.alpha
 		}));

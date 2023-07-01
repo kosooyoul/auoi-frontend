@@ -45,7 +45,7 @@
     {"position": {"x":  5, "y":   3, "z":  0}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
     {"position": {"x":  5, "y":   3, "z": -1}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.4},
     {"position": {"x":  5, "y":   3, "z": -2}, "texture": {"left": "blue-left", "right": "blue-right"}, "alpha": 0.2},
-    {"position": {"x":  5, "y":   2, "z":  0}, "texture": {"top": "blue-top"}, "effect": "prism", "prop": "blocks-cube", "label": "앱 조각", "action": {
+    {"position": {"x":  5, "y":   2, "z":  0}, "texture": {"top": "blue-top"}, "effect": "prism", "prop": "blocks-cube", "label": "앱 조각", "description": "다운로드 없이 앱으로 설치해보세요!", "action": {
         "top": {
             "type": "pwa"
         }
@@ -109,7 +109,7 @@
     {"position": {"x":  8, "y":   0, "z": -1}, "texture": {"left": "pink-left", "right": "pink-right"}, "alpha": 0.4},
     {"position": {"x":  8, "y":   0, "z": -2}, "texture": {"left": "pink-left", "right": "pink-right"}, "alpha": 0.2},
 
-    {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top", "left": "blue-left", "right": "blue-right"}, "prop": "warp", "effect": "bigwarp", "label": "워프", "action": {
+    {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top", "left": "blue-left", "right": "blue-right"}, "prop": "warp", "effect": "bigwarp", "label": "워프", "description": "다른 지역으로 이동할 수 있습니다.", "action": {
         "top": {
             "type": "menu",
             "menu": [

@@ -13,6 +13,29 @@ class HanulseUtils {
 		context.quadraticCurveTo(x, y, x + round, y);
 	}
 
+	static drawDescription(context, text, x, y) {
+		context.save();
+		
+		context.shadowColor = "black";
+		context.shadowBlur = 4;
+
+		context.beginPath();
+		context.moveTo(17, 5);
+		context.lineTo(30, 15);
+		context.lineTo(45, 15);
+		context.strokeStyle = "white";
+		context.stroke();
+		context.closePath();
+
+		context.font = "10px sans-serif";
+		context.textBaseline = "top";
+		context.textAlign = 'left';
+		context.fillStyle = "white";
+		context.fillText(text, x + 50, y + 10);
+
+		context.restore();
+	}
+
 	static drawLabel(context, text, x, y) {
 		context.save();
 
@@ -33,7 +56,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 5);
+		context.fillText(text, x, y + 7);
 
 		context.restore();
 	}
@@ -58,7 +81,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 5);
+		context.fillText(text, x, y + 7);
 
 		context.restore();
 	}
@@ -83,7 +106,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 5);
+		context.fillText(text, x, y + 7);
 
 		context.restore();
 	}
@@ -108,7 +131,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 5);
+		context.fillText(text, x, y + 7);
 
 		context.restore();
 	}
@@ -133,7 +156,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 5);
+		context.fillText(text, x, y + 7);
 
 		context.restore();
 	}
