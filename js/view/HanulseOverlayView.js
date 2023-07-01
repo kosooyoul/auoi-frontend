@@ -23,6 +23,7 @@ class HanulseOverlayView {
 
 	_rootElementWrap;
 	_onHideCallback;
+	_hidden = true;
 
 	constructor() {
 		this._initializeOverlayView();
@@ -64,6 +65,8 @@ class HanulseOverlayView {
 	}
 
 	show() {
+		this._hidden = false;
+
 		this._rootElementWrap.appendTo(document.body);
 
 		this._rootElementWrap.css({"opacity": 0, "transition": "opacity 0.5s linear"});
@@ -78,9 +81,11 @@ class HanulseOverlayView {
 
 		setTimeout(() => this._rootElementWrap.remove(), 500);
 		
-		if (this._onHideCallback) {
-			this._onHideCallback();
+		if (this._hidden == false) {
+			this._onHideCallback && this._onHideCallback();
 		}
+
+		this._hidden = true;
 	}
 
 	dismiss() {
