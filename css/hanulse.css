@@ -9,14 +9,14 @@ html, body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-@media screen and (pointer: coarse)  {
+@media (pointer: coarse)  {
 	/* mobile device */
-	.sd-desktop {display: none;}
+	.sd-desktop {display: none !important;}
 }
 
-@media screen and (pointer: fine), (pointer: none) {
+@media (pointer: fine), (pointer: none) {
 	/* desktop */
-	.sd-mobile {display: none;}
+	.sd-mobile {display: none !important;}
 }
 
 body {
