@@ -172,13 +172,10 @@ class HanulseCanvasView {
 	}
 
 	_compute() {
-		// Update quality
-		this.computedQuality = this.quality * this.qualityRatio;
-		this.renderer.setQuality(this.computedQuality);
+		if (this.boundary == null) {
+			return;
+		}
 
-		// this.canvas.width = this.canvas.clientWidth * this.computedQuality;
-		// this.canvas.height = this.canvas.clientHeight * this.computedQuality;
-		// this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 		this.slider.resizeBoundary({
 			left: -(Math.max(this.root.clientWidth, this.canvas.clientWidth) / 2),
 			top: -(Math.max(this.root.clientHeight, this.canvas.clientHeight) / 2),
@@ -191,35 +188,22 @@ class HanulseCanvasView {
 
 		if (this.targetQualityRatio > this.qualityRatio) {
 			this.qualityRatio = Math.min(this.qualityRatio * 1.2, this.targetQualityRatio);
-
-			// Update quality
-			this.computedQuality = this.quality * this.qualityRatio;
-			this.renderer.setQuality(this.computedQuality);
-	
-			// Update canvas size
-			const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
-			const height = this.boundary.bottom - this.boundary.top + 240;
-			this.canvas.width = width * this.computedQuality;
-			this.canvas.height = height * this.computedQuality;
-			this.canvas.style.width = width + 'px';
-			this.canvas.style.height = height + 'px';
-			this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 		} else if (this.targetQualityRatio < this.qualityRatio) {
 			this.qualityRatio = Math.max(this.qualityRatio / 1.2, this.targetQualityRatio);
-
-			// Update quality
-			this.computedQuality = this.quality * this.qualityRatio;
-			this.renderer.setQuality(this.computedQuality);
-	
-			// Update canvas size
-			const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
-			const height = this.boundary.bottom - this.boundary.top + 240;
-			this.canvas.width = width * this.computedQuality;
-			this.canvas.height = height * this.computedQuality;
-			this.canvas.style.width = width + 'px';
-			this.canvas.style.height = height + 'px';
-			this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 		}
+
+		// Update quality
+		this.computedQuality = this.quality * this.qualityRatio;
+		this.renderer.setQuality(this.computedQuality);
+
+		// Update canvas size
+		const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
+		const height = this.boundary.bottom - this.boundary.top + 240;
+		this.canvas.width = width * this.computedQuality;
+		this.canvas.height = height * this.computedQuality;
+		this.canvas.style.width = width + 'px';
+		this.canvas.style.height = height + 'px';
+		this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
 	}
 
 	fadeOut(duration, onFaded) {
