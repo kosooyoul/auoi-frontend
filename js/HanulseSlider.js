@@ -225,16 +225,11 @@ class HanulseSlider {
 		}
 
 		// 추가 위치 이동량 계산
-		// var first = lastRecords[0], prev = lastRecords[1], curr = lastRecords[2];
-		// var pdx = first.x - curr.x, pdy = first.y - curr.y;
-		// var cdx = curr.x - prev.x, cdy = curr.y - prev.y;
-		// var dx = cdx + (cdx - pdx) * 0.1; // expected next dx is added prev dx x 0.1
-		// var dy = cdy + (cdy - pdy) * 0.1; // expected next dy is added prev dy x 0.1
 		var dx = 0;
 		var dy = 0;
 		for (var i = 1; i < 5; i++) {
-			dx += (lastRecords[i].x - lastRecords[i - 1].x) * 0.1 * i;
-			dy += (lastRecords[i].y - lastRecords[i - 1].y) * 0.1 * i;
+			dx += (lastRecords[i].x - lastRecords[i - 1].x) * 0.2 * i;
+			dy += (lastRecords[i].y - lastRecords[i - 1].y) * 0.2 * i;
 		}
 
 		// 슬라이딩 이전 타이머 제거
