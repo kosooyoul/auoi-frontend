@@ -5,6 +5,10 @@ html, body {
 	overflow: hidden;
 }
 
+* {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
 	/* background: linear-gradient(20deg, #00181c 0%, #00271e 50%, #00352a 100%); */
 	/* background: linear-gradient(20deg, #2c0b58 0%, #4e0b57 50%, #09858a 100%); */

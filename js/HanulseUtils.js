@@ -16,7 +16,7 @@ class HanulseUtils {
 	static drawLabel(context, text, x, y) {
 		context.save();
 
-		context.font = "14px san-serif";
+		context.font = "14px Arial, Helvetica, sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = 'center';
 		var size = context.measureText(text);
@@ -41,7 +41,7 @@ class HanulseUtils {
 	static drawActiveLabel(context, text, x, y) {
 		context.save();
 
-		context.font = "14px san-serif";
+		context.font = "14px Arial, Helvetica, sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = 'center';
 		var size = context.measureText(text);
@@ -66,7 +66,7 @@ class HanulseUtils {
 	static drawFocusLabel(context, text, x, y) {
 		context.save();
 
-		context.font = "14px san-serif";
+		context.font = "14px Arial, Helvetica, sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = 'center';
 		var size = context.measureText(text);
@@ -91,7 +91,7 @@ class HanulseUtils {
 	static drawHoverLabel(context, text, x, y) {
 		context.save();
 
-		context.font = "14px san-serif";
+		context.font = "14px Arial, Helvetica, sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = 'center';
 		var size = context.measureText(text);
@@ -116,7 +116,7 @@ class HanulseUtils {
 	static drawWarningLabel(context, text, x, y) {
 		context.save();
 
-		context.font = "14px san-serif";
+		context.font = "14px Arial, Helvetica, sans-serif";
 		context.textBaseline = "top";
 		context.textAlign = 'center';
 		var size = context.measureText(text);
