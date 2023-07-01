@@ -120,6 +120,8 @@ class HanulseCanvasView {
 		// Update canvas size
 		const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
 		const height = this.boundary.bottom - this.boundary.top + 240;
+		this.width = width * this.computedQuality;
+		this.height = height * this.computedQuality;
 		this.canvas.width = width * this.computedQuality;
 		this.canvas.height = height * this.computedQuality;
 		this.canvas.style.width = width + 'px';
@@ -199,11 +201,15 @@ class HanulseCanvasView {
 		// Update canvas size
 		const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;
 		const height = this.boundary.bottom - this.boundary.top + 240;
-		this.canvas.width = width * this.computedQuality;
-		this.canvas.height = height * this.computedQuality;
-		this.canvas.style.width = width + 'px';
-		this.canvas.style.height = height + 'px';
-		this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
+		if (this.width != width * this.computedQuality || this.height != height * this.computedQuality) {
+			this.width = width * this.computedQuality;
+			this.height = height * this.computedQuality;
+			this.canvas.width = width * this.computedQuality;
+			this.canvas.height = height * this.computedQuality;
+			this.canvas.style.width = width + 'px';
+			this.canvas.style.height = height + 'px';
+			this.renderer.setCanvasSize(this.canvas.width, this.canvas.height);
+		}
 	}
 
 	fadeOut(duration, onFaded) {
