@@ -29,7 +29,7 @@ class HanulseCanvasView {
 
 	_playing = false;
 	
-	enabled = true;
+	// enabled = true;
 
 	quality = 1.5;
 	qualityRatio = 1;
@@ -79,10 +79,10 @@ class HanulseCanvasView {
 		$(".identity").on("click", () => {
 			const loginView = new HanulseLoginView();
 			this.targetQualityRatio = 0.1;
-			this.enabled = false;
+			// this.enabled = false;
 			loginView.setOnHideCallback(() => {
 				this.targetQualityRatio = 1;
-				this.enabled = true;
+				// this.enabled = true;
 			});
 			loginView.show();
 		});
@@ -249,16 +249,16 @@ class HanulseCanvasView {
 		var actionData = selectedObject.block.getAction(selectedObject.side);
 		if (actionData) {
 			this.targetQualityRatio = 0.1;
-			this.enabled = false;
+			// this.enabled = false;
 			this.actions.act(actionData.type, actionData, () => {
 				this.targetQualityRatio = 1;
-				this.enabled = true;
+				// this.enabled = true;
 			});
 		}
 	}
 
 	onPointerDown(evt) {
-		if (!this.enabled) return;
+		// if (!this.enabled) return;
 
 		var pointer = this.slider.onPointerDown(evt);
 
@@ -277,7 +277,7 @@ class HanulseCanvasView {
 	}
 
 	onPointerMove(evt) {
-		if (!this.enabled) return;
+		// if (!this.enabled) return;
 
 		var pointer = this.slider.onPointerMove(evt);
 
@@ -311,7 +311,7 @@ class HanulseCanvasView {
 	}
 	
 	onPointerUp(evt) {
-		if (!this.enabled) return;
+		// if (!this.enabled) return;
 
 		var pointer = this.slider.onPointerUp(evt);
 		if (!pointer) {
