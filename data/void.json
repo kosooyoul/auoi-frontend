@@ -1,7 +1,7 @@
 {
     "title": "비어있는 공간",
     "map": [
-    {"position": {"x":  0, "y": 0, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}, "effect": "energy", "label": "공간의 에너지", "action": {
+    {"position": {"x":  0, "y": 0, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}, "effect": "energy", "label": "공간의 에너지", "description": "나만의 공간을 만들 수 있어요!", "action": {
         "all": {
             "type": "selection",
             "message": "새 공간을 만들까요?",

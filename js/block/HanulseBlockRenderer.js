@@ -37,7 +37,7 @@ class HanulseBlockRenderer {
 	propEnabled = true;
 	effectEnabled = true;
 	labelEnabled = true;
-	descriptionEnabled = true;
+	descriptionEnabled = false;
 
 	constructor(options) {
 		if (options.size) {
