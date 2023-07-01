@@ -28,7 +28,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.font = "10px sans-serif";
-		context.textBaseline = "top";
+		context.textBaseline = 'middle';
 		context.textAlign = 'left';
 		context.fillStyle = "white";
 		context.fillText(text, x + 50, y + 10);
@@ -40,7 +40,7 @@ class HanulseUtils {
 		context.save();
 
 		context.font = "14px Arial, Helvetica, sans-serif";
-		context.textBaseline = "top";
+		context.textBaseline = "middle";
 		context.textAlign = 'center';
 		var size = context.measureText(text);
 
@@ -56,7 +56,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 7);
+		context.fillText(text, x, y + 14);
 
 		context.restore();
 	}
@@ -65,7 +65,7 @@ class HanulseUtils {
 		context.save();
 
 		context.font = "14px Arial, Helvetica, sans-serif";
-		context.textBaseline = "top";
+		context.textBaseline = 'middle';
 		context.textAlign = 'center';
 		var size = context.measureText(text);
 
@@ -81,7 +81,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 7);
+		context.fillText(text, x, y + 14);
 
 		context.restore();
 	}
@@ -90,7 +90,7 @@ class HanulseUtils {
 		context.save();
 
 		context.font = "14px Arial, Helvetica, sans-serif";
-		context.textBaseline = "top";
+		context.textBaseline = 'middle';
 		context.textAlign = 'center';
 		var size = context.measureText(text);
 
@@ -106,7 +106,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 7);
+		context.fillText(text, x, y + 14);
 
 		context.restore();
 	}
@@ -115,7 +115,7 @@ class HanulseUtils {
 		context.save();
 
 		context.font = "14px Arial, Helvetica, sans-serif";
-		context.textBaseline = "top";
+		context.textBaseline = 'middle';
 		context.textAlign = 'center';
 		var size = context.measureText(text);
 
@@ -131,7 +131,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 7);
+		context.fillText(text, x, y + 14);
 
 		context.restore();
 	}
@@ -140,7 +140,7 @@ class HanulseUtils {
 		context.save();
 
 		context.font = "14px Arial, Helvetica, sans-serif";
-		context.textBaseline = "top";
+		context.textBaseline = 'middle';
 		context.textAlign = 'center';
 		var size = context.measureText(text);
 
@@ -156,7 +156,7 @@ class HanulseUtils {
 		context.closePath();
 
 		context.fillStyle = "white";
-		context.fillText(text, x, y + 7);
+		context.fillText(text, x, y + 14);
 
 		context.restore();
 	}
