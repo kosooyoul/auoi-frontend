@@ -119,7 +119,7 @@
                 {"type": "separator"},
                 {"title": "안내소", "tag": "working", "link": "#information"},
                 {"type": "separator"},
-                {"title": "공간 만들기", "tag": "working", "link": "/tools.html"},
+                {"title": "공간 만들기", "tag": "working", "link": "#void"},
                 {"type": "separator", "visible": false},
                 {"title": "404", "tag": "test", "link": "#404", "visible": false},
                 {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html", "visible": false},

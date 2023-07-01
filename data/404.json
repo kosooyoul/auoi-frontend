@@ -1,39 +1,49 @@
 {
-    "title": "빈 공간",
+    "title": "주인없는 공간",
     "map": [
-        {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y": -4, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x": -1, "y": -5, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y": -5, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  1, "y": -5, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
+        {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y": -4, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x": -1, "y": -5, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y": -5, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  1, "y": -5, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
 
-        {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "hologram-top"}, "prop": "warp", "effect": "warp", "label": "워프", "action": {
-            "top": {
-                "type": "menu",
-                "menu": [
-                    {"title": "4차원의 세계로 돌아가기", "tag": "possible", "link": "#"},
-                    {"type": "separator"},
-                    {"title": "안내소로 이동", "tag": "working", "link": "#information"},
-                    {"type": "separator"},
-                    {"title": "공간 만들기", "tag": "working", "link": "/tools.html"}
+        {"position": {"x": -1, "y": -1, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "none"}, "effect": "energy", "label": "공간의 에너지", "action": {
+            "all": {
+                "type": "selection",
+                "message": "새 공간을 만들까요?",
+                "options": [
+                    {
+                        "title": "네",
+                        "action": {
+                            "type": "message",
+                            "message": "에너지가 부족해요!"
+                        }
+                    },
+                    {
+                        "title": "아니요",
+                        "action": {
+                            "type": "link",
+                            "link": "javascript:history.back();"
+                        }
+                    }
                 ]
             }
         }},
-        {"position": {"x":  0, "y":  1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  1, "y":  0, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  1, "y":  1, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
+        {"position": {"x":  0, "y":  1, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  1, "y":  0, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  1, "y":  1, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
 
-        {"position": {"x": -1, "y":  5, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y":  5, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x": -1, "y":  3, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}},
-        {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "snow-top", "left": "snow-left", "right": "snow-right"}}
+        {"position": {"x": -1, "y":  5, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y":  5, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x": -1, "y":  3, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  0, "y":  3, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}},
+        {"position": {"x":  1, "y":  3, "z":  0}, "texture": {"top": "none", "left": "none", "right": "none"}}
     ]
 }
