@@ -112,6 +112,8 @@ class HanulseBlockRenderer {
 	}
 
 	renderBase(context, block) {
+		let needToRedraw = false;
+
 		context.save();
 
 		context.globalAlpha = block.getAlpha();
@@ -122,23 +124,25 @@ class HanulseBlockRenderer {
 		context.translate(offset.x, offset.y);
 
 		if (texture.top) {
-			this.renderTop(context, texture.top);
+			needToRedraw ||= this.renderTexturedPath(context, this.topPath, texture.top);
 		}
 		if (texture.left) {
-			this.renderLeft(context, texture.left);
+			needToRedraw ||= this.renderTexturedPath(context, this.leftPath, texture.left);
 		}
 		if (texture.right) {
-			this.renderRight(context, texture.right);
+			needToRedraw ||= this.renderTexturedPath(context, this.rightPath, texture.right);
 		}
 
 		if (this.propEnabled) {
 			const propName = block.getProp();
 			if (propName) {
-				this.renderProp(context, propName);
+				needToRedraw ||= this.renderProp(context, propName);
 			}
 		}
 
 		context.restore();
+
+		return needToRedraw;
 	}
 
 	renderOverlay(context, block) {
@@ -183,18 +187,6 @@ class HanulseBlockRenderer {
 		context.restore();
 	}
 
-	renderTop(context, textureName) {
-		this.renderTexturedPath(context, this.topPath, textureName);
-	}
-
-	renderLeft(context, textureName) {
-		this.renderTexturedPath(context, this.leftPath, textureName);
-	}
-
-	renderRight(context, textureName) {
-		this.renderTexturedPath(context, this.rightPath, textureName);
-	}
-
 	renderTopHighlight(context, statusCode) {
 		if (statusCode == "hover") {
 			this.renderColoredPath(context, this.topSelectionPath, HanulseBlockRenderer.hoverStrokeStyle, HanulseBlockRenderer.hoverFillStyle);
@@ -226,28 +218,36 @@ class HanulseBlockRenderer {
 	}
 
 	renderTexturedPath(context, path, textureName) {
+		let needToRedraw = false;
+
 		context.beginPath();
 		context.moveTo(path[0][0], path[0][1]);
 		for (let i = 1; i < path.length; i++) {
 			context.lineTo(path[i][0], path[i][1]);
 		}
+
 		context.strokeStyle = HanulseBlockRenderer.defaultStrokeStyle;
 		context.stroke();
+
 		if (!this.onlyWireframe) {
 			if (this.textureEnabled) {
-				context.save();
-				context.clip();
 				var texture = HanulseAssets.getTexture(textureName);
-				if (texture) {
+				if (texture.ready) {
+					context.save();
+					context.clip();
 					context.drawImage(texture.image, texture.left, texture.top, texture.width, texture.height);
+					context.restore();
+				} else {
+					needToRedraw = true;
 				}
-				context.restore();
 			} else {
 				context.fillStyle = HanulseBlockRenderer.defaultFillStyle;
 				context.fill();
 			}
 		}
 		context.closePath();
+
+		return needToRedraw;
 	}
 
 	renderColoredPath(context, path, strokeStyle, fillStyle) {
@@ -271,9 +271,13 @@ class HanulseBlockRenderer {
 
 	renderProp(context, propName) {
 		var prop = HanulseAssets.getProp(propName);
-		if (prop) {
-			context.drawImage(prop.image, prop.left, prop.top, prop.width, prop.height);
+		if (!prop.ready) {
+			return true;
 		}
+
+		context.drawImage(prop.image, prop.left, prop.top, prop.width, prop.height);
+
+		return false;
 	}
 
 	renderDescription(context, description) {

@@ -9,7 +9,7 @@ class HanulseAssets {
 		}
 	}
 
-	static getImage(path) {
+	static getImage(path, callback) {
 		if (this.images[path]) {
 			return this.images[path];
 		}
@@ -17,6 +17,7 @@ class HanulseAssets {
 		var image = new Image();
 		image.onload = function(e) {
 			console.log("Image loaded: '" + image.src + "'");
+			callback && callback();
 		};
 		image.src = path;
 		this.images[path] = image;
@@ -28,8 +29,10 @@ class HanulseAssets {
 		if (texture == null) {
 			return null;
 		}
-		texture.image = this.getImage(texture.path);
-		return texture
+		if (texture.image == null) {
+			texture.image = this.getImage(texture.path, () => texture.ready = true);
+		}
+		return texture;
 	}
 
 	static getProp(name) {
@@ -37,7 +40,9 @@ class HanulseAssets {
 		if (prop == null) {
 			return null;
 		}
-		prop.image = this.getImage(prop.path);
+		if (prop.image == null) {
+			prop.image = this.getImage(prop.path, () => prop.ready = true);
+		}
 		return prop
 	}
 

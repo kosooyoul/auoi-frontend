@@ -196,8 +196,11 @@ class HanulseCanvasView {
 		}
 
 		// Update quality
-		this.computedQuality = this.quality * this.qualityRatio;
-		this.renderer.setQuality(this.computedQuality);
+		const computedQuality = this.quality * this.qualityRatio;
+		if (this.computedQuality != computedQuality) {
+			this.computedQuality = computedQuality;
+			this.renderer.setQuality(this.computedQuality);
+		}
 
 		// Update canvas size
 		const width = Math.max(this.boundary.right, this.boundary.left) * 2 + 120;

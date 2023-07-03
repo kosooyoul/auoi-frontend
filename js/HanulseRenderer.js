@@ -19,6 +19,8 @@ class HanulseRenderer {
 		h: 0
 	};
 
+	needToUpdateCache = true;
+
 	quality = 1;
 
 	effectRendererFactory = null;
@@ -65,10 +67,13 @@ class HanulseRenderer {
 		this.baseCacheCanvas.width = w;
 		this.baseCacheCanvas.height = h;
 		this.baseCacheUpdated = null;
+		this.needToUpdateCache = true;
 	}
 
 	setQuality(quality) {
 		this.quality = quality;
+		this.baseCacheUpdated = null;
+		this.needToUpdateCache = true;
 	}
 
 	compute() {
@@ -118,26 +123,33 @@ class HanulseRenderer {
 	renderOverlayOnScrolledPosition(_context) {
 
 	}
-
+	
 	renderMap(context) {
 		// Draw cache
-		if (Date.now() - this.baseCacheUpdated > 100) {
-			this.baseCacheContext.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
-
-			this.baseCacheContext.save();
-			this.baseCacheContext.translate(this.canvasSize.w >> 1, this.canvasSize.h >> 1);
-			this.baseCacheContext.scale(this.quality, this.quality);
-
-			var count = this.blocks.length;
-			for (var i = 0; i < count; i++) {
-				this.blockRenderer.renderBase(this.baseCacheContext, this.blocks[i]);
+		if (this.needToUpdateCache) {
+			if (Date.now() - this.baseCacheUpdated > 100) {
+				let needToUpdateCache = false;
+				
+				this.baseCacheContext.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+				
+				this.baseCacheContext.save();
+				this.baseCacheContext.translate(this.canvasSize.w >> 1, this.canvasSize.h >> 1);
+				this.baseCacheContext.scale(this.quality, this.quality);
+				
+				var count = this.blocks.length;
+				for (var i = 0; i < count; i++) {
+					needToUpdateCache ||= this.blockRenderer.renderBase(this.baseCacheContext, this.blocks[i]);
+				}
+				
+				this.baseCacheContext.restore();
+				
+				this.baseCacheUpdated = Date.now();
+				
+				this.needToUpdateCache = needToUpdateCache;
+				document.title = Date.now();
 			}
-
-			this.baseCacheContext.restore();
-
-			this.baseCacheUpdated = Date.now();
 		}
-
+		
 		context.drawImage(this.baseCacheCanvas, 0, 0, this.canvasSize.w, this.canvasSize.h);
 		
 		context.save();
