@@ -127,7 +127,7 @@ class HanulseRenderer {
 	renderMap(context) {
 		// Draw cache
 		if (this.needToUpdateCache) {
-			if (Date.now() - this.baseCacheUpdated > 100) {
+			if (Date.now() - this.baseCacheUpdated > 50) {
 				let needToUpdateCache = false;
 				
 				this.baseCacheContext.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);

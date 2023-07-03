@@ -18,8 +18,14 @@ class HanulseMenuView extends HanulseView {
 
 	constructor() {
 		super();
+	}
 
-		this._initializeMenuView();
+	load(callback) {
+		HtmlTemplate.fetch(HanulseMenuView._templateMenuListPath, (data) => {
+			this._menuElementWrap = $($.parseHTML(data));
+			this._menuListElementWrap = this._menuElementWrap.find("._list");
+			callback && callback();
+		});
 	}
 
 	getElement() {
@@ -32,11 +38,6 @@ class HanulseMenuView extends HanulseView {
 		} else {
 			this._menuListElementWrap.append(this._createMenuItem(menuItem));
 		}
-	}
-
-	_initializeMenuView() {
-		this._menuElementWrap = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListPath)));
-		this._menuListElementWrap = this._menuElementWrap.find("._list");
 	}
 
 	_createMenuSeparator() {

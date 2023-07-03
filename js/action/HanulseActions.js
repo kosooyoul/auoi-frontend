@@ -44,12 +44,14 @@ class HanulseActions {
 
 	_actMenu(data, onActionFinishedCallback) {
 		const menuView = new HanulseMenuView();
-		data.menu.forEach(menuItem => (menuItem.visible !== false) && menuView.addMenuItem(menuItem));
+		menuView.load(() => {
+			data.menu.forEach(menuItem => (menuItem.visible !== false) && menuView.addMenuItem(menuItem));
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(menuView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(menuView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
+		});
 	}
 
 	_actMessage(data, onActionFinishedCallback) {
