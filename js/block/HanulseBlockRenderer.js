@@ -232,13 +232,15 @@ class HanulseBlockRenderer {
 		if (!this.onlyWireframe) {
 			if (this.textureEnabled) {
 				var texture = HanulseAssets.getTexture(textureName);
-				if (texture.ready) {
-					context.save();
-					context.clip();
-					context.drawImage(texture.image, texture.left, texture.top, texture.width, texture.height);
-					context.restore();
-				} else {
-					needToRedraw = true;
+				if (texture) {
+					if (texture.ready) {
+						context.save();
+						context.clip();
+						context.drawImage(texture.image, texture.left, texture.top, texture.width, texture.height);
+						context.restore();
+					} else {
+						needToRedraw = true;
+					}
 				}
 			} else {
 				context.fillStyle = HanulseBlockRenderer.defaultFillStyle;
@@ -271,11 +273,13 @@ class HanulseBlockRenderer {
 
 	renderProp(context, propName) {
 		var prop = HanulseAssets.getProp(propName);
-		if (!prop.ready) {
-			return true;
+		if (prop) {
+			if (prop.ready) {
+				context.drawImage(prop.image, prop.left, prop.top, prop.width, prop.height);
+			} else {
+				return true;
+			}
 		}
-
-		context.drawImage(prop.image, prop.left, prop.top, prop.width, prop.height);
 
 		return false;
 	}
