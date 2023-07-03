@@ -63,7 +63,10 @@ class HanulseArticleWriterView extends HanulseView {
 	}
 
 	_initializeLoadingView() {
-		this.addChildView(this._loadingView = new HanulseLoadingView());
+		const loadingView = new HanulseLoadingView();
+		loadingView.load(() => {
+			this.addChildView(this._loadingView = loadingView);
+		});
 	}
 
 	setOnSaveCallback(onSaveCallback) {

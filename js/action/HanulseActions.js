@@ -130,15 +130,17 @@ class HanulseActions {
 
 	_actGuestbook(data, onActionFinishedCallback) {
 		const guestbookView = new HanulseGuestbookView();
-		guestbookView.setTitle(data.title);
-		guestbookView.load({
-			"owner": data.owner
-		});
+		guestbookView.load(() => {
+			guestbookView.setTitle(data.title);
+			guestbookView.setFilter({
+				"owner": data.owner
+			});
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(guestbookView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(guestbookView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
+		});
 	}
 
 	_actArticleWriter(data, onActionFinishedCallback) {

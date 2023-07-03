@@ -4,12 +4,11 @@ class HanulseLoadingView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeLoadingView();
 	}
 
-	_initializeLoadingView() {
+	load(callback) {
 		this._rootElementWrap = $("<div class=\"_loading knead\" style=\"display: none; position: absolute; left: 50%; top: 50%; margin-left: -13px; margin-top: 16px; width: 24px; height: 8px; background-color: white; border: 1px solid white; border-radius: 10px; box-shadow: 0px 0px 8px rgb(0 255 231);\"></div>");
+		callback && callback();
 	}
 
 	getElement() {
