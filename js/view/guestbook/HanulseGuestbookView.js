@@ -33,6 +33,6 @@ class HanulseGuestbookView extends HanulseView {
 	setFilter(filter) {
 		this._guestbookListView.show();
 		this._guestbookListView.setFilter(filter);
-		this._guestbookListView.load();
+		this._guestbookListView.requestGuestbookList();
 	}
 }

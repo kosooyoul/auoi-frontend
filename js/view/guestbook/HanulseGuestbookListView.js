@@ -76,7 +76,7 @@ class HanulseGuestbookListView extends HanulseView {
 		guestbookListItem.find("._created-at").text(this._formatDateTime(guestbook.createdAt));
 	}
 
-	load() {
+	requestGuestbookList() {
 		this._requestGuestbookList();
 	}
 	
