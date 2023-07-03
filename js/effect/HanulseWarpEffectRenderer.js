@@ -1,18 +1,25 @@
 class HanulseWarpEffectRenderer {
+	curvedRatio = new Array(100).fill(0).reduce((result, _v, i) => (result[i] = Math.sin(i / 100 * Math.PI), result), {});
+
+	initialized = false;
 	centerGradient = null;
 	ringGradient = null;
 
-	render(context, _timeOffset) {
-		if (!this.centerGradient) {
-			this.centerGradient = context.createLinearGradient(0, 0, 0, -120);
-			this.centerGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-			this.centerGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
-		}
+	init(context) {
+		this.centerGradient = context.createLinearGradient(0, 0, 0, -120);
+		this.centerGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+		this.centerGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
-		if (!this.ringGradient) {
-			this.ringGradient = context.createLinearGradient(0, -20, 0, 40);
-			this.ringGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-			this.ringGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+		this.ringGradient = context.createLinearGradient(0, -20, 0, 40);
+		this.ringGradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+		this.ringGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+		this.initialized = true;
+	}
+
+	render(context, _timeOffset) {
+		if (this.initialized == false) {
+			this.init(context);
 		}
 
 		context.save();
@@ -36,93 +43,81 @@ class HanulseWarpEffectRenderer {
 		context.restore();
 	}
 
-	renderCenter(context, r, o) {
-		var tick = Date.now();
-		var ratio = ((tick - o) % r) / r; // 100
-		// var curvedRatio = Math.sin(ratio * Math.PI);
-		var curvedRatio = Math.sin(ratio / 2 * Math.PI);
-		var target = -140;
-		var translateY = target * curvedRatio;// * Math.pow(ratio, 1.5);
+	renderCenter(context, duration, timeOffset) {
+		var ratio = ((Date.now() - timeOffset) % duration) / duration;
+		var curvedRatio = this.curvedRatio[Math.floor(ratio * 100)];
+		var sqrtCurvedRatio = (1 - (curvedRatio - 1) * (curvedRatio - 1));
 
-		var height = 120;
-		var widthScale = 1; //2;
-		var scaledWidth = 40 * widthScale;
-		var scaledHeight = 20 * widthScale;
-		var alpha = (1 - (curvedRatio * 2 - 1) * (curvedRatio * 2 - 1)) * 0.4 + 0.1;
+		var offsetY = 120;
+		var width = 40;
+		var height = 20;
+		var alpha = sqrtCurvedRatio * 0.4 + 0.1;
 
 		context.globalAlpha = alpha;
-		// grd.setColorStop(0, "rgba(255, 255, 255, " + alpha + ")");
 
 		context.beginPath();
-		context.moveTo(0, scaledHeight - height);
-		context.lineTo(-scaledWidth, -height);
-		context.lineTo(-scaledWidth, 0);
-		context.lineTo(0, scaledHeight);
-		context.lineTo(scaledWidth, 0);
-		context.lineTo(scaledWidth, -height);
-		context.lineTo(0, scaledHeight - height);
+		context.moveTo(0, height - offsetY);
+		context.lineTo(-width, -offsetY);
+		context.lineTo(-width, 0);
+		context.lineTo(0, height);
+		context.lineTo(width, 0);
+		context.lineTo(width, -offsetY);
+		context.lineTo(0, height - offsetY);
 		context.fillStyle = this.centerGradient;
 		context.fill();
 		context.closePath();
 
 		context.beginPath();
-		context.moveTo(0, -scaledHeight - height);
-		context.lineTo(-scaledWidth, -height);
-		context.lineTo(-scaledWidth, 0);
-		context.lineTo(0, -scaledHeight);
-		context.lineTo(scaledWidth, 0);
-		context.lineTo(scaledWidth, -height);
-		context.lineTo(0, -scaledHeight - height);
+		context.moveTo(0, -height - offsetY);
+		context.lineTo(-width, -offsetY);
+		context.lineTo(-width, 0);
+		context.lineTo(0, -height);
+		context.lineTo(width, 0);
+		context.lineTo(width, -offsetY);
+		context.lineTo(0, -height - offsetY);
 		context.fillStyle = this.centerGradient;
 		context.fill();
-		// context.strokeStyle = strokeColor
-		// context.stroke();
 		context.closePath();
 	}
 	
-	renderRing(context, r, o, s, h) {
-		var tick = Date.now();
-		var ratio = ((tick - o) % r) / r; // 100
-		// var curvedRatio = Math.sin(ratio * Math.PI);
-		var curvedRatio = Math.sin(ratio / 2 * Math.PI);
+	renderRing(context, duration, timeOffset, widthScale, offsetY) {
+		var ratio = ((Date.now() - timeOffset) % duration) / duration;
+		var curvedRatio = this.curvedRatio[Math.floor(ratio * 50)];
+		var sqrtCurvedRatio = (1 - (curvedRatio - 1) * (curvedRatio - 1));
+
 		var target = -140;
-		var translateY = target * curvedRatio;// * Math.pow(ratio, 1.5);
+		var translateY = target * curvedRatio;
 
 		context.translate(0, translateY + 20);
 
-		var height = h;
-		var widthScale = s; //2;
 		var scaledWidth = 40 * widthScale;
 		var scaledHeight = 20 * widthScale;
-		var alpha = (1 - (curvedRatio * 2 - 1) * (curvedRatio * 2 - 1)) * 0.4;
+		var alpha = sqrtCurvedRatio * 0.4;
 
 		context.globalAlpha = alpha;
-		// grd.setColorStop(0, "rgba(255, 255, 255, " + alpha + ")");
 
 		context.beginPath();
-		context.moveTo(0, scaledHeight - height);
-		context.lineTo(-scaledWidth, -height);
+		context.moveTo(0, scaledHeight - offsetY);
+		context.lineTo(-scaledWidth, -offsetY);
 		context.lineTo(-scaledWidth, 0);
 		context.lineTo(0, scaledHeight);
 		context.lineTo(scaledWidth, 0);
-		context.lineTo(scaledWidth, -height);
-		context.lineTo(0, scaledHeight - height);
+		context.lineTo(scaledWidth, -offsetY);
+		context.lineTo(0, scaledHeight - offsetY);
 		context.fillStyle = this.ringGradient;
 		context.fill();
 		context.closePath();
 
 		context.beginPath();
-		context.moveTo(0, -scaledHeight - height);
-		context.lineTo(-scaledWidth, -height);
+		context.moveTo(0, -scaledHeight - offsetY);
+		context.lineTo(-scaledWidth, -offsetY);
 		context.lineTo(-scaledWidth, 0);
 		context.lineTo(0, -scaledHeight);
 		context.lineTo(scaledWidth, 0);
-		context.lineTo(scaledWidth, -height);
-		context.lineTo(0, -scaledHeight - height);
+		context.lineTo(scaledWidth, -offsetY);
+		context.lineTo(0, -scaledHeight - offsetY);
 		context.fillStyle = this.ringGradient;
 		context.fill();
-		// context.strokeStyle = strokeColor
-		// context.stroke();
 		context.closePath();
 	}
 }
