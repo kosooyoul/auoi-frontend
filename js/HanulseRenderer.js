@@ -146,7 +146,6 @@ class HanulseRenderer {
 				this.baseCacheUpdated = Date.now();
 				
 				this.needToUpdateCache = needToUpdateCache;
-				document.title = Date.now();
 			}
 		}
 		
