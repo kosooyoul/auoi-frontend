@@ -12,6 +12,8 @@ class HanulsePrismEffectRenderer {
 		var subColorDegree = (curvedRatio * curvedRatio) * 255;
 		var colorSetIndex = Math.floor(timeOffset) % 6;
 
+		context.save();
+
 		context.globalAlpha = alpha;
 
 		context.beginPath();
@@ -35,5 +37,7 @@ class HanulsePrismEffectRenderer {
 		}
 		context.fill();
 		context.closePath();
+
+		context.restore();
 	}
 }

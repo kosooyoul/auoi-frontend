@@ -163,6 +163,13 @@ class HanulseBlockRenderer {
 			this.renderRightHighlight(context, status.right);
 		}
 
+		if (this.effectEnabled) {
+			const effect = block.getEffect();
+			if (effect) {
+				this.renderEffect(context, effect, block.getTimeOffset());
+			}
+		}
+
 		if (this.labelEnabled) {
 			const label = block.getLabel();
 			if (label) {
@@ -174,13 +181,6 @@ class HanulseBlockRenderer {
 			const description = block.getDescription();
 			if (description) {
 				this.renderDescription(context, description);
-			}
-		}
-
-		if (this.effectEnabled) {
-			const effect = block.getEffect();
-			if (effect) {
-				this.renderEffect(context, effect, block.getTimeOffset());
 			}
 		}
 

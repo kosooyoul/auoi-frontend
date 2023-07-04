@@ -6,6 +6,8 @@ class HanulseFlashEffectRenderer {
 
 		var alpha = (1 - (curvedRatio * 2 - 1) * (curvedRatio * 2 - 1)) * 0.4;
 
+		context.save();
+
 		context.globalAlpha = alpha;
 
 		context.beginPath();
@@ -17,5 +19,7 @@ class HanulseFlashEffectRenderer {
 		context.fillStyle = "rgba(255, 255, 255, 0.6)";
 		context.fill();
 		context.closePath();
+
+		context.restore();
 	}
 }
