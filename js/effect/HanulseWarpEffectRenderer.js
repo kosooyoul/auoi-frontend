@@ -82,11 +82,12 @@ class HanulseWarpEffectRenderer {
 	
 	renderRing(context, duration, timeOffset, widthScale, offsetY) {
 		var ratio = ((Date.now() - timeOffset) % duration) / duration;
-		var curvedRatio = this.curvedRatio[Math.floor(ratio * 50)];
+		var halfCurvedRatio = this.curvedRatio[Math.floor(ratio * 50)];
+		var curvedRatio = this.curvedRatio[Math.floor(ratio * 100)];
 		var sqrtCurvedRatio = (1 - (curvedRatio - 1) * (curvedRatio - 1));
 
 		var target = -140;
-		var translateY = target * curvedRatio;
+		var translateY = target * halfCurvedRatio;
 
 		context.translate(0, translateY + 20);
 
