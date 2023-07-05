@@ -19,7 +19,7 @@ class HanulseCanvasView {
 	boundary = null;
 
 	renderer = null;
-	actions = null;
+	actionRunner = null;
 	slider = null;
 	fpsCounterView = null;
 	identityView = null;
@@ -62,7 +62,7 @@ class HanulseCanvasView {
 		this.renderer.initialize(this.context);
 		this.renderer.setBlocks(this.blocks);
 
-		this.actions = new HanulseActions();
+		this.actionRunner = new HanulseActions();
 
 		this.slider = new HanulseSlider();
 		this.slider.setOnSlide((x, y) => {
@@ -109,6 +109,7 @@ class HanulseCanvasView {
 			label: item.label,
 			description: item.description,
 			action: item.action,
+			actions: item.actions,
 			alpha: item.alpha
 		}));
 		this.blocks = HanulseBlock.sortBlocks(blocks);
@@ -249,11 +250,11 @@ class HanulseCanvasView {
 	}
 
 	onBlockSelected(selectedObject) {
-		var actionData = selectedObject.block.getAction(selectedObject.side);
-		if (actionData) {
+		var actions = selectedObject.block.getActions(selectedObject.side);
+		if (actions) {
 			this.targetQualityRatio = 0.1;
 			// this.enabled = false;
-			this.actions.act(actionData.type, actionData, () => {
+			this.actionRunner.run(actions, () => {
 				this.targetQualityRatio = 1;
 				// this.enabled = true;
 			});

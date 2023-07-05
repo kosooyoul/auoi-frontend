@@ -8,10 +8,16 @@
             "options": [
                 {
                     "title": "네",
-                    "action": {
-                        "type": "message",
-                        "message": "에너지가 부족해요!"
-                    }
+                    "actions": [
+                        {
+                            "type": "message",
+                            "message": "에너지가 부족해요!"
+                        },
+                        {
+                            "type": "link",
+                            "link": "javascript:history.back();"
+                        }
+                    ]
                 },
                 {
                     "title": "아니요",

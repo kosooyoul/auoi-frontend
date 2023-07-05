@@ -38,7 +38,7 @@ class HanulseBlock {
 	_label = null;
 	_description = null;
 
-	_action = {
+	_actions = {
 		top: null,
 		left: null,
 		right: null,
@@ -83,14 +83,18 @@ class HanulseBlock {
 		this._label = options.label;
 		this._description = options.description;
 
+		if (options.actions) {
+			this._actions.all = options.actions.all || (options.action.all && [options.action.all]);
+			this._actions.top = options.actions.top || (options.action.top && [options.action.top]);
+			this._actions.left = options.actions.left || (options.action.left && [options.action.left]);
+			this._actions.right = options.actions.right || (options.action.right && [options.action.right]);
+		}
+
 		if (options.action) {
-			if (options.action.all) {
-				this._action.all = options.action.all;
-			} else {
-				this._action.top = options.action.top;
-				this._action.left = options.action.left;
-				this._action.right = options.action.right;
-			}
+			this._actions.all = options.action.all && [options.action.all];
+			this._actions.top = options.action.top && [options.action.top];
+			this._actions.left = options.action.left && [options.action.left];
+			this._actions.right = options.action.right && [options.action.right];
 		}
 
 		if (options.alpha) {
@@ -313,15 +317,15 @@ class HanulseBlock {
 		this._status.some = this._status.top || this._status.left || this._status.right;
 	}
 
-	getAction(side) {
+	getActions(side) {
 		if (side == "top") {
-			return this._action.top || this._action.all;
+			return this._actions.top || this._actions.all;
 		} else if (side == "left") {
-			return this._action.left || this._action.all;
+			return this._actions.left || this._actions.all;
 		} else if (side == "right") {
-			return this._action.right || this._action.all;
+			return this._actions.right || this._actions.all;
 		} else if (side == "all") {
-			return this._action.all;
+			return this._actions.all;
 		}
 		return null;
 	}
