@@ -68,8 +68,8 @@ class HanulseIndexView extends HanulseView {
 			if  (evt.target == this._hanulseElement || evt.target == this._canvasElement) {
 				this._canvasView.onPointerDown(evt);
 			}
-		});
-		this._hanulseElement.addEventListener("touchmove", (evt) => this._canvasView.onPointerMove(evt));
+		}, { passive: true });
+		this._hanulseElement.addEventListener("touchmove", (evt) => this._canvasView.onPointerMove(evt), { passive: true });
 		this._hanulseElement.addEventListener("touchend", (evt) => this._canvasView.onPointerUp(evt));
 	}
 
