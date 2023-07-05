@@ -12,6 +12,12 @@
   "icons": [
     {
       "purpose": "maskable",
+      "src": "icons/ahyane-20y-xxxl.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "purpose": "maskable",
       "src": "icons/ahyane-20y-xxl.maskable.png",
       "sizes": "192x192",
       "type": "image/png"
@@ -46,6 +52,11 @@
       "name": "Create area",
       "url": "/tools.html",
       "icons": [
+        {
+          "src": "icons/ahyane-20y-xxxl.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        },
         {
           "src": "icons/ahyane-20y-xxl.png",
           "sizes": "192x192",

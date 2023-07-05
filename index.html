@@ -3,22 +3,23 @@
 <head>
 <meta charset="utf-8">
 <title>Auoi - Our spaces and our story</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="title" content="Auoi - Our spaces and our story">
-<meta name="description" content="In our open spaces, make your spaces and write your story.">
-<meta name="keyword" content="auoi">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Auoi - Our spaces and our story">
-<meta property="og:description" content="In our open spaces, make your spaces and write your story.">
-<meta property="og:image" content="https://www.auoi.net/assets/screenshots/landscape.jpg">
-<meta property="og:url" content="https://www.auoi.net">
-<meta name="format-detection" content="telephone=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="manifest" href="./manifest.json">
-<link rel="shortcut icon" type="image/x-icon" href="https://www.auoi.net/icons/ahyane-20y-m.png">
-<link rel="stylesheet" href="./css/hanulse.css?v=20230701">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="title" content="Auoi - Our spaces and our story"/>
+<meta name="description" content="In our open spaces, make your spaces and write your story."/>
+<meta name="keyword" content="auoi"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Auoi - Our spaces and our story"/>
+<meta property="og:description" content="In our open spaces, make your spaces and write your story."/>
+<meta property="og:image" content="https://www.auoi.net/assets/screenshots/landscape.jpg"/>
+<meta property="og:url" content="https://www.auoi.net"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#000000"/>
+<link rel="manifest" href="./manifest.json"/>
+<link rel="shortcut icon" type="image/x-icon" href="https://www.auoi.net/icons/ahyane-20y-m.png"/>
+<link rel="stylesheet" href="./css/hanulse.css?v=20230701"/>
 </head>
 
 <body>
@@ -67,10 +68,10 @@
 		<span class="fps">- FPS</span>
 	</div>
 	<ul class="icon-buttons">
-		<li><a class="icon-button" href="https://github.com/kosooyoul" target="_blank"><span class="github"></span></a></li>
-		<li><a class="icon-button" href="https://instagram.com/kosooyoul" target="_blank"><span class="instagram"></span></a></li>
-		<li class="sd-desktop"><a class="icon-button" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=kosooyoul@gmail.com" target="_blank"><span class="gmail"></span></a></li>
-		<li class="sd-mobile"><a class="icon-button" href="mailto:kosooyoul@gmail.com" target="_blank"><span class="gmail"></span></a></li>
+		<li><a class="icon-button" href="https://github.com/kosooyoul" target="_blank" aria-label="Go to GitHub"><span class="github"></span></a></li>
+		<li><a class="icon-button" href="https://instagram.com/kosooyoul" target="_blank" aria-label="Go to Instagram"><span class="instagram"></span></a></li>
+		<li class="sd-desktop"><a class="icon-button" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=kosooyoul@gmail.com" target="_blank" aria-label="Mail me by Gmail"><span class="gmail"></span></a></li>
+		<li class="sd-mobile"><a class="icon-button" href="mailto:kosooyoul@gmail.com" target="_blank" aria-label="Mail me"><span class="gmail"></span></a></li>
 	</ul>
 	<div class="_copyright text-white-11 sh-xs sh-s" style="position: absolute; right: 10px; bottom: 10px;">
 		<span>ⓒAhyane=Kosooyoul</span>
@@ -125,7 +126,9 @@
 <script>
 $(document.body).ready(() => new HanulseIndexView(document.body));
 
-if ("serviceWorker" in navigator) {
+if (navigator.serviceWorker) {
+	navigator.serviceWorker.register('/service-worker.js');
+
 	window.addEventListener("load", function() {
 		navigator.serviceWorker.register("/service-worker.js").then(function(registration) {
 			// Registration was successful
