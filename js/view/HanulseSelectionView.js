@@ -8,15 +8,17 @@ class HanulseSelectionView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeSelectionView();
 	}
 
-	_initializeSelectionView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseSelectionView._templatePath)).get());
+	load(callback) {
+		HtmlTemplate.fetch(HanulseSelectionView._templatePath, (data) => {
+			this.setElement(HtmlHelper.createHtml(data).get());
 
-		this._messageElementWrap = $(this.findChildElement("._message"));
-		this._optionsElementWrap = $(this.findChildElement("._options"));
+			this._messageElementWrap = $(this.findChildElement("._message"));
+			this._optionsElementWrap = $(this.findChildElement("._options"));
+
+			callback && callback();
+		});
 	}
 
 	setOnSelectOptionCallback(onSelectOptionCallback) {

@@ -82,21 +82,23 @@ class HanulseActions {
 
 	_runSelection(data, onActionFinishedCallback) {
 		const selectionView = new HanulseSelectionView();
-		selectionView.setMessage(data.message);
-		selectionView.setOptions(data.options);
+		selectionView.load(() => {
+			selectionView.setMessage(data.message);
+			selectionView.setOptions(data.options);
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(selectionView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(selectionView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
 
-		selectionView.setOnSelectOptionCallback((option) => {
-			const actions = option.actions || [option.action];
-			if (actions) {
-				overlayView.setOnHideCallback(null);
-				this.run(actions, onActionFinishedCallback);
-			}
-			overlayView.hide();
+			selectionView.setOnSelectOptionCallback((option) => {
+				const actions = option.actions || [option.action];
+				if (actions) {
+					overlayView.setOnHideCallback(null);
+					this.run(actions, onActionFinishedCallback);
+				}
+				overlayView.hide();
+			});
 		});
 	}
 
