@@ -8,15 +8,17 @@ class HanulseCardsView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeCardsView();
 	}
 
-	_initializeCardsView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseCardsView._templatePath)).get());
+	load(callback) {
+		HtmlTemplate.fetch(HanulseCardsView._templatePath, (data) => {
+			this.setElement(HtmlHelper.createHtml(data).get());
 
-		this._titleElementWrap = $(this.findChildElement("._title"));
-		this._cardsElementWrap = $(this.findChildElement("._cards"));
+			this._titleElementWrap = $(this.findChildElement("._title"));
+			this._cardsElementWrap = $(this.findChildElement("._cards"));
+
+			callback && callback();
+		});
 	}
 
 	setTitle(title) {

@@ -8,15 +8,17 @@ class HanulseTableView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeTableView();
 	}
 
-	_initializeTableView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseTableView._templatePath)).get());
+	load(callback) {
+		HtmlTemplate.fetch(HanulseTableView._templatePath, (data) => {
+			this.setElement(HtmlHelper.createHtml(data).get());
 
-		this._titleElementWrap = $(this.findChildElement("._title"));
-		this._tableElementWrap = $(this.findChildElement("._table"));
+			this._titleElementWrap = $(this.findChildElement("._title"));
+			this._tableElementWrap = $(this.findChildElement("._table"));
+
+			callback && callback();
+		});
 	}
 
 	setTitle(title) {

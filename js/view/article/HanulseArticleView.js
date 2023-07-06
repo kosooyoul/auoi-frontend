@@ -34,11 +34,13 @@ class HanulseArticleView extends HanulseView {
 					this._articleDetailView.show();
 				} else {
 					const messageView = new HanulseMessageView();
-					messageView.setMessage("선택하신 기록을 조회할 권한이 없습니다.");
-		
-					const overlayView = new HanulseOverlayView();
-					overlayView.setContentView(messageView);
-					overlayView.show();
+					messageView.load(() => {
+						messageView.setMessage("선택하신 기록을 조회할 권한이 없습니다.");
+			
+						const overlayView = new HanulseOverlayView();
+						overlayView.setContentView(messageView);
+						overlayView.show();
+					});
 				}
 
 				this._loadingView.hide();
@@ -54,38 +56,42 @@ class HanulseArticleView extends HanulseView {
 
 		articleDetailView.setOnDeleteCallback((article) => {
 			const selectionView = new HanulseSelectionView();
-			selectionView.setMessage("다음 기록을 삭제할까요?\n'" + article.subject + "'");
-			selectionView.setOptions([
-				{"title": "네, 삭제합니다.", "value": true},
-				{"title": "아니요, 그만둘래요.", "value": false},
-			]);
+			selectionView.load(() => {
+				selectionView.setMessage("다음 기록을 삭제할까요?\n'" + article.subject + "'");
+				selectionView.setOptions([
+					{"title": "네, 삭제합니다.", "value": true},
+					{"title": "아니요, 그만둘래요.", "value": false},
+				]);
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(selectionView);
-			overlayView.show();
+				const overlayView = new HanulseOverlayView();
+				overlayView.setContentView(selectionView);
+				overlayView.show();
 
-			selectionView.setOnSelectOptionCallback((option) => {
-				if (option.value != true) {
-					return overlayView.hide();
-				}
-
-				HanulseArticleApis.deleteArticle(article.id, (success) => {
-					if (success) {
-						this._articleDetailView.hide();
-						this._articleListView.show();
-						this._articleListView.load();
-					} else {
-						const messageView = new HanulseMessageView();
-						messageView.setMessage("기록을 삭제할 수 없습니다.");
-			
-						const overlayView = new HanulseOverlayView();
-						overlayView.setContentView(messageView);
-						overlayView.show();
+				selectionView.setOnSelectOptionCallback((option) => {
+					if (option.value != true) {
+						return overlayView.hide();
 					}
+
+					HanulseArticleApis.deleteArticle(article.id, (success) => {
+						if (success) {
+							this._articleDetailView.hide();
+							this._articleListView.show();
+							this._articleListView.load();
+						} else {
+							const messageView = new HanulseMessageView();
+							messageView.load(() => {
+								messageView.setMessage("기록을 삭제할 수 없습니다.");
 					
-					overlayView.hide();
+								const overlayView = new HanulseOverlayView();
+								overlayView.setContentView(messageView);
+								overlayView.show();
+							});
+						}
+						
+						overlayView.hide();
+					});
 				});
-			})
+			});
 		});
 		articleDetailView.setOnEditCallback((article) => {
 			this._articleEditorView.setArticle(article);
@@ -116,11 +122,13 @@ class HanulseArticleView extends HanulseView {
 					this._articleDetailView.show();
 				} else {
 					const messageView = new HanulseMessageView();
-					messageView.setMessage("기록을 수정할 수 없습니다.");
-		
-					const overlayView = new HanulseOverlayView();
-					overlayView.setContentView(messageView);
-					overlayView.show();
+					messageView.load(() => {
+						messageView.setMessage("기록을 수정할 수 없습니다.");
+			
+						const overlayView = new HanulseOverlayView();
+						overlayView.setContentView(messageView);
+						overlayView.show();
+					});
 				}
 
 				this._loadingView.hide();

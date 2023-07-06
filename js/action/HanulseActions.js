@@ -72,12 +72,14 @@ class HanulseActions {
 
 	_runMessage(data, onActionFinishedCallback) {
 		const messageView = new HanulseMessageView();
-		messageView.setMessage(data.message);
+		messageView.load(() => {
+			messageView.setMessage(data.message);
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(messageView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
+		});
 	}
 
 	_runSelection(data, onActionFinishedCallback) {
@@ -104,25 +106,29 @@ class HanulseActions {
 
 	_runTable(data, onActionFinishedCallback) {
 		const tableView = new HanulseTableView();
-		tableView.setTitle(data["title"]);
-		tableView.setColsOptions(data["cols-options"]);
-		tableView.setTable(data["table"]);
+		tableView.load(() => {
+			tableView.setTitle(data["title"]);
+			tableView.setColsOptions(data["cols-options"]);
+			tableView.setTable(data["table"]);
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(tableView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(tableView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
+		});
 	}
 
 	_runCards(data, onActionFinishedCallback) {
 		const cardsView = new HanulseCardsView();
-		cardsView.setTitle(data["title"]);
-		cardsView.setCards(data["cards"]);
+		cardsView.load(() => {
+			cardsView.setTitle(data["title"]);
+			cardsView.setCards(data["cards"]);
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(cardsView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(cardsView);
+			overlayView.setOnHideCallback(onActionFinishedCallback);
+			overlayView.show();
+		});
 	}
 
 	_runGallery(data, onActionFinishedCallback) {

@@ -44,11 +44,13 @@ class HanulseGuestbookListView extends HanulseView {
 						this._requestGuestbookList();
 					} else {
 						const messageView = new HanulseMessageView();
-						messageView.setMessage("방명록을 저장할 수 없습니다.");
-						
-						const overlayView = new HanulseOverlayView();
-						overlayView.setContentView(messageView);
-						overlayView.show();
+						messageView.load(() => {
+							messageView.setMessage("방명록을 저장할 수 없습니다.");
+							
+							const overlayView = new HanulseOverlayView();
+							overlayView.setContentView(messageView);
+							overlayView.show();
+						});
 					}
 					
 					this._hideLoading();
