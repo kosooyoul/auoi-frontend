@@ -26,9 +26,40 @@
     {"position": {"x": -4, "y": -3, "z":  1}, "texture": {"right": "pink-right"}},
     {"position": {"x": -4, "y": -3, "z":  2}, "texture": {"right": "pink-right"}},
     {"position": {"x": -4, "y": -3, "z":  3}, "texture": {"right": "pink-right"}},
-    {"position": {"x": -3, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "flower-berry-2"},
+    {"position": {"x": -3, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "flower-berry-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x": -2, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "pcontable-left", "effect": "link", "label": "작업물"},
-    {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "trash"},
+    {"position": {"x": -1, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "trash", "action": {
+            "top": {
+                "type": "selection",
+                "message": "쓰레기통이 가득 찼어요.\n쓰레기통을 비울까요?",
+                "options": [
+                    {
+                        "title": "네",
+                        "action": {
+                            "type": "message",
+                            "message": "지금은 비울 수 없어요!"
+                        }
+                    },
+                    {"title": "아니요"}
+                ]
+            }
+        }
+    },
     {"position": {"x":  0, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
         "top": {
             "type": "selection",
@@ -197,7 +228,22 @@
     {"position": {"x": -4, "y":  3, "z":  1}, "texture": {"right": "pink-right"}},
     {"position": {"x": -4, "y":  3, "z":  2}, "texture": {"right": "pink-right"}},
     {"position": {"x": -4, "y":  3, "z":  3}, "texture": {"right": "pink-right"}},
-    {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "flower-berry-2"},
+    {"position": {"x": -3, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "flower-berry-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "table", "effect": "link", "label": "도트", "action": {
         "top": {
             "type": "gallery",

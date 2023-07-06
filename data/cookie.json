@@ -25,13 +25,42 @@
     {"position": {"x": -3, "y": -3, "z":  3}, "texture": {"right": "blue-right"}},
     {"position": {"x": -3, "y": -3, "z":  4}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y": -3, "z":  5}, "texture": {"right": "pink-right"}},
-    {"position": {"x": -2, "y": -3, "z":  2}, "texture": {"top": "pink-top"}, "prop": "flower-palm-2"},
+    {"position": {"x": -2, "y": -3, "z":  2}, "texture": {"top": "pink-top"}, "prop": "flower-palm-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x": -1, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
     {"position": {"x":  0, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
     {"position": {"x":  1, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y": -3, "z":  2}, "texture": {"top": "pink-top"}},
-    {"position": {"x":  3, "y": -3, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "flower-palm-2"},
-    
+    {"position": {"x":  3, "y": -3, "z":  2}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "flower-palm-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x": -3, "y": -2, "z":  3}, "texture": {"right": "blue-right"}},
     {"position": {"x": -3, "y": -2, "z":  4}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y": -2, "z":  5}, "texture": {"right": "pink-right"}},
@@ -127,7 +156,22 @@
     {"position": {"x": -3, "y":  2, "z":  3}, "texture": {"right": "blue-right"}},
     {"position": {"x": -3, "y":  2, "z":  4}, "texture": {"right": "pink-right"}},
     {"position": {"x": -3, "y":  2, "z":  5}, "texture": {"right": "pink-right"}},
-    {"position": {"x": -2, "y":  2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "flower-palm-2"},
+    {"position": {"x": -2, "y":  2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "flower-palm-2", "action": {
+        "top": {
+            "type": "selection",
+            "message": "화분에 물을 줄까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "지금은 줄 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x": -1, "y":  2, "z":  0}, "texture": {"left": "blue-left"}},
     {"position": {"x": -1, "y":  2, "z":  1}, "texture": {"left": "blue-left", "right": "blue-right"}},
     {"position": {"x": -1, "y":  2, "z":  2}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
