@@ -84,10 +84,10 @@ class HanulseBlock {
 		this._description = options.description;
 
 		if (options.actions) {
-			this._actions.all = options.actions.all || (options.action.all && [options.action.all]);
-			this._actions.top = options.actions.top || (options.action.top && [options.action.top]);
-			this._actions.left = options.actions.left || (options.action.left && [options.action.left]);
-			this._actions.right = options.actions.right || (options.action.right && [options.action.right]);
+			this._actions.all = options.actions.all || (options.actions.all && [options.actions.all]);
+			this._actions.top = options.actions.top || (options.actions.top && [options.actions.top]);
+			this._actions.left = options.actions.left || (options.actions.left && [options.actions.left]);
+			this._actions.right = options.actions.right || (options.actions.right && [options.actions.right]);
 		}
 
 		if (options.action) {

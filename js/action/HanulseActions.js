@@ -33,6 +33,7 @@ class HanulseActions {
 			case "guestbook": return this._runGuestbook(data, onActionFinishedCallback);
 			case "article-writer": return this._runArticleWriter(data, onActionFinishedCallback);
 			case "pwa": return this._runPwa(data, onActionFinishedCallback);
+			case "function": return this._runFunction(data, onActionFinishedCallback);
 		}
 	}
 	
@@ -240,5 +241,11 @@ class HanulseActions {
 				delete window["deferredPrompt"];
 			});
 		}, 500);
+	}
+
+	_runFunction(data, onActionFinishedCallback) {
+		// TODO
+		console.log(JSON.stringify(data));
+		onActionFinishedCallback();
 	}
 }

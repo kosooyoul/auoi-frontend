@@ -104,7 +104,15 @@
     {"position": {"x":  6, "y":  -1, "z": -1}, "texture": {"left": "pink-left"}, "alpha": 0.4},
     {"position": {"x":  7, "y":  -1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
     {"position": {"x":  7, "y":  -1, "z": -1}, "texture": {"right": "pink-right"}, "alpha": 0.4},
-    {"position": {"x":  7, "y":   0, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism"},
+    {"position": {"x":  7, "y":   0, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism", "prop": "blocks-xyz", "actions": {
+        "top": [
+            {
+                "type": "function",
+                "name": "reload",
+                "args": "cookie"
+            }
+        ]
+    }},
     {"position": {"x":  8, "y":   0, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
     {"position": {"x":  8, "y":   0, "z": -1}, "texture": {"left": "pink-left", "right": "pink-right"}, "alpha": 0.4},
     {"position": {"x":  8, "y":   0, "z": -2}, "texture": {"left": "pink-left", "right": "pink-right"}, "alpha": 0.2},
