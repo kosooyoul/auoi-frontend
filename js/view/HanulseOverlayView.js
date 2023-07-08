@@ -42,7 +42,10 @@ class HanulseOverlayView {
 			"width": "100%",
 			"height": "100%",
 			"background-color": "rgba(0, 0, 0, 0.6)",
-			"z-index": "100001"
+			"z-index": "100001",
+			"opacity": 0,
+			"transition": "opacity 0.4s linear",
+			"-webkit-transition": "opacity 0.4s linear"
 		})
 
 		this._rootElementWrap.listenEvent("click", (event) => {
@@ -69,23 +72,24 @@ class HanulseOverlayView {
 
 		this._rootElementWrap.appendTo(document.body);
 
-		this._rootElementWrap.css({"opacity": 0, "transition": "opacity 0.5s linear"});
-		this._rootElementWrap.cssAsync({"opacity": 1});
-
-		HanulseOverlayView._registerDismissEventListener(() => this.hide());
+		setTimeout(() => {
+			this._rootElementWrap.cssAsync({"opacity": 1});
+			HanulseOverlayView._registerDismissEventListener(() => this.hide());
+		}, 100)
 	}
 
 	hide() {
 		this._rootElementWrap.css({"pointer-events": "none"});
-		this._rootElementWrap.cssAsync({"opacity": 0});
+		setTimeout(() => {
+			this._rootElementWrap.cssAsync({"opacity": 0});
+			setTimeout(() => this._rootElementWrap.remove(), 500);
+			
+			if (this._hidden == false) {
+				this._onHideCallback && this._onHideCallback();
+			}
 
-		setTimeout(() => this._rootElementWrap.remove(), 500);
-		
-		if (this._hidden == false) {
-			this._onHideCallback && this._onHideCallback();
-		}
-
-		this._hidden = true;
+			this._hidden = true;
+		}, 100);
 	}
 
 	dismiss() {
