@@ -167,13 +167,13 @@
                 "then": [
                     {
                         "type": "message",
-                        "message": "True"
+                        "message": "True ${test}"
                     }
                 ],
                 "else": [
                     {
                         "type": "message",
-                        "message": "False"
+                        "message": "False ${test}"
                     }
                 ]
             },

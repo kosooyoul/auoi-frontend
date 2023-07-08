@@ -43,6 +43,14 @@ class HanulseActions {
 			case "function": return this._runFunction(data, onActionFinishedCallback);
 		}
 	}
+
+	_format(format) {
+		const keys = (format.match(/(\$\{[a-zA-Z0-9]{3,7}\})/g) || []);
+		return keys.reduce((format, key) => {
+			var variable = key.slice(2,-1);
+			return format.replace(key, this._variables[variable]);
+		}, format)
+	}
 	
 	_runArticles(data, onActionFinishedCallback) {
 		const articleView = new HanulseArticleView();
@@ -81,7 +89,7 @@ class HanulseActions {
 	_runMessage(data, onActionFinishedCallback) {
 		const messageView = new HanulseMessageView();
 		messageView.load(() => {
-			messageView.setMessage(data.message);
+			messageView.setMessage(this._format(data.message));
 
 			const overlayView = new HanulseOverlayView();
 			overlayView.setContentView(messageView);
