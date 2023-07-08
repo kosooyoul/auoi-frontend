@@ -1,4 +1,6 @@
 class HanulseActions {
+	_variables = {};
+
 	constructor() {
 
 	}
@@ -11,12 +13,12 @@ class HanulseActions {
 				if (nextIndex < actions.length) {
 					return setTimeout(() => {
 						this.run(actions, onActionFinishedCallback, nextIndex);
-					}, 400);
+					}, 0);
 				}
-				onActionFinishedCallback();
+				onActionFinishedCallback && onActionFinishedCallback();
 			});
 		}
-		onActionFinishedCallback();
+		onActionFinishedCallback && onActionFinishedCallback();
 	}
 
 	_run(type, data, onActionFinishedCallback) {
@@ -33,6 +35,9 @@ class HanulseActions {
 			case "guestbook": return this._runGuestbook(data, onActionFinishedCallback);
 			case "article-writer": return this._runArticleWriter(data, onActionFinishedCallback);
 			case "pwa": return this._runPwa(data, onActionFinishedCallback);
+			case "variable": return this._runVariable(data, onActionFinishedCallback);
+			case "if": return this._runIf(data, onActionFinishedCallback);
+			case "wait": return this._runWait(data, onActionFinishedCallback);
 			case "function": return this._runFunction(data, onActionFinishedCallback);
 		}
 	}
@@ -196,6 +201,63 @@ class HanulseActions {
 			});
 			loginView.show();
 		}
+	}
+
+	_runVariable(data, onActionFinishedCallback) {
+		var name = data.name;
+		var op = data.op || 'set'; // 'add' | 'mod' | 'inv' | 'set'
+		var value = data.value ?? this._variables[data.variable];
+
+		if (op == 'add') {
+			this._variables[name] = (Number(this._variables[name]) || 0) + value;
+		} else if (op == 'mod') {
+			this._variables[name] = (Number(this._variables[name]) || 0) % value;
+		} else if (op == 'inv') {
+			this._variables[name] = -Number(this._variables[name]) || 0;
+		} else if (op == 'set') {
+			this._variables[name] = value;
+		}
+
+		onActionFinishedCallback();
+	}
+
+	_runIf(data, onActionFinishedCallback) {
+		var name = data.name;
+		var op = data.op || 'eq'; // 'eq' | 'neq' | 'gte' | 'gt' | 'lte' | 'lt'
+		var value = data.value ?? this._variables[data.variable];
+
+		var flag = false;
+		if (op == 'eq') {
+			flag = this._variables[name] == value;
+		} else if (op == 'neq') {
+			flag = this._variables[name] != value;
+		} else if (op == 'gte') {
+			flag = this._variables[name] >= value;
+		} else if (op == 'gt') {
+			flag = this._variables[name] > value;
+		} else if (op == 'gte') {
+			flag = this._variables[name] <= value;
+		} else if (op == 'gt') {
+			flag = this._variables[name] < value;
+		}
+
+		if (flag) {
+			if (data.then) {
+				this.run(data.then, onActionFinishedCallback);
+			} else {
+				onActionFinishedCallback();
+			}
+		} else {
+			if (data.else) {
+				this.run(data.else, onActionFinishedCallback);
+			} else {
+				onActionFinishedCallback();
+			}
+		}
+	}
+
+	_runWait(data, onActionFinishedCallback) {
+		setTimeout(onActionFinishedCallback, data.duration);
 	}
 
 	_runPwa(_data, onActionFinishedCallback) {
