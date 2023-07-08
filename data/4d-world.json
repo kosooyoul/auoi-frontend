@@ -3,16 +3,10 @@
     "so": {"x": 0, "y": 0},
     "actions": [
         {
-            "type": "variable",
-            "name": "test",
-            "op": "set",
-            "value": 0
-        },
-        {
-            "type": "variable",
-            "name": "target",
-            "op": "set",
-            "value": 0
+            "type": "load",
+            "variables": ["visited", "test"],
+            "storage": "local",
+            "namespace": "4d-world"
         },
         {
             "type": "wait",
@@ -20,11 +14,44 @@
         },
         {
             "type": "message",
-            "message": "어서오세요!\n여기는 4차원의 세계입니다."
+            "message": "안녕하세요!\n여기는 4차원의 세계입니다."
         },
         {
-            "type": "message",
-            "message": "이런 곳 처음이시지요?\n아직 공사가 한창 진행중이랍니다. ^^"
+            "type": "if",
+            "name": "visited",
+            "op": "eq",
+            "value": true,
+            "else": [
+                {
+                    "type": "message",
+                    "message": "이런 곳 처음이시지요?\n아직 공사가 한창 진행중이랍니다. ^^"
+                },
+                {
+                    "type": "variable",
+                    "name": "visited",
+                    "op": "set",
+                    "value": true
+                },
+                {
+                    "type": "save",
+                    "variables": ["visited"],
+                    "storage": "local",
+                    "namespace": "4d-world"
+                }
+            ]
+        },
+        {
+            "type": "if",
+            "name": "test",
+            "op": "exists",
+            "else": [
+                {
+                    "type": "variable",
+                    "name": "test",
+                    "op": "set",
+                    "value": 0
+                }
+            ]
         }
     ],
     "map": [
@@ -135,8 +162,8 @@
             {
                 "type": "if",
                 "name": "test",
-                "op": "neq",
-                "variable": "target",
+                "op": "eq",
+                "value": 1,
                 "then": [
                     {
                         "type": "message",
@@ -160,7 +187,13 @@
                 "type": "variable",
                 "name": "test",
                 "op": "mod",
-                "value": 5
+                "value": 2
+            },
+            {
+                "type": "save",
+                "variables": ["test"],
+                "storage": "local",
+                "namespace": "4d-world"
             },
             {
                 "type": "function",

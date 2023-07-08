@@ -36,6 +36,8 @@ class HanulseActions {
 			case "article-writer": return this._runArticleWriter(data, onActionFinishedCallback);
 			case "pwa": return this._runPwa(data, onActionFinishedCallback);
 			case "variable": return this._runVariable(data, onActionFinishedCallback);
+			case "save": return this._runSave(data, onActionFinishedCallback);
+			case "load": return this._runLoad(data, onActionFinishedCallback);
 			case "if": return this._runIf(data, onActionFinishedCallback);
 			case "wait": return this._runWait(data, onActionFinishedCallback);
 			case "function": return this._runFunction(data, onActionFinishedCallback);
@@ -221,6 +223,74 @@ class HanulseActions {
 		onActionFinishedCallback();
 	}
 
+	_runSave(data, onActionFinishedCallback) {
+		var variables = data.variables;
+		var storage = data.storage;
+		var namespace = data.namespace;
+
+		if (storage == 'local') {
+			if (namespace) {
+				variables.forEach((variable) => {
+					window.localStorage.setItem('v.' + namespace + '.' + variable, JSON.stringify(this._variables[variable]));
+				});
+			} else {
+				variables.forEach((variable) => {
+					window.localStorage.setItem('v.' + variable, JSON.stringify(this._variables[variable]));
+				});
+			}
+		} else if (storage == 'session') {
+			if (namespace) {
+				variables.forEach((variable) => {
+					window.sessionStorage.setItem('v.' + namespace + '.' + variable, JSON.stringify(this._variables[variable]));
+				});
+			} else {
+				variables.forEach((variable) => {
+					window.sessionStorage.setItem('v.' + variable, JSON.stringify(this._variables[variable]));
+				});
+			}
+		}
+
+		onActionFinishedCallback();
+	}
+
+	_runLoad(data, onActionFinishedCallback) {
+		var variables = data.variables;
+		var storage = data.storage;
+		var namespace = data.namespace;
+
+		if (storage == 'local') {
+			if (namespace) {
+				variables.forEach((variable) => {
+					try {
+						this._variables[variable] = JSON.parse(window.localStorage.getItem('v.' + namespace + '.' + variable));
+					} catch(e) {}
+				});
+			} else {
+				variables.forEach((variable) => {
+					try {
+						this._variables[variable] = JSON.parse(window.localStorage.getItem('v.' + variable));
+					} catch(e) {}
+				});
+			}
+		} else if (storage == 'session') {
+			if (namespace) {
+				variables.forEach((variable) => {
+					try {
+						this._variables[variable] = JSON.parse(window.sessionStorage.getItem('v.' + namespace + '.' + variable));
+					} catch(e) {}
+				});
+			} else {
+				variables.forEach((variable) => {
+					try {
+						this._variables[variable] = JSON.parse(window.sessionStorage.getItem('v.' + variable));
+					} catch(e) {}
+				});
+			}
+		}
+
+		onActionFinishedCallback();
+	}
+
 	_runIf(data, onActionFinishedCallback) {
 		var name = data.name;
 		var op = data.op || 'eq'; // 'eq' | 'neq' | 'gte' | 'gt' | 'lte' | 'lt'
@@ -239,6 +309,8 @@ class HanulseActions {
 			flag = this._variables[name] <= value;
 		} else if (op == 'gt') {
 			flag = this._variables[name] < value;
+		} else if (op == 'exists') {
+			flag = this._variables[name] != null;
 		}
 
 		if (flag) {
@@ -307,7 +379,7 @@ class HanulseActions {
 
 	_runFunction(data, onActionFinishedCallback) {
 		// TODO
-		console.log(JSON.stringify(data));
+		console.log(this._variables);
 		onActionFinishedCallback();
 	}
 }
