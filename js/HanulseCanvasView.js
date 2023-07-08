@@ -113,6 +113,7 @@ class HanulseCanvasView {
 			alpha: item.alpha
 		}));
 		this.blocks = HanulseBlock.sortBlocks(blocks);
+		this.actionRunner.run(mapData.actions || []);
 
 		this.renderer.clearAssets();
 		this.renderer.setBlocks(this.blocks);

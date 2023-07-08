@@ -1,6 +1,32 @@
 {
     "title": "4차원의 세계",
     "so": {"x": 0, "y": 0},
+    "actions": [
+        {
+            "type": "variable",
+            "name": "test",
+            "op": "set",
+            "value": 0
+        },
+        {
+            "type": "variable",
+            "name": "target",
+            "op": "set",
+            "value": 0
+        },
+        {
+            "type": "wait",
+            "duration": 500
+        },
+        {
+            "type": "message",
+            "message": "어서오세요!\n여기는 4차원의 세계입니다."
+        },
+        {
+            "type": "message",
+            "message": "이런 곳 처음이시지요?\n아직 공사가 한창 진행중이랍니다. ^^"
+        }
+    ],
     "map": [
     {"position": {"x": -1, "y":   0, "z":  0}, "texture": {"top": "blue-top"}, "effect": "prism"},
     {"position": {"x": -1, "y":   1, "z":  0}, "texture": {"top": "blue-top", "left": "blue-left", "right": "blue-right"}, "effect": "prism"},
@@ -104,8 +130,38 @@
     {"position": {"x":  6, "y":  -1, "z": -1}, "texture": {"left": "pink-left"}, "alpha": 0.4},
     {"position": {"x":  7, "y":  -1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
     {"position": {"x":  7, "y":  -1, "z": -1}, "texture": {"right": "pink-right"}, "alpha": 0.4},
-    {"position": {"x":  7, "y":   0, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism", "prop": "blocks-xyz", "actions": {
+    {"position": {"x":  7, "y":   0, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism", "prop": "waste", "actions": {
         "top": [
+            {
+                "type": "if",
+                "name": "test",
+                "op": "neq",
+                "variable": "target",
+                "then": [
+                    {
+                        "type": "message",
+                        "message": "True"
+                    }
+                ],
+                "else": [
+                    {
+                        "type": "message",
+                        "message": "False"
+                    }
+                ]
+            },
+            {
+                "type": "variable",
+                "name": "test",
+                "op": "add",
+                "value": 1
+            },
+            {
+                "type": "variable",
+                "name": "test",
+                "op": "mod",
+                "value": 5
+            },
             {
                 "type": "function",
                 "name": "reload",
