@@ -228,10 +228,6 @@ window.AuoiBoard = function($parent) {
 	var lastPointerY = null;
 
 	var onItemMoveStart = (event) => {
-		if (event.type == "touchstart") {
-			event.preventDefault(); //for Mobile
-		}
-
 		var $target = $(event.target);
 		var mode = $target.attr("data-transform-mode");
 		if (mode == null) {
@@ -252,6 +248,10 @@ window.AuoiBoard = function($parent) {
 		var pointer = event.targetTouches? event.targetTouches[0] : event;
 		lastPointerX = pointer.pageX;
 		lastPointerY = pointer.pageY;
+
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
 
 		console.log('Start Transform', item.id, mode);
 	};
