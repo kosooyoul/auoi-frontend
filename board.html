@@ -229,7 +229,7 @@ window.AuoiBoard = function($parent) {
 
 	var onItemMoveStart = (event) => {
 		if (event.type == "touchstart") {
-			// event.preventDefault(); //for Mobile
+			event.preventDefault(); //for Mobile
 		}
 
 		var $target = $(event.target);
@@ -322,7 +322,7 @@ window.AuoiBoard = function($parent) {
 	$(document).on('mousemove', onItemMove);
 	$(document).on('mouseup', onItemMoveEnd);
 	$parent.on('touchstart', onItemMoveStart);
-	$(document).on('touchmove', onItemMove, { passive: true });
+	$(document).on('touchmove', onItemMove);
 	$(document).on('touchend', onItemMoveEnd);
 };
 
