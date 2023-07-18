@@ -227,7 +227,7 @@ window.AuoiBoard = function($parent) {
 	var lastPointerX = null;
 	var lastPointerY = null;
 
-	$parent.on('mousedown', (event) => {
+	var onItemMoveStart = (event) => {
 		var $target = $(event.target);
 		var mode = $target.attr("data-transform-mode");
 		if (mode == null) {
@@ -250,9 +250,9 @@ window.AuoiBoard = function($parent) {
 		lastPointerY = pointer.pageY;
 
 		console.log('Start Transform', item.id, mode);
-	});
+	};
 
-	$(document).on('mousemove', (event) => {
+	var onItemMove = (event) => {
 		if (downedItem == null) {
 			return;
 		}
@@ -304,15 +304,22 @@ window.AuoiBoard = function($parent) {
 
 		lastPointerX = pointer.pageX;
 		lastPointerY = pointer.pageY;
-	});
+	};
 
-	$(document).on('mouseup', (event) => {
+	var onItemMoveEnd = (event) => {
 		transformMode = null;
 		downedItem = null;
 		$downedItem = null;
 		lastPointerX = null;
 		lastPointerY = null;
-	});
+	};
+
+	$parent.on('mousedown', onItemMoveStart);
+	$(document).on('mousemove', onItemMove);
+	$(document).on('mouseup', onItemMoveEnd);
+	$parent.on('touchstart', onItemMoveStart);
+	$(document).on('touchmove', onItemMove);
+	$(document).on('touchend', onItemMoveEnd);
 };
 
 
