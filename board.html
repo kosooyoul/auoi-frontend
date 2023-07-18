@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Board Test</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+</script>
+<style>
+.board {
+	position: relative;
+}
+.item {
+	position: absolute;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	transform-origin: 50% 50%;
+}
+.item-content  {
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+.item-frame {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	outline: 1px solid black;
+	cursor: move;
+}
+.edge-nw {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	left: -4px;
+	top: -4px;
+	outline: 1px solid black;
+	background-color: white;
+	cursor: nwse-resize;
+}
+.edge-ne {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	right: -4px;
+	top: -4px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: nesw-resize;
+}
+.edge-sw {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	left: -4px;
+	bottom: -4px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: nesw-resize;
+}
+.edge-se {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	right: -4px;
+	bottom: -4px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: nwse-resize;
+}
+.item-frame:hover { outline: 1px solid blue; }
+.item-frame:hover > .edge-nw { outline: 1px solid blue; }
+.item-frame:hover > .edge-ne { outline: 1px solid blue; }
+.item-frame:hover > .edge-sw { outline: 1px solid blue; }
+.item-frame:hover > .edge-se { outline: 1px solid blue; }
+.item-frame:active { outline: 1px solid blueviolet; }
+.item-frame:active > .edge-nw { outline: 1px solid blueviolet; }
+.item-frame:active > .edge-ne { outline: 1px solid blueviolet; }
+.item-frame:active > .edge-sw { outline: 1px solid blueviolet; }
+.item-frame:active > .edge-se { outline: 1px solid blueviolet; }
+.edge-nw:hover, .edge-ne:hover, .edge-sw:hover, .edge-se:hover { background-color: cyan; }
+.edge-nw:active, .edge-ne:active, .edge-sw:active, .edge-se:active { background-color: magenta; }
+.item-rotate {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	left: 50%;
+	bottom: -20px;
+	margin: -5px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: white;
+	user-select: none;
+	cursor: all-scroll;
+}
+.item-delete {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	left: 50%;
+	top: -20px;
+	margin: -5px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: red;
+	user-select: none;
+	cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div style="display: flex; flex-direction: column; align-items: center;">
+	<div id="board" class="board" style="width: 300px; height: 400px; left: 0px; top: 0px; margin: 20px; overflow: hidden; box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 0.4);"></div>
+
+	<div style="margin: 20px; text-align: center;">
+		<input id="add-image-button" type="button" value="이미지 추가" style="height: 28px;">
+		<input id="add-text-button" type="button" value="텍스트 추가" style="height: 28px;">
+	</div>
+</div>
+<script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
+<script>
+
+window.AuoiBoard = function($parent) {
+	var boardWidth = $parent.width();
+	var boardHeight = $parent.height();
+
+	// for item (of this.items) id
+	var nextItemId = 0;
+
+	/*
+		{
+			id: number,
+			type: 'image' | 'text',
+			value: ImageUrlString | TextString,
+			x: number,
+			y: number,
+			w: number,
+			h: number,
+			angle: number
+		}[];
+	*/
+	this.items = [];
+
+	var newItem = (type, width, height) => {
+		return {
+			id: nextItemId++,
+			type: type,
+			value: type == 'image'? './images/tree.png': 'Sample Text',
+			x: (boardWidth - width) * 0.5,
+			y: (boardHeight - height) * 0.5,
+			width: width,
+			height: height,
+			angle: 0
+		};
+	};
+
+	var newItemElement = (item) => {
+		var $e = $("<div class=\"item\">");
+		$e.attr("data-id", item.id);
+
+		if (item.type == "image") {
+			var $image = $("<img data-type=\"image\" class=\"item-content\">").attr("src", item.value);
+			$e.append($image);
+		} else {
+			var $text = $("<span data-type=\"text\" class=\"item-content\">").text(item.value);
+			$e.append($text);
+		}
+
+		$frame = $("<div class=\"item-frame\" data-transform-mode=\"move\">");
+		$frameEdgeNW = $("<div class=\"edge-nw\" data-transform-mode=\"resize-nw\">");
+		$frameEdgeNE = $("<div class=\"edge-ne\" data-transform-mode=\"resize-ne\">");
+		$frameEdgeSW = $("<div class=\"edge-sw\" data-transform-mode=\"resize-sw\">");
+		$frameEdgeSE = $("<div class=\"edge-se\" data-transform-mode=\"resize-se\">");
+		$frameRotate = $("<div class=\"item-rotate\" data-transform-mode=\"rotate\">");
+		$frameDelete = $("<div class=\"item-delete\">").click(() => this.deleteItemById(item.id));
+
+		$frame.append($frameEdgeNW);
+		$frame.append($frameEdgeNE);
+		$frame.append($frameEdgeSW);
+		$frame.append($frameEdgeSE);
+		$frame.append($frameRotate);
+		$frame.append($frameDelete);
+
+		$e.width(item.width);
+		$e.height(item.height);
+		$e.css({ left: item.x, top: item.y });
+
+		$e.append($frame);
+
+		return $e;
+	};
+
+	this.createItem = (type, width, height) => {
+		var item = newItem(type, width, height);
+		var $item = newItemElement(item);
+
+		this.items.push(item);
+		$parent.append($item);
+	};
+
+	this.deleteItemById = (id) => {
+		var index = this.items.findIndex((item, index) => item.id == id);
+		if (index > 0) {
+			this.items.splice(index, 1);
+		}
+
+		var $item = $parent.find("[data-id=" + id + "]");
+		$item.remove();
+	};
+
+	var pointToAngle = (x, y) => {
+		return Math.atan2(y, x) / Math.PI * 180;
+	}
+
+	var transformMode = null;
+	var downedItem = null;
+	var $downedItem = null;
+	var lastPointerX = null;
+	var lastPointerY = null;
+
+	$parent.on('mousedown', (event) => {
+		var $target = $(event.target);
+		var mode = $target.attr("data-transform-mode");
+		if (mode == null) {
+			return;
+		}
+
+		var $item = $target.parents('[data-id]');
+		var itemId = $item.attr("data-id");
+		var item = this.items.find(item => item.id == itemId);
+		if (item == null) {
+			return;
+		}
+
+		transformMode = mode;
+		downedItem = item;
+		$downedItem = $item;
+
+		var pointer = event.targetTouches? event.targetTouches[0] : event;
+		lastPointerX = pointer.pageX;
+		lastPointerY = pointer.pageY;
+
+		console.log('Start Transform', item.id, mode);
+	});
+
+	$(document).on('mousemove', (event) => {
+		if (downedItem == null) {
+			return;
+		}
+
+		var pointer = event.targetTouches? event.targetTouches[0] : event;
+		var pointerX = pointer.pageX;
+		var pointerY = pointer.pageY;
+
+		if (transformMode == 'move') {
+			downedItem.x += pointerX - lastPointerX;
+			downedItem.y += pointerY - lastPointerY;
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == 'rotate') {
+			var offset = $parent.offset();
+			var boardCenterX = downedItem.x + downedItem.width * 0.5 + offset.left;
+			var boardCenterY = downedItem.y + downedItem.height * 0.5 + offset.top;
+			var lastAngle = pointToAngle(lastPointerX - boardCenterX, lastPointerY - boardCenterY);
+			var angle = pointToAngle(pointerX - boardCenterX, pointerY - boardCenterY);
+			downedItem.angle += angle - lastAngle;
+			$downedItem.css({ transform: "rotate(" + downedItem.angle + "deg)" });
+		} else if (transformMode == "resize-nw") {
+			downedItem.x += pointerX - lastPointerX;
+			downedItem.y += pointerY - lastPointerY;
+			downedItem.width -= pointerX - lastPointerX;
+			downedItem.height -= pointerY - lastPointerY;
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-ne") {
+			downedItem.y += pointerY - lastPointerY;
+			downedItem.width += pointerX - lastPointerX;
+			downedItem.height -= pointerY - lastPointerY;
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-sw") {
+			downedItem.x += pointerX - lastPointerX;
+			downedItem.width -= pointerX - lastPointerX;
+			downedItem.height += pointerY - lastPointerY;
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-se") {
+			downedItem.width += pointerX - lastPointerX;
+			downedItem.height += pointerY - lastPointerY;
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+		}
+
+		lastPointerX = pointer.pageX;
+		lastPointerY = pointer.pageY;
+	});
+
+	$(document).on('mouseup', (event) => {
+		transformMode = null;
+		downedItem = null;
+		$downedItem = null;
+		lastPointerX = null;
+		lastPointerY = null;
+	});
+};
+
+
+
+
+
+$(document.body).ready(() => {
+	var BoardComponent = new AuoiBoard($("#board"));
+
+	$("#add-image-button").click(() => BoardComponent.createItem("image", 52, 60));
+	$("#add-text-button").click(() => BoardComponent.createItem("text", 100, 20));
+});
+
+</script>
+</body>
+</html>
