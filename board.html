@@ -228,8 +228,8 @@ window.AuoiBoard = function($parent) {
 	var lastPointerY = null;
 
 	var onItemMoveStart = (event) => {
-		if (evt.type == "touchstart") {
-			evt.preventDefault(); //for Mobile
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
 		}
 
 		var $target = $(event.target);
