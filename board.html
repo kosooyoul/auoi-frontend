@@ -41,20 +41,20 @@
 }
 .edge-nw {
 	position: absolute;
-	width: 7px;
-	height: 7px;
-	left: -4px;
-	top: -4px;
+	width: 16px;
+	height: 16px;
+	left: -8px;
+	top: -8px;
 	outline: 1px solid black;
 	background-color: white;
 	cursor: nwse-resize;
 }
 .edge-ne {
 	position: absolute;
-	width: 7px;
-	height: 7px;
-	right: -4px;
-	top: -4px;
+	width: 16px;
+	height: 16px;
+	right: -8px;
+	top: -8px;
 	outline: 1px solid black;
 	background-color: white;
 	user-select: none;
@@ -62,10 +62,10 @@
 }
 .edge-sw {
 	position: absolute;
-	width: 7px;
-	height: 7px;
-	left: -4px;
-	bottom: -4px;
+	width: 16px;
+	height: 16px;
+	left: -8px;
+	bottom: -8px;
 	outline: 1px solid black;
 	background-color: white;
 	user-select: none;
@@ -73,10 +73,10 @@
 }
 .edge-se {
 	position: absolute;
-	width: 7px;
-	height: 7px;
-	right: -4px;
-	bottom: -4px;
+	width: 16px;
+	height: 16px;
+	right: -8px;
+	bottom: -8px;
 	outline: 1px solid black;
 	background-color: white;
 	user-select: none;
@@ -96,26 +96,26 @@
 .edge-nw:active, .edge-ne:active, .edge-sw:active, .edge-se:active { background-color: magenta; }
 .item-rotate {
 	position: absolute;
-	width: 10px;
-	height: 10px;
+	width: 20px;
+	height: 20px;
 	left: 50%;
-	bottom: -20px;
-	margin: -5px;
+	bottom: -30px;
+	margin: -10px;
 	border: 1px solid black;
-	border-radius: 10px;
+	border-radius: 20px;
 	background-color: white;
 	user-select: none;
 	cursor: all-scroll;
 }
 .item-delete {
 	position: absolute;
-	width: 10px;
-	height: 10px;
+	width: 20px;
+	height: 20px;
 	left: 50%;
-	top: -20px;
-	margin: -5px;
+	top: -30px;
+	margin: -10px;
 	border: 1px solid black;
-	border-radius: 10px;
+	border-radius: 20px;
 	background-color: red;
 	user-select: none;
 	cursor: pointer;
@@ -152,7 +152,7 @@ window.AuoiBoard = function($parent) {
 			y: number,
 			w: number,
 			h: number,
-			angle: number
+			radian: number
 		}[];
 	*/
 	this.items = [];
@@ -166,7 +166,7 @@ window.AuoiBoard = function($parent) {
 			y: (boardHeight - height) * 0.5,
 			width: width,
 			height: height,
-			angle: 0
+			radian: 0
 		};
 	};
 
@@ -224,8 +224,8 @@ window.AuoiBoard = function($parent) {
 		$item.remove();
 	};
 
-	var pointToAngle = (x, y) => {
-		return Math.atan2(y, x) / Math.PI * 180;
+	var pointToRadian = (x, y) => {
+		return Math.atan2(y, x);
 	}
 
 	var transformMode = null;
@@ -280,37 +280,82 @@ window.AuoiBoard = function($parent) {
 			var offset = $parent.offset();
 			var boardCenterX = downedItem.x + downedItem.width * 0.5 + offset.left;
 			var boardCenterY = downedItem.y + downedItem.height * 0.5 + offset.top;
-			var lastAngle = pointToAngle(lastPointerX - boardCenterX, lastPointerY - boardCenterY);
-			var angle = pointToAngle(pointerX - boardCenterX, pointerY - boardCenterY);
-			downedItem.angle += angle - lastAngle;
-			$downedItem.css({ transform: "rotate(" + downedItem.angle + "deg)" });
+			var lastRadian = pointToRadian(lastPointerX - boardCenterX, lastPointerY - boardCenterY);
+			var radian = pointToRadian(pointerX - boardCenterX, pointerY - boardCenterY);
+			downedItem.radian += radian - lastRadian;
+			$downedItem.css({ transform: "rotate(" + downedItem.radian + "rad)" });
 		} else if (transformMode == "resize-nw") {
-			downedItem.x += pointerX - lastPointerX;
-			downedItem.y += pointerY - lastPointerY;
-			downedItem.width -= pointerX - lastPointerX;
-			downedItem.height -= pointerY - lastPointerY;
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(-downedItem.radian);
+			var sin = Math.sin(-downedItem.radian);
+			var rotatedX = x * cos - y * sin;
+			var rotatedY = x * sin + y * cos;
+
+			downedItem.x += rotatedX;
+			downedItem.y += rotatedY;
+			downedItem.width -= rotatedX;
+			downedItem.height -= rotatedY;
+			
+			downedItem.x -= (rotatedX - x) / 2;
+			downedItem.y -= (rotatedY - y) / 2;
+			
 			$downedItem.width(downedItem.width);
 			$downedItem.height(downedItem.height);
 			$downedItem.css({ left: downedItem.x, top: downedItem.y });
 		} else if (transformMode == "resize-ne") {
-			downedItem.y += pointerY - lastPointerY;
-			downedItem.width += pointerX - lastPointerX;
-			downedItem.height -= pointerY - lastPointerY;
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(-downedItem.radian);
+			var sin = Math.sin(-downedItem.radian);
+			var rotatedX = x * cos - y * sin;
+			var rotatedY = x * sin + y * cos;
+
+			downedItem.y += rotatedY;
+			downedItem.width += rotatedX;
+			downedItem.height -= rotatedY;
+			
+			downedItem.x -= (rotatedX - x) / 2;
+			downedItem.y -= (rotatedY - y) / 2;
+
 			$downedItem.width(downedItem.width);
 			$downedItem.height(downedItem.height);
 			$downedItem.css({ left: downedItem.x, top: downedItem.y });
 		} else if (transformMode == "resize-sw") {
-			downedItem.x += pointerX - lastPointerX;
-			downedItem.width -= pointerX - lastPointerX;
-			downedItem.height += pointerY - lastPointerY;
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(-downedItem.radian);
+			var sin = Math.sin(-downedItem.radian);
+			var rotatedX = x * cos - y * sin;
+			var rotatedY = x * sin + y * cos;
+
+			downedItem.x += rotatedX;
+			downedItem.width -= rotatedX;
+			downedItem.height += rotatedY;
+			
+			downedItem.x -= (rotatedX - x) / 2;
+			downedItem.y -= (rotatedY - y) / 2;
+
 			$downedItem.width(downedItem.width);
 			$downedItem.height(downedItem.height);
 			$downedItem.css({ left: downedItem.x, top: downedItem.y });
 		} else if (transformMode == "resize-se") {
-			downedItem.width += pointerX - lastPointerX;
-			downedItem.height += pointerY - lastPointerY;
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(-downedItem.radian);
+			var sin = Math.sin(-downedItem.radian);
+			var rotatedX = x * cos - y * sin;
+			var rotatedY = x * sin + y * cos;
+
+			downedItem.width += rotatedX;
+			downedItem.height += rotatedY;
+
+			downedItem.x -= (rotatedX - x) / 2;
+			downedItem.y -= (rotatedY - y) / 2;
+
 			$downedItem.width(downedItem.width);
 			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
 		}
 
 		lastPointerX = pointer.pageX;
