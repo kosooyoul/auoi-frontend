@@ -31,7 +31,7 @@
 	height: 100%;
 }
 .item-frame {
-	display: none;
+	display: block;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -39,6 +39,7 @@
 	top: 0px;
 	outline: 1px solid black;
 	cursor: move;
+	visibility: hidden;
 }
 .edge-nw {
 	display: none;
@@ -131,10 +132,11 @@
 	position: absolute;
 	width: 16px;
 	height: 16px;
-	right: -8px;
+	right: -9px;
 	top: 50%;
-	margin-top: -8px;
-	outline: 1px solid black;
+	margin-top: -9px;
+	border: 0.5px solid black;
+	border-radius: 16px;
 	background-color: white;
 	user-select: none;
 	cursor: e-resize;
@@ -167,8 +169,8 @@
 	user-select: none;
 	cursor: pointer;
 }
-.item:hover>.item-frame { display: block; }
-.item.selected>.item-frame { display: block; }
+.item:hover>.item-frame { visibility: visible; }
+.item.selected>.item-frame { visibility: visible; }
 .item.selected>.item-frame>.edge-nw { display: block; }
 .item.selected>.item-frame>.edge-ne { display: block; }
 .item.selected>.item-frame>.edge-sw { display: block; }
