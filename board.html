@@ -37,9 +37,8 @@
 	height: 100%;
 	left: 0px;
 	top: 0px;
-	outline: 1px solid black;
+	outline: none;
 	cursor: move;
-	visibility: hidden;
 }
 .edge-nw {
 	display: none;
@@ -119,10 +118,11 @@
 	position: absolute;
 	width: 16px;
 	height: 16px;
-	left: -8px;
+	left: -9px;
 	top: 50%;
-	margin-top: -8px;
-	outline: 1px solid black;
+	margin-top: -9px;
+	border: 0.5px solid black;
+	border-radius: 16px;
 	background-color: white;
 	user-select: none;
 	cursor: w-resize;
@@ -169,8 +169,8 @@
 	user-select: none;
 	cursor: pointer;
 }
-.item:hover>.item-frame { visibility: visible; }
-.item.selected>.item-frame { visibility: visible; }
+.item:hover>.item-frame { outline: 1px solid black; }
+.item.selected>.item-frame { outline: 1px solid black; }
 .item.selected>.item-frame>.edge-nw { display: block; }
 .item.selected>.item-frame>.edge-ne { display: block; }
 .item.selected>.item-frame>.edge-sw { display: block; }
