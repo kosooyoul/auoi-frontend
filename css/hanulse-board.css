@@ -1,0 +1,165 @@
+.board {
+	position: relative;
+}
+.board>.item {
+	position: absolute;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	transform-origin: 50% 50%;
+}
+.board>.item>.content {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+    justify-content: center;
+    align-items: center;
+}
+.board>.item>.content>img {
+	width: 100%;
+	height: 100%;
+}
+.board>.item>.frame {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	outline: none;
+	cursor: move;
+}
+.board>.item>.frame .edge-nw {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: -9px;
+	top: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	cursor: nwse-resize;
+}
+.board>.item>.frame .edge-ne {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	right: -9px;
+	top: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: nesw-resize;
+}
+.board>.item>.frame .edge-sw {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: -9px;
+	bottom: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: nesw-resize;
+}
+.board>.item>.frame .edge-se {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	right: -9px;
+	bottom: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: nwse-resize;
+}
+.board>.item>.frame .edge-n {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: 50%;
+	margin-left: -9px;
+	top: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: n-resize;
+}
+.board>.item>.frame .edge-s {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: 50%;
+	margin-left: -9px;
+	bottom: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: s-resize;
+}
+.board>.item>.frame .edge-w {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: -9px;
+	top: 50%;
+	margin-top: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: w-resize;
+}
+.board>.item>.frame .edge-e {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	right: -9px;
+	top: 50%;
+	margin-top: -9px;
+	border: 1px solid black;
+	border-radius: 16px;
+	background-color: white;
+	user-select: none;
+	cursor: e-resize;
+}
+.board>.item>.frame .rotate {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 50%;
+	bottom: -40px;
+	margin: -10px;
+	border: 1px solid black;
+	border-radius: 20px;
+	background-color: white;
+	user-select: none;
+	cursor: all-scroll;
+}
+.board>.item>.frame .delete {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 50%;
+	top: -40px;
+	margin: -10px;
+	border: 1px solid black;
+	border-radius: 20px;
+	background-color: red;
+	user-select: none;
+	cursor: pointer;
+}
+
+.item:hover>.frame { outline: 1px solid black; }
+.item.selected>.frame { outline: 1px solid black; }
+
+.board>.item>.frame * { display: none; }
+.board>.item.selected>.frame * { display: block; }
+.board>.item.selected>.frame *:hover { background-color: lightgray; }
+.board>.item.selected>.frame *:active { background-color: gray; }
