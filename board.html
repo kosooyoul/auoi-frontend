@@ -31,6 +31,7 @@
 	height: 100%;
 }
 .item-frame {
+	display: none;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -40,6 +41,7 @@
 	cursor: move;
 }
 .edge-nw {
+	display: none;
 	position: absolute;
 	width: 16px;
 	height: 16px;
@@ -50,6 +52,7 @@
 	cursor: nwse-resize;
 }
 .edge-ne {
+	display: none;
 	position: absolute;
 	width: 16px;
 	height: 16px;
@@ -61,6 +64,7 @@
 	cursor: nesw-resize;
 }
 .edge-sw {
+	display: none;
 	position: absolute;
 	width: 16px;
 	height: 16px;
@@ -72,6 +76,7 @@
 	cursor: nesw-resize;
 }
 .edge-se {
+	display: none;
 	position: absolute;
 	width: 16px;
 	height: 16px;
@@ -82,24 +87,65 @@
 	user-select: none;
 	cursor: nwse-resize;
 }
-.item-frame:hover { outline: 1px solid blue; }
-.item-frame:hover > .edge-nw { outline: 1px solid blue; }
-.item-frame:hover > .edge-ne { outline: 1px solid blue; }
-.item-frame:hover > .edge-sw { outline: 1px solid blue; }
-.item-frame:hover > .edge-se { outline: 1px solid blue; }
-.item-frame:active { outline: 1px solid blueviolet; }
-.item-frame:active > .edge-nw { outline: 1px solid blueviolet; }
-.item-frame:active > .edge-ne { outline: 1px solid blueviolet; }
-.item-frame:active > .edge-sw { outline: 1px solid blueviolet; }
-.item-frame:active > .edge-se { outline: 1px solid blueviolet; }
-.edge-nw:hover, .edge-ne:hover, .edge-sw:hover, .edge-se:hover { background-color: cyan; }
-.edge-nw:active, .edge-ne:active, .edge-sw:active, .edge-se:active { background-color: magenta; }
+.edge-n {
+	display: none;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: 50%;
+	margin-left: -8px;
+	top: -8px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: n-resize;
+}
+.edge-s {
+	display: none;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: 50%;
+	margin-left: -8px;
+	bottom: -8px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: s-resize;
+}
+.edge-w {
+	display: none;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	left: -8px;
+	top: 50%;
+	margin-top: -8px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: w-resize;
+}
+.edge-e {
+	display: none;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	right: -8px;
+	top: 50%;
+	margin-top: -8px;
+	outline: 1px solid black;
+	background-color: white;
+	user-select: none;
+	cursor: e-resize;
+}
 .item-rotate {
+	display: none;
 	position: absolute;
 	width: 20px;
 	height: 20px;
 	left: 50%;
-	bottom: -30px;
+	bottom: -40px;
 	margin: -10px;
 	border: 1px solid black;
 	border-radius: 20px;
@@ -108,11 +154,12 @@
 	cursor: all-scroll;
 }
 .item-delete {
+	display: none;
 	position: absolute;
 	width: 20px;
 	height: 20px;
 	left: 50%;
-	top: -30px;
+	top: -40px;
 	margin: -10px;
 	border: 1px solid black;
 	border-radius: 20px;
@@ -120,6 +167,24 @@
 	user-select: none;
 	cursor: pointer;
 }
+.item:hover>.item-frame { display: block; }
+.item.selected>.item-frame { display: block; }
+.item.selected>.item-frame>.edge-nw { display: block; }
+.item.selected>.item-frame>.edge-ne { display: block; }
+.item.selected>.item-frame>.edge-sw { display: block; }
+.item.selected>.item-frame>.edge-se { display: block; }
+.item.selected>.item-frame>.edge-n { display: block; }
+.item.selected>.item-frame>.edge-s { display: block; }
+.item.selected>.item-frame>.edge-w { display: block; }
+.item.selected>.item-frame>.edge-e { display: block; }
+.item.selected>.item-frame>.item-rotate { display: block; }
+.item.selected>.item-frame>.item-delete { display: block; }
+.edge-nw:hover, .edge-ne:hover, .edge-sw:hover, .edge-se:hover { background-color: lightgray; }
+.edge-n:hover, .edge-s:hover, .edge-w:hover, .edge-e:hover { background-color: lightgray; }
+.item-rotate:hover, .item-delete:hover { background-color: lightgray; }
+.edge-nw:active, .edge-ne:active, .edge-sw:active, .edge-se:active { background-color: gray; }
+.edge-n:active, .edge-s:active, .edge-w:active, .edge-e:active { background-color: gray; }
+.item-rotate:active, .item-delete:active { background-color: gray; }
 </style>
 </head>
 
@@ -142,6 +207,7 @@ window.AuoiBoard = function($parent) {
 
 	// for item (of this.items) id
 	var nextItemId = 0;
+	var nextZIndex = 0;
 
 	/*
 		{
@@ -152,7 +218,8 @@ window.AuoiBoard = function($parent) {
 			y: number,
 			w: number,
 			h: number,
-			radian: number
+			radian: number,
+			zIndex: number,
 		}[];
 	*/
 	this.items = [];
@@ -166,7 +233,8 @@ window.AuoiBoard = function($parent) {
 			y: (boardHeight - height) * 0.5,
 			width: width,
 			height: height,
-			radian: 0
+			radian: 0,
+			zIndex: nextZIndex++,
 		};
 	};
 
@@ -187,6 +255,10 @@ window.AuoiBoard = function($parent) {
 		$frameEdgeNE = $("<div class=\"edge-ne\" data-transform-mode=\"resize-ne\">");
 		$frameEdgeSW = $("<div class=\"edge-sw\" data-transform-mode=\"resize-sw\">");
 		$frameEdgeSE = $("<div class=\"edge-se\" data-transform-mode=\"resize-se\">");
+		$frameEdgeN = $("<div class=\"edge-n\" data-transform-mode=\"resize-n\">");
+		$frameEdgeS = $("<div class=\"edge-s\" data-transform-mode=\"resize-s\">");
+		$frameEdgeW = $("<div class=\"edge-w\" data-transform-mode=\"resize-w\">");
+		$frameEdgeE = $("<div class=\"edge-e\" data-transform-mode=\"resize-e\">");
 		$frameRotate = $("<div class=\"item-rotate\" data-transform-mode=\"rotate\">");
 		$frameDelete = $("<div class=\"item-delete\">").click(() => this.deleteItemById(item.id));
 
@@ -194,12 +266,16 @@ window.AuoiBoard = function($parent) {
 		$frame.append($frameEdgeNE);
 		$frame.append($frameEdgeSW);
 		$frame.append($frameEdgeSE);
+		$frame.append($frameEdgeN);
+		$frame.append($frameEdgeS);
+		$frame.append($frameEdgeW);
+		$frame.append($frameEdgeE);
 		$frame.append($frameRotate);
 		$frame.append($frameDelete);
 
 		$e.width(item.width);
 		$e.height(item.height);
-		$e.css({ left: item.x, top: item.y });
+		$e.css({ left: item.x, top: item.y, zIndex: item.zIndex });
 
 		$e.append($frame);
 
@@ -236,15 +312,30 @@ window.AuoiBoard = function($parent) {
 
 	var onItemMoveStart = (event) => {
 		var $target = $(event.target);
-		var mode = $target.attr("data-transform-mode");
-		if (mode == null) {
-			return;
-		}
 
 		var $item = $target.parents('[data-id]');
 		var itemId = $item.attr("data-id");
 		var item = this.items.find(item => item.id == itemId);
 		if (item == null) {
+			// Unselect
+			$(".item").removeClass('selected');
+			transformMode = null;
+			downedItem = null;
+			$downedItem = null;
+			return;
+		}
+
+		if (downedItem != item) {
+			// Unselect
+			$(".item").removeClass('selected');
+			// Select Item
+			item.zIndex = nextZIndex++;
+			$item.addClass('selected');
+			$item.css({ zIndex: item.zIndex });
+		}
+
+		var mode = $target.attr("data-transform-mode");
+		if (mode == null) {
 			return;
 		}
 
@@ -287,10 +378,12 @@ window.AuoiBoard = function($parent) {
 		} else if (transformMode == "resize-nw") {
 			var x = pointerX - lastPointerX;
 			var y = pointerY - lastPointerY;
-			var cos = Math.cos(-downedItem.radian);
-			var sin = Math.sin(-downedItem.radian);
-			var rotatedX = x * cos - y * sin;
-			var rotatedY = x * sin + y * cos;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = x * rcos - y * rsin;
+			var rotatedY = x * rsin + y * rcos;
 
 			downedItem.x += rotatedX;
 			downedItem.y += rotatedY;
@@ -306,10 +399,12 @@ window.AuoiBoard = function($parent) {
 		} else if (transformMode == "resize-ne") {
 			var x = pointerX - lastPointerX;
 			var y = pointerY - lastPointerY;
-			var cos = Math.cos(-downedItem.radian);
-			var sin = Math.sin(-downedItem.radian);
-			var rotatedX = x * cos - y * sin;
-			var rotatedY = x * sin + y * cos;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = x * rcos - y * rsin;
+			var rotatedY = x * rsin + y * rcos;
 
 			downedItem.y += rotatedY;
 			downedItem.width += rotatedX;
@@ -324,10 +419,12 @@ window.AuoiBoard = function($parent) {
 		} else if (transformMode == "resize-sw") {
 			var x = pointerX - lastPointerX;
 			var y = pointerY - lastPointerY;
-			var cos = Math.cos(-downedItem.radian);
-			var sin = Math.sin(-downedItem.radian);
-			var rotatedX = x * cos - y * sin;
-			var rotatedY = x * sin + y * cos;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = x * rcos - y * rsin;
+			var rotatedY = x * rsin + y * rcos;
 
 			downedItem.x += rotatedX;
 			downedItem.width -= rotatedX;
@@ -342,16 +439,100 @@ window.AuoiBoard = function($parent) {
 		} else if (transformMode == "resize-se") {
 			var x = pointerX - lastPointerX;
 			var y = pointerY - lastPointerY;
-			var cos = Math.cos(-downedItem.radian);
-			var sin = Math.sin(-downedItem.radian);
-			var rotatedX = x * cos - y * sin;
-			var rotatedY = x * sin + y * cos;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = x * rcos - y * rsin;
+			var rotatedY = x * rsin + y * rcos;
 
 			downedItem.width += rotatedX;
 			downedItem.height += rotatedY;
 
 			downedItem.x -= (rotatedX - x) / 2;
 			downedItem.y -= (rotatedY - y) / 2;
+
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-n") {
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = 0;
+			var rotatedY = x * rsin + y * rcos;
+			var fixedX = rotatedX * cos - rotatedY * sin;
+			var fixedY = rotatedX * sin + rotatedY * cos;
+
+			downedItem.y += rotatedY;
+			downedItem.height -= rotatedY;
+			
+			downedItem.x -= (rotatedX - fixedX) / 2;
+			downedItem.y -= (rotatedY - fixedY) / 2;
+			
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-s") {
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = 0;
+			var rotatedY = x * rsin + y * rcos;
+			var fixedX = rotatedX * cos - rotatedY * sin;
+			var fixedY = rotatedX * sin + rotatedY * cos;
+
+			downedItem.height += rotatedY;
+
+			downedItem.x -= (rotatedX - fixedX) / 2;
+			downedItem.y -= (rotatedY - fixedY) / 2;
+
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-w") {
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = x * rcos - y * rsin;
+			var rotatedY = 0;
+			var fixedX = rotatedX * cos - rotatedY * sin;
+			var fixedY = rotatedX * sin + rotatedY * cos;
+
+			downedItem.x += rotatedX;
+			downedItem.width -= rotatedX;
+			
+			downedItem.x -= (rotatedX - fixedX) / 2;
+			downedItem.y -= (rotatedY - fixedY) / 2;
+			
+			$downedItem.width(downedItem.width);
+			$downedItem.height(downedItem.height);
+			$downedItem.css({ left: downedItem.x, top: downedItem.y });
+		} else if (transformMode == "resize-e") {
+			var x = pointerX - lastPointerX;
+			var y = pointerY - lastPointerY;
+			var cos = Math.cos(downedItem.radian);
+			var sin = Math.sin(downedItem.radian);
+			var rcos = cos;
+			var rsin = -sin;
+			var rotatedX = x * rcos - y * rsin;
+			var rotatedY = 0;
+			var fixedX = rotatedX * cos - rotatedY * sin;
+			var fixedY = rotatedX * sin + rotatedY * cos;
+
+			downedItem.width += rotatedX;
+
+			downedItem.x -= (rotatedX - fixedX) / 2;
+			downedItem.y -= (rotatedY - fixedY) / 2;
 
 			$downedItem.width(downedItem.width);
 			$downedItem.height(downedItem.height);
