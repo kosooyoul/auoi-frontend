@@ -642,6 +642,10 @@ class HanulseBoardView {
 
 		this.lastPointerX = pointer.pageX;
 		this.lastPointerY = pointer.pageY;
+
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
 	}
 
 	_onItemMoveEnd() {
@@ -681,6 +685,7 @@ class HanulseBoardView {
 		this.drawingCanvas = document.createElement("canvas");
 		this.drawingCanvas.width = this.boardWidth;
 		this.drawingCanvas.height = this.boardHeight;
+		this.drawingCanvas.style.zIndex = 1000000;
 
 		this.drawingContext = this.drawingCanvas.getContext("2d");
 		this.$parent.append(this.drawingCanvas);
@@ -729,12 +734,11 @@ class HanulseBoardView {
 			return;
 		}
 		
-		alert(0);
+		// Note: Does not working on ios safari
 		// var pointer = event.targetTouches? event.targetTouches[0] : event;
 		// var offset = this.$parent.offset();
 		// var x = pointer.pageX - offset.left;
 		// var y = pointer.pageY - offset.top;
-
 		// this.drawingPath.push({ x: x, y: y });
 
 		this.drawingCanvas.remove();
@@ -781,8 +785,6 @@ class HanulseBoardView {
 		this.drawingContext = null;
 		this.lastDrawingX = null;
 		this.lastDrawingY = null;
-
-		alert(2);
 	}
 	
 	_getPathBoundary(path, margin) {
