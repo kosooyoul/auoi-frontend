@@ -730,12 +730,12 @@ class HanulseBoardView {
 		}
 		
 		alert(0);
-		var pointer = event.targetTouches? event.targetTouches[0] : event;
-		var offset = this.$parent.offset();
-		var x = pointer.pageX - offset.left;
-		var y = pointer.pageY - offset.top;
+		// var pointer = event.targetTouches? event.targetTouches[0] : event;
+		// var offset = this.$parent.offset();
+		// var x = pointer.pageX - offset.left;
+		// var y = pointer.pageY - offset.top;
 
-		this.drawingPath.push({ x: x, y: y });
+		// this.drawingPath.push({ x: x, y: y });
 
 		this.drawingCanvas.remove();
 
