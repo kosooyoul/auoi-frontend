@@ -178,8 +178,10 @@ class HanulseBoardView {
 			// var newTab = window.open('about:blank', '_blank');
 			// newTab.document.write("<img src='" + dataUrl + "' alt='from canvas'/>");
 
-			// Download image
 			canvas.toBlob((blob) => {
+				callback(blob);
+
+				// Download image
 				const a = document.createElement("a");
 				this.$parent.append(a);
 				a.style.display = "block";
@@ -239,14 +241,16 @@ class HanulseBoardView {
 				zIndex: this.nextZIndex++,
 			};
 		} else if(itemDescription.type == "text") {
+			var width = itemDescription.width || 200;
+			var height = itemDescription.height || 200;
 			return {
 				id: this.nextItemId++,
 				type: "text",
 				value: itemDescription.value,
-				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
-				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
-				width: itemDescription.width,
-				height: itemDescription.height,
+				x: itemDescription.x ?? (this.boardWidth - width) * 0.5,
+				y: itemDescription.y ?? (this.boardHeight - height) * 0.5,
+				width: width,
+				height: height,
 				radian: itemDescription.radian ?? 0,
 				zIndex: this.nextZIndex++,
 				style: itemDescription.style, // TODO
