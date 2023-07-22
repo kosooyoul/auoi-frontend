@@ -688,6 +688,10 @@ class HanulseBoardView {
 
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
+		
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
 	}
 	
 	_onDrawing(event) {
