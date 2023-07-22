@@ -169,6 +169,15 @@ class HanulseBoardView {
 	_loadImages(callback) {
 		var imagesByValue = {};
 
+		var imageList = [];
+		if (this.background.value) {
+			imageList.push(this.background.value);
+		}
+
+		if (imageList.length == 0) {
+			return callback(imagesByValue);
+		}
+
 		var image = new Image();
 		image.onload = () => {
 			imagesByValue[this.background.value] = image;
