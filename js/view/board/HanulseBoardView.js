@@ -170,7 +170,7 @@ class HanulseBoardView {
 		var imagesByValue = {};
 
 		var imageList = [];
-		if (this.background.value) {
+		if (this.background.type == "image") {
 			imageList.push(this.background.value);
 		}
 
