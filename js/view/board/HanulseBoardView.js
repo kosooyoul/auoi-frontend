@@ -128,7 +128,7 @@ class HanulseBoardView {
 	}
 
 	saveImage(callback) {
-		this._loadImages((imagesByValue) => {
+		this._loadImages((imagesByUrl) => {
 			var canvas = document.createElement("canvas");
 			var width = canvas.width = this.boardWidth;
 			var height = canvas.height = this.boardHeight;
@@ -138,7 +138,7 @@ class HanulseBoardView {
 				context.fillStyle = this.background.value;
 				context.fillRect(0, 0, width, height);
 			} else if (this.background.type == "image") {
-				var backgroundImage = imagesByValue[this.background.value];
+				var backgroundImage = imagesByUrl[this.background.value];
 				var backgroundOffsetX;
 				var backgroundOffsetY;
 				var backgroundWidth;
@@ -156,8 +156,21 @@ class HanulseBoardView {
 				}
 				context.drawImage(backgroundImage, backgroundOffsetX, backgroundOffsetY, backgroundWidth, backgroundHeight);
 			} else if (this.background.type == "pattern") {
-
+				// TODO
 			}
+
+			this.items.forEach(item => {
+				if (item.type == "image") {
+					var itemImage = imagesByUrl[item.value];
+					context.save();
+					context.translate(item.x + item.width * 0.5, item.y + item.height * 0.5);
+					context.rotate(item.radian);
+					context.drawImage(itemImage, -item.width * 0.5, -item.height * 0.5, item.width, item.height);
+					context.restore();
+				} else if (item.type == "text") {
+					// TODO
+				}
+			});
 
 			// Preview image
 			var dataUrl = canvas.toDataURL("image/png");
@@ -167,23 +180,35 @@ class HanulseBoardView {
 	}
 	
 	_loadImages(callback) {
-		var imagesByValue = {};
+		var imagesByUrl = {};
 
-		var imageList = [];
+		var imageUrlList = [];
 		if (this.background.type == "image") {
-			imageList.push(this.background.value);
+			imageUrlList.push(this.background.value);
+		} else if (this.background.type == "pattern") {
+			imageUrlList.push(this.background.value);
 		}
 
-		if (imageList.length == 0) {
-			return callback(imagesByValue);
-		}
+		this.items.forEach(item => {
+			if (item.type == "image") {
+				imageUrlList.push(item.value);
+			}
+		})
 
-		var image = new Image();
-		image.onload = () => {
-			imagesByValue[this.background.value] = image;
-			callback(imagesByValue);
+		var loadNextImage = (url) => {
+			if (url == null) {
+				return callback(imagesByUrl);
+			}
+
+			var image = new Image();
+			image.onload = () => {
+				imagesByUrl[url] = image;
+				loadNextImage(imageUrlList.shift());
+			};
+			image.src = url;
 		};
-		image.src = this.background.value;
+
+		loadNextImage(imageUrlList.shift());
 	}
 
 	_newItem(itemDescription) {
