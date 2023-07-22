@@ -235,7 +235,7 @@ var SampleStickerItems = [
 	<div class="head">
 		<div class="left">뒤로</div>
 		<div class="title">카드 만들기</div>
-		<div class="right">저장</div>
+		<div class="right" style="cursor: pointer;" onclick="saveBoardImage()">저장</div>
 	</div>
 	<div class="content">
 		<div class="board" style="width: 100%; height: 100%;"></div>
@@ -334,6 +334,10 @@ $(document.body).ready(() => {
 
 	window.hideOverlay = () => {
 		$(".content>.overlay").removeClass("visibled");
+	};
+
+	window.saveBoardImage = () => {
+		boardView.saveImage();
 	};
 
 	window.showBackgroundList = () => {

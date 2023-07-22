@@ -127,6 +127,56 @@ class HanulseBoardView {
 		$clonedItem.css({ zIndex: clonedItem.zIndex });
 	}
 
+	saveImage(callback) {
+		this._loadImages((imagesByValue) => {
+			var canvas = document.createElement("canvas");
+			var width = canvas.width = this.boardWidth;
+			var height = canvas.height = this.boardHeight;
+
+			var context = canvas.getContext("2d");
+			if (this.background.type == "color") {
+				context.fillStyle = this.background.value;
+				context.fillRect(0, 0, width, height);
+			} else if (this.background.type == "image") {
+				var backgroundImage = imagesByValue[this.background.value];
+				var backgroundOffsetX;
+				var backgroundOffsetY;
+				var backgroundWidth;
+				var backgroundHeight;
+				if (width / height < backgroundImage.width / backgroundImage.height) {
+					backgroundWidth = width * (backgroundImage.width / backgroundImage.height);
+					backgroundHeight = height;
+					backgroundOffsetX = (width - backgroundWidth) * 0.5;
+					backgroundOffsetY = 0;
+				} else {
+					backgroundWidth = width;
+					backgroundHeight = height / (backgroundImage.width / backgroundImage.height);
+					backgroundOffsetX = 0;
+					backgroundOffsetY = (height - backgroundHeight) * 0.5;
+				}
+				context.drawImage(backgroundImage, backgroundOffsetX, backgroundOffsetY, backgroundWidth, backgroundHeight);
+			} else if (this.background.type == "pattern") {
+
+			}
+
+			// Preview image
+			var dataUrl = canvas.toDataURL("image/png");
+			var newTab = window.open('about:blank', '_blank');
+			newTab.document.write("<img src='" + dataUrl + "' alt='from canvas'/>");
+		});
+	}
+	
+	_loadImages(callback) {
+		var imagesByValue = {};
+
+		var image = new Image();
+		image.onload = () => {
+			imagesByValue[this.background.value] = image;
+			callback(imagesByValue);
+		};
+		image.src = this.background.value;
+	}
+
 	_newItem(itemDescription) {
 		if (itemDescription.type == "image") {
 			return {
