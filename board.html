@@ -13,7 +13,7 @@ html, body {
 }
 .app {
 	display: grid;
-	grid-template-rows: 60px auto 60px;
+	grid-template-rows: 52px auto 52px;
 	position: relative;
 	width: 400px;
 	height: 600px;
@@ -145,11 +145,11 @@ html, body {
 var SampleBackgroundItems = [
 	{ id: 10002, type: "color", value: "white" },
 	{ id: 10003, type: "color", value: "black" },
-	{ id: 10004, type: "color", value: "yellow" },
-	{ id: 10005, type: "color", value: "green" },
-	{ id: 10006, type: "color", value: "blue" },
-	{ id: 10007, type: "color", value: "red" },
-	{ id: 10008, type: "color", value: "magenta" },
+	{ id: 10004, type: "color", value: "#ffc800" },
+	{ id: 10005, type: "color", value: "#c8ff00" },
+	{ id: 10006, type: "color", value: "#00c8ff" },
+	{ id: 10007, type: "color", value: "#ff0064" },
+	{ id: 10008, type: "color", value: "#c800ff" },
 	{ id: 10009, type: "color", value: "gray", memberOnly: true },
 	{ id: 10010, type: "color", value: "brown", memberOnly: true },
 	{ id: 10011, type: "color", value: "burlywood", memberOnly: true },
@@ -171,39 +171,60 @@ var SampleBackgroundItems = [
 	{ id: 10027, type: "pattern", width: 69, height: 35, value: "./images/iron-top.png" },
 ];
 
+var SampleFaceItems = [
+	{ id: 20001, type: "image", width: 64, height: 64, value: "./images/sample/face/1679538_elf_emoji_emoticon_happy_smile_icon.png" },
+	{ id: 20002, type: "image", width: 64, height: 64, value: "./images/sample/face/1679555_emoji_emoticon_happy_santa_smile_icon.png" },
+	{ id: 20003, type: "image", width: 64, height: 64, value: "./images/sample/face/1679569_deer_emoji_emoticon_happy_reindeer_icon.png" },
+	{ id: 20004, type: "image", width: 64, height: 64, value: "./images/sample/face/1679609_emoji_emoticon_man_smile_smiley_icon.png" },
+	{ id: 20005, type: "image", width: 64, height: 64, value: "./images/sample/face/2291007_dead_face_halloween_smiley_undead_icon.png" },
+	{ id: 20006, type: "image", width: 64, height: 64, value: "./images/sample/face/4927756_emoji_face_poo_shit_icon.png" },
+	{ id: 20007, type: "image", width: 64, height: 64, value: "./images/sample/face/5627745_avatar_face_female_people_profile_icon.png" },
+	{ id: 20008, type: "image", width: 64, height: 64, value: "./images/sample/face/6955235_casper_ghost_halloween_phantom_icon.png" },
+	{ id: 20009, type: "image", width: 64, height: 64, value: "./images/sample/face/7536533_avatar_face_girl_female_woman_icon.png" },
+	{ id: 20010, type: "image", width: 64, height: 64, value: "./images/sample/face/7536534_avatar_face_girl_female_woman_icon.png" },
+	{ id: 20011, type: "image", width: 64, height: 64, value: "./images/sample/face/7536535_avatar_face_girl_female_woman_icon.png" },
+	{ id: 20012, type: "image", width: 64, height: 64, value: "./images/sample/face/7536536_avatar_face_man_boy_male_icon.png" },
+	{ id: 20013, type: "image", width: 64, height: 64, value: "./images/sample/face/7536537_avatar_face_girl_female_woman_icon.png" },
+	{ id: 20014, type: "image", width: 64, height: 64, value: "./images/sample/face/7536538_avatar_face_man_boy_male_icon.png" },
+	{ id: 20015, type: "image", width: 64, height: 64, value: "./images/sample/face/7536539_avatar_face_man_boy_male_icon.png" },
+	{ id: 20016, type: "image", width: 64, height: 64, value: "./images/sample/face/7536540_avatar_face_man_boy_male_icon.png" },
+	{ id: 20017, type: "image", width: 64, height: 64, value: "./images/sample/face/7536541_avatar_face_male_profile_smiley_icon.png" },
+	{ id: 20018, type: "image", width: 64, height: 64, value: "./images/sample/face/7536542_avatar_face_man_boy_male_icon.png" },
+];
+
 var SampleStickerItems = [
-	{ id: 20001, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679536_animal_deer_forest_happy_reindeer_icon.png" },
-	{ id: 20002, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679538_elf_emoji_emoticon_happy_smile_icon.png" },
-	{ id: 20003, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679542_wand_tool_magic_design_christmas_icon.png" },
-	{ id: 20004, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679543_candy_dessert_sweet_sweets_wrapper_icon.png" },
-	{ id: 20005, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679550_christmas_clothes_clothing_fashion_sock_icon.png" },
-	{ id: 20006, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679555_emoji_emoticon_happy_santa_smile_icon.png" },
-	{ id: 20007, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679556_elf_happy_helper_person_santa_icon.png" },
-	{ id: 20008, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679562_child_santa_toy_game_santa claus_icon.png", memberOnly: true  },
-	{ id: 20009, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679566_christmas_cookie_dessert_gingerbread_man_icon.png" },
-	{ id: 20010, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679567_clothes_clothing_cold_fashion_glove_icon.png" },
-	{ id: 20011, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679569_deer_emoji_emoticon_happy_reindeer_icon.png" },
-	{ id: 20012, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679573_bow_candy_cane_ribbon_sweets_icon.png", memberOnly: true  },
-	{ id: 20013, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679579_angel_christmas_decorate_decoration_wings_icon.png" },
-	{ id: 20014, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679605_candle_decor_decoration_fire_flame_icon.png" },
-	{ id: 20015, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679609_emoji_emoticon_man_smile_smiley_icon.png" },
-	{ id: 20016, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679614_bright_christmas_decorate_decoration_favourite_icon.png" },
-	{ id: 20017, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679639_bow_box_gift_package_present_icon.png" },
-	{ id: 20018, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679653_christmas_ice_snow_cold_snowflake_icon.png" },
-	{ id: 20019, type: "image", width: 64, height: 64, value: "./images/sample/sticker/2291007_dead_face_halloween_smiley_undead_icon.png" },
-	{ id: 20020, type: "image", width: 64, height: 64, value: "./images/sample/sticker/4927756_emoji_face_poo_shit_icon.png" },
-	{ id: 20021, type: "image", width: 64, height: 64, value: "./images/sample/sticker/5627745_avatar_face_female_people_profile_icon.png" },
-	{ id: 20022, type: "image", width: 64, height: 64, value: "./images/sample/sticker/5928555_clean_hand_hygiene_soap_wash_icon.png" },
-	{ id: 20023, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536533_avatar_face_girl_female_woman_icon.png", memberOnly: true  },
-	{ id: 20024, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536534_avatar_face_girl_female_woman_icon.png", memberOnly: true  },
-	{ id: 20025, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536535_avatar_face_girl_female_woman_icon.png", memberOnly: true  },
-	{ id: 20026, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536536_avatar_face_man_boy_male_icon.png" },
-	{ id: 20027, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536537_avatar_face_girl_female_woman_icon.png" },
-	{ id: 20028, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536538_avatar_face_man_boy_male_icon.png" },
-	{ id: 20029, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536539_avatar_face_man_boy_male_icon.png" },
-	{ id: 20030, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536540_avatar_face_man_boy_male_icon.png" },
-	{ id: 20031, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536541_avatar_face_male_profile_smiley_icon.png" },
-	{ id: 20032, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536542_avatar_face_man_boy_male_icon.png" },
+	{ id: 30001, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679536_animal_deer_forest_happy_reindeer_icon.png" },
+	{ id: 30002, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679538_elf_emoji_emoticon_happy_smile_icon.png" },
+	{ id: 30003, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679542_wand_tool_magic_design_christmas_icon.png" },
+	{ id: 30004, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679543_candy_dessert_sweet_sweets_wrapper_icon.png" },
+	{ id: 30005, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679550_christmas_clothes_clothing_fashion_sock_icon.png" },
+	{ id: 30006, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679555_emoji_emoticon_happy_santa_smile_icon.png" },
+	{ id: 30007, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679556_elf_happy_helper_person_santa_icon.png" },
+	{ id: 30008, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679562_child_santa_toy_game_santa claus_icon.png", memberOnly: true  },
+	{ id: 30009, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679566_christmas_cookie_dessert_gingerbread_man_icon.png" },
+	{ id: 30010, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679567_clothes_clothing_cold_fashion_glove_icon.png" },
+	{ id: 30011, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679569_deer_emoji_emoticon_happy_reindeer_icon.png" },
+	{ id: 30012, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679573_bow_candy_cane_ribbon_sweets_icon.png", memberOnly: true  },
+	{ id: 30013, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679579_angel_christmas_decorate_decoration_wings_icon.png" },
+	{ id: 30014, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679605_candle_decor_decoration_fire_flame_icon.png" },
+	{ id: 30015, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679609_emoji_emoticon_man_smile_smiley_icon.png" },
+	{ id: 30016, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679614_bright_christmas_decorate_decoration_favourite_icon.png" },
+	{ id: 30017, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679639_bow_box_gift_package_present_icon.png" },
+	{ id: 30018, type: "image", width: 64, height: 64, value: "./images/sample/sticker/1679653_christmas_ice_snow_cold_snowflake_icon.png" },
+	{ id: 30019, type: "image", width: 64, height: 64, value: "./images/sample/sticker/2291007_dead_face_halloween_smiley_undead_icon.png" },
+	{ id: 30020, type: "image", width: 64, height: 64, value: "./images/sample/sticker/4927756_emoji_face_poo_shit_icon.png" },
+	{ id: 30021, type: "image", width: 64, height: 64, value: "./images/sample/sticker/5627745_avatar_face_female_people_profile_icon.png" },
+	{ id: 30022, type: "image", width: 64, height: 64, value: "./images/sample/sticker/5928555_clean_hand_hygiene_soap_wash_icon.png" },
+	{ id: 30023, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536533_avatar_face_girl_female_woman_icon.png", memberOnly: true  },
+	{ id: 30024, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536534_avatar_face_girl_female_woman_icon.png", memberOnly: true  },
+	{ id: 30025, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536535_avatar_face_girl_female_woman_icon.png", memberOnly: true  },
+	{ id: 30026, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536536_avatar_face_man_boy_male_icon.png" },
+	{ id: 30027, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536537_avatar_face_girl_female_woman_icon.png" },
+	{ id: 30028, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536538_avatar_face_man_boy_male_icon.png" },
+	{ id: 30029, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536539_avatar_face_man_boy_male_icon.png" },
+	{ id: 30030, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536540_avatar_face_man_boy_male_icon.png" },
+	{ id: 30031, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536541_avatar_face_male_profile_smiley_icon.png" },
+	{ id: 30032, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536542_avatar_face_man_boy_male_icon.png" },
 ];
 </script>
 </head>
@@ -219,14 +240,12 @@ var SampleStickerItems = [
 	<div class="content">
 		<div class="board" style="width: 100%; height: 100%;"></div>
 		<div class="overlay">
-			<div style="width: 100%; height: 24px; text-align: center; font-size: 10px; line-height: 24px; cursor: pointer;" onclick="hideOverlay()">닫기</div>
-			<div class="items">
-				<!-- <div class="item"><div class="content" style="background-color: white;"></div></div> -->
-			</div>
+			<div class="items"></div>
 		</div>
 	</div>
 	<div class="foot">
 		<div onclick="showBackgroundList()">배경</div>
+		<div onclick="showFaceList()">얼굴</div>
 		<div onclick="showStickerList()">스티커</div>
 		<div>문구</div>
 		<div>그리기</div>
@@ -326,7 +345,15 @@ $(document.body).ready(() => {
 		});
 		$(".content>.overlay").addClass("visibled");
 	};
-
+	window.showFaceList = () => {
+		var $items = $(".content>.overlay .items");
+		$items.empty();
+		SampleFaceItems.forEach(item => {
+			var $item = createStickerItemElement(item);
+			$items.append($item);
+		});
+		$(".content>.overlay").addClass("visibled");
+	};
 	window.showStickerList = () => {
 		var $items = $(".content>.overlay .items");
 		$items.empty();
