@@ -346,15 +346,15 @@ var SampleFontSizeItems = [
 			</div>
 		</div>
 		<div id="text-editor" class="overlay">
-			<div style="position: absolute; left: 50%; top: -120px; width: 320px; margin-left: -160px; height: 40px; background-color: rgba(0, 0, 0, 0.4);">
-				<span>
-					TODO
-				</span>
+			<div style="display: flex; flex-direction: column; align-items: center; position: absolute; left: 0px; top: -140px; width: 100%; text-align: center;">
+				<div style="width: 80px; font-size: 12px; background-color: white; border: 1px solid black; border-radius: 4px;">미리보기</div>
+				<div id="text-editor-preview" style="display: block; background-color: rgba(0, 0, 0, 0.4); white-space: nowrap; width: 100%; height: 48px; line-height: 48px; margin: 8px 0px;"></div>
+				<div><input type="button" style="width: 64px; height: 32px;" value="확인" onclick="createText()"></div>
 			</div>
 			<div class="content">
 				<div style="font-size: 12px; margin: 8px 4px;">문구를 입력하세요</div>
 				<div style="padding: 0px 8px; border-bottom: 1px solid black;">
-					<input class="text-input" type="text" placeholder="여기에 문구를 입력하세요" style="width: 100%; height: 32px; outline: none; border: none; border-radius: 0px; background-color: transparent;">
+					<input class="text-input" type="text" placeholder="여기에 문구를 입력하세요" style="width: 100%; height: 32px; outline: none; border: none; border-radius: 0px; background-color: transparent;" onchange="updateTextEditorPreview()" oninput="updateTextEditorPreview()">
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">색상을 선택하세요</div>
 				<div id="font-colors" class="horizontal">
@@ -368,8 +368,6 @@ var SampleFontSizeItems = [
 				<div id="font-sizes" class="horizontal">
 					<div class="items"></div>
 				</div>
-			
-				<div><input type="button" value="확인" onclick="createText()"></div>
 			</div>
 		</div>
 	</div>
@@ -482,6 +480,8 @@ $(document.body).ready(() => {
 			$("#font-colors .item").removeClass("selected");
 			$e.addClass("selected");
 			_selectedFontColorItem = item;
+
+			window.updateTextEditorPreview();
 		});
 
 		if (item.memberOnly) {
@@ -518,6 +518,8 @@ $(document.body).ready(() => {
 			$("#font-families .item").removeClass("selected");
 			$e.addClass("selected");
 			_selectedFontFamilyItem = item;
+
+			window.updateTextEditorPreview();
 		});
 
 		if (item.memberOnly) {
@@ -552,6 +554,8 @@ $(document.body).ready(() => {
 			$("#font-sizes .item").removeClass("selected");
 			$e.addClass("selected");
 			_selectedFontSizeItem = item;
+
+			window.updateTextEditorPreview();
 		});
 
 		if (item.memberOnly) {
@@ -628,10 +632,29 @@ $(document.body).ready(() => {
 			$fontSizeItems.append($item);
 		});
 		
+		window.updateTextEditorPreview();
+		
 		window.hideOverlay();
 		$("#text-editor.overlay").addClass("visibled");
 	};
+	window.updateTextEditorPreview = () => {
+		var text = $("#text-editor .text-input").val();
+		var color = _selectedFontColorItem.value;
+		var fontFamily = _selectedFontFamilyItem.value;
+		var isFontBold = _selectedFontFamilyItem.bold;
+		var isFontItalic = _selectedFontFamilyItem.italic;
+		var fontSize = _selectedFontSizeItem.value;
 
+		var preview = $("#text-editor-preview");
+		preview.text(text || "");
+		preview.css({
+			color: color,
+			fontSize: fontSize,
+			fontFamily: fontFamily,
+			fontWeight: isFontBold? "bold": "normal",
+			fontStyle: isFontItalic? "italic": "normal",
+		});
+	};
 	window.createText = () => {
 		var text = $("#text-editor .text-input").val();
 		if (text == null || text.length == 0) {
@@ -666,6 +689,8 @@ $(document.body).ready(() => {
 				isFontItalic: isFontItalic,
 			}
 		});
+
+		window.hideOverlay();
 	};
 });
 </script>
