@@ -184,7 +184,7 @@ class HanulseBoardView {
 				context.fillStyle = this.background.value;
 				context.fillRect(0, 0, width, height);
 			} else if (this.background.type == "image") {
-				var backgroundImage = imagesByUrl[this.background.value];
+				var backgroundImage = imagesByUrl['background'];
 				var backgroundOffsetX;
 				var backgroundOffsetY;
 				var backgroundWidth;
@@ -208,7 +208,7 @@ class HanulseBoardView {
 			this.items.sort((a, b) => a.zIndex > b.zIndex? 1: -1);
 			this.items.forEach(item => {
 				if (item.type == "image") {
-					var itemImage = imagesByUrl[item.value];
+					var itemImage = imagesByUrl[item.id];
 					context.save();
 					context.translate(item.x + item.width * 0.5, item.y + item.height * 0.5);
 					context.rotate(item.radian);
@@ -262,51 +262,35 @@ class HanulseBoardView {
 	_loadImages(callback) {
 		var imagesByUrl = {};
 
-		var imageUrlList = [];
-		if (this.background.type == "image") {
-			imageUrlList.push(this.background.value);
-		} else if (this.background.type == "pattern") {
-			imageUrlList.push(this.background.value);
+		var imageList = [];
+		if (this.background.type == "image" || this.background.type == "pattern") {
+			imageList.push({ id: 'background', url: this.background.value });
 		}
 
 		this.items.forEach(item => {
 			if (item.type == "image") {
-				imageUrlList.push(item.value);
+				imageList.push({ id: item.id, url: item.value });
 			}
 		})
 
-		var loadNextImage = (url) => {
-			if (url == null) {
+		var loadNextImage = (imageItem) => {
+			if (imageItem == null) {
 				return callback && callback(imagesByUrl);
 			}
 
 			var image = new Image();
 			image.onload = () => {
-				imagesByUrl[url] = image;
-				loadNextImage(imageUrlList.shift());
+				imagesByUrl[imageItem.id] = image;
+				loadNextImage(imageList.shift());
 			};
-			image.src = url;
+			image.src = imageItem.url;
 		};
 
-		loadNextImage(imageUrlList.shift());
+		loadNextImage(imageList.shift());
 	}
 
 	_newItem(itemDescription) {
 		if (itemDescription.type == "image") {
-			return {
-				id: this.nextItemId++,
-				type: "image",
-				value: itemDescription.value,
-				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
-				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
-				width: itemDescription.width,
-				height: itemDescription.height,
-				radian: itemDescription.radian ?? 0,
-				zIndex: this.nextZIndex++,
-				resizable: true,
-				editable: false,
-			};
-		} else if (itemDescription.type == "image-data-url") {
 			return {
 				id: this.nextItemId++,
 				type: "image",
@@ -342,7 +326,7 @@ class HanulseBoardView {
 		var $e = $("<div class=\"item\">");
 		$e.attr("data-id", item.id);
 
-		if (item.type == "image" || item.type == "image-data-url") {
+		if (item.type == "image") {
 			var $image = $("<img data-type=\"image\">").attr("src", item.value);
 			$e.append($("<div class=\"content\">").append($image));
 		} else {
@@ -777,7 +761,7 @@ class HanulseBoardView {
 			console.log(this.drawingCanvas.toDataURL("image/png"));
 
 			this.createItem({
-				type: "image-data-url",
+				type: "image",
 				value: this.drawingCanvas.toDataURL("image/png"),
 				x: pathBoundary.offsetX,
 				y: pathBoundary.offsetY,
