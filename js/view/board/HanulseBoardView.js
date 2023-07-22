@@ -9,8 +9,15 @@ class HanulseBoardView {
 
 	/*
 		{
+			type: "color" | "image"
+			value: ColorString | ImageUrlString
+		}
+	*/
+	background;
+	/*
+		{
 			id: number,
-			type: 'image' | 'text',
+			type: "image" | "text",
 			value: ImageUrlString | TextString,
 			x: number,
 			y: number,
@@ -34,6 +41,9 @@ class HanulseBoardView {
 		this.boardWidth = $parent.width();
 		this.boardHeight = $parent.height();
 		
+		this.background = { type: "color", value: "white" };
+		this.$parent.css({ backgroundColor: "white" });
+
 		$parent.on('mousedown', (event) => this._onItemMoveStart(event));
 		$(document).on('mousemove', (event) => this._onItemMove(event));
 		$(document).on('mouseup', (event) => this._onItemMoveEnd(event));
@@ -42,13 +52,47 @@ class HanulseBoardView {
 		$(document).on('touchend', (event) => this._onItemMoveEnd(event));
 	}
 
-	createItem(type, width, height) {
-		var item = this._newItem(type, width, height);
+	setBackground(itemDescription) {
+		if (itemDescription.type == "color") {
+			this.background = itemDescription;
+			this.$parent.css({
+				backgroundColor: itemDescription.value,
+				backgroundImage: "",
+			});
+		} else if (itemDescription.type == "image") {
+			this.background = itemDescription;
+			this.$parent.css({
+				backgroundColor: "black",
+				backgroundImage: "url(\"" + itemDescription.value + "\")",
+				backgroundPosition: "center",
+				backgroundSize: "cover",
+				backgroundRepeat: "no-repeat",
+			});
+		} else if (itemDescription.type == "pattern") {
+			this.background = itemDescription;
+			this.$parent.css({
+				backgroundColor: "black",
+				backgroundImage: "url(\"" + itemDescription.value + "\")",
+				backgroundPosition: "center",
+				backgroundSize: "auto",
+				backgroundRepeat: "repeat",
+			});
+		}
+	}
+
+	createItem(itemDescription) {
+		var item = this._newItem(itemDescription);
 		var $item = this._newItemElement(item);
 
 		this.items.push(item);
 		this.$parent.append($item);
-	};
+		
+		// Unselect
+		$(".item").removeClass('selected');
+		// Select Item
+		$item.addClass('selected');
+		$item.css({ zIndex: item.zIndex });
+	}
 
 	deleteItemById(id) {
 		var index = this.items.findIndex((item) => item.id == id);
@@ -58,20 +102,58 @@ class HanulseBoardView {
 
 		var $item = this.$parent.find("[data-id=" + id + "]");
 		$item.remove();
-	};
+	}
 
-	_newItem(type, width, height) {
-		return {
-			id: this.nextItemId++,
-			type: type,
-			value: type == 'image'? './images/tree.png': 'Sample Text',
-			x: (this.boardWidth - width) * 0.5,
-			y: (this.boardHeight - height) * 0.5,
-			width: width,
-			height: height,
-			radian: 0,
-			zIndex: this.nextZIndex++,
-		};
+	cloneItemById(id) {
+		var item = this.items.find((item) => item.id == id);
+		if (item == null) {
+			return;
+		}
+
+		var clonedItem = this._newItem({
+			... item,
+			x: item.x + 10,
+			y: item.y + 10,
+		});
+		var $clonedItem = this._newItemElement(clonedItem);
+
+		this.items.push(clonedItem);
+		this.$parent.append($clonedItem);
+
+		// Unselect
+		$(".item").removeClass('selected');
+		// Select Item
+		$clonedItem.addClass('selected');
+		$clonedItem.css({ zIndex: clonedItem.zIndex });
+	}
+
+	_newItem(itemDescription) {
+		if (itemDescription.type == "image") {
+			return {
+				id: this.nextItemId++,
+				type: "image",
+				value: itemDescription.value,
+				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
+				width: itemDescription.width,
+				height: itemDescription.height,
+				radian: itemDescription.radian ?? 0,
+				zIndex: this.nextZIndex++,
+			};
+		} else if(itemDescription.type == "text") {
+			return {
+				id: this.nextItemId++,
+				type: "text",
+				value: itemDescription.value,
+				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
+				width: itemDescription.width,
+				height: itemDescription.height,
+				radian: itemDescription.radian ?? 0,
+				zIndex: this.nextZIndex++,
+				style: itemDescription.style, // TODO
+			};
+		}
 	}
 
 	_newItemElement(item) {
@@ -95,8 +177,9 @@ class HanulseBoardView {
 		var $frameEdgeS = $("<div class=\"edge-s\" data-transform-mode=\"resize-s\">");
 		var $frameEdgeW = $("<div class=\"edge-w\" data-transform-mode=\"resize-w\">");
 		var $frameEdgeE = $("<div class=\"edge-e\" data-transform-mode=\"resize-e\">");
-		var $frameRotate = $("<div class=\"rotate\" data-transform-mode=\"rotate\">");
-		var $frameDelete = $("<div class=\"delete\">").click(() => this.deleteItemById(item.id));
+		var $frameRotate = $("<div class=\"function rotate\" data-transform-mode=\"rotate\">");
+		var $frameDelete = $("<div class=\"function delete\">").click(() => this.deleteItemById(item.id));
+		var $frameClone = $("<div class=\"function clone\">").click(() => this.cloneItemById(item.id));
 
 		$frame.append($frameEdgeNW);
 		$frame.append($frameEdgeNE);
@@ -108,10 +191,14 @@ class HanulseBoardView {
 		$frame.append($frameEdgeE);
 		$frame.append($frameRotate);
 		$frame.append($frameDelete);
+		$frame.append($frameClone);
 
 		$e.width(item.width);
 		$e.height(item.height);
 		$e.css({ left: item.x, top: item.y, zIndex: item.zIndex });
+
+		$e.css({ transform: "rotate(" + item.radian + "rad)" });
+		$e.find('.function').css({ transform: "rotate(" + -item.radian + "rad)" });
 
 		$e.append($frame);
 
@@ -164,7 +251,7 @@ class HanulseBoardView {
 		}
 
 		console.log('Start Transform', item.id, mode);
-	};
+	}
 
 	_onItemMove(event) {
 		if (this.downedItem == null) {
@@ -187,6 +274,7 @@ class HanulseBoardView {
 			var radian = this._pointToRadian(pointerX - boardCenterX, pointerY - boardCenterY);
 			this.downedItem.radian += radian - lastRadian;
 			this.$downedItem.css({ transform: "rotate(" + this.downedItem.radian + "rad)" });
+			this.$downedItem.find('.function').css({ transform: "rotate(" + -this.downedItem.radian + "rad)" })
 		} else if (this.transformMode == "resize-nw") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
