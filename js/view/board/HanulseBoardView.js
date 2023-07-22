@@ -275,7 +275,7 @@ class HanulseBoardView {
 				radian: itemDescription.radian ?? 0,
 				zIndex: this.nextZIndex++,
 				resizable: false,
-				editable: true,
+				editable: false,
 				style: itemDescription.style,
 			};
 		}
