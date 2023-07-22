@@ -159,6 +159,7 @@ class HanulseBoardView {
 				// TODO
 			}
 
+			this.items.sort((a, b) => a.zIndex > b.zIndex? 1: -1);
 			this.items.forEach(item => {
 				if (item.type == "image") {
 					var itemImage = imagesByUrl[item.value];
@@ -173,9 +174,22 @@ class HanulseBoardView {
 			});
 
 			// Preview image
-			var dataUrl = canvas.toDataURL("image/png");
-			var newTab = window.open('about:blank', '_blank');
-			newTab.document.write("<img src='" + dataUrl + "' alt='from canvas'/>");
+			// var dataUrl = canvas.toDataURL("image/png");
+			// var newTab = window.open('about:blank', '_blank');
+			// newTab.document.write("<img src='" + dataUrl + "' alt='from canvas'/>");
+
+			// Download image
+			canvas.toBlob((blob) => {
+				const a = document.createElement("a");
+				this.$parent.append(a);
+				a.style.display = "block";
+				a.download = "card_" + Date.now() + ".png";
+				a.href = window.URL.createObjectURL(blob);
+				a.click();
+				setTimeout(() => {
+					a.remove();
+				}, 1000);
+			}, "image/png");
 		});
 	}
 	
