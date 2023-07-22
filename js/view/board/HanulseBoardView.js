@@ -728,7 +728,7 @@ class HanulseBoardView {
 
 		this.drawingPath.push({ x: x, y: y });
 
-		this.drawingCanvas.remove();
+		// this.drawingCanvas.remove();
 
 		/*
 		if (this.drawingPath.length > 2) {
