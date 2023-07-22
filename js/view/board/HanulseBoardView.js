@@ -29,6 +29,7 @@ class HanulseBoardView {
 			editable: boolean,
 			style: {
 				color: ColorString,
+				backgroundColor: ColorString,
 				fontSize: number,
 				fontFamily: FontNameString,
 				isFontBold: boolean,
@@ -179,6 +180,14 @@ class HanulseBoardView {
 					context.restore();
 				} else if (item.type == "text") {
 					context.save();
+					context.translate(item.x + item.width * 0.5, item.y + item.height * 0.5);
+					context.rotate(item.radian);
+					// Draw background
+					if (item.style) {
+						context.fillStyle = item.style.backgroundColor;
+						context.fillRect(-item.width * 0.5, -item.height * 0.5, item.width, item.height);
+					}
+					// Draw text
 					if (item.style) {
 						context.font = `${item.style.isFontItalic? "italic": ""} ${item.style.isFontBold? "bold": ""} ${item.style.fontSize}px ${item.style.fontFamily}`
 						context.fillStyle = item.style.color;
@@ -187,8 +196,6 @@ class HanulseBoardView {
 					}
 					context.textBaseline = "middle";
 					context.textAlign = "left";
-					context.translate(item.x + item.width * 0.5, item.y + item.height * 0.5);
-					context.rotate(item.radian);
 					context.fillText(item.value, -item.width * 0.5, -item.height * 0.5);
 					context.restore();
 				}
@@ -295,6 +302,7 @@ class HanulseBoardView {
 			if (item.style) {
 				$text.css({
 					color: item.style.color,
+					backgroundColor: item.style.backgroundColor,
 					fontSize: item.style.fontSize,
 					fontFamily: item.style.fontFamily,
 					fontWeight: item.style.isFontBold? "bold": "normal",

@@ -185,6 +185,19 @@ html, body {
 	background-color: greenyellow;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 }
+#text-editor .horizontal>.items>.item.default::after {
+	display: block;
+	position: absolute;
+	width: 20px;
+	left: 20px;
+	top: 2px;
+	padding: 0px 4px;
+	content: "기본";
+	font-size: 10px;
+	border-radius: 4px;
+	background-color: plum;
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
+}
 #text-editor .horizontal>.items>.item>.content {
 	width: 100%;
 	height: 100%;
@@ -294,38 +307,53 @@ var SampleFontColorItems = [
 	{ id: 1011, value: "burlywood", memberOnly: true },
 ];
 
+var SampleFontBackgroundColorItems = [
+	{ id: 2001, value: "transparent", default: true },
+	{ id: 2002, value: "black" },
+	{ id: 2003, value: "white" },
+	{ id: 2004, value: "#00ffc8" },
+	{ id: 2005, value: "#ffc800" },
+	{ id: 2006, value: "#c8ff00" },
+	{ id: 2007, value: "#00c8ff" },
+	{ id: 2008, value: "#ff0064" },
+	{ id: 2009, value: "#c800ff" },
+	{ id: 2010, value: "gray", memberOnly: true },
+	{ id: 2011, value: "brown", memberOnly: true },
+	{ id: 2012, value: "burlywood", memberOnly: true },
+];
+
 var SampleFontFamilyItems = [
-	{ id: 2001, value: "sans-serif", default: true },
-	{ id: 2002, value: "Arial" },
-	{ id: 2003, value: "monospace" },
-	{ id: 2004, value: "cursive" },
-	{ id: 2005, value: "serif" },
-	{ id: 2006, value: "Helvetica" },
-	{ id: 2011, value: "sans-serif", bold: true },
-	{ id: 2012, value: "Arial", bold: true },
-	{ id: 2013, value: "monospace", bold: true },
-	{ id: 2014, value: "cursive", bold: true },
-	{ id: 2015, value: "serif", bold: true },
-	{ id: 2016, value: "Helvetica", bold: true },
-	{ id: 2021, value: "sans-serif", italic: true },
-	{ id: 2022, value: "Arial", italic: true },
-	{ id: 2023, value: "monospace", italic: true },
-	{ id: 2024, value: "cursive", italic: true },
-	{ id: 2025, value: "serif", italic: true },
-	{ id: 2026, value: "Helvetica", italic: true },
-	{ id: 2031, value: "sans-serif", bold: true, italic: true, memberOnly: true },
-	{ id: 2032, value: "Arial", bold: true, italic: true, memberOnly: true },
-	{ id: 2033, value: "monospace", bold: true, italic: true, memberOnly: true },
-	{ id: 2034, value: "cursive", bold: true, italic: true, memberOnly: true },
-	{ id: 2035, value: "serif", bold: true, italic: true, memberOnly: true },
-	{ id: 2036, value: "Helvetica", bold: true, italic: true, memberOnly: true },
+	{ id: 3001, value: "sans-serif", default: true },
+	{ id: 3002, value: "Arial" },
+	{ id: 3003, value: "monospace" },
+	{ id: 3004, value: "cursive" },
+	{ id: 3005, value: "serif" },
+	{ id: 3006, value: "Helvetica" },
+	{ id: 3011, value: "sans-serif", bold: true },
+	{ id: 3012, value: "Arial", bold: true },
+	{ id: 3013, value: "monospace", bold: true },
+	{ id: 3014, value: "cursive", bold: true },
+	{ id: 3015, value: "serif", bold: true },
+	{ id: 3016, value: "Helvetica", bold: true },
+	{ id: 3021, value: "sans-serif", italic: true },
+	{ id: 3022, value: "Arial", italic: true },
+	{ id: 3023, value: "monospace", italic: true },
+	{ id: 3024, value: "cursive", italic: true },
+	{ id: 3025, value: "serif", italic: true },
+	{ id: 3026, value: "Helvetica", italic: true },
+	{ id: 3031, value: "sans-serif", bold: true, italic: true, memberOnly: true },
+	{ id: 3032, value: "Arial", bold: true, italic: true, memberOnly: true },
+	{ id: 3033, value: "monospace", bold: true, italic: true, memberOnly: true },
+	{ id: 3034, value: "cursive", bold: true, italic: true, memberOnly: true },
+	{ id: 3035, value: "serif", bold: true, italic: true, memberOnly: true },
+	{ id: 3036, value: "Helvetica", bold: true, italic: true, memberOnly: true },
 ];
 
 var SampleFontSizeItems = [
-	{ id: 3002, value: 16, default: true },
-	{ id: 3003, value: 20 },
-	{ id: 3004, value: 24 },
-	{ id: 3005, value: 28, memberOnly: true },
+	{ id: 4002, value: 16, default: true },
+	{ id: 4003, value: 20 },
+	{ id: 4004, value: 24 },
+	{ id: 4005, value: 28, memberOnly: true },
 ];
 </script>
 </head>
@@ -347,17 +375,21 @@ var SampleFontSizeItems = [
 		</div>
 		<div id="text-editor" class="overlay">
 			<div style="display: flex; flex-direction: column; align-items: center; position: absolute; left: 0px; top: -140px; width: 100%; text-align: center;">
-				<div style="width: 80px; font-size: 12px; background-color: white; border: 1px solid black; border-radius: 4px;">미리보기</div>
-				<div id="text-editor-preview" style="display: block; background-color: rgba(0, 0, 0, 0.4); white-space: nowrap; width: 100%; height: 48px; line-height: 48px; margin: 8px 0px;"></div>
-				<div><input type="button" style="width: 64px; height: 32px;" value="확인" onclick="createText()"></div>
+				<div style="width: 80px; font-size: 12px; background-color: white; border: 1px solid gray; border-bottom: none; border-radius: 4px 4px 0px 0px;">미리보기</div>
+				<div id="text-editor-preview" style="display: block; white-space: nowrap; left: 12px; right: 12px; height: 48px; padding: 0px 12px; min-width: 50%; line-height: 48px; border: 1px solid gray; border-radius: 12px;"></div>
+				<div><input type="button" style="width: 120px; height: 32px; margin: 8px;" value="카드에 추가하기" onclick="createText()"></div>
 			</div>
 			<div class="content">
 				<div style="font-size: 12px; margin: 8px 4px;">문구를 입력하세요</div>
 				<div style="padding: 0px 8px; border-bottom: 1px solid black;">
 					<input class="text-input" type="text" placeholder="여기에 문구를 입력하세요" style="width: 100%; height: 32px; outline: none; border: none; border-radius: 0px; background-color: transparent;" onchange="updateTextEditorPreview()" oninput="updateTextEditorPreview()">
 				</div>
-				<div style="font-size: 12px; margin: 20px 4px 8px;">색상을 선택하세요</div>
+				<div style="font-size: 12px; margin: 20px 4px 8px;">글씨 색상을 선택하세요</div>
 				<div id="font-colors" class="horizontal">
+					<div class="items"></div>
+				</div>
+				<div style="font-size: 12px; margin: 20px 4px 8px;">배경 색상을 선택하세요</div>
+				<div id="font-bgcolors" class="horizontal">
 					<div class="items"></div>
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">글꼴을 선택하세요</div>
@@ -489,8 +521,40 @@ $(document.body).ready(() => {
 		}
 
 		if (item.default) {
+			$e.addClass("default");
 			$e.addClass("selected");
 			_selectedFontColorItem = item;
+		}
+
+		$e.append($content);
+
+		return $e;
+	};
+
+	var _selectedFontBackgroundColorItem = null;
+	var createFontBackgroundColorItemElement = (item) => {
+		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
+		var $content = $("<div class=\"content\">");
+		
+		$content.css({
+			backgroundColor: item.value,
+		});
+		$e.click(() => {
+			$("#font-bgcolors .item").removeClass("selected");
+			$e.addClass("selected");
+			_selectedFontBackgroundColorItem = item;
+
+			window.updateTextEditorPreview();
+		});
+
+		if (item.memberOnly) {
+			$e.addClass("member-only");
+		}
+
+		if (item.default) {
+			$e.addClass("default");
+			$e.addClass("selected");
+			_selectedFontBackgroundColorItem = item;
 		}
 
 		$e.append($content);
@@ -527,6 +591,7 @@ $(document.body).ready(() => {
 		}
 
 		if (item.default) {
+			$e.addClass("default");
 			$e.addClass("selected");
 			_selectedFontFamilyItem = item;
 		}
@@ -563,6 +628,7 @@ $(document.body).ready(() => {
 		}
 
 		if (item.default) {
+			$e.addClass("default");
 			$e.addClass("selected");
 			_selectedFontSizeItem = item;
 		}
@@ -618,6 +684,13 @@ $(document.body).ready(() => {
 			$fontColorItems.append($item);
 		});
 		
+		var $fontBackgroundColorItems = $("#text-editor.overlay #font-bgcolors>.items");
+		$fontBackgroundColorItems.empty();
+		SampleFontBackgroundColorItems.forEach(item => {
+			var $item = createFontBackgroundColorItemElement(item);
+			$fontBackgroundColorItems.append($item);
+		});
+		
 		var $fontFamilyItems = $("#text-editor.overlay #font-families>.items");
 		$fontFamilyItems.empty();
 		SampleFontFamilyItems.forEach(item => {
@@ -640,6 +713,7 @@ $(document.body).ready(() => {
 	window.updateTextEditorPreview = () => {
 		var text = $("#text-editor .text-input").val();
 		var color = _selectedFontColorItem.value;
+		var backgroundColor = _selectedFontBackgroundColorItem.value;
 		var fontFamily = _selectedFontFamilyItem.value;
 		var isFontBold = _selectedFontFamilyItem.bold;
 		var isFontItalic = _selectedFontFamilyItem.italic;
@@ -649,6 +723,7 @@ $(document.body).ready(() => {
 		preview.text(text || "");
 		preview.css({
 			color: color,
+			backgroundColor: backgroundColor,
 			fontSize: fontSize,
 			fontFamily: fontFamily,
 			fontWeight: isFontBold? "bold": "normal",
@@ -662,6 +737,7 @@ $(document.body).ready(() => {
 		}
 
 		var color = _selectedFontColorItem.value;
+		var backgroundColor = _selectedFontBackgroundColorItem.value;
 		var fontFamily = _selectedFontFamilyItem.value;
 		var isFontBold = _selectedFontFamilyItem.bold;
 		var isFontItalic = _selectedFontFamilyItem.italic;
@@ -683,6 +759,7 @@ $(document.body).ready(() => {
 			height: height,
 			style: {
 				color: color,
+				backgroundColor: backgroundColor,
 				fontSize: fontSize,
 				fontFamily: fontFamily,
 				isFontBold: isFontBold,
