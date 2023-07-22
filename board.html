@@ -146,16 +146,15 @@ html, body {
 	overflow: hidden;
 }
 
-.text-colors {
+.font-colors {
 	white-space: nowrap;
 	overflow-x: auto;
 	overflow-y: hidden;
 	padding: 8px 20px 8px 0px;
-	font-size: 0px;
 }
-.text-colors::-webkit-scrollbar { height: 2px; width: 2px; }
-.text-colors::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
-.text-colors>.item {
+.font-colors::-webkit-scrollbar { height: 2px; width: 2px; }
+.font-colors::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
+.font-colors>.item {
 	display: inline-block;
 	position: relative;
 	width: 38px;
@@ -167,10 +166,10 @@ html, body {
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 }
-.text-colors>.item:hover {
+.font-colors>.item:hover {
 	background-color: cyan;
 }
-.text-colors>.item.member-only::after {
+.font-colors>.item.member-only::after {
 	display: block;
 	position: absolute;
 	width: 20px;
@@ -183,7 +182,7 @@ html, body {
 	background-color: greenyellow;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 }
-.text-colors>.item>.content {
+.font-colors>.item>.content {
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
@@ -191,16 +190,15 @@ html, body {
 	overflow: hidden;
 }
 
-.text-fonts {
+.font-families {
 	white-space: nowrap;
 	overflow-x: auto;
 	overflow-y: hidden;
 	padding: 8px 20px 8px 0px;
-	font-size: 0px;
 }
-.text-fonts::-webkit-scrollbar { height: 2px; width: 2px; }
-.text-fonts::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
-.text-fonts>.item {
+.font-families::-webkit-scrollbar { height: 2px; width: 2px; }
+.font-families::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
+.font-families>.item {
 	display: inline-block;
 	position: relative;
 	width: 38px;
@@ -212,10 +210,10 @@ html, body {
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 }
-.text-fonts>.item:hover {
+.font-families>.item:hover {
 	background-color: cyan;
 }
-.text-fonts>.item.member-only::after {
+.font-families>.item.member-only::after {
 	display: block;
 	position: absolute;
 	width: 20px;
@@ -228,7 +226,7 @@ html, body {
 	background-color: greenyellow;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 }
-.text-fonts>.item>.content {
+.font-families>.item>.content {
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
@@ -236,16 +234,15 @@ html, body {
 	overflow: hidden;
 }
 
-.text-sizes {
+.font-sizes {
 	white-space: nowrap;
 	overflow-x: auto;
 	overflow-y: hidden;
 	padding: 8px 20px 8px 0px;
-	font-size: 0px;
 }
-.text-sizes::-webkit-scrollbar { height: 2px; width: 2px; }
-.text-sizes::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
-.text-sizes>.item {
+.font-sizes::-webkit-scrollbar { height: 2px; width: 2px; }
+.font-sizes::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
+.font-sizes>.item {
 	display: inline-block;
 	position: relative;
 	width: 38px;
@@ -257,10 +254,10 @@ html, body {
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 }
-.text-sizes>.item:hover {
+.font-sizes>.item:hover {
 	background-color: cyan;
 }
-.text-sizes>.item.member-only::after {
+.font-sizes>.item.member-only::after {
 	display: block;
 	position: absolute;
 	width: 20px;
@@ -273,7 +270,7 @@ html, body {
 	background-color: greenyellow;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 }
-.text-sizes>.item>.content {
+.font-sizes>.item>.content {
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
@@ -283,8 +280,9 @@ html, body {
 </style>
 <script>
 var SampleBackgroundItems = [
-	{ id: 10002, type: "color", value: "white" },
-	{ id: 10003, type: "color", value: "black" },
+	{ id: 10001, type: "color", value: "white" },
+	{ id: 10002, type: "color", value: "black" },
+	{ id: 10003, type: "color", value: "#00ffc8" },
 	{ id: 10004, type: "color", value: "#ffc800" },
 	{ id: 10005, type: "color", value: "#c8ff00" },
 	{ id: 10006, type: "color", value: "#00c8ff" },
@@ -366,6 +364,51 @@ var SampleStickerItems = [
 	{ id: 30031, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536541_avatar_face_male_profile_smiley_icon.png" },
 	{ id: 30032, type: "image", width: 64, height: 64, value: "./images/sample/sticker/7536542_avatar_face_man_boy_male_icon.png" },
 ];
+
+var SampleFontColorItems = [
+	{ id: 1001, value: "white" },
+	{ id: 1002, value: "black" },
+	{ id: 1003, value: "rgb(255, 200, 0)" },
+	{ id: 1004, value: "rgb(200, 255, 0)" },
+	{ id: 1005, value: "rgb(0, 200, 255)" },
+	{ id: 1006, value: "rgb(255, 0, 100)" },
+	{ id: 1007, value: "rgb(200, 0, 255)" },
+	{ id: 1008, value: "gray", memberOnly: true },
+	{ id: 1009, value: "brown", memberOnly: true },
+	{ id: 1010, value: "burlywood", memberOnly: true },
+];
+
+var SampleFontFamilyItems = [
+	{ id: 2001, value: "sans-serif" },
+	{ id: 2002, value: "Arial" },
+	{ id: 2003, value: "monospace" },
+	{ id: 2004, value: "cursive" },
+	{ id: 2005, value: "serif" },
+	{ id: 2011, value: "sans-serif", bold: true },
+	{ id: 2012, value: "Arial", bold: true },
+	{ id: 2013, value: "monospace", bold: true },
+	{ id: 2014, value: "cursive", bold: true },
+	{ id: 2015, value: "serif", bold: true },
+	{ id: 2021, value: "sans-serif", italic: true },
+	{ id: 2022, value: "Arial", italic: true },
+	{ id: 2023, value: "monospace", italic: true },
+	{ id: 2024, value: "cursive", italic: true },
+	{ id: 2025, value: "serif", italic: true },
+	{ id: 2031, value: "sans-serif", bold: true, italic: true, memberOnly: true },
+	{ id: 2032, value: "Arial", bold: true, italic: true, memberOnly: true },
+	{ id: 2033, value: "monospace", bold: true, italic: true, memberOnly: true },
+	{ id: 2034, value: "cursive", bold: true, italic: true, memberOnly: true },
+	{ id: 2035, value: "serif", bold: true, italic: true, memberOnly: true },
+];
+
+var SampleFontSizeItems = [
+	{ id: 3001, value: 8 },
+	{ id: 3002, value: 12 },
+	{ id: 3003, value: 16 },
+	{ id: 3004, value: 20 },
+	{ id: 3005, value: 24 },
+	{ id: 3005, value: 28, memberOnly: true },
+];
 </script>
 </head>
 
@@ -387,7 +430,7 @@ var SampleStickerItems = [
 		<div id="text-editor" class="overlay">
 			<div style="position: absolute; left: 50%; top: -120px; width: 320px; margin-left: -160px; height: 40px; background-color: rgba(0, 0, 0, 0.4);">
 				<span>
-					
+					TODO
 				</span>
 			</div>
 			<div class="content">
@@ -396,33 +439,16 @@ var SampleStickerItems = [
 					<input class="text-input" type="text" placeholder="여기에 문구를 입력하세요" style="width: 100%; height: 32px; outline: none; border: none; border-radius: 0px;">
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">색상을 선택하세요</div>
-				<div class="text-colors">
-					<div class="item" data-value="white"><div class="content" style="background-color: white;"></div></div>
-					<div class="item" data-value="black"><div class="content" style="background-color: black;"></div></div>
-					<div class="item" data-value="rgb(255, 200, 0)"><div class="content" style="background-color: rgb(255, 200, 0);"></div></div>
-					<div class="item" data-value="rgb(200, 255, 0)"><div class="content" style="background-color: rgb(200, 255, 0);"></div></div>
-					<div class="item" data-value="rgb(0, 200, 255)"><div class="content" style="background-color: rgb(0, 200, 255);"></div></div>
-					<div class="item" data-value="rgb(255, 0, 100)"><div class="content" style="background-color: rgb(255, 0, 100);"></div></div>
-					<div class="item" data-value="rgb(200, 0, 255)"><div class="content" style="background-color: rgb(200, 0, 255);"></div></div>
-					<div class="item member-only" data-value="gray"><div class="content" style="background-color: gray;"></div></div>
-					<div class="item member-only" data-value="brown"><div class="content" style="background-color: brown;"></div></div>
-					<div class="item member-only" data-value="burlywood"><div class="content" style="background-color: burlywood;"></div></div>
+				<div class="font-colors">
+					<div class="items"></div>
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">글꼴을 선택하세요</div>
-				<div class="text-fonts">
-					<div class="item" data-value="sans-serif"><div class="content" style="font-size: 14px; line-height: 38px; text-align: center; font-family: sans-serif;">가</div></div>
-					<div class="item" data-value="Arial"><div class="content" style="font-size: 14px; line-height: 38px; text-align: center; font-family: Arial;">가</div></div>
-					<div class="item" data-value="monospace"><div class="content" style="font-size: 14px; line-height: 38px; text-align: center; font-family: monospace;">가</div></div>
-					<div class="item" data-value="cursive"><div class="content" style="font-size: 14px; line-height: 38px; text-align: center; font-family: cursive;">가</div></div>
-					<div class="item" data-value="serif"><div class="content" style="font-size: 14px; line-height: 38px; text-align: center; font-family: serif;">가</div></div>
+				<div class="font-families">
+					<div class="items"></div>
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">글씨 크기를 선택하세요</div>
-				<div class="text-sizes">
-					<div class="item" data-value="8"><div class="content" style="font-size: 8px; line-height: 38px; text-align: center; font-family: sans-serif;">가</div></div>
-					<div class="item" data-value="12"><div class="content" style="font-size: 12px; line-height: 38px; text-align: center; font-family: sans-serif;">가</div></div>
-					<div class="item" data-value="16"><div class="content" style="font-size: 16px; line-height: 38px; text-align: center; font-family: sans-serif;">가</div></div>
-					<div class="item" data-value="20"><div class="content" style="font-size: 20px; line-height: 38px; text-align: center; font-family: sans-serif;">가</div></div>
-					<div class="item" data-value="24"><div class="content" style="font-size: 24px; line-height: 38px; text-align: center; font-family: sans-serif;">가</div></div>
+				<div class="font-sizes">
+					<div class="items"></div>
 				</div>
 			
 				<div><input type="button" value="확인" onclick="createText()"></div>
@@ -526,6 +552,74 @@ $(document.body).ready(() => {
 		return $e;
 	};
 
+	var createFontColorItemElement = (item) => {
+		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
+		var $content = $("<div class=\"content\">");
+		
+		$content.css({
+			backgroundColor: item.value,
+		});
+		$e.click(() => console.log(item));
+
+		if (item.memberOnly) {
+			$e.addClass("member-only");
+		}
+
+		$e.append($content);
+
+		return $e;
+	};
+
+	var createFontFamilyItemElement = (item) => {
+		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
+		var $content = $("<div class=\"content\">");
+		
+		$content.text("가");
+		$content.css({
+			color: "black",
+			backgroundColor: "white",
+			lineHeight: "38px",
+			textAlign: "center",
+			fontSize: "14px",
+			fontFamily: item.value,
+			fontWeight: item.bold? "bold": "normal",
+			fontStyle: item.italic? "italic": "normal",
+		});
+		$e.click(() => console.log(item));
+
+		if (item.memberOnly) {
+			$e.addClass("member-only");
+		}
+
+		$e.append($content);
+
+		return $e;
+	};
+
+	var createFontSizeItemElement = (item) => {
+		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
+		var $content = $("<div class=\"content\">");
+		
+		$content.text("가");
+		$content.css({
+			color: "black",
+			backgroundColor: "white",
+			lineHeight: "38px",
+			textAlign: "center",
+			fontSize: item.value + "px",
+			fontFamily: "sans-serif",
+		});
+		$e.click(() => console.log(item));
+
+		if (item.memberOnly) {
+			$e.addClass("member-only");
+		}
+
+		$e.append($content);
+
+		return $e;
+	};
+
 	window.hideOverlay = () => {
 		$(".content>.overlay").removeClass("visibled");
 	};
@@ -565,6 +659,27 @@ $(document.body).ready(() => {
 		$("#image-list.overlay").addClass("visibled");
 	};
 	window.showTextEditor = () => {
+		var $fontColorItems = $("#text-editor.overlay .font-colors>.items");
+		$fontColorItems.empty();
+		SampleFontColorItems.forEach(item => {
+			var $item = createFontColorItemElement(item);
+			$fontColorItems.append($item);
+		});
+		
+		var $fontFamilyItems = $("#text-editor.overlay .font-families>.items");
+		$fontFamilyItems.empty();
+		SampleFontFamilyItems.forEach(item => {
+			var $item = createFontFamilyItemElement(item);
+			$fontFamilyItems.append($item);
+		});
+		
+		var $fontSizeItems = $("#text-editor.overlay .font-sizes>.items");
+		$fontSizeItems.empty();
+		SampleFontSizeItems.forEach(item => {
+			var $item = createFontSizeItemElement(item);
+			$fontSizeItems.append($item);
+		});
+		
 		window.hideOverlay();
 		$("#text-editor.overlay").addClass("visibled");
 	};
