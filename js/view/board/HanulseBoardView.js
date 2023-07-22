@@ -299,6 +299,7 @@ class HanulseBoardView {
 					fontFamily: item.style.fontFamily,
 					fontWeight: item.style.isFontBold? "bold": "normal",
 					fontStyle: item.style.isFontItalic? "italic": "normal",
+					whiteSpace: "nowrap",
 				});
 			}
 		}
