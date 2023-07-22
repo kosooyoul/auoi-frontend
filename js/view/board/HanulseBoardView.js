@@ -656,6 +656,10 @@ class HanulseBoardView {
 		if (this.drawingStyle == null) {
 			return;
 		}
+		if (this.isDrawingStarted) {
+			return;
+		}
+		
 
 		var $target = $(event.target);
 
@@ -728,9 +732,9 @@ class HanulseBoardView {
 		var x = pointer.pageX - offset.left;
 		var y = pointer.pageY - offset.top;
 
-		this.drawingPath.push({ x: x, y: y });
+		// this.drawingPath.push({ x: x, y: y });
 
-		// this.drawingCanvas.remove();
+		this.drawingCanvas.remove();
 
 		/*
 		if (this.drawingPath.length > 2) {
