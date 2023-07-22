@@ -112,7 +112,7 @@
 	height: 20px;
 	left: 50%;
 	bottom: -32px;
-	margin: -10px;
+	margin-left: -10px;
 	background-image: url("../icons/rotate.png");
 	background-position: center;
 	background-size: contain;
@@ -126,7 +126,7 @@
 	height: 20px;
 	left: 50%;
 	top: -32px;
-	margin: -10px;
+	margin-left: -10px;
 	background-image: url("../icons/delete.png");
 	background-position: center;
 	background-size: 80%;
@@ -140,10 +140,24 @@
 	height: 20px;
 	right: -32px;
 	top: 50%;
-	margin: -10px;
+	margin-top: -10px;
 	background-image: url("../icons/clone.png");
 	background-position: center;
 	background-size: 80%;
+	background-repeat: no-repeat;
+	user-select: none;
+	cursor: pointer;
+}
+.board>.item>.frame .edit {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: -32px;
+	top: 50%;
+	margin-top: -10px;
+	background-image: url("../icons/edit.png");
+	background-position: center;
+	background-size: 90%;
 	background-repeat: no-repeat;
 	user-select: none;
 	cursor: pointer;
@@ -166,7 +180,8 @@
 .board>.item.selected>.frame *:hover::after { background-color: #00c8ff; }
 .board>.item.selected>.frame *:active::after { background-color: #fff064; }
 
-.board>.item>.frame .function.rotate:hover::after {
+.board>.item>.frame .function.rotate:hover::after,
+.board>.item>.frame .function.rotate:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;
@@ -183,7 +198,8 @@
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4)
 }
 
-.board>.item>.frame .function.delete:hover::after {
+.board>.item>.frame .function.delete:hover::after,
+.board>.item>.frame .function.delete:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;
@@ -200,7 +216,8 @@
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4)
 }
 
-.board>.item>.frame .function.clone:hover::after {
+.board>.item>.frame .function.clone:hover::after,
+.board>.item>.frame .function.clone:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;
@@ -208,6 +225,24 @@
 	margin-left: -14px;
 	padding: 0px 4px;
 	content: '복제';
+	font-size: 10px;
+	text-align: center;
+	color: black;
+	border: 1px solid black;
+	border-radius: 4px;
+	background-color: white;
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4)
+}
+
+.board>.item>.frame .function.edit:hover::after,
+.board>.item>.frame .function.edit:active::after {
+	position: absolute;
+	width: 20px;
+	left: 50%;
+	top: -20px;
+	margin-left: -14px;
+	padding: 0px 4px;
+	content: '수정';
 	font-size: 10px;
 	text-align: center;
 	color: black;

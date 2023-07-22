@@ -347,7 +347,9 @@ $(document.body).ready(() => {
 		$(".content>.overlay").removeClass("visibled");
 	};
 	window.saveBoardImage = () => {
-		boardView.saveImage();
+		boardView.saveImage((blob) => {
+			console.log(blob);
+		});
 	};
 	window.showBackgroundList = () => {
 		var $items = $("#image-list.overlay .items");
@@ -389,9 +391,29 @@ $(document.body).ready(() => {
 			return;
 		}
 
+		var color = "black";
+		var fontSize = 14;
+		var fontFamily = "Arial"; // Arial, Helvetica, sans-serif
+
+		var canvas = document.createElement("canvas");
+		var context = canvas.getContext("2d");
+
+		context.font = `${fontSize}px ${fontFamily}`;
+		context.textBaseline = 'middle';
+		var measured = context.measureText(text);
+		var width = measured.actualBoundingBoxLeft + measured.actualBoundingBoxRight;
+		var height = measured.fontBoundingBoxAscent + measured.fontBoundingBoxDescent;
+		
 		boardView.createItem({
 			type: "text",
 			value: text,
+			width: width,
+			height: height,
+			style: {
+				color: color,
+				fontSize: fontSize,
+				fontFamily: fontFamily,
+			}
 		});
 	};
 });

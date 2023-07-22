@@ -25,6 +25,13 @@ class HanulseBoardView {
 			h: number,
 			radian: number,
 			zIndex: number,
+			resizable: boolean,
+			editable: boolean,
+			style: {
+				color: ColorString,
+				fontSize: number,
+				fontFamily: FontNameString,
+			},
 		}[];
 	*/
 	items = [];
@@ -169,7 +176,19 @@ class HanulseBoardView {
 					context.drawImage(itemImage, -item.width * 0.5, -item.height * 0.5, item.width, item.height);
 					context.restore();
 				} else if (item.type == "text") {
-					// TODO
+					context.save();
+					if (item.style) {
+						context.font = `${item.style.fontSize}px ${item.style.fontFamily}`;
+						context.fillStyle = item.style.color;
+					} else {
+						context.fillStyle = "black";
+					}
+					context.textBaseline = "middle";
+					context.textAlign = "left";
+					context.translate(item.x + item.width * 0.5, item.y + item.height * 0.5);
+					context.rotate(item.radian);
+					context.fillText(item.value, -item.width * 0.5, -item.height * 0.5);
+					context.restore();
 				}
 			});
 
@@ -179,7 +198,7 @@ class HanulseBoardView {
 			// newTab.document.write("<img src='" + dataUrl + "' alt='from canvas'/>");
 
 			canvas.toBlob((blob) => {
-				callback(blob);
+				callback && callback(blob);
 
 				// Download image
 				const a = document.createElement("a");
@@ -213,7 +232,7 @@ class HanulseBoardView {
 
 		var loadNextImage = (url) => {
 			if (url == null) {
-				return callback(imagesByUrl);
+				return callback && callback(imagesByUrl);
 			}
 
 			var image = new Image();
@@ -239,21 +258,23 @@ class HanulseBoardView {
 				height: itemDescription.height,
 				radian: itemDescription.radian ?? 0,
 				zIndex: this.nextZIndex++,
+				resizable: true,
+				editable: false,
 			};
 		} else if(itemDescription.type == "text") {
-			var width = itemDescription.width || 200;
-			var height = itemDescription.height || 200;
 			return {
 				id: this.nextItemId++,
 				type: "text",
 				value: itemDescription.value,
-				x: itemDescription.x ?? (this.boardWidth - width) * 0.5,
-				y: itemDescription.y ?? (this.boardHeight - height) * 0.5,
-				width: width,
-				height: height,
+				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
+				width: itemDescription.width,
+				height: itemDescription.height,
 				radian: itemDescription.radian ?? 0,
 				zIndex: this.nextZIndex++,
-				style: itemDescription.style, // TODO
+				resizable: false,
+				editable: true,
+				style: itemDescription.style,
 			};
 		}
 	}
@@ -271,29 +292,38 @@ class HanulseBoardView {
 		}
 
 		var $frame = $("<div class=\"frame\" data-transform-mode=\"move\">");
-		var $frameEdgeNW = $("<div class=\"edge-nw\" data-transform-mode=\"resize-nw\">");
-		var $frameEdgeNE = $("<div class=\"edge-ne\" data-transform-mode=\"resize-ne\">");
-		var $frameEdgeSW = $("<div class=\"edge-sw\" data-transform-mode=\"resize-sw\">");
-		var $frameEdgeSE = $("<div class=\"edge-se\" data-transform-mode=\"resize-se\">");
-		var $frameEdgeN = $("<div class=\"edge-n\" data-transform-mode=\"resize-n\">");
-		var $frameEdgeS = $("<div class=\"edge-s\" data-transform-mode=\"resize-s\">");
-		var $frameEdgeW = $("<div class=\"edge-w\" data-transform-mode=\"resize-w\">");
-		var $frameEdgeE = $("<div class=\"edge-e\" data-transform-mode=\"resize-e\">");
+		if (item.resizable) {
+			var $frameEdgeNW = $("<div class=\"edge-nw\" data-transform-mode=\"resize-nw\">");
+			var $frameEdgeNE = $("<div class=\"edge-ne\" data-transform-mode=\"resize-ne\">");
+			var $frameEdgeSW = $("<div class=\"edge-sw\" data-transform-mode=\"resize-sw\">");
+			var $frameEdgeSE = $("<div class=\"edge-se\" data-transform-mode=\"resize-se\">");
+			var $frameEdgeN = $("<div class=\"edge-n\" data-transform-mode=\"resize-n\">");
+			var $frameEdgeS = $("<div class=\"edge-s\" data-transform-mode=\"resize-s\">");
+			var $frameEdgeW = $("<div class=\"edge-w\" data-transform-mode=\"resize-w\">");
+			var $frameEdgeE = $("<div class=\"edge-e\" data-transform-mode=\"resize-e\">");
+			$frame.append($frameEdgeNW);
+			$frame.append($frameEdgeNE);
+			$frame.append($frameEdgeSW);
+			$frame.append($frameEdgeSE);
+			$frame.append($frameEdgeN);
+			$frame.append($frameEdgeS);
+			$frame.append($frameEdgeW);
+			$frame.append($frameEdgeE);
+		}
+
 		var $frameRotate = $("<div class=\"function rotate\" data-transform-mode=\"rotate\">");
 		var $frameDelete = $("<div class=\"function delete\">").click(() => this.deleteItemById(item.id));
 		var $frameClone = $("<div class=\"function clone\">").click(() => this.cloneItemById(item.id));
-
-		$frame.append($frameEdgeNW);
-		$frame.append($frameEdgeNE);
-		$frame.append($frameEdgeSW);
-		$frame.append($frameEdgeSE);
-		$frame.append($frameEdgeN);
-		$frame.append($frameEdgeS);
-		$frame.append($frameEdgeW);
-		$frame.append($frameEdgeE);
 		$frame.append($frameRotate);
 		$frame.append($frameDelete);
 		$frame.append($frameClone);
+
+		if (item.editable) {
+			var $frameEdit = $("<div class=\"function edit\">").click(() => {
+				this._onBeginEdit && this._onBeginEdit(item);
+			});
+			$frame.append($frameEdit);
+		}
 
 		$e.width(item.width);
 		$e.height(item.height);
@@ -301,6 +331,13 @@ class HanulseBoardView {
 
 		$e.css({ transform: "rotate(" + item.radian + "rad)" });
 		$e.find('.function').css({ transform: "rotate(" + -item.radian + "rad)" });
+
+		if (item.style) {
+			$e.css({
+				fontSize: item.style.fontSize,
+				fontFamily: item.style.fontFamily,
+			})
+		}
 
 		$e.append($frame);
 
