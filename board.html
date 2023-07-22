@@ -205,6 +205,66 @@ html, body {
 	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.4);
 	overflow: hidden;
 }
+
+#drawer .horizontal {
+	white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 8px 0px;
+}
+#drawer .horizontal::-webkit-scrollbar { height: 2px; width: 2px; }
+#drawer .horizontal::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
+#drawer .horizontal>.items>.item {
+	display: inline-block;
+	position: relative;
+	width: 38px;
+	height: 38px;
+	padding: 2px;
+	margin: 4px;
+	border-radius: 40px;
+	background-color: white;
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+}
+#drawer .horizontal>.items>.item:hover {
+	background-color: cyan;
+}
+#drawer .horizontal>.items>.item.selected {
+	background-color: #ffc800;
+}
+#drawer .horizontal>.items>.item.member-only::after {
+	display: block;
+	position: absolute;
+	width: 20px;
+	left: 20px;
+	bottom: 2px;
+	padding: 0px 4px;
+	content: "회원";
+	font-size: 10px;
+	border-radius: 4px;
+	background-color: greenyellow;
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
+}
+#drawer .horizontal>.items>.item.default::after {
+	display: block;
+	position: absolute;
+	width: 20px;
+	left: 20px;
+	top: 2px;
+	padding: 0px 4px;
+	content: "기본";
+	font-size: 10px;
+	border-radius: 4px;
+	background-color: plum;
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
+}
+#drawer .horizontal>.items>.item>.content {
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.4);
+	overflow: hidden;
+}
 </style>
 <script>
 var SampleBackgroundItems = [
@@ -355,6 +415,33 @@ var SampleFontSizeItems = [
 	{ id: 4004, value: 24 },
 	{ id: 4005, value: 28, memberOnly: true },
 ];
+
+var SampleStrokeColorItems = [
+	{ id: 5001, value: "black", default: true },
+	{ id: 5002, value: "white" },
+	{ id: 5003, value: "#00ffc8" },
+	{ id: 5004, value: "#ffc800" },
+	{ id: 5005, value: "#c8ff00" },
+	{ id: 5006, value: "#00c8ff" },
+	{ id: 5007, value: "#ff0064" },
+	{ id: 5008, value: "#c800ff" },
+	{ id: 5009, value: "gray", memberOnly: true },
+	{ id: 5010, value: "brown", memberOnly: true },
+	{ id: 5011, value: "burlywood", memberOnly: true },
+];
+
+var SampleStrokeWidthItems = [
+	{ id: 6001, value: 1, default: true },
+	{ id: 6002, value: 2 },
+	{ id: 6003, value: 4 },
+	{ id: 6004, value: 6, memberOnly: true },
+	{ id: 6005, value: 8, memberOnly: true },
+	{ id: 6006, value: 12, memberOnly: true },
+	{ id: 6007, value: 16, memberOnly: true },
+	{ id: 6008, value: 20, memberOnly: true },
+	{ id: 6009, value: 24, memberOnly: true },
+];
+
 </script>
 </head>
 
@@ -402,13 +489,25 @@ var SampleFontSizeItems = [
 				</div>
 			</div>
 		</div>
+		<div id="drawer" class="overlay">
+			<div class="content">
+				<div style="font-size: 12px; margin: 20px 4px 8px;">그리기 색상을 선택하세요</div>
+				<div id="stroke-colors" class="horizontal">
+					<div class="items"></div>
+				</div>
+				<div style="font-size: 12px; margin: 20px 4px 8px;">그리기 굵기를 선택하세요</div>
+				<div id="stroke-widths" class="horizontal">
+					<div class="items"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="foot">
 		<div onclick="showBackgroundList()">배경</div>
 		<div onclick="showFaceList()">얼굴</div>
 		<div onclick="showStickerList()">스티커</div>
 		<div onclick="showTextEditor()">문구</div>
-		<div>그리기</div>
+		<div onclick="showDrawer()">그리기</div>
 		<!-- <input id="add-image-button" type="button" value="이미지 추가" style="height: 28px;"> -->
 		<!-- <input id="add-text-button" type="button" value="텍스트 추가" style="height: 28px;"> -->
 	</div>
@@ -638,6 +737,79 @@ $(document.body).ready(() => {
 		return $e;
 	};
 
+	var _selectedStrokeColorItem = null;
+	var createStrokeColorItemElement = (item) => {
+		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
+		var $content = $("<div class=\"content\">");
+		
+		$content.css({
+			backgroundColor: item.value,
+		});
+		$e.click(() => {
+			$("#stroke-colors .item").removeClass("selected");
+			$e.addClass("selected");
+			_selectedStrokeColorItem = item;
+		});
+
+		if (item.memberOnly) {
+			$e.addClass("member-only");
+		}
+
+		if (item.default) {
+			$e.addClass("default");
+			$e.addClass("selected");
+			_selectedStrokeColorItem = item;
+		}
+
+		$e.append($content);
+
+		return $e;
+	};
+
+	var _selectedStrokeWidthItem = null;
+	var createStrokeWidthItemElement = (item) => {
+		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
+		var $content = $("<div class=\"content\">");
+		var $point = $("<div>");
+		
+		$content.css({
+			position: "relative",
+			backgroundColor: "white",
+		});
+		$point.css({
+			position: "relative",
+			left: "50%",
+			top: "50%",
+			width: item.value + "px",
+			height: item.value + "px",
+			marginLeft: -(item.value * 0.5) + "px",
+			marginTop: -(item.value * 0.5) + "px",
+			borderRadius: "100%",
+			backgroundColor: "black",
+		})
+		$content.append($point);
+		
+		$e.click(() => {
+			$("#stroke-widths .item").removeClass("selected");
+			$e.addClass("selected");
+			_selectedStrokeWidthItem = item;
+		});
+
+		if (item.memberOnly) {
+			$e.addClass("member-only");
+		}
+
+		if (item.default) {
+			$e.addClass("default");
+			$e.addClass("selected");
+			_selectedStrokeWidthItem = item;
+		}
+
+		$e.append($content);
+
+		return $e;
+	};
+
 	window.hideOverlay = () => {
 		$(".content>.overlay").removeClass("visibled");
 	};
@@ -747,7 +919,7 @@ $(document.body).ready(() => {
 		var context = canvas.getContext("2d");
 
 		context.font = `${isFontItalic? "italic": ""} ${isFontBold? "bold": ""} ${fontSize}px ${fontFamily}`;
-		context.textBaseline = 'middle';
+		context.textBaseline = 'top';
 		var measured = context.measureText(text);
 		var width = measured.actualBoundingBoxLeft + measured.actualBoundingBoxRight + 4;
 		var height = measured.fontBoundingBoxAscent + measured.fontBoundingBoxDescent + 4;
@@ -768,6 +940,25 @@ $(document.body).ready(() => {
 		});
 
 		window.hideOverlay();
+	};
+
+	window.showDrawer = () => {
+		var $strokeColorItems = $("#drawer.overlay #stroke-colors>.items");
+		$strokeColorItems.empty();
+		SampleStrokeColorItems.forEach(item => {
+			var $item = createStrokeColorItemElement(item);
+			$strokeColorItems.append($item);
+		});
+		
+		var $strokeWidthItems = $("#drawer.overlay #stroke-widths>.items");
+		$strokeWidthItems.empty();
+		SampleStrokeWidthItems.forEach(item => {
+			var $item = createStrokeWidthItemElement(item);
+			$strokeWidthItems.append($item);
+		});
+		
+		window.hideOverlay();
+		$("#drawer.overlay").addClass("visibled");
 	};
 });
 </script>

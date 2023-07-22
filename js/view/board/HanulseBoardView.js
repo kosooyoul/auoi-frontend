@@ -194,7 +194,7 @@ class HanulseBoardView {
 					} else {
 						context.fillStyle = "black";
 					}
-					context.textBaseline = "middle";
+					context.textBaseline = "top";
 					context.textAlign = "left";
 					context.fillText(item.value, -item.width * 0.5, -item.height * 0.5);
 					context.restore();
