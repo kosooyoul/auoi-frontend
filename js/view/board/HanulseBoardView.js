@@ -31,6 +31,8 @@ class HanulseBoardView {
 				color: ColorString,
 				fontSize: number,
 				fontFamily: FontNameString,
+				isFontBold: boolean,
+				isFontItalic: boolean,
 			},
 		}[];
 	*/
@@ -178,7 +180,7 @@ class HanulseBoardView {
 				} else if (item.type == "text") {
 					context.save();
 					if (item.style) {
-						context.font = `${item.style.fontSize}px ${item.style.fontFamily}`;
+						context.font = `${item.style.isFontItalic? "italic": ""} ${item.style.isFontBold? "bold": ""} ${item.style.fontSize}px ${item.style.fontFamily}`
 						context.fillStyle = item.style.color;
 					} else {
 						context.fillStyle = "black";
@@ -334,8 +336,11 @@ class HanulseBoardView {
 
 		if (item.style) {
 			$e.css({
+				color: item.style.color,
 				fontSize: item.style.fontSize,
 				fontFamily: item.style.fontFamily,
+				fontWeight: item.style.isFontBold? "bold": "normal",
+				fontStyle: item.style.isFontItalic? "italic": "normal",
 			})
 		}
 

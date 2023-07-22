@@ -110,7 +110,7 @@ html, body {
 	color: white;
 }
 
-.items>.item {
+#image-list .items>.item {
 	display: inline-block;
 	position: relative;
 	width: 38px;
@@ -122,10 +122,10 @@ html, body {
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 }
-.items>.item:hover {
+#image-list .items>.item:hover {
 	background-color: cyan;
 }
-.items>.item.member-only::after {
+#image-list .items>.item.member-only::after {
 	display: block;
 	position: absolute;
 	width: 20px;
@@ -138,7 +138,7 @@ html, body {
 	background-color: greenyellow;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 }
-.items>.item>.content {
+#image-list .items>.item>.content {
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
@@ -146,15 +146,15 @@ html, body {
 	overflow: hidden;
 }
 
-.font-colors {
+#text-editor .horizontal {
 	white-space: nowrap;
 	overflow-x: auto;
 	overflow-y: hidden;
 	padding: 8px 0px;
 }
-.font-colors::-webkit-scrollbar { height: 2px; width: 2px; }
-.font-colors::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
-.font-colors>.item {
+#text-editor .horizontal::-webkit-scrollbar { height: 2px; width: 2px; }
+#text-editor .horizontal::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
+#text-editor .horizontal>.items>.item {
 	display: inline-block;
 	position: relative;
 	width: 38px;
@@ -166,10 +166,13 @@ html, body {
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 }
-.font-colors>.item:hover {
+#text-editor .horizontal>.items>.item:hover {
 	background-color: cyan;
 }
-.font-colors>.item.member-only::after {
+#text-editor .horizontal>.items>.item.selected {
+	background-color: #ffc800;
+}
+#text-editor .horizontal>.items>.item.member-only::after {
 	display: block;
 	position: absolute;
 	width: 20px;
@@ -182,95 +185,7 @@ html, body {
 	background-color: greenyellow;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
 }
-.font-colors>.item>.content {
-	width: 100%;
-	height: 100%;
-	border-radius: 100%;
-	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.4);
-	overflow: hidden;
-}
-
-.font-families {
-	white-space: nowrap;
-	overflow-x: auto;
-	overflow-y: hidden;
-	padding: 8px 0px;
-}
-.font-families::-webkit-scrollbar { height: 2px; width: 2px; }
-.font-families::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
-.font-families>.item {
-	display: inline-block;
-	position: relative;
-	width: 38px;
-	height: 38px;
-	padding: 2px;
-	margin: 4px;
-	border-radius: 40px;
-	background-color: white;
-	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
-	cursor: pointer;
-}
-.font-families>.item:hover {
-	background-color: cyan;
-}
-.font-families>.item.member-only::after {
-	display: block;
-	position: absolute;
-	width: 20px;
-	left: 20px;
-	bottom: 2px;
-	padding: 0px 4px;
-	content: "회원";
-	font-size: 10px;
-	border-radius: 4px;
-	background-color: greenyellow;
-	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
-}
-.font-families>.item>.content {
-	width: 100%;
-	height: 100%;
-	border-radius: 100%;
-	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.4);
-	overflow: hidden;
-}
-
-.font-sizes {
-	white-space: nowrap;
-	overflow-x: auto;
-	overflow-y: hidden;
-	padding: 8px 0px;
-}
-.font-sizes::-webkit-scrollbar { height: 2px; width: 2px; }
-.font-sizes::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
-.font-sizes>.item {
-	display: inline-block;
-	position: relative;
-	width: 38px;
-	height: 38px;
-	padding: 2px;
-	margin: 4px;
-	border-radius: 40px;
-	background-color: white;
-	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
-	cursor: pointer;
-}
-.font-sizes>.item:hover {
-	background-color: cyan;
-}
-.font-sizes>.item.member-only::after {
-	display: block;
-	position: absolute;
-	width: 20px;
-	left: 20px;
-	bottom: 2px;
-	padding: 0px 4px;
-	content: "회원";
-	font-size: 10px;
-	border-radius: 4px;
-	background-color: greenyellow;
-	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4);
-}
-.font-sizes>.item>.content {
+#text-editor .horizontal>.items>.item>.content {
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
@@ -366,47 +281,50 @@ var SampleStickerItems = [
 ];
 
 var SampleFontColorItems = [
-	{ id: 1001, value: "white" },
-	{ id: 1002, value: "black" },
-	{ id: 1003, value: "rgb(255, 200, 0)" },
-	{ id: 1004, value: "rgb(200, 255, 0)" },
-	{ id: 1005, value: "rgb(0, 200, 255)" },
-	{ id: 1006, value: "rgb(255, 0, 100)" },
-	{ id: 1007, value: "rgb(200, 0, 255)" },
-	{ id: 1008, value: "gray", memberOnly: true },
-	{ id: 1009, value: "brown", memberOnly: true },
-	{ id: 1010, value: "burlywood", memberOnly: true },
+	{ id: 1001, value: "black", default: true },
+	{ id: 1002, value: "white" },
+	{ id: 1003, value: "#00ffc8" },
+	{ id: 1004, value: "#ffc800" },
+	{ id: 1005, value: "#c8ff00" },
+	{ id: 1006, value: "#00c8ff" },
+	{ id: 1007, value: "#ff0064" },
+	{ id: 1008, value: "#c800ff" },
+	{ id: 1009, value: "gray", memberOnly: true },
+	{ id: 1010, value: "brown", memberOnly: true },
+	{ id: 1011, value: "burlywood", memberOnly: true },
 ];
 
 var SampleFontFamilyItems = [
-	{ id: 2001, value: "sans-serif" },
+	{ id: 2001, value: "sans-serif", default: true },
 	{ id: 2002, value: "Arial" },
 	{ id: 2003, value: "monospace" },
 	{ id: 2004, value: "cursive" },
 	{ id: 2005, value: "serif" },
+	{ id: 2006, value: "Helvetica" },
 	{ id: 2011, value: "sans-serif", bold: true },
 	{ id: 2012, value: "Arial", bold: true },
 	{ id: 2013, value: "monospace", bold: true },
 	{ id: 2014, value: "cursive", bold: true },
 	{ id: 2015, value: "serif", bold: true },
+	{ id: 2016, value: "Helvetica", bold: true },
 	{ id: 2021, value: "sans-serif", italic: true },
 	{ id: 2022, value: "Arial", italic: true },
 	{ id: 2023, value: "monospace", italic: true },
 	{ id: 2024, value: "cursive", italic: true },
 	{ id: 2025, value: "serif", italic: true },
+	{ id: 2026, value: "Helvetica", italic: true },
 	{ id: 2031, value: "sans-serif", bold: true, italic: true, memberOnly: true },
 	{ id: 2032, value: "Arial", bold: true, italic: true, memberOnly: true },
 	{ id: 2033, value: "monospace", bold: true, italic: true, memberOnly: true },
 	{ id: 2034, value: "cursive", bold: true, italic: true, memberOnly: true },
 	{ id: 2035, value: "serif", bold: true, italic: true, memberOnly: true },
+	{ id: 2036, value: "Helvetica", bold: true, italic: true, memberOnly: true },
 ];
 
 var SampleFontSizeItems = [
-	{ id: 3001, value: 8 },
-	{ id: 3002, value: 12 },
-	{ id: 3003, value: 16 },
-	{ id: 3004, value: 20 },
-	{ id: 3005, value: 24 },
+	{ id: 3002, value: 16, default: true },
+	{ id: 3003, value: 20 },
+	{ id: 3004, value: 24 },
 	{ id: 3005, value: 28, memberOnly: true },
 ];
 </script>
@@ -436,18 +354,18 @@ var SampleFontSizeItems = [
 			<div class="content">
 				<div style="font-size: 12px; margin: 8px 4px;">문구를 입력하세요</div>
 				<div style="padding: 0px 8px; border-bottom: 1px solid black;">
-					<input class="text-input" type="text" placeholder="여기에 문구를 입력하세요" style="width: 100%; height: 32px; outline: none; border: none; border-radius: 0px;">
+					<input class="text-input" type="text" placeholder="여기에 문구를 입력하세요" style="width: 100%; height: 32px; outline: none; border: none; border-radius: 0px; background-color: transparent;">
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">색상을 선택하세요</div>
-				<div class="font-colors">
+				<div id="font-colors" class="horizontal">
 					<div class="items"></div>
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">글꼴을 선택하세요</div>
-				<div class="font-families">
+				<div id="font-families" class="horizontal">
 					<div class="items"></div>
 				</div>
 				<div style="font-size: 12px; margin: 20px 4px 8px;">글씨 크기를 선택하세요</div>
-				<div class="font-sizes">
+				<div id="font-sizes" class="horizontal">
 					<div class="items"></div>
 				</div>
 			
@@ -552,6 +470,7 @@ $(document.body).ready(() => {
 		return $e;
 	};
 
+	var _selectedFontColorItem = null;
 	var createFontColorItemElement = (item) => {
 		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
 		var $content = $("<div class=\"content\">");
@@ -559,10 +478,19 @@ $(document.body).ready(() => {
 		$content.css({
 			backgroundColor: item.value,
 		});
-		$e.click(() => console.log(item));
+		$e.click(() => {
+			$("#font-colors .item").removeClass("selected");
+			$e.addClass("selected");
+			_selectedFontColorItem = item;
+		});
 
 		if (item.memberOnly) {
 			$e.addClass("member-only");
+		}
+
+		if (item.default) {
+			$e.addClass("selected");
+			_selectedFontColorItem = item;
 		}
 
 		$e.append($content);
@@ -570,6 +498,7 @@ $(document.body).ready(() => {
 		return $e;
 	};
 
+	var _selectedFontFamilyItem = null;
 	var createFontFamilyItemElement = (item) => {
 		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
 		var $content = $("<div class=\"content\">");
@@ -585,10 +514,19 @@ $(document.body).ready(() => {
 			fontWeight: item.bold? "bold": "normal",
 			fontStyle: item.italic? "italic": "normal",
 		});
-		$e.click(() => console.log(item));
+		$e.click(() => {
+			$("#font-families .item").removeClass("selected");
+			$e.addClass("selected");
+			_selectedFontFamilyItem = item;
+		});
 
 		if (item.memberOnly) {
 			$e.addClass("member-only");
+		}
+
+		if (item.default) {
+			$e.addClass("selected");
+			_selectedFontFamilyItem = item;
 		}
 
 		$e.append($content);
@@ -596,6 +534,7 @@ $(document.body).ready(() => {
 		return $e;
 	};
 
+	var _selectedFontSizeItem = null;
 	var createFontSizeItemElement = (item) => {
 		var $e = $("<div class=\"item\"> data-item-id=\"" + item.id + "\"");
 		var $content = $("<div class=\"content\">");
@@ -609,10 +548,19 @@ $(document.body).ready(() => {
 			fontSize: item.value + "px",
 			fontFamily: "sans-serif",
 		});
-		$e.click(() => console.log(item));
+		$e.click(() => {
+			$("#font-sizes .item").removeClass("selected");
+			$e.addClass("selected");
+			_selectedFontSizeItem = item;
+		});
 
 		if (item.memberOnly) {
 			$e.addClass("member-only");
+		}
+
+		if (item.default) {
+			$e.addClass("selected");
+			_selectedFontSizeItem = item;
 		}
 
 		$e.append($content);
@@ -659,21 +607,21 @@ $(document.body).ready(() => {
 		$("#image-list.overlay").addClass("visibled");
 	};
 	window.showTextEditor = () => {
-		var $fontColorItems = $("#text-editor.overlay .font-colors>.items");
+		var $fontColorItems = $("#text-editor.overlay #font-colors>.items");
 		$fontColorItems.empty();
 		SampleFontColorItems.forEach(item => {
 			var $item = createFontColorItemElement(item);
 			$fontColorItems.append($item);
 		});
 		
-		var $fontFamilyItems = $("#text-editor.overlay .font-families>.items");
+		var $fontFamilyItems = $("#text-editor.overlay #font-families>.items");
 		$fontFamilyItems.empty();
 		SampleFontFamilyItems.forEach(item => {
 			var $item = createFontFamilyItemElement(item);
 			$fontFamilyItems.append($item);
 		});
 		
-		var $fontSizeItems = $("#text-editor.overlay .font-sizes>.items");
+		var $fontSizeItems = $("#text-editor.overlay #font-sizes>.items");
 		$fontSizeItems.empty();
 		SampleFontSizeItems.forEach(item => {
 			var $item = createFontSizeItemElement(item);
@@ -683,20 +631,23 @@ $(document.body).ready(() => {
 		window.hideOverlay();
 		$("#text-editor.overlay").addClass("visibled");
 	};
+
 	window.createText = () => {
 		var text = $("#text-editor .text-input").val();
 		if (text == null || text.length == 0) {
 			return;
 		}
 
-		var color = "black";
-		var fontSize = 14;
-		var fontFamily = "Arial"; // Arial, Helvetica, sans-serif
+		var color = _selectedFontColorItem.value;
+		var fontFamily = _selectedFontFamilyItem.value;
+		var isFontBold = _selectedFontFamilyItem.bold;
+		var isFontItalic = _selectedFontFamilyItem.italic;
+		var fontSize = _selectedFontSizeItem.value;
 
 		var canvas = document.createElement("canvas");
 		var context = canvas.getContext("2d");
 
-		context.font = `${fontSize}px ${fontFamily}`;
+		context.font = `${isFontItalic? "italic": ""} ${isFontBold? "bold": ""} ${fontSize}px ${fontFamily}`;
 		context.textBaseline = 'middle';
 		var measured = context.measureText(text);
 		var width = measured.actualBoundingBoxLeft + measured.actualBoundingBoxRight + 4;
@@ -711,6 +662,8 @@ $(document.body).ready(() => {
 				color: color,
 				fontSize: fontSize,
 				fontFamily: fontFamily,
+				isFontBold: isFontBold,
+				isFontItalic: isFontItalic,
 			}
 		});
 	};
