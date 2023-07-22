@@ -168,7 +168,6 @@ class HanulseBoardView {
 		$(".item").removeClass('selected');
 		// Select Item
 		$clonedItem.addClass('selected');
-		$clonedItem.css({ zIndex: clonedItem.zIndex });
 	}
 
 	saveImage(callback) {
@@ -685,7 +684,14 @@ class HanulseBoardView {
 		this.drawingCanvas = document.createElement("canvas");
 		this.drawingCanvas.width = this.boardWidth;
 		this.drawingCanvas.height = this.boardHeight;
-		this.drawingCanvas.style.zIndex = 1000000;
+		$(this.drawingCanvas).css({
+			position: "absolute",
+			left: "0px",
+			right: "0px",
+			top: "0px",
+			bottom: "0px",
+			zIndex: this.nextZIndex++,
+		});
 
 		this.drawingContext = this.drawingCanvas.getContext("2d");
 		this.$parent.append(this.drawingCanvas);
