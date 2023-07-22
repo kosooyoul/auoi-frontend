@@ -739,7 +739,6 @@ class HanulseBoardView {
 
 		this.drawingCanvas.remove();
 
-		/*
 		if (this.drawingPath.length > 2) {
 			var quality = 2;
 			var pathBoundary = this._getPathBoundary(this.drawingPath, this.drawingStyle.strokeWidth);
@@ -774,8 +773,6 @@ class HanulseBoardView {
 				radian: 0,
 			});
 		}
-		*/
-		alert(1);
 
 		this.isDrawingStarted = false;
 		this.drawingStyle = null;
