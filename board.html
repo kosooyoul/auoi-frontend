@@ -512,6 +512,9 @@ var SampleStrokeWidthItems = [
 		<!-- <input id="add-text-button" type="button" value="텍스트 추가" style="height: 28px;"> -->
 	</div>
 </div>
+<div id="svg">
+
+</div>
 <script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="./js/view/board/HanulseBoardView.js"></script>
 <script>
@@ -749,6 +752,8 @@ $(document.body).ready(() => {
 			$("#stroke-colors .item").removeClass("selected");
 			$e.addClass("selected");
 			_selectedStrokeColorItem = item;
+
+			window.updateDrawOptions();
 		});
 
 		if (item.memberOnly) {
@@ -793,6 +798,8 @@ $(document.body).ready(() => {
 			$("#stroke-widths .item").removeClass("selected");
 			$e.addClass("selected");
 			_selectedStrokeWidthItem = item;
+
+			window.updateDrawOptions();
 		});
 
 		if (item.memberOnly) {
@@ -956,9 +963,20 @@ $(document.body).ready(() => {
 			var $item = createStrokeWidthItemElement(item);
 			$strokeWidthItems.append($item);
 		});
+
+		window.updateDrawOptions();
 		
 		window.hideOverlay();
 		$("#drawer.overlay").addClass("visibled");
+	};
+	window.updateDrawOptions = () => {
+		var strokeColor = _selectedStrokeColorItem.value;
+		var strokeWidth = _selectedStrokeWidthItem.value;
+
+		boardView.setDrawerStyles({
+			strokeColor: strokeColor,
+			strokeWidth: strokeWidth,
+		});
 	};
 });
 </script>

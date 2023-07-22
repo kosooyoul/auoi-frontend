@@ -39,12 +39,24 @@ class HanulseBoardView {
 	*/
 	items = [];
 
-	// Touch variables
+	// Item control variables
 	transformMode = null;
 	downedItem = null;
 	$downedItem = null;
 	lastPointerX = null;
 	lastPointerY = null;
+
+	// Drawing variables
+	drawingStyle = {
+		strokeColor: "red",
+		strokeWidth: 20,
+	};
+	isDrawingStarted = false;
+	drawingPath = null;
+	lastDrawingX = null;
+	lastDrawingY = null;
+	drawingCanvas = null;
+	drawingContext = null;
 
 	constructor($parent) {
 		this.$parent = $parent;
@@ -54,12 +66,30 @@ class HanulseBoardView {
 		this.background = { type: "color", value: "white" };
 		this.$parent.css({ backgroundColor: "white" });
 
-		$parent.on('mousedown', (event) => this._onItemMoveStart(event));
-		$(document).on('mousemove', (event) => this._onItemMove(event));
-		$(document).on('mouseup', (event) => this._onItemMoveEnd(event));
-		$parent.on('touchstart', (event) => this._onItemMoveStart(event));
-		$(document).on('touchmove', (event) => this._onItemMove(event));
-		$(document).on('touchend', (event) => this._onItemMoveEnd(event));
+		$parent.on('mousedown', (event) => {
+			this._onItemMoveStart(event);
+			this._onDrawingStart(event);
+		});
+		$(document).on('mousemove', (event) => {
+			this._onItemMove(event);
+			this._onDrawing(event);
+		});
+		$(document).on('mouseup', (event) => {
+			this._onItemMoveEnd(event);
+			this._onDrawingEnd(event);
+		});
+		$parent.on('touchstart', (event) => {
+			this._onItemMoveStart(event);
+			this._onDrawingStart(event);
+		});
+		$(document).on('touchmove', (event) => {
+			this._onItemMove(event);
+			this._onDrawing(event);
+		});
+		$(document).on('touchend', (event) => {
+			this._onItemMoveEnd(event);
+			this._onDrawingEnd(event);
+		});
 	}
 
 	setBackground(itemDescription) {
@@ -88,6 +118,10 @@ class HanulseBoardView {
 				backgroundRepeat: "repeat",
 			});
 		}
+	}
+
+	setDrawerStyles(styles) {
+		this.drawingStyle = styles;
 	}
 
 	createItem(itemDescription) {
@@ -270,6 +304,20 @@ class HanulseBoardView {
 				resizable: true,
 				editable: false,
 			};
+		} else if (itemDescription.type == "image-data-url") {
+			return {
+				id: this.nextItemId++,
+				type: "image",
+				value: itemDescription.value,
+				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
+				width: itemDescription.width,
+				height: itemDescription.height,
+				radian: itemDescription.radian ?? 0,
+				zIndex: this.nextZIndex++,
+				resizable: true,
+				editable: false,
+			};
 		} else if(itemDescription.type == "text") {
 			return {
 				id: this.nextItemId++,
@@ -292,7 +340,7 @@ class HanulseBoardView {
 		var $e = $("<div class=\"item\">");
 		$e.attr("data-id", item.id);
 
-		if (item.type == "image") {
+		if (item.type == "image" || item.type == "image-data-url") {
 			var $image = $("<img data-type=\"image\">").attr("src", item.value);
 			$e.append($("<div class=\"content\">").append($image));
 		} else {
@@ -602,5 +650,146 @@ class HanulseBoardView {
 		this.$downedItem = null;
 		this.lastPointerX = null;
 		this.lastPointerY = null;
+	}
+	
+	_onDrawingStart(event) {
+		if (this.drawingStyle == null) {
+			return;
+		}
+
+		var $target = $(event.target);
+
+		var $item = $target.parents('[data-id]');
+		var itemId = $item.attr("data-id");
+		var item = this.items.find(item => item.id == itemId);
+		if (item != null) {
+			return;
+		}
+
+		var pointer = event.targetTouches? event.targetTouches[0] : event;
+		var offset = this.$parent.offset();
+		var x = pointer.pageX - offset.left;
+		var y = pointer.pageY - offset.top;
+
+		this.isDrawingStarted = true;
+		this.drawingPath = [{ x: x, y: y }];
+
+		this.drawingCanvas = document.createElement("canvas");
+		this.drawingCanvas.width = this.boardWidth;
+		this.drawingCanvas.height = this.boardHeight;
+
+		this.drawingContext = this.drawingCanvas.getContext("2d");
+		this.$parent.append(this.drawingCanvas);
+
+		this.drawingContext.lineJoin = "round";
+		this.drawingContext.lineCap = "round";
+		this.drawingContext.strokeStyle = this.drawingStyle.strokeColor;
+		this.drawingContext.lineWidth = this.drawingStyle.strokeWidth;
+
+		this.lastDrawingX = x;
+		this.lastDrawingY = y;
+	}
+	
+	_onDrawing(event) {
+		if (this.isDrawingStarted == false) {
+			return;
+		}
+		
+		var pointer = event.targetTouches? event.targetTouches[0] : event;
+		var offset = this.$parent.offset();
+		var x = pointer.pageX - offset.left;
+		var y = pointer.pageY - offset.top;
+
+		this.drawingPath.push({ x: x, y: y });
+
+		this.drawingContext.beginPath();
+		this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
+		this.drawingContext.lineTo(x, y);
+		this.drawingContext.stroke();
+		this.drawingContext.closePath();
+
+		this.lastDrawingX = x;
+		this.lastDrawingY = y;
+	}
+	
+	_onDrawingEnd(event) {
+		if (this.isDrawingStarted == false) {
+			return;
+		}
+		
+		var pointer = event.targetTouches? event.targetTouches[0] : event;
+		var offset = this.$parent.offset();
+		var x = pointer.pageX - offset.left;
+		var y = pointer.pageY - offset.top;
+
+		this.drawingPath.push({ x: x, y: y });
+
+		this.drawingCanvas.remove();
+
+		if (this.drawingPath.length > 2) {
+			var quality = 2;
+			var pathBoundary = this._getPathBoundary(this.drawingPath, this.drawingStyle.strokeWidth);
+			var normalizedPath = this._normalizePath(this.drawingPath, pathBoundary);
+
+			this.drawingCanvas.width = pathBoundary.width * quality;
+			this.drawingCanvas.height = pathBoundary.height * quality;
+			this.drawingContext.clearRect(0, 0, pathBoundary.width * quality, pathBoundary.height * quality);
+			
+			this.drawingContext.lineJoin = "round";
+			this.drawingContext.lineCap = "round";
+			this.drawingContext.strokeStyle = this.drawingStyle.strokeColor;
+			this.drawingContext.lineWidth = this.drawingStyle.strokeWidth;
+			
+			this.drawingContext.beginPath();
+			this.drawingContext.scale(quality, quality);
+			this.drawingContext.moveTo(normalizedPath[0].x, normalizedPath[0].y);
+			for (var i = 1; i < normalizedPath.length; i++) {
+				this.drawingContext.lineTo(normalizedPath[i].x, normalizedPath[i].y);
+			}
+			this.drawingContext.stroke();
+			this.drawingContext.closePath();
+			console.log(this.drawingCanvas.toDataURL("image/png"));
+
+			this.createItem({
+				type: "image-data-url",
+				value: this.drawingCanvas.toDataURL("image/png"),
+				x: pathBoundary.offsetX,
+				y: pathBoundary.offsetY,
+				width: pathBoundary.width,
+				height: pathBoundary.height,
+				radian: 0,
+			});
+		}
+
+		this.isDrawingStarted = false;
+		this.drawingStyle = null;
+		this.drawingPath = null;
+		this.drawingCanvas = null;
+		this.drawingContext = null;
+		this.lastDrawingX = null;
+		this.lastDrawingY = null;
+	}
+	
+	_getPathBoundary(path, margin) {
+		var minX = Number.MAX_VALUE;
+		var maxX = -Number.MAX_VALUE;
+		var minY = Number.MAX_VALUE;
+		var maxY = -Number.MAX_VALUE;
+		for (var i = 0; i < path.length; i++) {
+			minX = Math.min(minX, path[i].x);
+			minY = Math.min(minY, path[i].y);
+			maxX = Math.max(maxX, path[i].x);
+			maxY = Math.max(maxY, path[i].y);
+		}
+		return {
+			offsetX: minX - margin,
+			offsetY: minY - margin,
+			width: maxX - minX + margin * 2,
+			height: maxY - minY + margin * 2,
+		}
+	}
+
+	_normalizePath(path, boundary) {
+		return path.map(p => ({ x: p.x - boundary.offsetX, y: p.y - boundary.offsetY }))
 	}
 }
