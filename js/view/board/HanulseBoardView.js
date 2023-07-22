@@ -47,10 +47,13 @@ class HanulseBoardView {
 	lastPointerY = null;
 
 	// Drawing variables
-	drawingStyle = {
-		strokeColor: "red",
-		strokeWidth: 20,
-	};
+	/*
+		{
+			strokeColor: ColorString,
+			strokeWidth: number,
+		}
+	*/
+	drawingStyle = null;
 	isDrawingStarted = false;
 	drawingPath = null;
 	lastDrawingX = null;
