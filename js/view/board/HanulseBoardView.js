@@ -275,7 +275,7 @@ class HanulseBoardView {
 				radian: itemDescription.radian ?? 0,
 				zIndex: this.nextZIndex++,
 				resizable: false,
-				editable: false,
+				editable: true,
 				style: itemDescription.style,
 			};
 		}
@@ -291,6 +291,16 @@ class HanulseBoardView {
 		} else {
 			var $text = $("<span data-type=\"text\">").text(item.value);
 			$e.append($("<div class=\"content\">").append($text));
+			
+			if (item.style) {
+				$text.css({
+					color: item.style.color,
+					fontSize: item.style.fontSize,
+					fontFamily: item.style.fontFamily,
+					fontWeight: item.style.isFontBold? "bold": "normal",
+					fontStyle: item.style.isFontItalic? "italic": "normal",
+				});
+			}
 		}
 
 		var $frame = $("<div class=\"frame\" data-transform-mode=\"move\">");
@@ -333,16 +343,6 @@ class HanulseBoardView {
 
 		$e.css({ transform: "rotate(" + item.radian + "rad)" });
 		$e.find('.function').css({ transform: "rotate(" + -item.radian + "rad)" });
-
-		if (item.style) {
-			$e.css({
-				color: item.style.color,
-				fontSize: item.style.fontSize,
-				fontFamily: item.style.fontFamily,
-				fontWeight: item.style.isFontBold? "bold": "normal",
-				fontStyle: item.style.isFontItalic? "italic": "normal",
-			});
-		}
 
 		$e.append($frame);
 
