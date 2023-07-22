@@ -717,10 +717,12 @@ class HanulseBoardView {
 	}
 	
 	_onDrawingEnd(event) {
+		alert(-1);
 		if (this.isDrawingStarted == false) {
 			return;
 		}
 		
+		alert(0);
 		var pointer = event.targetTouches? event.targetTouches[0] : event;
 		var offset = this.$parent.offset();
 		var x = pointer.pageX - offset.left;
@@ -766,6 +768,7 @@ class HanulseBoardView {
 			});
 		}
 		*/
+		alert(1);
 
 		this.isDrawingStarted = false;
 		this.drawingStyle = null;
@@ -774,6 +777,8 @@ class HanulseBoardView {
 		this.drawingContext = null;
 		this.lastDrawingX = null;
 		this.lastDrawingY = null;
+
+		alert(2);
 	}
 	
 	_getPathBoundary(path, margin) {
