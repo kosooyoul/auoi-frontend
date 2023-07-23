@@ -539,7 +539,7 @@ $(document).ready(() => {
 	var lastPointerX = null;
 	var lastPointerY = null;
 
-	$("#app-resizer").on("mousedown", (event) => {
+	var onResizeStart = (event) => {
 		if (resizing) {
 			return;
 		}
@@ -556,9 +556,9 @@ $(document).ready(() => {
 		if (event.type == "touchstart") {
 			event.preventDefault(); //for Mobile
 		}
-	});
+	};
 
-	$(document).on("mousemove", (event) => {
+	var onResize = (event) => {
 		if (resizing == false) {
 			return;
 		}
@@ -580,15 +580,22 @@ $(document).ready(() => {
 		if (event.type == "touchstart") {
 			event.preventDefault(); //for Mobile
 		}
-	});
-	
-	$(document).on("mouseup", (event) => {
+	};
+
+	var onResizeFinish = (event) => {
 		if (resizing == false) {
 			return;
 		}
 
 		resizing = false;
-	});
+	};
+
+	$("#app-resizer").on("mousedown", onResizeStart);
+	$(document).on("mousemove", onResize);
+	$(document).on("mouseup", onResizeFinish);
+	$("#app-resizer").on("touchstart", onResizeStart);
+	$(document).on("touchmove", onResize);
+	$(document).on("touchend", onResizeFinish);
 });
 </script>
 <script type="text/javascript" src="./js/view/board/HanulseBoardView.js"></script>
