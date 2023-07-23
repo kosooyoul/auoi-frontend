@@ -512,6 +512,9 @@ class HanulseBoardView {
 		if (mode == null) {
 			return;
 		}
+		if (['delete', 'clone', 'edit'].includes(mode)) {
+			return;
+		}
 
 		this.transformMode = mode;
 		this.downedItem = item;
