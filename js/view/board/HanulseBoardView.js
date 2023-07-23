@@ -836,8 +836,8 @@ class HanulseBoardView {
 		this.drawingCanvas.remove();
 
 		if (this.drawingPath.length > 2) {
-			var quality = 1;
-			var offset = 0; //this.drawingStyle.strokeWidth;
+			var quality = 2;
+			var offset = this.drawingStyle.strokeWidth;
 			var pathBoundary = this._getPathBoundary(this.drawingPath, offset);
 			var normalizedPath = this._normalizePath(this.drawingPath, pathBoundary);
 
@@ -863,10 +863,10 @@ class HanulseBoardView {
 			this.createItem({
 				type: "image",
 				value: this.drawingCanvas.toDataURL("image/png"),
-				x: pathBoundary.offsetX,
-				y: pathBoundary.offsetY,
-				width: pathBoundary.width,
-				height: pathBoundary.height,
+				x: pathBoundary.offsetX / this.sizeRatio,
+				y: pathBoundary.offsetY / this.sizeRatio,
+				width: pathBoundary.width / this.sizeRatio,
+				height: pathBoundary.height / this.sizeRatio,
 				radian: 0,
 			});
 		}
