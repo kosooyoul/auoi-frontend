@@ -5,9 +5,12 @@ class HanulseBoardView {
 	width = null;
 	height = null;
 	aspectRatio = null;
-
 	parentWidth = null;
 	parentHeight = null;
+	realWidth = null;
+	realHeight = null;
+	sizeRatio = 1;
+	needToRefreshItems = false;
 
 	nextItemId = 0;
 	nextZIndex = 0;
@@ -78,65 +81,51 @@ class HanulseBoardView {
 		this.width = options.width || $parent.width();
 		this.height = options.height || $parent.height();
 		this.aspectRatio = options.width / options.height;
-		this.parentWidth = $parent.width();
-		this.parentHeight = $parent.height();
-		this.sizeRatio = 1;
-
-		this.realWidth = this.width;
-		this.realHeight = this.height;
 
 		this.$content = $("<div>").css({ position: "relative", width: this.width + "px", height: this.height + "px", overflow: "hidden" });
 		this.$parent.append(this.$content);
 		
+		this.setParentSize($parent.width(), $parent.height(), false);
+		
 		this.background = { type: "color", value: "white" };
 		this.$content.css({ backgroundColor: "white" });
 
-		this.$content.on('mousedown', (event) => {
+		this.$content.on("mousedown", (event) => {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
-		$(document).on('mousemove', (event) => {
+		$(document).on("mousemove", (event) => {
 			this._onItemMove(event);
 			this._onDrawing(event);
 		});
-		$(document).on('mouseup', (event) => {
+		$(document).on("mouseup", (event) => {
 			this._onItemMoveEnd(event);
 			this._onDrawingEnd(event);
 		});
-		this.$content.on('touchstart', (event) => {
+		this.$content.on("touchstart", (event) => {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
-		$(document).on('touchmove', (event) => {
+		$(document).on("touchmove", (event) => {
 			this._onItemMove(event);
 			this._onDrawing(event);
 		});
-		$(document).on('touchend', (event) => {
-			this._onItemMoveEnd(event);
+		$(document).on("touchend", (event) => {h
 			this._onDrawingEnd(event);
 		});
 		setInterval(() => {
 			var parentWidth = $parent.width();
 			var parentHeight = $parent.height();
 			if (parentWidth == this.parentWidth && parentHeight == this.parentHeight) {
+				if (this.needToRefreshItems) {
+					this.refreshItems();
+					this.needToRefreshItems = false;
+				}
 				return;
 			}
 
-			this.parentWidth = parentWidth;
-			this.parentHeight = parentHeight;
-			var parentAspectRatio = parentWidth / parentHeight;
-
-			if (this.aspectRatio < parentAspectRatio) {
-				this.realWidth = parentHeight * this.aspectRatio;
-				this.realHeight = parentHeight;
-			} else {
-				this.realWidth = parentWidth;
-				this.realHeight = parentWidth / this.aspectRatio;
-			}
-			this.$content.stop().animate({
-				width: this.realWidth,
-				height: this.realHeight,
-			}, { duration: 100 });
+			this.setParentSize(parentWidth, parentHeight, true);
+			this.needToRefreshItems = true;
 
 			console.log("Resized", this.parentWidth, this.parentHeight);
 		}, 100);
@@ -172,6 +161,58 @@ class HanulseBoardView {
 
 	setDrawerStyles(styles) {
 		this.drawingStyle = styles;
+	}
+
+	setParentSize(parentWidth, parentHeight, animate) {
+		this.parentWidth = parentWidth;
+		this.parentHeight = parentHeight;
+		var parentAspectRatio = parentWidth / parentHeight;
+
+		if (this.aspectRatio < parentAspectRatio) {
+			this.realWidth = parentHeight * this.aspectRatio;
+			this.realHeight = parentHeight;
+		} else if (this.aspectRatio > parentAspectRatio) {
+			this.realWidth = parentWidth;
+			this.realHeight = parentWidth / this.aspectRatio;
+		} else {
+			this.realWidth = parentWidth;
+			this.realHeight = parentHeight;
+		}
+		this.sizeRatio = this.realWidth / this.width;
+		console.log(this.sizeRatio)
+		if (animate) {
+			this.$content.stop().animate({
+				width: this.realWidth + "px",
+				height: this.realHeight + "px",
+			}, { duration: 100 });
+		} else {
+			this.$content.css({
+				width: this.realWidth + "px",
+				height: this.realHeight + "px",
+			});
+		}
+	}
+
+	refreshItems(animate) {
+		for (var i = 0; i < this.items.length; i++) {
+			var item = this.items[i];
+			var $item = this.$content.find("[data-id=" + item.id + "]");
+			if (animate) {
+				$item.stop().animate({
+					width: item.width * this.sizeRatio + "px",
+					height: item.height * this.sizeRatio + "px",
+					left: item.x * this.sizeRatio + "px",
+					top: item.y * this.sizeRatio + "px",
+				}, { duration: 100 });
+			} else {
+				$item.css({
+					width: item.width * this.sizeRatio + "px",
+					height: item.height * this.sizeRatio + "px",
+					left: item.x * this.sizeRatio + "px",
+					top: item.y * this.sizeRatio + "px",
+				});
+			}
+		}
 	}
 
 	createItem(itemDescription) {
@@ -342,8 +383,8 @@ class HanulseBoardView {
 				id: this.nextItemId++,
 				type: "image",
 				value: itemDescription.value,
-				x: itemDescription.x ?? (this.realWidth - itemDescription.width) * 0.5,
-				y: itemDescription.y ?? (this.realHeight - itemDescription.height) * 0.5,
+				x: itemDescription.x ?? (this.width - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.height - itemDescription.height) * 0.5,
 				width: itemDescription.width,
 				height: itemDescription.height,
 				radian: itemDescription.radian ?? 0,
@@ -356,8 +397,8 @@ class HanulseBoardView {
 				id: this.nextItemId++,
 				type: "text",
 				value: itemDescription.value,
-				x: itemDescription.x ?? (this.realWidth - itemDescription.width) * 0.5,
-				y: itemDescription.y ?? (this.realHeight - itemDescription.height) * 0.5,
+				x: itemDescription.x ?? (this.width - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.height - itemDescription.height) * 0.5,
 				width: itemDescription.width,
 				height: itemDescription.height,
 				radian: itemDescription.radian ?? 0,
@@ -427,9 +468,9 @@ class HanulseBoardView {
 			$frame.append($frameEdit);
 		}
 
-		$e.width(item.width);
-		$e.height(item.height);
-		$e.css({ left: item.x, top: item.y, zIndex: item.zIndex });
+		$e.width(item.width * this.sizeRatio);
+		$e.height(item.height * this.sizeRatio);
+		$e.css({ left: item.x * this.sizeRatio, top: item.y * this.sizeRatio, zIndex: item.zIndex });
 
 		$e.css({ transform: "rotate(" + item.radian + "rad)" });
 		$e.find('.function').css({ transform: "rotate(" + -item.radian + "rad)" });
@@ -499,13 +540,13 @@ class HanulseBoardView {
 		if (this.transformMode == 'move') {
 			this.downedItem.x += pointerX - this.lastPointerX;
 			this.downedItem.y += pointerY - this.lastPointerY;
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == 'rotate') {
 			var offset = this.$content.offset();
-			var boardCenterX = this.downedItem.x + this.downedItem.width * 0.5 + offset.left;
-			var boardCenterY = this.downedItem.y + this.downedItem.height * 0.5 + offset.top;
-			var lastRadian = this._pointToRadian(this.lastPointerX - boardCenterX, this.lastPointerY - boardCenterY);
-			var radian = this._pointToRadian(pointerX - boardCenterX, pointerY - boardCenterY);
+			var itemCenterX = (this.downedItem.x + this.downedItem.width * 0.5) * this.sizeRatio + offset.left;
+			var itemCenterY = (this.downedItem.y + this.downedItem.height * 0.5) * this.sizeRatio + offset.top;
+			var lastRadian = this._pointToRadian(this.lastPointerX - itemCenterX, this.lastPointerY - itemCenterY);
+			var radian = this._pointToRadian(pointerX - itemCenterX, pointerY - itemCenterY);
 			this.downedItem.radian += radian - lastRadian;
 			this.$downedItem.css({ transform: "rotate(" + this.downedItem.radian + "rad)" });
 			this.$downedItem.find('.function').css({ transform: "rotate(" + -this.downedItem.radian + "rad)" })
@@ -527,9 +568,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - x) / 2;
 			this.downedItem.y -= (rotatedY - y) / 2;
 			
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-ne") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -547,9 +588,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - x) / 2;
 			this.downedItem.y -= (rotatedY - y) / 2;
 
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-sw") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -567,9 +608,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - x) / 2;
 			this.downedItem.y -= (rotatedY - y) / 2;
 
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-se") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -586,9 +627,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - x) / 2;
 			this.downedItem.y -= (rotatedY - y) / 2;
 
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-n") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -607,9 +648,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - fixedX) / 2;
 			this.downedItem.y -= (rotatedY - fixedY) / 2;
 			
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-s") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -627,9 +668,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - fixedX) / 2;
 			this.downedItem.y -= (rotatedY - fixedY) / 2;
 
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-w") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -648,9 +689,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - fixedX) / 2;
 			this.downedItem.y -= (rotatedY - fixedY) / 2;
 			
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-e") {
 			var x = pointerX - this.lastPointerX;
 			var y = pointerY - this.lastPointerY;
@@ -668,9 +709,9 @@ class HanulseBoardView {
 			this.downedItem.x -= (rotatedX - fixedX) / 2;
 			this.downedItem.y -= (rotatedY - fixedY) / 2;
 
-			this.$downedItem.width(this.downedItem.width);
-			this.$downedItem.height(this.downedItem.height);
-			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
+			this.$downedItem.width(this.downedItem.width * this.sizeRatio);
+			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
+			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		}
 
 		this.lastPointerX = pointer.pageX;
