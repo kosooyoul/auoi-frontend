@@ -93,7 +93,7 @@ class HanulseBoardView {
 		this.background = { type: "color", value: "white" };
 		this.$content.css({ backgroundColor: "white" });
 
-		this.$content.on("mousedown", (event) => {
+		this.$parent.on("mousedown", (event) => {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
@@ -105,7 +105,7 @@ class HanulseBoardView {
 			this._onItemMoveEnd(event);
 			this._onDrawingEnd(event);
 		});
-		this.$content.on("touchstart", (event) => {
+		this.$parent.on("touchstart", (event) => {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
