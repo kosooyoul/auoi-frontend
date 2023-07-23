@@ -477,6 +477,10 @@ class HanulseBoardView {
 	}
 
 	_onItemMoveStart(event) {
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
+
 		var $target = $(event.target);
 
 		var $item = $target.parents('[data-id]');
@@ -518,14 +522,14 @@ class HanulseBoardView {
 		this.lastPointerX = pointer.pageX;
 		this.lastPointerY = pointer.pageY;
 
-		if (event.type == "touchstart") {
-			event.preventDefault(); //for Mobile
-		}
-
 		console.log('Start Transform', item.id, mode);
 	}
 
 	_onItemMove(event) {
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
+
 		if (this.downedItem == null) {
 			return;
 		}
@@ -716,10 +720,6 @@ class HanulseBoardView {
 
 		this.lastPointerX = pointer.pageX;
 		this.lastPointerY = pointer.pageY;
-
-		if (event.type == "touchstart") {
-			event.preventDefault(); //for Mobile
-		}
 	}
 
 	_onItemMoveEnd() {
@@ -731,13 +731,17 @@ class HanulseBoardView {
 	}
 	
 	_onDrawingStart(event) {
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
+
 		if (this.drawingStyle == null) {
 			return;
 		}
+
 		if (this.isDrawingStarted) {
 			return;
 		}
-		
 
 		var $target = $(event.target);
 
@@ -778,13 +782,13 @@ class HanulseBoardView {
 
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
-		
-		if (event.type == "touchstart") {
-			event.preventDefault(); //for Mobile
-		}
 	}
 	
 	_onDrawing(event) {
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
+
 		if (this.isDrawingStarted == false) {
 			return;
 		}
@@ -804,10 +808,6 @@ class HanulseBoardView {
 
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
-
-		if (event.type == "touchstart") {
-			event.preventDefault(); //for Mobile
-		}
 	}
 	
 	_onDrawingEnd(event) {
