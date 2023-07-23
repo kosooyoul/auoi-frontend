@@ -82,10 +82,13 @@ class HanulseBoardView {
 		this.height = options.height || $parent.height();
 		this.aspectRatio = options.width / options.height;
 
-		this.$content = $("<div>").css({ position: "relative", width: this.width + "px", height: this.height + "px", overflow: "hidden" });
+		this.parentWidth = $parent.width();
+		this.parentHeight = $parent.height();
+		this.setParentSize(this.parentWidth, this.parentHeight);
+
+		this.$content = $("<div>").css({ position: "relative", width: this.realWidth + "px", height: this.realHeight + "px", overflow: "hidden" });
 		this.$parent.append(this.$content);
 		
-		this.setParentSize($parent.width(), $parent.height(), false);
 		
 		this.background = { type: "color", value: "white" };
 		this.$content.css({ backgroundColor: "white" });
@@ -118,13 +121,13 @@ class HanulseBoardView {
 			var parentHeight = $parent.height();
 			if (parentWidth == this.parentWidth && parentHeight == this.parentHeight) {
 				if (this.needToRefreshItems) {
-					this.refreshItems(true);
+					this.refreshContent(true);
 					this.needToRefreshItems = false;
 				}
 				return;
 			}
 
-			this.setParentSize(parentWidth, parentHeight, true);
+			this.setParentSize(parentWidth, parentHeight);
 			this.needToRefreshItems = true;
 
 			console.log("Resized", this.parentWidth, this.parentHeight);
@@ -163,7 +166,7 @@ class HanulseBoardView {
 		this.drawingStyle = styles;
 	}
 
-	setParentSize(parentWidth, parentHeight, animate) {
+	setParentSize(parentWidth, parentHeight) {
 		this.parentWidth = parentWidth;
 		this.parentHeight = parentHeight;
 		var parentAspectRatio = parentWidth / parentHeight;
@@ -179,7 +182,9 @@ class HanulseBoardView {
 			this.realHeight = parentHeight;
 		}
 		this.sizeRatio = this.realWidth / this.width;
+	}
 
+	refreshContent(animate) {
 		if (animate) {
 			this.$content.stop().animate({
 				width: this.realWidth + "px",
@@ -191,9 +196,7 @@ class HanulseBoardView {
 				height: this.realHeight + "px",
 			});
 		}
-	}
 
-	refreshItems(animate) {
 		for (var i = 0; i < this.items.length; i++) {
 			var item = this.items[i];
 			var $item = this.$content.find("[data-id=" + item.id + "]");
@@ -833,8 +836,9 @@ class HanulseBoardView {
 		this.drawingCanvas.remove();
 
 		if (this.drawingPath.length > 2) {
-			var quality = 2;
-			var pathBoundary = this._getPathBoundary(this.drawingPath, this.drawingStyle.strokeWidth);
+			var quality = 1;
+			var offset = 0; //this.drawingStyle.strokeWidth;
+			var pathBoundary = this._getPathBoundary(this.drawingPath, offset);
 			var normalizedPath = this._normalizePath(this.drawingPath, pathBoundary);
 
 			this.drawingCanvas.width = pathBoundary.width * quality;
