@@ -17,8 +17,8 @@ html, body {
 	display: grid;
 	grid-template-rows: 52px auto 52px;
 	position: relative;
-	width: 400px;
-	height: 600px;
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
 	box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 0.4);
 }
@@ -516,14 +516,26 @@ var SampleStrokeWidthItems = [
 </div>
 
 <!-- For test -->
-<div id="app-resizer" style="position: absolute; width: 12px; height: 12px; left: 400px; top: 600px; border: 1px solid black; background-color: white; cursor: se-resize;"></div>
+<div id="app-resizer" style="
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left: 100%;
+	top: 100%;
+	margin-left: -32px;
+	margin-top: -32px;
+	background-image: url(./icons/resize.png);
+	background-position: center;
+	background-size: 100%;
+	cursor: se-resize;
+"></div>
 
 <script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(() => {
 	var resizing = false;
-	var appWidth = 400;
-	var appHeight = 600;
+	var appWidth = $("#app").width();
+	var appHeight = $("#app").height();
 	var lastPointerX = null;
 	var lastPointerY = null;
 

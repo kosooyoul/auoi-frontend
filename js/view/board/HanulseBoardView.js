@@ -121,8 +121,23 @@ class HanulseBoardView {
 			if (parentWidth == this.parentWidth && parentHeight == this.parentHeight) {
 				return;
 			}
+
 			this.parentWidth = parentWidth;
 			this.parentHeight = parentHeight;
+			var parentAspectRatio = parentWidth / parentHeight;
+
+			if (this.aspectRatio < parentAspectRatio) {
+				this.realWidth = parentHeight * this.aspectRatio;
+				this.realHeight = parentHeight;
+			} else {
+				this.realWidth = parentWidth;
+				this.realHeight = parentWidth / this.aspectRatio;
+			}
+			this.$content.stop().animate({
+				width: this.realWidth,
+				height: this.realHeight,
+			}, { duration: 100 });
+
 			console.log("Resized", this.parentWidth, this.parentHeight);
 		}, 100);
 	}
