@@ -22,6 +22,10 @@ html, body {
 	width: 100%;
 	height: 100%;
 }
+*, *:focus {
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
 #app {
 	display: grid;
 	grid-template-rows: 52px auto 0px;
@@ -544,7 +548,7 @@ var SampleStrokeWidthItems = [
 <div id="app">
 	<div class="head">
 		<div class="left" onclick="history.back()">뒤로</div>
-		<div class="title">초대장 만들기</div>
+		<div class="title">초대장 꾸미기</div>
 		<div class="right" onclick="completeBoard()">완성</div>
 	</div>
 	<div class="content">
