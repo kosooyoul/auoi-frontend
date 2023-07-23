@@ -118,7 +118,7 @@ class HanulseBoardView {
 			var parentHeight = $parent.height();
 			if (parentWidth == this.parentWidth && parentHeight == this.parentHeight) {
 				if (this.needToRefreshItems) {
-					this.refreshItems();
+					this.refreshItems(true);
 					this.needToRefreshItems = false;
 				}
 				return;
@@ -179,7 +179,7 @@ class HanulseBoardView {
 			this.realHeight = parentHeight;
 		}
 		this.sizeRatio = this.realWidth / this.width;
-		console.log(this.sizeRatio)
+
 		if (animate) {
 			this.$content.stop().animate({
 				width: this.realWidth + "px",
@@ -264,8 +264,8 @@ class HanulseBoardView {
 	saveImage(callback) {
 		this._loadImages((imagesByUrl) => {
 			var canvas = document.createElement("canvas");
-			var width = canvas.width = this.realWidth;
-			var height = canvas.height = this.realHeight;
+			var width = canvas.width = this.width;
+			var height = canvas.height = this.height;
 
 			var context = canvas.getContext("2d");
 			if (this.background.type == "color") {
