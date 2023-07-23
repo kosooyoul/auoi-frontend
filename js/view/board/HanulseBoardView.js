@@ -97,11 +97,11 @@ class HanulseBoardView {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
-		$(document).on("mousemove", (event) => {
+		this.$parent.on("mousemove", (event) => {
 			this._onItemMove(event);
 			this._onDrawing(event);
 		});
-		$(document).on("mouseup", (event) => {
+		this.$parent.on("mouseup", (event) => {
 			this._onItemMoveEnd(event);
 			this._onDrawingEnd(event);
 		});
@@ -109,11 +109,11 @@ class HanulseBoardView {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
-		$(document).on("touchmove", (event) => {
+		this.$parent.on("touchmove", (event) => {
 			this._onItemMove(event);
 			this._onDrawing(event);
 		});
-		$(document).on("touchend", (event) => {
+		this.$parent.on("touchend", (event) => {
 			this._onDrawingEnd(event);
 		});
 		setInterval(() => {
