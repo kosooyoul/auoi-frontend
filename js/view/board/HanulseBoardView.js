@@ -510,9 +510,11 @@ class HanulseBoardView {
 
 		var mode = $target.attr("data-transform-mode");
 		if (mode == null) {
+			this.transformMode = null;
 			return;
 		}
 		if (['delete', 'clone', 'edit'].includes(mode)) {
+			this.transformMode = null;
 			return;
 		}
 
@@ -533,6 +535,9 @@ class HanulseBoardView {
 
 	_onItemMove(event) {
 		if (this.downedItem == null) {
+			return;
+		}
+		if (this.transformMode == null) {
 			return;
 		}
 
