@@ -89,7 +89,6 @@ class HanulseBoardView {
 		this.$content = $("<div>").css({ position: "relative", width: this.realWidth + "px", height: this.realHeight + "px", overflow: "hidden" });
 		this.$parent.append(this.$content);
 		
-		
 		this.background = { type: "color", value: "white" };
 		this.$content.css({ backgroundColor: "white" });
 
@@ -447,14 +446,14 @@ class HanulseBoardView {
 		}
 
 		var $frameRotate = $("<div class=\"function rotate\" data-transform-mode=\"rotate\">");
-		var $frameDelete = $("<div class=\"function delete\">").click(() => this.deleteItemById(item.id));
-		var $frameClone = $("<div class=\"function clone\">").click(() => this.cloneItemById(item.id));
+		var $frameDelete = $("<div class=\"function delete\" data-transform-mode=\"delete\">").click(() => this.deleteItemById(item.id));
+		var $frameClone = $("<div class=\"function clone\" data-transform-mode=\"clone\">").click(() => this.cloneItemById(item.id));
 		$frame.append($frameRotate);
 		$frame.append($frameDelete);
 		$frame.append($frameClone);
 
 		if (item.editable) {
-			var $frameEdit = $("<div class=\"function edit\">").click(() => {
+			var $frameEdit = $("<div class=\"function edit\" data-transform-mode=\"edit\">").click(() => {
 				this._onBeginEdit && this._onBeginEdit(item);
 			});
 			$frame.append($frameEdit);
@@ -509,7 +508,9 @@ class HanulseBoardView {
 			this.transformMode = null;
 			return;
 		}
-		if (['delete', 'clone', 'edit'].includes(mode)) {
+
+		if (["delete", "clone", "edit"].includes(mode)) {
+			$target.click();
 			this.transformMode = null;
 			return;
 		}
@@ -533,6 +534,7 @@ class HanulseBoardView {
 		if (this.downedItem == null) {
 			return;
 		}
+
 		if (this.transformMode == null) {
 			return;
 		}
