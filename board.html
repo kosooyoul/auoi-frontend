@@ -563,7 +563,7 @@ $(document).ready(() => {
 		lastPointerX = pointerX;
 		lastPointerY = pointerY;
 
-		console.log("Resized: " + appWidth + " x " + appHeight);
+		// console.log("Resized: " + appWidth + " x " + appHeight);
 		
 		if (event.type == "touchstart") {
 			event.preventDefault(); //for Mobile
@@ -582,7 +582,10 @@ $(document).ready(() => {
 <script type="text/javascript" src="./js/view/board/HanulseBoardView.js"></script>
 <script>
 $(document.body).ready(() => {
-	var boardView = new HanulseBoardView($(".board"));
+	var boardView = new HanulseBoardView($(".board"), {
+		width: 400,
+		height: 600,
+	});
 
 	$("#add-image-button").click(() => boardView.createItem("image", 52, 60));
 	$("#add-text-button").click(() => boardView.createItem("text", 100, 20));

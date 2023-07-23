@@ -1,14 +1,14 @@
 .board {
 	position: relative;
 }
-.board>.item {
+.board .item {
 	position: absolute;
 	user-select: none;
 	-webkit-user-select: none;
 	-webkit-user-drag: none;
 	transform-origin: 50% 50%;
 }
-.board>.item>.content {
+.board .item>.content {
 	display: flex;
 	width: 100%;
 	height: 100%;
@@ -16,11 +16,11 @@
     justify-content: center;
     align-items: center;
 }
-.board>.item>.content>img {
+.board .item>.content>img {
 	width: 100%;
 	height: 100%;
 }
-.board>.item>.frame {
+.board .item>.frame {
 	display: block;
 	position: absolute;
 	left: 0px;
@@ -30,7 +30,7 @@
 	outline: none;
 	cursor: move;
 }
-.board>.item>.frame .edge-nw {
+.board .item>.frame .edge-nw {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -39,7 +39,7 @@
 	user-select: none;
 	cursor: nwse-resize;
 }
-.board>.item>.frame .edge-ne {
+.board .item>.frame .edge-ne {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -48,7 +48,7 @@
 	user-select: none;
 	cursor: nesw-resize;
 }
-.board>.item>.frame .edge-sw {
+.board .item>.frame .edge-sw {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -57,7 +57,7 @@
 	user-select: none;
 	cursor: nesw-resize;
 }
-.board>.item>.frame .edge-se {
+.board .item>.frame .edge-se {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -66,7 +66,7 @@
 	user-select: none;
 	cursor: nwse-resize;
 }
-.board>.item>.frame .edge-n {
+.board .item>.frame .edge-n {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -76,7 +76,7 @@
 	user-select: none;
 	cursor: n-resize;
 }
-.board>.item>.frame .edge-s {
+.board .item>.frame .edge-s {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -86,7 +86,7 @@
 	user-select: none;
 	cursor: s-resize;
 }
-.board>.item>.frame .edge-w {
+.board .item>.frame .edge-w {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -96,7 +96,7 @@
 	user-select: none;
 	cursor: w-resize;
 }
-.board>.item>.frame .edge-e {
+.board .item>.frame .edge-e {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -106,7 +106,7 @@
 	user-select: none;
 	cursor: e-resize;
 }
-.board>.item>.frame .rotate {
+.board .item>.frame .rotate {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -120,7 +120,7 @@
 	user-select: none;
 	cursor: all-scroll;
 }
-.board>.item>.frame .delete {
+.board .item>.frame .delete {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -134,7 +134,7 @@
 	user-select: none;
 	cursor: pointer;
 }
-.board>.item>.frame .clone {
+.board .item>.frame .clone {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -148,7 +148,7 @@
 	user-select: none;
 	cursor: pointer;
 }
-.board>.item>.frame .edit {
+.board .item>.frame .edit {
 	position: absolute;
 	width: 20px;
 	height: 20px;
@@ -163,25 +163,25 @@
 	cursor: pointer;
 }
 
-.board>.item>.frame .edge-nw::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-ne::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-sw::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-se::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-n::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-s::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-w::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
-.board>.item>.frame .edge-e::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-nw::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-ne::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-sw::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-se::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-n::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-s::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-w::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
+.board .item>.frame .edge-e::after { position: absolute; content: ' '; left: 6px; top: 6px; width: 8px; height: 8px; border: 1px solid black; border-radius: 8px; background-color: white; }
 
 .item:hover>.frame { border: 1px dashed black; }
 .item.selected>.frame { border: 1px dashed black; }
 
-.board>.item>.frame * { display: none; }
-.board>.item.selected>.frame * { display: block; }
-.board>.item.selected>.frame *:hover::after { background-color: #00c8ff; }
-.board>.item.selected>.frame *:active::after { background-color: #fff064; }
+.board .item>.frame * { display: none; }
+.board .item.selected>.frame * { display: block; }
+.board .item.selected>.frame *:hover::after { background-color: #00c8ff; }
+.board .item.selected>.frame *:active::after { background-color: #fff064; }
 
-.board>.item>.frame .function.rotate:hover::after,
-.board>.item>.frame .function.rotate:active::after {
+.board .item>.frame .function.rotate:hover::after,
+.board .item>.frame .function.rotate:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;
@@ -198,8 +198,8 @@
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4)
 }
 
-.board>.item>.frame .function.delete:hover::after,
-.board>.item>.frame .function.delete:active::after {
+.board .item>.frame .function.delete:hover::after,
+.board .item>.frame .function.delete:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;
@@ -216,8 +216,8 @@
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4)
 }
 
-.board>.item>.frame .function.clone:hover::after,
-.board>.item>.frame .function.clone:active::after {
+.board .item>.frame .function.clone:hover::after,
+.board .item>.frame .function.clone:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;
@@ -234,8 +234,8 @@
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.4)
 }
 
-.board>.item>.frame .function.edit:hover::after,
-.board>.item>.frame .function.edit:active::after {
+.board .item>.frame .function.edit:hover::after,
+.board .item>.frame .function.edit:active::after {
 	position: absolute;
 	width: 20px;
 	left: 50%;

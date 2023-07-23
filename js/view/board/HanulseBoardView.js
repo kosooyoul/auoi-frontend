@@ -1,8 +1,13 @@
 class HanulseBoardView {
 	$parent = null;
+	$content = null;
 
-	boardWidth = null;
-	boardHeight = null;
+	width = null;
+	height = null;
+	aspectRatio = null;
+
+	realWidth = null;
+	realHeight = null;
 
 	nextItemId = 0;
 	nextZIndex = 0;
@@ -13,7 +18,7 @@ class HanulseBoardView {
 			value: ColorString | ImageUrlString
 		}
 	*/
-	background;
+	background = null;
 	/*
 		{
 			id: number,
@@ -61,15 +66,30 @@ class HanulseBoardView {
 	drawingCanvas = null;
 	drawingContext = null;
 
-	constructor($parent) {
+	/*
+		options: {
+			width: number,
+			height: number,
+		}
+	*/
+	constructor($parent, options) {
 		this.$parent = $parent;
-		this.boardWidth = $parent.width();
-		this.boardHeight = $parent.height();
+		this.$content = $("<div>").css({ width: "100%", height: "100%" });
+		this.$parent.append(this.$content);
+
+		this.width = options.width || $parent.width();
+		this.height = options.height || $parent.height();
+		this.aspectRatio = options.width / options.height;
+
+		this.realWidth = $parent.width();
+		this.realHeight = $parent.height();
+		this.sizeRatio = 1;
+
 		
 		this.background = { type: "color", value: "white" };
-		this.$parent.css({ backgroundColor: "white" });
+		this.$content.css({ backgroundColor: "white" });
 
-		$parent.on('mousedown', (event) => {
+		this.$content.on('mousedown', (event) => {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
@@ -81,7 +101,7 @@ class HanulseBoardView {
 			this._onItemMoveEnd(event);
 			this._onDrawingEnd(event);
 		});
-		$parent.on('touchstart', (event) => {
+		this.$content.on('touchstart', (event) => {
 			this._onItemMoveStart(event);
 			this._onDrawingStart(event);
 		});
@@ -93,18 +113,28 @@ class HanulseBoardView {
 			this._onItemMoveEnd(event);
 			this._onDrawingEnd(event);
 		});
+		setInterval(() => {
+			var realWidth = $parent.width();
+			var realHeight = $parent.height();
+			if (realWidth == this.realWidth && realHeight == this.realHeight) {
+				return;
+			}
+			this.realWidth = realWidth;
+			this.realHeight = realHeight;
+			console.log("Resized", this.realWidth, this.realHeight);
+		}, 100);
 	}
 
 	setBackground(itemDescription) {
 		if (itemDescription.type == "color") {
 			this.background = itemDescription;
-			this.$parent.css({
+			this.$content.css({
 				backgroundColor: itemDescription.value,
 				backgroundImage: "",
 			});
 		} else if (itemDescription.type == "image") {
 			this.background = itemDescription;
-			this.$parent.css({
+			this.$content.css({
 				backgroundColor: "black",
 				backgroundImage: "url(\"" + itemDescription.value + "\")",
 				backgroundPosition: "center",
@@ -113,7 +143,7 @@ class HanulseBoardView {
 			});
 		} else if (itemDescription.type == "pattern") {
 			this.background = itemDescription;
-			this.$parent.css({
+			this.$content.css({
 				backgroundColor: "black",
 				backgroundImage: "url(\"" + itemDescription.value + "\")",
 				backgroundPosition: "center",
@@ -132,7 +162,7 @@ class HanulseBoardView {
 		var $item = this._newItemElement(item);
 
 		this.items.push(item);
-		this.$parent.append($item);
+		this.$content.append($item);
 		
 		// Unselect
 		$(".item").removeClass('selected');
@@ -147,7 +177,7 @@ class HanulseBoardView {
 			this.items.splice(index, 1);
 		}
 
-		var $item = this.$parent.find("[data-id=" + id + "]");
+		var $item = this.$content.find("[data-id=" + id + "]");
 		$item.remove();
 	}
 
@@ -165,7 +195,7 @@ class HanulseBoardView {
 		var $clonedItem = this._newItemElement(clonedItem);
 
 		this.items.push(clonedItem);
-		this.$parent.append($clonedItem);
+		this.$content.append($clonedItem);
 
 		// Unselect
 		$(".item").removeClass('selected');
@@ -176,8 +206,8 @@ class HanulseBoardView {
 	saveImage(callback) {
 		this._loadImages((imagesByUrl) => {
 			var canvas = document.createElement("canvas");
-			var width = canvas.width = this.boardWidth;
-			var height = canvas.height = this.boardHeight;
+			var width = canvas.width = this.realWidth;
+			var height = canvas.height = this.realHeight;
 
 			var context = canvas.getContext("2d");
 			if (this.background.type == "color") {
@@ -295,8 +325,8 @@ class HanulseBoardView {
 				id: this.nextItemId++,
 				type: "image",
 				value: itemDescription.value,
-				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
-				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
+				x: itemDescription.x ?? (this.realWidth - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.realHeight - itemDescription.height) * 0.5,
 				width: itemDescription.width,
 				height: itemDescription.height,
 				radian: itemDescription.radian ?? 0,
@@ -309,8 +339,8 @@ class HanulseBoardView {
 				id: this.nextItemId++,
 				type: "text",
 				value: itemDescription.value,
-				x: itemDescription.x ?? (this.boardWidth - itemDescription.width) * 0.5,
-				y: itemDescription.y ?? (this.boardHeight - itemDescription.height) * 0.5,
+				x: itemDescription.x ?? (this.realWidth - itemDescription.width) * 0.5,
+				y: itemDescription.y ?? (this.realHeight - itemDescription.height) * 0.5,
 				width: itemDescription.width,
 				height: itemDescription.height,
 				radian: itemDescription.radian ?? 0,
@@ -454,7 +484,7 @@ class HanulseBoardView {
 			this.downedItem.y += pointerY - this.lastPointerY;
 			this.$downedItem.css({ left: this.downedItem.x, top: this.downedItem.y });
 		} else if (this.transformMode == 'rotate') {
-			var offset = this.$parent.offset();
+			var offset = this.$content.offset();
 			var boardCenterX = this.downedItem.x + this.downedItem.width * 0.5 + offset.left;
 			var boardCenterY = this.downedItem.y + this.downedItem.height * 0.5 + offset.top;
 			var lastRadian = this._pointToRadian(this.lastPointerX - boardCenterX, this.lastPointerY - boardCenterY);
@@ -661,7 +691,7 @@ class HanulseBoardView {
 		}
 
 		var pointer = event.targetTouches? event.targetTouches[0] : event;
-		var offset = this.$parent.offset();
+		var offset = this.$content.offset();
 		var x = pointer.pageX - offset.left;
 		var y = pointer.pageY - offset.top;
 
@@ -669,8 +699,8 @@ class HanulseBoardView {
 		this.drawingPath = [{ x: x, y: y }];
 
 		this.drawingCanvas = document.createElement("canvas");
-		this.drawingCanvas.width = this.boardWidth;
-		this.drawingCanvas.height = this.boardHeight;
+		this.drawingCanvas.width = this.realWidth;
+		this.drawingCanvas.height = this.realHeight;
 		$(this.drawingCanvas).css({
 			position: "absolute",
 			left: "0px",
@@ -681,7 +711,7 @@ class HanulseBoardView {
 		});
 
 		this.drawingContext = this.drawingCanvas.getContext("2d");
-		this.$parent.append(this.drawingCanvas);
+		this.$content.append(this.drawingCanvas);
 
 		this.drawingContext.lineJoin = "round";
 		this.drawingContext.lineCap = "round";
@@ -702,7 +732,7 @@ class HanulseBoardView {
 		}
 		
 		var pointer = event.targetTouches? event.targetTouches[0] : event;
-		var offset = this.$parent.offset();
+		var offset = this.$content.offset();
 		var x = pointer.pageX - offset.left;
 		var y = pointer.pageY - offset.top;
 
@@ -729,7 +759,7 @@ class HanulseBoardView {
 		
 		// Note: Does not working on ios safari
 		// var pointer = event.targetTouches? event.targetTouches[0] : event;
-		// var offset = this.$parent.offset();
+		// var offset = this.$content.offset();
 		// var x = pointer.pageX - offset.left;
 		// var y = pointer.pageY - offset.top;
 		// this.drawingPath.push({ x: x, y: y });
