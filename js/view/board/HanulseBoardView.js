@@ -6,8 +6,8 @@ class HanulseBoardView {
 	height = null;
 	aspectRatio = null;
 
-	realWidth = null;
-	realHeight = null;
+	parentWidth = null;
+	parentHeight = null;
 
 	nextItemId = 0;
 	nextZIndex = 0;
@@ -74,17 +74,19 @@ class HanulseBoardView {
 	*/
 	constructor($parent, options) {
 		this.$parent = $parent;
-		this.$content = $("<div>").css({ width: "100%", height: "100%" });
-		this.$parent.append(this.$content);
 
 		this.width = options.width || $parent.width();
 		this.height = options.height || $parent.height();
 		this.aspectRatio = options.width / options.height;
-
-		this.realWidth = $parent.width();
-		this.realHeight = $parent.height();
+		this.parentWidth = $parent.width();
+		this.parentHeight = $parent.height();
 		this.sizeRatio = 1;
 
+		this.realWidth = this.width;
+		this.realHeight = this.height;
+
+		this.$content = $("<div>").css({ position: "relative", width: this.width + "px", height: this.height + "px", overflow: "hidden" });
+		this.$parent.append(this.$content);
 		
 		this.background = { type: "color", value: "white" };
 		this.$content.css({ backgroundColor: "white" });
@@ -114,14 +116,14 @@ class HanulseBoardView {
 			this._onDrawingEnd(event);
 		});
 		setInterval(() => {
-			var realWidth = $parent.width();
-			var realHeight = $parent.height();
-			if (realWidth == this.realWidth && realHeight == this.realHeight) {
+			var parentWidth = $parent.width();
+			var parentHeight = $parent.height();
+			if (parentWidth == this.parentWidth && parentHeight == this.parentHeight) {
 				return;
 			}
-			this.realWidth = realWidth;
-			this.realHeight = realHeight;
-			console.log("Resized", this.realWidth, this.realHeight);
+			this.parentWidth = parentWidth;
+			this.parentHeight = parentHeight;
+			console.log("Resized", this.parentWidth, this.parentHeight);
 		}, 100);
 	}
 
