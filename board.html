@@ -15,7 +15,7 @@ html, body {
 }
 #app {
 	display: grid;
-	grid-template-rows: 52px auto 52px;
+	grid-template-rows: 52px auto 24px;
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -24,10 +24,24 @@ html, body {
 }
 .head {
 	display: grid;
-	grid-template-columns: 100px auto 100px;
+	grid-template-columns: 64px auto 64px;
 	position: relative;
 	width: 100%;
-	background: linear-gradient(0deg, #4e92a2, #1e758f, #459dad);
+	background: white; /*linear-gradient(00deg, #f0f0f4, #fff6f6, #fff8ff, #ffffff, #fffaff);*/
+	color: black;
+	box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+.head::after {
+	display: grid;
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 4px;
+	left: 0px;
+	bottom: 0px;
+	background: linear-gradient(0deg, #ff0064, #ff6400);
+	border-bottom: 1px solid #333333;
 }
 .head>.left {
 	display: flex;
@@ -36,7 +50,10 @@ html, body {
 	padding-left: 20px;
 	font-size: 14px;
 	font-weight: bold;
-	color: white;
+	cursor: pointer;
+}
+.head>.left:hover {
+	color: #ff3333;
 }
 .head>.title {
 	display: flex;
@@ -44,7 +61,6 @@ html, body {
     align-items: center;
 	font-size: 16px;
 	font-weight: bold;
-	color: white;
 }
 .head>.right {
 	display: flex;
@@ -53,7 +69,10 @@ html, body {
 	padding-right: 20px;
 	font-size: 14px;
 	font-weight: bold;
-	color: white;
+	cursor: pointer;
+}
+.head>.right:hover {
+	color: #ff3333;
 }
 
 .content {
@@ -87,6 +106,12 @@ html, body {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+.content>.overlay>.content::after {
+    display: block;
+    content: "";
+    width: 1px;
+    height: 52px;
+}
 .overlay>.content::-webkit-scrollbar { height: 2px; width: 2px; }
 .overlay>.content::-webkit-scrollbar-thumb { background: black; border-radius: 2px; }
 
@@ -101,15 +126,42 @@ html, body {
     align-items: stretch;
 	position: relative;
 	background-color: black;
+	z-index: 1;
 }
-.foot>* {
+.foot>.button {
 	display: flex;
 	justify-content: center;
     align-items: center;
-	width: 60px;
+	position: relative;
+	max-width: 74px;
+	width: 100%;
+	min-width: 58px;
 	font-size: 14px;
 	font-weight: bold;
 	color: white;
+	cursor: pointer;
+}
+.foot>.button>.floating {
+	width: 54px;
+    height: 54px;
+    background: white;
+    color: black;
+    border-radius: 20px 20px 0px 0px;
+    position: absolute;
+    text-align: center;
+    line-height: 52px;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.2);
+    bottom: -4px;
+	border-bottom: 3px solid #ff3333;
+    transition-property: bottom, height, border-radius;
+    transition-timing-function: cubic-bezier(0.08, 0.6, 0.4, 1.72);
+    transition-duration: 400ms;
+}
+.foot>.button:hover>.floating {
+	width: 54px;
+    height: 54px;
+    bottom: 16px;
+    border-radius: 32px;
 }
 
 #image-list .items>.item {
@@ -451,9 +503,9 @@ var SampleStrokeWidthItems = [
 
 <div id="app">
 	<div class="head">
-		<div class="left">뒤로</div>
-		<div class="title">카드 만들기</div>
-		<div class="right" style="cursor: pointer;" onclick="saveBoardImage()">저장</div>
+		<div class="left" onclick="history.back()">뒤로</div>
+		<div class="title">초대장 만들기</div>
+		<div class="right" onclick="alert('완성')">완성</div>
 	</div>
 	<div class="content">
 		<div class="board" style="width: 100%; height: 100%;"></div>
@@ -505,28 +557,28 @@ var SampleStrokeWidthItems = [
 		</div>
 	</div>
 	<div class="foot">
-		<div onclick="showBackgroundList()">배경</div>
-		<div onclick="showFaceList()">얼굴</div>
-		<div onclick="showStickerList()">스티커</div>
-		<div onclick="showTextEditor()">문구</div>
-		<div onclick="showDrawer()">그리기</div>
-		<!-- <input id="add-image-button" type="button" value="이미지 추가" style="height: 28px;"> -->
-		<!-- <input id="add-text-button" type="button" value="텍스트 추가" style="height: 28px;"> -->
+		<div class="button" onclick="showBackgroundList()"><div class="floating">배경</div></div>
+		<div class="button" onclick="showFaceList()"><div class="floating">얼굴</div></div>
+		<div class="button" onclick="showStickerList()"><div class="floating">스티커</div></div>
+		<div class="button" onclick="showTextEditor()"><div class="floating">문구</div></div>
+		<div class="button" onclick="showDrawer()"><div class="floating">그리기</div></div>
+		<div class="button" onclick="downloadImage()"><div class="floating">저장</div></div>
 	</div>
 </div>
 
 <!-- For test -->
 <div id="app-resizer" style="
 	position: absolute;
-	width: 32px;
-	height: 32px;
+	width: 24px;
+	height: 24px;
 	left: 100%;
 	top: 100%;
-	margin-left: -32px;
-	margin-top: -32px;
+	margin-left: -24px;
+	margin-top: -24px;
 	background-image: url(./icons/resize.png);
 	background-position: center;
 	background-size: 100%;
+	z-index: 100;
 	cursor: se-resize;
 "></div>
 
@@ -602,8 +654,8 @@ $(document).ready(() => {
 <script>
 $(document.body).ready(() => {
 	var boardView = new HanulseBoardView($(".board"), {
-		width: 400,
-		height: 600,
+		width: 520,
+		height: 640,
 	});
 
 	$("#add-image-button").click(() => boardView.createItem("image", 52, 60));
@@ -1061,6 +1113,20 @@ $(document.body).ready(() => {
 		boardView.setDrawerStyles({
 			strokeColor: strokeColor,
 			strokeWidth: strokeWidth,
+		});
+	};
+	window.downloadImage = () => {
+		boardView.toImageBlob((blob) => {
+			// Download image
+			const a = document.createElement("a");
+			$("#app").append(a);
+			a.style.display = "block";
+			a.download = "card_" + Date.now() + ".png";
+			a.href = window.URL.createObjectURL(blob);
+			a.click();
+			setTimeout(() => {
+				a.remove();
+			}, 1000);
 		});
 	};
 });

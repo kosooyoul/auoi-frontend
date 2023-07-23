@@ -264,7 +264,7 @@ class HanulseBoardView {
 		$clonedItem.addClass('selected');
 	}
 
-	saveImage(callback) {
+	toImageBlob(callback) {
 		this._loadImages((imagesByUrl) => {
 			var canvas = document.createElement("canvas");
 			var width = canvas.width = this.width;
@@ -335,17 +335,6 @@ class HanulseBoardView {
 
 			canvas.toBlob((blob) => {
 				callback && callback(blob);
-
-				// Download image
-				const a = document.createElement("a");
-				this.$parent.append(a);
-				a.style.display = "block";
-				a.download = "card_" + Date.now() + ".png";
-				a.href = window.URL.createObjectURL(blob);
-				a.click();
-				setTimeout(() => {
-					a.remove();
-				}, 1000);
 			}, "image/png");
 		});
 	}
