@@ -536,7 +536,7 @@ var SampleStrokeWidthItems = [
 	<div class="head">
 		<div class="left" onclick="history.back()">뒤로</div>
 		<div class="title">초대장 만들기</div>
-		<div class="right" onclick="alert('완성')">완성</div>
+		<div class="right" onclick="completeBoard()">완성</div>
 	</div>
 	<div class="content">
 		<div class="board" style="width: 100%; height: 100%;"></div>
@@ -697,7 +697,7 @@ $(document.body).ready(() => {
 
 	$(".content").on("mousedown", (event) => {
 		var $target = $(event.target);
-		if ($target.hasClass('overlay')) {
+		if ($target.hasClass("overlay")) {
 			return;
 		}
 
@@ -709,7 +709,7 @@ $(document.body).ready(() => {
 
 	$(".content").on("touchstart", (event) => {
 		var $target = $(event.target);
-		if ($target.hasClass('overlay')) {
+		if ($target.hasClass("overlay")) {
 			return;
 		}
 
@@ -1097,7 +1097,7 @@ $(document.body).ready(() => {
 		var context = canvas.getContext("2d");
 
 		context.font = `${isFontItalic? "italic": ""} ${isFontBold? "bold": ""} ${fontSize}px ${fontFamily}`;
-		context.textBaseline = 'top';
+		context.textBaseline = "top";
 		var measured = context.measureText(text);
 		var width = measured.actualBoundingBoxLeft + measured.actualBoundingBoxRight + 4;
 		var height = measured.fontBoundingBoxAscent + measured.fontBoundingBoxDescent + 4;
@@ -1161,6 +1161,29 @@ $(document.body).ready(() => {
 			setTimeout(() => {
 				a.remove();
 			}, 1000);
+		});
+	};
+	window.completeBoard = () => {
+		boardView.toImageBlob((blob) => {
+			var file = new File([blob], "card_" + Date.now() + ".png", { type: "image/png" });
+    		var files = [file];
+
+			if (navigator.share) {
+				navigator.share({
+					title: "당신을 초대합니다!",
+					text: "[RSVP] 초대장을 받았어요!",
+					url: "https://www.auoi.net",
+					files: files,
+				}).then(() => {
+					// alert("초대장을 공유하였습니다.");
+				})
+				.catch((e) => {
+					console.error(e);
+					// alert("초대장을 공유하지 못하였습니다.");
+				});
+			} else {
+				// alert("초대가 지원되지 않는 브라우저입니다.");
+			}
 		});
 	};
 });
