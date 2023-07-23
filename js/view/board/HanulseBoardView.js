@@ -110,7 +110,7 @@ class HanulseBoardView {
 			this._onItemMove(event);
 			this._onDrawing(event);
 		});
-		$(document).on("touchend", (event) => {h
+		$(document).on("touchend", (event) => {
 			this._onDrawingEnd(event);
 		});
 		setInterval(() => {
@@ -805,7 +805,9 @@ class HanulseBoardView {
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
 
-		event.preventDefault(); //for Mobile
+		if (event.type == "touchstart") {
+			event.preventDefault(); //for Mobile
+		}
 	}
 	
 	_onDrawingEnd(event) {
