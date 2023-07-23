@@ -549,8 +549,8 @@ class HanulseBoardView {
 		var pointerY = pointer.pageY;
 
 		if (this.transformMode == 'move') {
-			this.downedItem.x += pointerX - this.lastPointerX;
-			this.downedItem.y += pointerY - this.lastPointerY;
+			this.downedItem.x += (pointerX - this.lastPointerX) / this.sizeRatio;
+			this.downedItem.y += (pointerY - this.lastPointerY) / this.sizeRatio;
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == 'rotate') {
 			var offset = this.$content.offset();
@@ -562,8 +562,8 @@ class HanulseBoardView {
 			this.$downedItem.css({ transform: "rotate(" + this.downedItem.radian + "rad)" });
 			this.$downedItem.find('.function').css({ transform: "rotate(" + -this.downedItem.radian + "rad)" })
 		} else if (this.transformMode == "resize-nw") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -583,8 +583,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-ne") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -603,8 +603,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-sw") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -623,8 +623,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-se") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -642,8 +642,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-n") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -663,8 +663,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-s") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -683,8 +683,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-w") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
@@ -704,8 +704,8 @@ class HanulseBoardView {
 			this.$downedItem.height(this.downedItem.height * this.sizeRatio);
 			this.$downedItem.css({ left: this.downedItem.x * this.sizeRatio, top: this.downedItem.y * this.sizeRatio });
 		} else if (this.transformMode == "resize-e") {
-			var x = pointerX - this.lastPointerX;
-			var y = pointerY - this.lastPointerY;
+			var x = (pointerX - this.lastPointerX) / this.sizeRatio;
+			var y = (pointerY - this.lastPointerY) / this.sizeRatio;
 			var cos = Math.cos(this.downedItem.radian);
 			var sin = Math.sin(this.downedItem.radian);
 			var rcos = cos;
