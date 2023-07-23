@@ -51,6 +51,7 @@ html, body {
 	font-size: 14px;
 	font-weight: bold;
 	cursor: pointer;
+	user-select: none;
 }
 .head>.left:hover {
 	color: #ff3333;
@@ -61,6 +62,7 @@ html, body {
     align-items: center;
 	font-size: 16px;
 	font-weight: bold;
+	user-select: none;
 }
 .head>.right {
 	display: flex;
@@ -70,6 +72,7 @@ html, body {
 	font-size: 14px;
 	font-weight: bold;
 	cursor: pointer;
+	user-select: none;
 }
 .head>.right:hover {
 	color: #ff3333;
@@ -166,6 +169,7 @@ html, body {
 	font-weight: bold;
 	color: white;
 	cursor: pointer;
+	user-select: none;
 }
 .foot>.button>.floating {
 	width: 54px;
@@ -614,8 +618,8 @@ var SampleStrokeWidthItems = [
 <script>
 $(document).ready(() => {
 	var resizing = false;
-	var appWidth = $("#app").width();
-	var appHeight = $("#app").height();
+	var appWidth = null;
+	var appHeight = null;
 	var lastPointerX = null;
 	var lastPointerY = null;
 
@@ -625,6 +629,8 @@ $(document).ready(() => {
 		}
 
 		resizing = true;
+		appWidth = $("#app").width();
+		appHeight = $("#app").height();
 		
 		var pointer = event.targetTouches? event.targetTouches[0] : event;
 		var pointerX = pointer.pageX;
