@@ -80,7 +80,7 @@ class HanulseBoardView {
 
 		this.width = options.width || $parent.width();
 		this.height = options.height || $parent.height();
-		this.aspectRatio = options.width / options.height;
+		this.aspectRatio = this.width / this.height;
 
 		this.parentWidth = $parent.width();
 		this.parentHeight = $parent.height();
