@@ -305,6 +305,8 @@ class HanulseSpaceView {
 		move: false,
 	};
 
+	joypad = null;
+
 	constructor($parent) {
 		this.$parent = $parent;
 
@@ -353,16 +355,12 @@ class HanulseSpaceView {
 		$(window).on('keydown', (event) => {
 			if (event.which == 39) {
 				this.keyStatus['right'] = true;
-				this.keyStatus['move'] = true;
 			} else if (event.which == 37) {
 				this.keyStatus['left'] = true;
-				this.keyStatus['move'] = true;
 			} else if (event.which == 38) {
 				this.keyStatus['up'] = true;
-				this.keyStatus['move'] = true;
 			} else if (event.which == 40) {
 				this.keyStatus['down'] = true;
-				this.keyStatus['move'] = true;
 			} else if (event.which == 32) {
 				this.keyStatus['action'] = true;
 			}
@@ -385,6 +383,17 @@ class HanulseSpaceView {
 				this.keyStatus['action'] = false;
 			}
 		});
+		
+        this.canvas.addEventListener("mousedown", (evt) => this._onPointersDown(evt));
+        this.canvas.addEventListener("mousemove", (evt) => this._onPointersMove(evt));
+        this.canvas.addEventListener("mouseup", (evt) => this._onPointersUp(evt));
+        this.canvas.addEventListener("mouseout", (evt) => this._onPointersUp(evt));
+        this.canvas.addEventListener("mouseleave", (evt) => this._onPointersUp(evt));
+        this.canvas.addEventListener("touchstart", (evt) => this._onPointersDown(evt));
+        this.canvas.addEventListener("touchmove", (evt) => this._onPointersMove(evt));
+        this.canvas.addEventListener("touchend", (evt) => this._onPointersUp(evt));
+        document.body.addEventListener("keydown", (evt) => this._onKeyDown(evt));
+        document.body.addEventListener("keyup", (evt) => this._onKeyUp(evt));
 
 		setInterval(() => {
 			var parentWidth = $parent.width();
@@ -414,6 +423,8 @@ class HanulseSpaceView {
 					this.tilesOffsetX = (this.width - this.tilesCountX * TileSize) / 2;
 					this.tilesOffsetY = (this.height - this.tilesCountY * TileSize) / 2;
 
+					this.joypad.setCanvasSize(this.width, this.height, 1);
+
 					console.log(this.tilesCountX, this.tilesCountY);
 					//
 					
@@ -428,6 +439,9 @@ class HanulseSpaceView {
 
 			console.log("Resized", this.width, this.height);
 		}, 100);
+
+		this.joypad = new SingleAction4DirectionsJoypad();
+		this.joypad.setCanvasSize(this.width, this.height, 1);
 
 		this._loop();
 	}
@@ -444,6 +458,8 @@ class HanulseSpaceView {
 	}
 
 	_calculate(elapsedTime, fpsRatio) {
+		this.joypad.compute();
+
 		this._processKeyEvent();
 
 		if (this.mapOffsetX > 0) {
@@ -464,7 +480,7 @@ class HanulseSpaceView {
 		}
 		if (this.mapOffsetX == 0 && this.mapOffsetY == 0) {
 			if (this.keyStatus['move'] == false) {
-				this.charaStep = 1;
+				this.charaStep = 0;
 				this.isCharaMoving = false;
 			}
 		}
@@ -475,7 +491,8 @@ class HanulseSpaceView {
 	}
 
 	_processKeyEvent() {
-		if (this.keyStatus['right']) {
+		var joypadStatus = this.joypad.getStatus();
+		if (this.keyStatus['right'] || joypadStatus['right']) {
 			if (this.mapOffsetX != 0) return;
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'right';
@@ -496,8 +513,8 @@ class HanulseSpaceView {
 			this.mapOffsetX = 48;
 			this.charaPositionX++;
 			this.isCharaMoving = true;
-		}
-		if (this.keyStatus['left']) {
+			this.keyStatus['move'] = true;
+		} else if (this.keyStatus['left'] || joypadStatus['left']) {
 			if (this.mapOffsetX != 0) return;
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'left';
@@ -518,8 +535,8 @@ class HanulseSpaceView {
 			this.mapOffsetX = -48;
 			this.charaPositionX--;
 			this.isCharaMoving = true;
-		}
-		if (this.keyStatus['up']) {
+			this.keyStatus['move'] = true;
+		} else if (this.keyStatus['up'] || joypadStatus['up']) {
 			if (this.mapOffsetX != 0) return;
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'up';
@@ -540,8 +557,8 @@ class HanulseSpaceView {
 			this.mapOffsetY = -48;
 			this.charaPositionY--;
 			this.isCharaMoving = true;
-		}
-		if (this.keyStatus['down']) {
+			this.keyStatus['move'] = true;
+		} else if (this.keyStatus['down'] || joypadStatus['down']) {
 			if (this.mapOffsetX != 0) return;
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'down';
@@ -562,6 +579,10 @@ class HanulseSpaceView {
 			this.mapOffsetY = 48;
 			this.charaPositionY++;
 			this.isCharaMoving = true;
+			this.keyStatus['move'] = true;
+		} else {
+			this.isCharaMoving = false;
+			this.keyStatus['move'] = false;
 		}
 	}
 
@@ -700,5 +721,60 @@ class HanulseSpaceView {
 			}
 		}
 		// this.context.globalAlpha = 1;
+
+		this.joypad.render(this.context);
+	}
+
+	_getPointers(evt) {
+		var touches = evt.targetTouches ? evt.targetTouches : [evt];
+		const pointers = [];
+		for (var i = 0; i < touches.length; i++) {
+			pointers.push({
+				x: touches[i].pageX,
+				y: touches[i].pageY,
+				id: touches[i].identifier
+			});
+		}
+		return pointers;
+	}
+	
+	_onPointersDown(evt) {
+		if (evt.type == "touchstart") {
+			evt.preventDefault(); // for Mobile
+		}
+
+		var pointers = this._getPointers(evt);
+
+		if (this.joypad) {
+			this.joypad.onPointersDown(pointers);
+		}
+	}
+
+	_onPointersMove(evt) {
+		var pointers = this._getPointers(evt);
+
+		if (this.joypad) {
+			this.joypad.onPointersMove(pointers);
+		}
+	}
+
+	_onPointersUp(evt) {
+		var pointers = this._getPointers(evt);
+
+		if (this.joypad) {
+			this.joypad.onPointersUp(pointers);
+		}
+	}
+
+	_onKeyDown(evt) {
+		if (this.joypad) {
+			this.joypad.onKeyDown(evt.which);
+		}
+	}
+
+	_onKeyUp(evt) {
+		if (this.joypad) {
+			this.joypad.onKeyUp(evt.which);
+		}
 	}
 }
