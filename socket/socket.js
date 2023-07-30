@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server, { cors: { origin: '*' } });
+
+app.use(cors());
 
 const objects = {};
 
@@ -33,6 +36,6 @@ io.on('connection', (socket) => {
     });
 });
     
-server.listen(60001, () => {
-  console.log('listening on *:61000');
+server.listen(62000, () => {
+  console.log('listening on *:62000');
 });
