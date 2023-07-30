@@ -64,6 +64,8 @@ var CharaImages = {
 }
 
 class HanulseSpaceView {
+	static MOVE_PIXEL_PER_TICK = 4;
+
 	$parent = null;
 	$canvas = null;
 
@@ -90,16 +92,6 @@ class HanulseSpaceView {
 	charaStepCount = 9;
 	charaPositionX = 0;
 	charaPositionY = 0;
-
-	keyStatus = {
-		left: false,
-		right: false,
-		top: false,
-		bottom: false,
-		action: false,
-		move: false,
-	};
-
 
 	/*
 		"name": String
@@ -140,57 +132,11 @@ class HanulseSpaceView {
 		this.tilesOffsetX = (this.width - this.tilesCountX * TileSize) / 2;
 		this.tilesOffsetY = (this.height - this.tilesCountY * TileSize) / 2;
 
-		console.log(this.tilesCountX, this.tilesCountY);
-		//
-
 		for (var charaImageKey in CharaImages) {
 			var charaImage = CharaImages[charaImageKey];
 			charaImage.image = document.createElement('img');
 			charaImage.image.src = charaImage.src;
 		}
-
-		$(window).on('keydown', (event) => {
-			if (event.which == 39) {
-				this.keyStatus['right'] = true;
-			} else if (event.which == 37) {
-				this.keyStatus['left'] = true;
-			} else if (event.which == 38) {
-				this.keyStatus['up'] = true;
-			} else if (event.which == 40) {
-				this.keyStatus['down'] = true;
-			} else if (event.which == 32) {
-				this.keyStatus['action'] = true;
-			}
-		});
-		
-		$(window).on('keyup', (event) => {
-			if (event.which == 39) {
-				this.keyStatus['right'] = false;
-				this.keyStatus['move'] = false;
-			} else if (event.which == 37) {
-				this.keyStatus['left'] = false;
-				this.keyStatus['move'] = false;
-			} else if (event.which == 38) {
-				this.keyStatus['up'] = false;
-				this.keyStatus['move'] = false;
-			} else if (event.which == 40) {
-				this.keyStatus['down'] = false;
-				this.keyStatus['move'] = false;
-			} else if (event.which == 32) {
-				this.keyStatus['action'] = false;
-			}
-		});
-		
-        this.canvas.addEventListener("mousedown", (evt) => this._onPointersDown(evt));
-        this.canvas.addEventListener("mousemove", (evt) => this._onPointersMove(evt));
-        this.canvas.addEventListener("mouseup", (evt) => this._onPointersUp(evt));
-        this.canvas.addEventListener("mouseout", (evt) => this._onPointersUp(evt));
-        this.canvas.addEventListener("mouseleave", (evt) => this._onPointersUp(evt));
-        this.canvas.addEventListener("touchstart", (evt) => this._onPointersDown(evt));
-        this.canvas.addEventListener("touchmove", (evt) => this._onPointersMove(evt));
-        this.canvas.addEventListener("touchend", (evt) => this._onPointersUp(evt));
-        document.body.addEventListener("keydown", (evt) => this._onKeyDown(evt));
-        document.body.addEventListener("keyup", (evt) => this._onKeyUp(evt));
 
 		setInterval(() => {
 			var parentWidth = $parent.width();
@@ -237,7 +183,7 @@ class HanulseSpaceView {
 			console.log("Resized", this.width, this.height);
 		}, 100);
 
-		this.joypad = new SingleAction4DirectionsJoypad();
+		this.joypad = new SingleAction4DirectionsJoypad($parent.get(0));
 		this.joypad.setCanvasSize(this.width, this.height, 1);
 	}
 
@@ -270,6 +216,7 @@ class HanulseSpaceView {
 		requestAnimationFrame(() => {
 			var elapsedTime = Date.now() - requestedTime;
 			var fpsRatio = elapsedTime / (1000 / 60);
+			console.log(fpsRatio)
 			this._calculate(elapsedTime, fpsRatio);
 			this._draw();
 			this._loop();
@@ -281,28 +228,16 @@ class HanulseSpaceView {
 
 		this._processKeyEvent();
 
-		if (this.mapOffsetX > 0) {
-			this.mapOffsetX -= 3 * fpsRatio;
-			if (this.mapOffsetX < 0) this.mapOffsetX = 0;
-		}
-		if (this.mapOffsetX < 0) {
-			this.mapOffsetX += 3 * fpsRatio;
-			if (this.mapOffsetX > 0) this.mapOffsetX = 0;
-		}
-		if (this.mapOffsetY > 0) {
-			this.mapOffsetY -= 3 * fpsRatio;
-			if (this.mapOffsetY < 0) this.mapOffsetY = 0;
-		}
-		if (this.mapOffsetY < 0) {
-			this.mapOffsetY += 3 * fpsRatio;
-			if (this.mapOffsetY > 0) this.mapOffsetY = 0;
-		}
-		if (this.mapOffsetX == 0 && this.mapOffsetY == 0) {
-			if (this.keyStatus['move'] == false) {
-				this.charaStep = 0;
-				this.isCharaMoving = false;
-			}
-		}
+		var movePixel = fpsRatio * HanulseSpaceView.MOVE_PIXEL_PER_TICK;
+
+		if (this.mapOffsetX > 0) this.mapOffsetX = Math.max(this.mapOffsetX - movePixel, 0);
+		if (this.mapOffsetX < 0) this.mapOffsetX = Math.min(this.mapOffsetX + movePixel, 0);
+		if (this.mapOffsetY > 0) this.mapOffsetY = Math.max(this.mapOffsetY - movePixel, 0);
+		if (this.mapOffsetY < 0) this.mapOffsetY = Math.min(this.mapOffsetY + movePixel, 0);
+		// if (this.mapOffsetX == 0 && this.mapOffsetY == 0) {
+		// 	this.charaStep = 0;
+		// 	this.isCharaMoving = false;
+		// }
 		
 		if (this.isCharaMoving) {
 			this.charaStep += 0.18 * fpsRatio;
@@ -311,98 +246,76 @@ class HanulseSpaceView {
 
 	_processKeyEvent() {
 		var joypadStatus = this.joypad.getStatus();
-		if (this.keyStatus['right'] || joypadStatus['right']) {
-			if (this.mapOffsetX != 0) return;
-			if (this.mapOffsetY != 0) return;
+		
+		if (this.mapOffsetX != 0) return;
+		if (this.mapOffsetY != 0) return;
+
+		var nextCharaPositionX = this.charaPositionX;
+		var nextCharaPositionY = this.charaPositionY;
+
+		if (joypadStatus['right']) {
 			this.charaDirection = 'right';
-			if (
-				this.charaPositionX + 1 < 0 ||
-				this.charaPositionY < 0 ||
-				this.charaPositionX + 1 > this.map.width - 1 ||
-				this.charaPositionY > this.map.height - 1
-			) {
-				this.isCharaMoving = false;
-				return;
-			}
-			if (this.map.map.prop[this.charaPositionY][this.charaPositionX + 1] != 0) {
-				this.isCharaMoving = false;
-				return;
-			}
-			this.mapPositionX -= 48;
-			this.mapOffsetX = 48;
-			this.charaPositionX++;
-			this.isCharaMoving = true;
-			this.keyStatus['move'] = true;
-		} else if (this.keyStatus['left'] || joypadStatus['left']) {
-			if (this.mapOffsetX != 0) return;
-			if (this.mapOffsetY != 0) return;
+			nextCharaPositionX++;
+		} else if (joypadStatus['left']) {
 			this.charaDirection = 'left';
-			if (
-				this.charaPositionX - 1 < 0 ||
-				this.charaPositionY < 0 ||
-				this.charaPositionX - 1 > this.map.width - 1 ||
-				this.charaPositionY > this.map.height - 1
-			) {
-				this.isCharaMoving = false;
-				return;
-			}
-			if (this.map.map.prop[this.charaPositionY][this.charaPositionX - 1] != 0) {
-				this.isCharaMoving = false;
-				return;
-			}
-			this.mapPositionX += 48;
-			this.mapOffsetX = -48;
-			this.charaPositionX--;
-			this.isCharaMoving = true;
-			this.keyStatus['move'] = true;
-		} else if (this.keyStatus['up'] || joypadStatus['up']) {
-			if (this.mapOffsetX != 0) return;
-			if (this.mapOffsetY != 0) return;
+			nextCharaPositionX--;
+		} else if (joypadStatus['up']) {
 			this.charaDirection = 'up';
-			if (
-				this.charaPositionX < 0 ||
-				this.charaPositionY - 1 < 0 ||
-				this.charaPositionX > this.map.width - 1 ||
-				this.charaPositionY - 1 > this.map.height - 1
-			) {
-				this.isCharaMoving = false;
-				return;
-			}
-			if (this.map.map.prop[this.charaPositionY - 1][this.charaPositionX] != 0) {
-				this.isCharaMoving = false;
-				return;
-			}
-			this.mapPositionY += 48;
-			this.mapOffsetY = -48;
-			this.charaPositionY--;
-			this.isCharaMoving = true;
-			this.keyStatus['move'] = true;
-		} else if (this.keyStatus['down'] || joypadStatus['down']) {
-			if (this.mapOffsetX != 0) return;
-			if (this.mapOffsetY != 0) return;
+			nextCharaPositionY--;
+		} else if (joypadStatus['down']) {
 			this.charaDirection = 'down';
-			if (
-				this.charaPositionX < 0 ||
-				this.charaPositionY + 1 < 0 ||
-				this.charaPositionX > this.map.width - 1 ||
-				this.charaPositionY + 1 > this.map.height - 1
-			) {
-				this.isCharaMoving = false;
-				return;
-			}
-			if (this.map.map.prop[this.charaPositionY + 1][this.charaPositionX] != 0) {
-				this.isCharaMoving = false;
-				return;
-			}
-			this.mapPositionY -= 48;
-			this.mapOffsetY = 48;
-			this.charaPositionY++;
-			this.isCharaMoving = true;
-			this.keyStatus['move'] = true;
+			nextCharaPositionY++;
 		} else {
 			this.isCharaMoving = false;
-			this.keyStatus['move'] = false;
+			return;
 		}
+
+		if (this._isOutOfMapBoundary(nextCharaPositionX, nextCharaPositionY)) {
+			this.isCharaMoving = false;
+			return;
+		}
+
+		if (this._isBlockedMapPosition(nextCharaPositionX, nextCharaPositionY)) {
+			this.isCharaMoving = false;
+			return;
+		}
+
+		if (joypadStatus['right']) {
+			this.mapPositionX -= 48;
+			this.mapOffsetX = 48;
+		} else if (joypadStatus['left']) {
+			this.mapPositionX += 48;
+			this.mapOffsetX = -48;
+		} else if (joypadStatus['up']) {
+			this.mapPositionY += 48;
+			this.mapOffsetY = -48;
+		} else if (joypadStatus['down']) {
+			this.mapPositionY -= 48;
+			this.mapOffsetY = 48;
+		}
+		this.charaPositionX = nextCharaPositionX;
+		this.charaPositionY = nextCharaPositionY;
+		this.isCharaMoving = true;
+	}
+
+	_isOutOfMapBoundary(x, y) {
+		return x < 0 || y < 0 || x >= this.map.width || y >= this.map.height;
+	}
+
+	_isBlockedMapPosition(x, y) {
+		return this.map.map.prop[y][x] != 0;
+	}
+
+	_isEmptyMapBasePosition(x, y) {
+		return this.map.chips.base[this.map.map.base[y][x]] == null;
+	}
+
+	_isEmptyMapPropPosition(x, y) {
+		return this.map.chips.prop[this.map.map.prop[y][x]] == null;
+	}
+
+	_isEmptyMapOverPosition(x, y) {
+		return this.map.chips.over[this.map.map.over[y][x]] == null;
 	}
 
 	_draw() {
@@ -413,71 +326,39 @@ class HanulseSpaceView {
 		var tileEndX = this.tilesCountX + tileStartX;
 		var tileEndY = this.tilesCountY + tileStartY;
 		
-
 		for (var y = tileStartY; y < tileEndY; y++) {
 			for (var x = tileStartX; x < tileEndX; x++) {
 				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
 				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
-				if (
-					mapPositionXIndex >= 0 &&
-					mapPositionYIndex >= 0 &&
-					mapPositionXIndex <= this.map.width - 1 &&
-					mapPositionYIndex <= this.map.height - 1
-				) {
-					if (this.map.map.base[mapPositionYIndex][mapPositionXIndex] == 0) continue;
-					if (this.map.chips.base[this.map.map.base[mapPositionYIndex][mapPositionXIndex]] == null) continue;
+				if (this._isOutOfMapBoundary(mapPositionXIndex, mapPositionYIndex)) continue;
+				if (this._isEmptyMapBasePosition(mapPositionXIndex, mapPositionYIndex)) continue;
 
-					this.context.drawImage(
-						this.map.chips.base[this.map.map.base[mapPositionYIndex][mapPositionXIndex]].image,
-						x * TileSize + this.centerX + this.mapOffsetX,
-						y * TileSize + this.centerY + this.mapOffsetY,
-						TileSize,
-						TileSize
-					);
-				}
-			}
-		}
-
-		/*
-		for (var y = tileStartY; y < tileEndY; y++) {
-			for (var x = tileStartX; x < tileEndX; x++) {
-				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
-				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
-
-				this.context.fillStyle = 'blue';
-				this.context.textAlign = 'center';
-				this.context.fillText(
-					(mapPositionXIndex) + ', ' + (mapPositionYIndex),
-					x * TileSize + this.centerX + this.mapOffsetX + TileSize / 2,
-					y * TileSize + this.centerY + this.mapOffsetY + TileSize / 2,
+				this.context.drawImage(
+					this.map.chips.base[this.map.map.base[mapPositionYIndex][mapPositionXIndex]].image,
+					x * TileSize + this.centerX + this.mapOffsetX,
+					y * TileSize + this.centerY + this.mapOffsetY,
+					TileSize,
+					TileSize
 				);
 			}
 		}
-		*/
 
 		for (var y = tileStartY; y < tileEndY; y++) {
 			for (var x = tileStartX; x < tileEndX; x++) {
 				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
 				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
-				if (
-					mapPositionXIndex >= 0 &&
-					mapPositionYIndex >= 0 &&
-					mapPositionXIndex <= this.map.width - 1 &&
-					mapPositionYIndex <= this.map.height - 1
-				) {
-					if (this.map.map.prop[mapPositionYIndex][mapPositionXIndex] == 0) continue;
-					if (this.map.chips.prop[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]] == null) continue;
+				if (this._isOutOfMapBoundary(mapPositionXIndex, mapPositionYIndex)) continue;
+				if (this._isEmptyMapPropPosition(mapPositionXIndex, mapPositionYIndex)) continue;
 
-					this.context.drawImage(
-						this.map.chips.prop[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]].image,
-						x * TileSize + this.centerX + this.mapOffsetX,
-						y * TileSize + this.centerY + this.mapOffsetY,
-						TileSize,
-						TileSize
-					);
-				}
+				this.context.drawImage(
+					this.map.chips.prop[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]].image,
+					x * TileSize + this.centerX + this.mapOffsetX,
+					y * TileSize + this.centerY + this.mapOffsetY,
+					TileSize,
+					TileSize
+				);
 			}
 		}
 
@@ -520,80 +401,20 @@ class HanulseSpaceView {
 				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
 				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
-				if (
-					mapPositionXIndex >= 0 &&
-					mapPositionYIndex >= 0 &&
-					mapPositionXIndex <= this.map.width - 1 &&
-					mapPositionYIndex <= this.map.height - 1
-				) {
-					if (this.map.map.over[mapPositionYIndex][mapPositionXIndex] == 0) continue;
-					if (this.map.chips.over[this.map.map.over[mapPositionYIndex][mapPositionXIndex]] == null) continue;
+				if (this._isOutOfMapBoundary(mapPositionXIndex, mapPositionYIndex)) continue;
+				if (this._isEmptyMapOverPosition(mapPositionXIndex, mapPositionYIndex)) continue;
 
-					this.context.drawImage(
-						this.map.chips.over[this.map.map.over[mapPositionYIndex][mapPositionXIndex]].image,
-						x * TileSize + this.centerX + this.mapOffsetX,
-						y * TileSize + this.centerY + this.mapOffsetY,
-						TileSize,
-						TileSize
-					);
-				}
+				this.context.drawImage(
+					this.map.chips.over[this.map.map.over[mapPositionYIndex][mapPositionXIndex]].image,
+					x * TileSize + this.centerX + this.mapOffsetX,
+					y * TileSize + this.centerY + this.mapOffsetY,
+					TileSize,
+					TileSize
+				);
 			}
 		}
 		// this.context.globalAlpha = 1;
 
 		this.joypad.render(this.context);
-	}
-
-	_getPointers(evt) {
-		var touches = evt.targetTouches ? evt.targetTouches : [evt];
-		const pointers = [];
-		for (var i = 0; i < touches.length; i++) {
-			pointers.push({
-				x: touches[i].pageX,
-				y: touches[i].pageY,
-				id: touches[i].identifier
-			});
-		}
-		return pointers;
-	}
-	
-	_onPointersDown(evt) {
-		if (evt.type == "touchstart") {
-			evt.preventDefault(); // for Mobile
-		}
-
-		var pointers = this._getPointers(evt);
-
-		if (this.joypad) {
-			this.joypad.onPointersDown(pointers);
-		}
-	}
-
-	_onPointersMove(evt) {
-		var pointers = this._getPointers(evt);
-
-		if (this.joypad) {
-			this.joypad.onPointersMove(pointers);
-		}
-	}
-
-	_onPointersUp(evt) {
-		var pointers = this._getPointers(evt);
-
-		if (this.joypad) {
-			this.joypad.onPointersUp(pointers);
-		}
-	}
-
-	_onKeyDown(evt) {
-		if (this.joypad) {
-			this.joypad.onKeyDown(evt.which);
-		}
-	}
-
-	_onKeyUp(evt) {
-		if (this.joypad) {
-			this.joypad.onKeyUp(evt.which);
-		}
 	}
 }

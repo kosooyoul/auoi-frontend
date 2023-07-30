@@ -11,8 +11,17 @@ class SingleAction4DirectionsJoypad {
 
     _keyStatus = {};
 
-    constructor() {
-
+    constructor(targetElement) {
+        targetElement.addEventListener("mousedown", (evt) => this._onPointersDown(evt));
+        targetElement.addEventListener("mousemove", (evt) => this._onPointersMove(evt));
+        targetElement.addEventListener("mouseup", (evt) => this._onPointersUp(evt));
+        targetElement.addEventListener("mouseout", (evt) => this._onPointersUp(evt));
+        targetElement.addEventListener("mouseleave", (evt) => this._onPointersUp(evt));
+        targetElement.addEventListener("touchstart", (evt) => this._onPointersDown(evt));
+        targetElement.addEventListener("touchmove", (evt) => this._onPointersMove(evt));
+        targetElement.addEventListener("touchend", (evt) => this._onPointersUp(evt));
+        document.body.addEventListener("keydown", (evt) => this._onKeyDown(evt));
+        document.body.addEventListener("keyup", (evt) => this._onKeyUp(evt));
     }
 
     getStatus() {
@@ -27,7 +36,26 @@ class SingleAction4DirectionsJoypad {
         this._scaledHalfHeight = height / 2 / this._scale;
     }
 
-    onPointersDown(pointers) {
+	_getPointers(evt) {
+		var touches = evt.targetTouches ? evt.targetTouches : [evt];
+		const pointers = [];
+		for (var i = 0; i < touches.length; i++) {
+			pointers.push({
+				x: touches[i].pageX,
+				y: touches[i].pageY,
+				id: touches[i].identifier
+			});
+		}
+		return pointers;
+	}
+	
+    _onPointersDown(evt) {
+		if (evt.type == "touchstart") {
+			evt.preventDefault(); // for Mobile
+		}
+
+		var pointers = this._getPointers(evt);
+
         pointers.forEach(pointer => {
             var cursorX = pointer.x - this._scaledHalfWidth;
             var cursorY = pointer.y - this._scaledHalfHeight;
@@ -48,7 +76,9 @@ class SingleAction4DirectionsJoypad {
         });
     }
 
-    onPointersMove(pointers) {
+    _onPointersMove(evt) {
+		var pointers = this._getPointers(evt);
+
         if (this._downedCursor == null) {
             return;
         }
@@ -98,7 +128,9 @@ class SingleAction4DirectionsJoypad {
         });
     }
 
-    onPointersUp(pointers) {
+    _onPointersUp(evt) {
+		var pointers = this._getPointers(evt);
+
         if (this._downedCursor) {
             const downedPointer = pointers.find(pointer => pointer.id == this._downedCursor.id)
             if (downedPointer == null || downedPointer.id == null) {
@@ -121,7 +153,8 @@ class SingleAction4DirectionsJoypad {
         }
     }
 
-    onKeyDown(keyCode) {
+    _onKeyDown(evt) {
+        const keyCode = evt.which;
         const keyName = this._keyCodeToName(keyCode);
         if (this._keyStatus[keyName] != null) {
             return
@@ -132,7 +165,8 @@ class SingleAction4DirectionsJoypad {
         }
     }
 
-    onKeyUp(keyCode) {
+    _onKeyUp(evt) {
+        const keyCode = evt.which;
         const keyName = this._keyCodeToName(keyCode);
         delete this._keyStatus[keyName];
     }
