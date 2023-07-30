@@ -242,7 +242,7 @@ class HanulseSpaceView {
 
 	_subscribeOnline() {
 		var socketId = null;
-		this.socket = new io('localhost:60001');
+		this.socket = new io('http://subscribe.auoi.net');
 		this.socket.on('ready', (data) => {
 			socketId = data.id;
 			console.log('socketId', data);
