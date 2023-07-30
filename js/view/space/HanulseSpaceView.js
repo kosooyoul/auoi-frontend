@@ -119,6 +119,17 @@ class HanulseSpaceView {
 		this.$canvas = $('<canvas>').css({ position: 'relative', width: this.width + 'px', height: this.height + 'px' });
 		this.$parent.append(this.$canvas);
 
+		this.$input = $('<input type="text" class="messagebox">').on('keydown', (event) => {
+			if (event.which == 13) {
+				var message = this.$input.val();
+				if (message == '') return;
+
+				this.$input.val(null);
+				this.socket.emit('message', { message: message });
+			}
+		});
+		this.$parent.append(this.$input);
+
 		this.canvas = this.$canvas.get(0);
 		this.context = this.canvas.getContext('2d');
 		this.canvas.width = this.width;
@@ -246,13 +257,35 @@ class HanulseSpaceView {
 		this.socket.on('enter', (data) => {
 			if (data.id == socketId) return;
 
-			this.onlineObjects[data.id] = { id: data.id, x: data.x, y: data.y, direction: data.d, offsetX: 0, offsetY: 0, step: 0, moving: false };
+			this.onlineObjects[data.id] = {
+				id: data.id,
+				x: data.x,
+				y: data.y,
+				direction: data.d,
+				offsetX: 0,
+				offsetY: 0,
+				step: 0,
+				moving: false,
+				message: null,
+				messageExpiresIn: 0 
+			};
 		});
 		this.socket.on('move', (data) => {
 			if (data.id == socketId) return;
 
 			if (this.onlineObjects[data.id] == null) {
-				this.onlineObjects[data.id] = { id: data.id, x: data.x, y: data.y, direction: data.d, offsetX: data.offsetX, offsetY: data.offsetY, step: 0, moving: false };
+				this.onlineObjects[data.id] = {
+					id: data.id,
+					x: data.x,
+					y: data.y,
+					direction: data.d,
+					offsetX: data.offsetX,
+					offsetY: data.offsetY,
+					step: 0,
+					moving: false,
+					message: null,
+					messageExpiresIn: 0
+				};
 			} else {
 				this.onlineObjects[data.id].x = data.x;
 				this.onlineObjects[data.id].y = data.y;
@@ -266,6 +299,12 @@ class HanulseSpaceView {
 			if (data.id == socketId) return;
 
 			delete this.onlineObjects[data.id];
+		});
+		this.socket.on('message', (data) => {
+			if (this.onlineObjects[data.id] != null) {
+				this.onlineObjects[data.id].message = data.message;
+				this.onlineObjects[data.id].messageExpiresIn = Date.now() + 1000 * 5;
+			}
 		});
 	}
 
@@ -309,6 +348,12 @@ class HanulseSpaceView {
 				online.step += 0.2 * fpsRatio;
 				if (online.step >= this.charaStepCount) {
 					online.step = 0;
+				}
+			}
+
+			if (online.message) {
+				if (online.messageExpiresIn < Date.now()) {
+					online.message = null;
 				}
 			}
 		}
@@ -510,30 +555,27 @@ class HanulseSpaceView {
 				this.context.beginPath();
 				this._pathRoundedRectangle(
 					this.context,
-					(x - this.charaPositionX) * TileSize + tileOffsetX - (textWidth + 4 - TileSize) / 2,
-					(y - this.charaPositionY) * TileSize + tileOffsetY - 32,
-					textWidth + 4,
-					24,
+					(x - this.charaPositionX) * TileSize + tileOffsetX - (textWidth + 2 - TileSize) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 36,
+					textWidth + 2,
+					22,
 					6
 				);
-				this.context.strokeStyle = 'white';
 				this.context.lineWidth = 0.5;
 				this.context.lineJoin = 'round';
 				this.context.lineCap = 'round';
-				this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+				this.context.fillStyle = 'rgba(100, 100, 160, 0.8)';
 				this.context.fill();
-				this.context.stroke();
 				this.context.closePath();
 
 				this.context.fillStyle = 'white';
-				this.context.strokeStyle = 'black';
 				this.context.textAlign = 'center';
 				this.context.fillText(
 					event.name,
 					(x - this.charaPositionX) * TileSize + tileOffsetX + (TileSize) / 2,
-					(y - this.charaPositionY) * TileSize + tileOffsetY - 16,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 20,
 					textWidth,
-					24,
+					20,
 				);
 			}
 		}
@@ -598,30 +640,27 @@ class HanulseSpaceView {
 				this.context.beginPath();
 				this._pathRoundedRectangle(
 					this.context,
-					(x - this.charaPositionX) * TileSize + tileOffsetX - (textWidth + 4 - TileSize) / 2,
-					(y - this.charaPositionY) * TileSize + tileOffsetY - 32,
-					textWidth + 4,
-					24,
+					(x - this.charaPositionX) * TileSize + tileOffsetX - (textWidth + 2 - TileSize) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 36,
+					textWidth + 2,
+					22,
 					6
 				);
-				this.context.strokeStyle = 'white';
 				this.context.lineWidth = 0.5;
 				this.context.lineJoin = 'round';
 				this.context.lineCap = 'round';
-				this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+				this.context.fillStyle = 'rgba(100, 100, 160, 0.8)';
 				this.context.fill();
-				this.context.stroke();
 				this.context.closePath();
 
 				this.context.fillStyle = 'white';
-				this.context.strokeStyle = 'black';
 				this.context.textAlign = 'center';
 				this.context.fillText(
 					event.name,
 					(x - this.charaPositionX) * TileSize + tileOffsetX + (TileSize) / 2,
-					(y - this.charaPositionY) * TileSize + tileOffsetY - 16,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 20,
 					textWidth,
-					24,
+					20,
 				);
 			}
 		}
@@ -653,31 +692,63 @@ class HanulseSpaceView {
 			this.context.beginPath();
 			this._pathRoundedRectangle(
 				this.context,
-				drawX - (textWidth + 4 - TileSize) / 2,
-				drawY - 32,
-				textWidth + 4,
-				24,
+				drawX - (textWidth + 2 - TileSize) / 2,
+				drawY - 36,
+				textWidth + 2,
+				20,
 				6
 			);
-			this.context.strokeStyle = 'white';
 			this.context.lineWidth = 0.5;
 			this.context.lineJoin = 'round';
 			this.context.lineCap = 'round';
-			this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+			this.context.fillStyle = 'rgba(0, 160, 180, 0.8)';
 			this.context.fill();
-			this.context.stroke();
 			this.context.closePath();
 
 			this.context.fillStyle = 'white';
-			this.context.strokeStyle = 'black';
 			this.context.textAlign = 'center';
 			this.context.fillText(
 				'Anonymous',
 				drawX + (TileSize) / 2,
-				drawY - 16,
+				drawY - 22,
 				textWidth,
-				24,
+				20,
 			);
+
+			if (online.message) {
+				this.context.font = '12px san-serif';
+				var measuredSize = this.context.measureText(online.message);
+				var textWidth = measuredSize.width + 10;
+				
+				this.context.beginPath();
+				this._pathRoundedRectangle(
+					this.context,
+					drawX - (textWidth + 4 - TileSize) / 2,
+					drawY - 48,
+					textWidth + 4,
+					24,
+					6
+				);
+				this.context.strokeStyle = 'white';
+				this.context.lineWidth = 0.5;
+				this.context.lineJoin = 'round';
+				this.context.lineCap = 'round';
+				this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+				this.context.fill();
+				this.context.stroke();
+				this.context.closePath();
+
+				this.context.fillStyle = 'white';
+				this.context.strokeStyle = 'black';
+				this.context.textAlign = 'center';
+				this.context.fillText(
+					online.message,
+					drawX + (TileSize) / 2,
+					drawY - 32,
+					textWidth,
+					24,
+				);
+			}
 		}
 
 		// this.context.globalAlpha = 0.5;
