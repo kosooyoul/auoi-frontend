@@ -108,6 +108,8 @@ class HanulseSpaceView {
 	isJoyPadBlocked = false;
 	actionactionRunner = null;
 	onlineObjects = {};
+	message = null;
+	messageExpiresIn = 0;
 
 	constructor($parent) {
 		this.$parent = $parent;
@@ -126,9 +128,12 @@ class HanulseSpaceView {
 
 				this.$input.val(null);
 				this.socket.emit('message', { message: message });
+				
+				this.message = message;
+				this.messageExpiresIn = Date.now() + 1000 * 5;
 			}
 		});
-		this.$parent.append(this.$input);
+		$('#app').append(this.$input);
 
 		this.canvas = this.$canvas.get(0);
 		this.context = this.canvas.getContext('2d');
@@ -301,6 +306,8 @@ class HanulseSpaceView {
 			delete this.onlineObjects[data.id];
 		});
 		this.socket.on('message', (data) => {
+			if (data.id == socketId) return;
+
 			if (this.onlineObjects[data.id] != null) {
 				this.onlineObjects[data.id].message = data.message;
 				this.onlineObjects[data.id].messageExpiresIn = Date.now() + 1000 * 5;
@@ -331,6 +338,12 @@ class HanulseSpaceView {
 		if (this.mapOffsetX < 0) this.mapOffsetX = Math.min(this.mapOffsetX + movePixel, 0);
 		if (this.mapOffsetY > 0) this.mapOffsetY = Math.max(this.mapOffsetY - movePixel, 0);
 		if (this.mapOffsetY < 0) this.mapOffsetY = Math.min(this.mapOffsetY + movePixel, 0);
+
+		if (this.message) {
+			if (this.messageExpiresIn < Date.now()) {
+				this.message = null;
+			}
+		}
 
 		for (var onlineObjectKey in this.onlineObjects) {
 			var online = this.onlineObjects[onlineObjectKey];
@@ -597,15 +610,7 @@ class HanulseSpaceView {
 		);
 
 		this.context.fillStyle = 'white';
-		this.context.strokeStyle = 'black';
 		this.context.textAlign = 'center';
-		this.context.strokeText(
-			'( ' + this.charaPositionX + ', ' + this.charaPositionY + ' )',
-			this.centerX + TileSize / 2,
-			this.centerY + TileSize + 16,
-			TileSize,
-			20,
-		);
 		this.context.fillText(
 			'( ' + this.charaPositionX + ', ' + this.charaPositionY + ' )',
 			this.centerX + TileSize / 2,
@@ -714,6 +719,30 @@ class HanulseSpaceView {
 				textWidth,
 				20,
 			);
+		}
+
+		// this.context.globalAlpha = 0.5;
+		for (var y = tileStartY; y <= tileEndY; y++) {
+			for (var x = tileStartX; x <= tileEndX; x++) {
+				if (this._isEmptyMapOverPosition(x, y)) continue;
+
+				this.context.drawImage(
+					this.map.chips.over[this.map.map.over[y][x]].image,
+					(x - this.charaPositionX) * TileSize + tileOffsetX,
+					(y - this.charaPositionY) * TileSize + tileOffsetY,
+					TileSize,
+					TileSize
+				);
+			}
+		}
+		// this.context.globalAlpha = 1;
+
+		// Online Message
+		for (var onlineObjectKey in this.onlineObjects) {
+			var online = this.onlineObjects[onlineObjectKey];
+
+			var drawX = (online.x - this.charaPositionX) * TileSize + tileOffsetX - online.offsetX;
+			var drawY = (online.y - this.charaPositionY) * TileSize + tileOffsetY - online.offsetY;
 
 			if (online.message) {
 				this.context.font = '12px san-serif';
@@ -733,7 +762,7 @@ class HanulseSpaceView {
 				this.context.lineWidth = 0.5;
 				this.context.lineJoin = 'round';
 				this.context.lineCap = 'round';
-				this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+				this.context.fillStyle = 'rgba(0, 0, 0, 0.8)';
 				this.context.fill();
 				this.context.stroke();
 				this.context.closePath();
@@ -751,21 +780,41 @@ class HanulseSpaceView {
 			}
 		}
 
-		// this.context.globalAlpha = 0.5;
-		for (var y = tileStartY; y <= tileEndY; y++) {
-			for (var x = tileStartX; x <= tileEndX; x++) {
-				if (this._isEmptyMapOverPosition(x, y)) continue;
+		// Player Message
+		if (this.message) {
+			this.context.font = '12px san-serif';
+			var measuredSize = this.context.measureText(this.message);
+			var textWidth = measuredSize.width + 10;
+			
+			this.context.beginPath();
+			this._pathRoundedRectangle(
+				this.context,
+				this.centerX - (textWidth + 4 - TileSize) / 2,
+				this.centerY - 48,
+				textWidth + 4,
+				24,
+				6
+			);
+			this.context.strokeStyle = 'white';
+			this.context.lineWidth = 0.5;
+			this.context.lineJoin = 'round';
+			this.context.lineCap = 'round';
+			this.context.fillStyle = 'rgba(0, 0, 0, 0.8)';
+			this.context.fill();
+			this.context.stroke();
+			this.context.closePath();
 
-				this.context.drawImage(
-					this.map.chips.over[this.map.map.over[y][x]].image,
-					(x - this.charaPositionX) * TileSize + tileOffsetX,
-					(y - this.charaPositionY) * TileSize + tileOffsetY,
-					TileSize,
-					TileSize
-				);
-			}
+			this.context.fillStyle = 'white';
+			this.context.strokeStyle = 'black';
+			this.context.textAlign = 'center';
+			this.context.fillText(
+				this.message,
+				this.centerX + (TileSize) / 2,
+				this.centerY - 32,
+				textWidth,
+				24,
+			);
 		}
-		// this.context.globalAlpha = 1;
 
 		this.joypad.render(this.context);
 	}
