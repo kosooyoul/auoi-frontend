@@ -206,6 +206,23 @@ class HanulseSpaceView {
 			chip.image.src = chip.src;
 		});
 
+		this.map.events.forEach(event=> {
+			if (event == null) return;
+			event.image = document.createElement('img');
+			event.image.src = event.src;
+		});
+
+		this.map.map.event = [];
+		for (var i = 0; i < this.map.height; i++) {
+			this.map.map.event.push(new Array(this.map.width).fill(null));
+		}
+
+		this.map.events.forEach((event, i) => {
+			this.map.map.event[event.y][event.x] = { id: event.id = i, type: 'event' };
+		});
+
+		console.log(JSON.stringify(this.map.map.event))
+
 		this._loop();
 	}
 
@@ -214,7 +231,7 @@ class HanulseSpaceView {
 		requestAnimationFrame(() => {
 			var elapsedTime = Date.now() - requestedTime;
 			var fpsRatio = elapsedTime / (1000 / 60);
-			console.log(fpsRatio)
+
 			this._calculate(elapsedTime, fpsRatio);
 			this._draw();
 			this._loop();
@@ -296,7 +313,13 @@ class HanulseSpaceView {
 	}
 
 	_isBlockedMapPosition(x, y) {
-		return this.map.map.prop[y][x] != 0;
+		if (this.map.map.prop[y][x] != 0) return true;
+		if (this.map.map.event[y][x] != null) return true;
+		return false;
+	}
+
+	_getMapEvent(x, y) {
+		return this.map.events[this.map.map.event[y][x] && this.map.map.event[y][x].id];
 	}
 
 	_isEmptyMapBasePosition(x, y) {
@@ -350,6 +373,60 @@ class HanulseSpaceView {
 			}
 		}
 
+		for (var y = tileStartY; y < this.charaPositionY; y++) {
+			for (var x = tileStartX; x <= tileEndX; x++) {
+				var event = this._getMapEvent(x, y);
+				if (event == null) continue;
+
+				var charaClip = CharaClip[event.direction][0];
+				this.context.drawImage(
+					event.image,
+					charaClip.x,
+					charaClip.y,
+					charaClip.w,
+					charaClip.h,
+					(x - this.charaPositionX) * TileSize + tileOffsetX + (TileSize - charaClip.w) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY + (TileSize - charaClip.h),
+					charaClip.w,
+					charaClip.h,
+				);
+
+				this.context.font = '12px san-serif';
+				var measuredSize = this.context.measureText(event.name);
+				var textWidth = measuredSize.width + 10;
+				
+				this.context.beginPath();
+				this._pathRoundedRectangle(
+					this.context,
+					(x - this.charaPositionX) * TileSize + tileOffsetX - (textWidth + 4 - TileSize) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 32,
+					textWidth + 4,
+					24,
+					6
+				);
+				this.context.strokeStyle = "white";
+				this.context.lineWidth = 0.5;
+				this.context.lineJoin = "round";
+				this.context.lineCap = "round";
+				this.context.fillStyle = "rgba(0, 0, 0, 0.4)";
+				this.context.fill();
+				this.context.stroke();
+				this.context.closePath();
+
+				this.context.fillStyle = 'white';
+				this.context.strokeStyle = 'black';
+				this.context.textAlign = 'center';
+				this.context.fillText(
+					event.name,
+					(x - this.charaPositionX) * TileSize + tileOffsetX + (TileSize) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 16,
+					textWidth,
+					24,
+				);
+			}
+		}
+
+		// <Player>
 		var step = Math.ceil(this.charaStep) % this.charaStepCount;
 		var charaClip = CharaClip[this.charaDirection][step];
 
@@ -382,6 +459,60 @@ class HanulseSpaceView {
 			TileSize,
 			20,
 		);
+		// </Player>
+
+		for (var y = this.charaPositionY; y <= tileEndY; y++) {
+			for (var x = tileStartX; x <= tileEndX; x++) {
+				var event = this._getMapEvent(x, y);
+				if (event == null) continue;
+
+				var charaClip = CharaClip[event.direction][0];
+				this.context.drawImage(
+					event.image,
+					charaClip.x,
+					charaClip.y,
+					charaClip.w,
+					charaClip.h,
+					(x - this.charaPositionX) * TileSize + tileOffsetX + (TileSize - charaClip.w) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY + (TileSize - charaClip.h),
+					charaClip.w,
+					charaClip.h,
+				);
+
+				this.context.font = '12px san-serif';
+				var measuredSize = this.context.measureText(event.name);
+				var textWidth = measuredSize.width + 10;
+				
+				this.context.beginPath();
+				this._pathRoundedRectangle(
+					this.context,
+					(x - this.charaPositionX) * TileSize + tileOffsetX - (textWidth + 4 - TileSize) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 32,
+					textWidth + 4,
+					24,
+					6
+				);
+				this.context.strokeStyle = "white";
+				this.context.lineWidth = 0.5;
+				this.context.lineJoin = "round";
+				this.context.lineCap = "round";
+				this.context.fillStyle = "rgba(0, 0, 0, 0.4)";
+				this.context.fill();
+				this.context.stroke();
+				this.context.closePath();
+
+				this.context.fillStyle = 'white';
+				this.context.strokeStyle = 'black';
+				this.context.textAlign = 'center';
+				this.context.fillText(
+					event.name,
+					(x - this.charaPositionX) * TileSize + tileOffsetX + (TileSize) / 2,
+					(y - this.charaPositionY) * TileSize + tileOffsetY - 16,
+					textWidth,
+					24,
+				);
+			}
+		}
 
 		// this.context.globalAlpha = 0.5;
 		for (var y = tileStartY; y <= tileEndY; y++) {
@@ -400,5 +531,19 @@ class HanulseSpaceView {
 		// this.context.globalAlpha = 1;
 
 		this.joypad.render(this.context);
+	}
+	
+	_pathRoundedRectangle(context, x, y, width, height, round) {
+		var x2 = x + width;
+		var y2 = y + height;
+		context.moveTo(x + round, y);
+		context.lineTo(x2 - round, y);
+		context.quadraticCurveTo(x2, y, x2, y + round);
+		context.lineTo(x2, y2 - round);
+		context.quadraticCurveTo(x2, y2, x2 - round, y2);
+		context.lineTo(x + round, y2);
+		context.quadraticCurveTo(x, y2, x, y2 - round);
+		context.lineTo(x, y + round);
+		context.quadraticCurveTo(x, y, x + round, y);
 	}
 }
