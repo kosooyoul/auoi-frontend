@@ -200,6 +200,7 @@ class SingleAction4DirectionsJoypad {
             case 39: return "right";
             case 40: return "down";
             case 32: return "action";
+            case 13: return "action";
         }
         return "";
     }

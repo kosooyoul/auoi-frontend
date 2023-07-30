@@ -166,8 +166,91 @@
 		]
 	},
 	"events": [
-		{ "name": "Guardian 1", "x": 6, "y": 4, "direction": "left", "src": "./images/space/chara/guardian.png", "image": null },
-		{ "name": "Guardian 2", "x": 9, "y": 7, "direction": "down", "src": "./images/space/chara/guardian.png", "image": null },
-		{ "name": "Guardian 3", "x": 7, "y": 11, "direction": "up", "src": "./images/space/chara/guardian.png", "image": null }
+		{ "name": "선택지 테스터", "x": 6, "y": 4, "direction": "left", "src": "./images/space/chara/guardian.png", "image": null,
+			"actions": [
+				{ "type": "message", "message": "안녕하세요?" },
+				{ "type": "selection", "message": "무엇을 도와드릴까요?",
+					"options": [
+						{
+							"title": "아무것도 필요없어요.",
+							"actions": [
+								{ "type": "message", "message": "제가 필요가 없나요 ㅠㅠ" }
+							]
+						},
+						{
+							"title": "나중에 필요하면 말씀드릴게요!",
+							"actions": [
+								{ "type": "message", "message": "네 언제든 말씀해주세요 ^^" }
+							]
+						},
+						{
+							"title": "돈이 없어요! 돈 좀 주세요 ㅠㅠ",
+							"actions": [
+								{ "type": "message", "message": "돈은 저도 없어요... ㅜㅜ" }
+							]
+						}
+					]
+				},
+				{ "type": "message", "message": "또 봐요~~" }
+			]
+		},
+		{ "name": "변수 테스터", "x": 9, "y": 7, "direction": "down", "src": "./images/space/chara/guardian.png", "image": null,
+			"actions": [
+				{
+					"type": "if",
+					"name": "test",
+					"op": "eq",
+					"value": 1,
+					"then": [
+						{
+							"type": "message",
+							"message": "이벤트 변수 테스트입니다. True ${test}"
+						}
+					],
+					"else": [
+						{
+							"type": "message",
+							"message": "이벤트 변수 테스트입니다. False ${test}"
+						}
+					]
+				},
+				{
+					"type": "variable",
+					"name": "test",
+					"op": "add",
+					"value": 1
+				},
+				{
+					"type": "variable",
+					"name": "test",
+					"op": "mod",
+					"value": 2
+				},
+				{
+					"type": "save",
+					"variables": ["test"],
+					"storage": "local",
+					"namespace": "4d-world"
+				},
+				{
+					"type": "function",
+					"name": "reload",
+					"args": "cookie"
+				}
+			]
+		},
+		{ "name": "미식가의 비망록 관리자", "x": 7, "y": 11, "direction": "up", "src": "./images/space/chara/guardian.png", "image": null,
+			"actions": [
+				{ "type": "message", "message": "미식가의 비망록을 보러오셨나요?" },
+				{ "type": "message", "message": "어느 옛날 쿠키라는 한 미식가가 남긴 기록입니다." },
+				{
+					"type": "articles",
+					"title": "미식가의 비망록",
+					"owner": "62c0513854a9058e21419fb2",
+					"tags": "요리"
+				},
+				{ "type": "message", "message": "필요하시면 언제든 찾아와주세요~" }
+			]
+		}
 	]
 }

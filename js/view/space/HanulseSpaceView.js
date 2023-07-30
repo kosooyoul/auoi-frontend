@@ -105,6 +105,8 @@ class HanulseSpaceView {
 	*/
 	map = null;
 	joypad = null;
+	isJoyPadBlocked = false;
+	actionactionRunner = null;
 
 	constructor($parent) {
 		this.$parent = $parent;
@@ -183,6 +185,7 @@ class HanulseSpaceView {
 
 		this.joypad = new SingleAction4DirectionsJoypad($parent.get(0));
 		this.joypad.setCanvasSize(this.width, this.height, 1);
+		this.actionRunner = new HanulseActions();
 	}
 
 	load(map) {
@@ -260,6 +263,10 @@ class HanulseSpaceView {
 	}
 
 	_processJoyPad() {
+		if (this.isJoyPadBlocked) {
+			return;
+		}
+
 		var joypadStatus = this.joypad.getStatus();
 		
 		if (this.mapOffsetX != 0) return true;
@@ -280,7 +287,38 @@ class HanulseSpaceView {
 		} else if (joypadStatus['down']) {
 			this.charaDirection = 'down';
 			nextCharaPositionY++;
-		} else {
+		} else if (joypadStatus['action'] == null) {
+			return false;
+		}
+
+		if (joypadStatus['action']) {
+			if (this.charaDirection == 'left') {
+				var event = this._getMapEvent(this.charaPositionX - 1, this.charaPositionY);
+				if (event != null) {
+					event.direction = 'right';
+				}
+			} else if (this.charaDirection == 'right') {
+				var event = this._getMapEvent(this.charaPositionX + 1, this.charaPositionY);
+				if (event != null) {
+					event.direction = 'left';
+				}
+			} else if (this.charaDirection == 'up') {
+				var event = this._getMapEvent(this.charaPositionX, this.charaPositionY - 1);
+				if (event != null) {
+					event.direction = 'down';
+				}
+			} else if (this.charaDirection == 'down') {
+				var event = this._getMapEvent(this.charaPositionX, this.charaPositionY + 1);
+				if (event != null) {
+					event.direction = 'up';
+				}
+			}
+			if (event && event.actions) {
+				this.isJoyPadBlocked = true;
+				this.actionRunner.run(event.actions, () => {
+					this.isJoyPadBlocked = false;
+				});
+			}
 			return false;
 		}
 
@@ -307,7 +345,7 @@ class HanulseSpaceView {
 
 		return true;
 	}
-
+	
 	_isOutOfMapBoundary(x, y) {
 		return x < 0 || y < 0 || x >= this.map.width || y >= this.map.height;
 	}
@@ -408,7 +446,7 @@ class HanulseSpaceView {
 				this.context.lineWidth = 0.5;
 				this.context.lineJoin = "round";
 				this.context.lineCap = "round";
-				this.context.fillStyle = "rgba(0, 0, 0, 0.4)";
+				this.context.fillStyle = "rgba(0, 0, 0, 0.6)";
 				this.context.fill();
 				this.context.stroke();
 				this.context.closePath();
@@ -496,7 +534,7 @@ class HanulseSpaceView {
 				this.context.lineWidth = 0.5;
 				this.context.lineJoin = "round";
 				this.context.lineCap = "round";
-				this.context.fillStyle = "rgba(0, 0, 0, 0.4)";
+				this.context.fillStyle = "rgba(0, 0, 0, 0.6)";
 				this.context.fill();
 				this.context.stroke();
 				this.context.closePath();
