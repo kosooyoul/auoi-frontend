@@ -53,11 +53,11 @@ var CharaClip = {
 }
 
 var CharaImages = {
-	// "saint": {
+	// 'saint': {
 	// 	src: './images/space/chara/saint.png',
 	// 	image: null,
 	// },
-	"sarah": {
+	'sarah': {
 		src: './images/space/chara/sarah.png',
 		image: null,
 	}
@@ -88,25 +88,26 @@ class HanulseSpaceView {
 	charaDirection = 'down';
 	charaStep = 0;
 	charaStepCount = 9;
-	charaPositionX = 0;
-	charaPositionY = 0;
+	charaPositionX = 6;
+	charaPositionY = 7;
 
 	/*
-		"name": String
-		"chips": {
-			"base": [Nullable<{ "name": String, "src": String, "image": ImageElement }]
-			"prop": [Nullable<{ "name": String, "src": String, "image": ImageElement }]
+		'name': String
+		'chips': {
+			'base': [Nullable<{ 'name': String, 'src': String, 'image': ImageElement }]
+			'prop': [Nullable<{ 'name': String, 'src': String, 'image': ImageElement }]
 		}
-		"map": {
-			"base": [[Number]]
-			"prop": [[Number]]
-			"over": [[Number]]
+		'map': {
+			'base': [[Number]]
+			'prop': [[Number]]
+			'over': [[Number]]
 		}
 	*/
 	map = null;
 	joypad = null;
 	isJoyPadBlocked = false;
 	actionactionRunner = null;
+	onlineObjects = {};
 
 	constructor($parent) {
 		this.$parent = $parent;
@@ -115,7 +116,7 @@ class HanulseSpaceView {
 		this.height = $parent.height();
 		this.aspectRatio = this.width / this.height;
 
-		this.$canvas = $("<canvas>").css({ position: "relative", width: this.width + "px", height: this.height + "px" });
+		this.$canvas = $('<canvas>').css({ position: 'relative', width: this.width + 'px', height: this.height + 'px' });
 		this.$parent.append(this.$canvas);
 
 		this.canvas = this.$canvas.get(0);
@@ -143,7 +144,7 @@ class HanulseSpaceView {
 			var parentHeight = $parent.height();
 			if (parentWidth == this.width && parentHeight == this.height) {
 				if (this.needToRefreshItems) {
-					console.log("Resized!!!!!!!!!", this.width, this.height);
+					console.log('Resized!!!!!!!!!', this.width, this.height);
 					// Update canvas size
 					this.width = parentWidth;
 					this.height = parentHeight;
@@ -151,10 +152,9 @@ class HanulseSpaceView {
 
 					this.canvas.width = this.width;
 					this.canvas.height = this.height;
-					// this.$canvas.css({ width: this.width + 'px', height: this.height + 'px' });
 					this.$canvas.stop().animate({
-						width: this.width + "px",
-						height: this.height + "px",
+						width: this.width + 'px',
+						height: this.height + 'px',
 					}, { duration: 100 });
 
 					this.centerX = this.width >> 1;
@@ -180,7 +180,7 @@ class HanulseSpaceView {
 			this.height = parentHeight;
 			this.needToRefreshItems = true;
 
-			console.log("Resized", this.width, this.height);
+			console.log('Resized', this.width, this.height);
 		}, 100);
 
 		this.joypad = new SingleAction4DirectionsJoypad($parent.get(0));
@@ -224,9 +224,49 @@ class HanulseSpaceView {
 			this.map.map.event[event.y][event.x] = { id: event.id = i, type: 'event' };
 		});
 
-		console.log(JSON.stringify(this.map.map.event))
+		this._subscribeOnline();
 
 		this._loop();
+	}
+
+	_subscribeOnline() {
+		var socketId = null;
+		this.socket = new io('localhost:60001');
+		this.socket.on('ready', (data) => {
+			socketId = data.id;
+			console.log('socketId', data);
+
+			for (var id in data.objects) {
+				var object = data.objects[id];
+				this.onlineObjects[id] = { id: object.id, x: object.x, y: object.y, direction: object.d, offsetX: 0, offsetY: 0, step: 0, moving: false };
+			}
+
+			this.socket.emit('enter', { x: this.charaPositionX, y: this.charaPositionY, d: this.charaDirection });
+		});
+		this.socket.on('enter', (data) => {
+			if (data.id == socketId) return;
+
+			this.onlineObjects[data.id] = { id: data.id, x: data.x, y: data.y, direction: data.d, offsetX: 0, offsetY: 0, step: 0, moving: false };
+		});
+		this.socket.on('move', (data) => {
+			if (data.id == socketId) return;
+
+			if (this.onlineObjects[data.id] == null) {
+				this.onlineObjects[data.id] = { id: data.id, x: data.x, y: data.y, direction: data.d, offsetX: data.offsetX, offsetY: data.offsetY, step: 0, moving: false };
+			} else {
+				this.onlineObjects[data.id].x = data.x;
+				this.onlineObjects[data.id].y = data.y;
+				this.onlineObjects[data.id].direction = data.d;
+				this.onlineObjects[data.id].offsetX = data.offsetX;
+				this.onlineObjects[data.id].offsetY = data.offsetY;
+				this.onlineObjects[data.id].moving = true;
+			}
+		});
+		this.socket.on('leave', (data) => {
+			if (data.id == socketId) return;
+
+			delete this.onlineObjects[data.id];
+		});
 	}
 
 	_loop() {
@@ -247,11 +287,32 @@ class HanulseSpaceView {
 		var moving = this._processJoyPad();
 
 		var movePixel = fpsRatio * HanulseSpaceView.MOVE_PIXEL_PER_TICK;
+
 		if (this.mapOffsetX > 0) this.mapOffsetX = Math.max(this.mapOffsetX - movePixel, 0);
 		if (this.mapOffsetX < 0) this.mapOffsetX = Math.min(this.mapOffsetX + movePixel, 0);
 		if (this.mapOffsetY > 0) this.mapOffsetY = Math.max(this.mapOffsetY - movePixel, 0);
 		if (this.mapOffsetY < 0) this.mapOffsetY = Math.min(this.mapOffsetY + movePixel, 0);
+
+		for (var onlineObjectKey in this.onlineObjects) {
+			var online = this.onlineObjects[onlineObjectKey];
+			if (online.offsetX > 0) online.offsetX = Math.max(online.offsetX - movePixel, 0);
+			if (online.offsetX < 0) online.offsetX = Math.min(online.offsetX + movePixel, 0);
+			if (online.offsetY > 0) online.offsetY = Math.max(online.offsetY - movePixel, 0);
+			if (online.offsetY < 0) online.offsetY = Math.min(online.offsetY + movePixel, 0);
+			if (online.offsetX == 0 && online.offsetY == 0) {
+				online.moving = false;
+			}
 			
+			if (online.moving) {
+				online.step += 0.2 * fpsRatio;
+			} else if (online.step != 0) {
+				online.step += 0.2 * fpsRatio;
+				if (online.step >= this.charaStepCount) {
+					online.step = 0;
+				}
+			}
+		}
+
 		if (moving) {
 			this.charaStep += 0.2 * fpsRatio;
 		} else if (this.charaStep != 0) {
@@ -347,6 +408,14 @@ class HanulseSpaceView {
 
 		this.charaPositionX = nextCharaPositionX;
 		this.charaPositionY = nextCharaPositionY;
+
+		this.socket.emit('move', {
+			x: this.charaPositionX,
+			y: this.charaPositionY,
+			d: this.charaDirection,
+			offsetX: this.mapOffsetX,
+			offsetY: this.mapOffsetY
+		});
 
 		return true;
 	}
@@ -447,11 +516,11 @@ class HanulseSpaceView {
 					24,
 					6
 				);
-				this.context.strokeStyle = "white";
+				this.context.strokeStyle = 'white';
 				this.context.lineWidth = 0.5;
-				this.context.lineJoin = "round";
-				this.context.lineCap = "round";
-				this.context.fillStyle = "rgba(0, 0, 0, 0.6)";
+				this.context.lineJoin = 'round';
+				this.context.lineCap = 'round';
+				this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
 				this.context.fill();
 				this.context.stroke();
 				this.context.closePath();
@@ -535,11 +604,11 @@ class HanulseSpaceView {
 					24,
 					6
 				);
-				this.context.strokeStyle = "white";
+				this.context.strokeStyle = 'white';
 				this.context.lineWidth = 0.5;
-				this.context.lineJoin = "round";
-				this.context.lineCap = "round";
-				this.context.fillStyle = "rgba(0, 0, 0, 0.6)";
+				this.context.lineJoin = 'round';
+				this.context.lineCap = 'round';
+				this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
 				this.context.fill();
 				this.context.stroke();
 				this.context.closePath();
@@ -555,6 +624,60 @@ class HanulseSpaceView {
 					24,
 				);
 			}
+		}
+
+		for (var onlineObjectKey in this.onlineObjects) {
+			var online = this.onlineObjects[onlineObjectKey];
+
+			var drawX = (online.x - this.charaPositionX) * TileSize + tileOffsetX - online.offsetX;
+			var drawY = (online.y - this.charaPositionY) * TileSize + tileOffsetY - online.offsetY;
+			var step = Math.ceil(online.step) % this.charaStepCount;
+
+			var charaClip = CharaClip[online.direction][step];
+			this.context.drawImage(
+				CharaImages['sarah'].image,
+				charaClip.x,
+				charaClip.y,
+				charaClip.w,
+				charaClip.h,
+				drawX + (TileSize - charaClip.w) / 2,
+				drawY + (TileSize - charaClip.h),
+				charaClip.w,
+				charaClip.h,
+			);
+
+			this.context.font = '12px san-serif';
+			var measuredSize = this.context.measureText('Anonymous');
+			var textWidth = measuredSize.width + 10;
+			
+			this.context.beginPath();
+			this._pathRoundedRectangle(
+				this.context,
+				drawX - (textWidth + 4 - TileSize) / 2,
+				drawY - 32,
+				textWidth + 4,
+				24,
+				6
+			);
+			this.context.strokeStyle = 'white';
+			this.context.lineWidth = 0.5;
+			this.context.lineJoin = 'round';
+			this.context.lineCap = 'round';
+			this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+			this.context.fill();
+			this.context.stroke();
+			this.context.closePath();
+
+			this.context.fillStyle = 'white';
+			this.context.strokeStyle = 'black';
+			this.context.textAlign = 'center';
+			this.context.fillText(
+				'Anonymous',
+				drawX + (TileSize) / 2,
+				drawY - 16,
+				textWidth,
+				24,
+			);
 		}
 
 		// this.context.globalAlpha = 0.5;
