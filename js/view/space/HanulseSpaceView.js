@@ -82,8 +82,6 @@ class HanulseSpaceView {
 	tilesCountX = null;
 	tilesCountY = null;
 
-	mapPositionX = 0;
-	mapPositionY = 0;
 	mapOffsetX = 0;
 	mapOffsetY = 0;
 
@@ -226,29 +224,29 @@ class HanulseSpaceView {
 	_calculate(elapsedTime, fpsRatio) {
 		this.joypad.compute();
 
-		this._processKeyEvent();
+		var moving = this._processJoyPad();
 
 		var movePixel = fpsRatio * HanulseSpaceView.MOVE_PIXEL_PER_TICK;
-
 		if (this.mapOffsetX > 0) this.mapOffsetX = Math.max(this.mapOffsetX - movePixel, 0);
 		if (this.mapOffsetX < 0) this.mapOffsetX = Math.min(this.mapOffsetX + movePixel, 0);
 		if (this.mapOffsetY > 0) this.mapOffsetY = Math.max(this.mapOffsetY - movePixel, 0);
 		if (this.mapOffsetY < 0) this.mapOffsetY = Math.min(this.mapOffsetY + movePixel, 0);
-		// if (this.mapOffsetX == 0 && this.mapOffsetY == 0) {
-		// 	this.charaStep = 0;
-		// 	this.isCharaMoving = false;
-		// }
-		
-		if (this.isCharaMoving) {
-			this.charaStep += 0.18 * fpsRatio;
+			
+		if (moving) {
+			this.charaStep += 0.2 * fpsRatio;
+		} else if (this.charaStep != 0) {
+			this.charaStep += 0.2 * fpsRatio;
+			if (this.charaStep >= this.charaStepCount) {
+				this.charaStep = 0;
+			}
 		}
 	}
 
-	_processKeyEvent() {
+	_processJoyPad() {
 		var joypadStatus = this.joypad.getStatus();
 		
-		if (this.mapOffsetX != 0) return;
-		if (this.mapOffsetY != 0) return;
+		if (this.mapOffsetX != 0) return true;
+		if (this.mapOffsetY != 0) return true;
 
 		var nextCharaPositionX = this.charaPositionX;
 		var nextCharaPositionY = this.charaPositionY;
@@ -266,36 +264,31 @@ class HanulseSpaceView {
 			this.charaDirection = 'down';
 			nextCharaPositionY++;
 		} else {
-			this.isCharaMoving = false;
-			return;
+			return false;
 		}
 
 		if (this._isOutOfMapBoundary(nextCharaPositionX, nextCharaPositionY)) {
-			this.isCharaMoving = false;
-			return;
+			return false;
 		}
 
 		if (this._isBlockedMapPosition(nextCharaPositionX, nextCharaPositionY)) {
-			this.isCharaMoving = false;
-			return;
+			return false;
 		}
 
 		if (joypadStatus['right']) {
-			this.mapPositionX -= 48;
 			this.mapOffsetX = 48;
 		} else if (joypadStatus['left']) {
-			this.mapPositionX += 48;
 			this.mapOffsetX = -48;
 		} else if (joypadStatus['up']) {
-			this.mapPositionY += 48;
 			this.mapOffsetY = -48;
 		} else if (joypadStatus['down']) {
-			this.mapPositionY -= 48;
 			this.mapOffsetY = 48;
 		}
+
 		this.charaPositionX = nextCharaPositionX;
 		this.charaPositionY = nextCharaPositionY;
-		this.isCharaMoving = true;
+
+		return true;
 	}
 
 	_isOutOfMapBoundary(x, y) {
@@ -321,41 +314,36 @@ class HanulseSpaceView {
 	_draw() {
 		this.context.fillStyle = 'black';
 		this.context.fillRect(0, 0, this.width, this.height);
-		var tileStartX = -Math.round(this.tilesCountX / 2);
-		var tileStartY = -Math.round(this.tilesCountY / 2);
-		var tileEndX = this.tilesCountX + tileStartX;
-		var tileEndY = this.tilesCountY + tileStartY;
-		
-		for (var y = tileStartY; y < tileEndY; y++) {
-			for (var x = tileStartX; x < tileEndX; x++) {
-				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
-				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
-				if (this._isOutOfMapBoundary(mapPositionXIndex, mapPositionYIndex)) continue;
-				if (this._isEmptyMapBasePosition(mapPositionXIndex, mapPositionYIndex)) continue;
+		var tileStartX = Math.max(this.charaPositionX - Math.round(this.tilesCountX / 2), 0);
+		var tileStartY = Math.max(this.charaPositionY - Math.round(this.tilesCountY / 2), 0);
+		var tileEndX = Math.min(this.tilesCountX + tileStartX, this.map.width - 1);
+		var tileEndY = Math.min(this.tilesCountY + tileStartY, this.map.height - 1);
+		var tileOffsetX = this.centerX + this.mapOffsetX;
+		var tileOffsetY = this.centerY + this.mapOffsetY;
+		
+		for (var y = tileStartY; y <= tileEndY; y++) {
+			for (var x = tileStartX; x <= tileEndX; x++) {
+				if (this._isEmptyMapBasePosition(x, y)) continue;
 
 				this.context.drawImage(
-					this.map.chips.base[this.map.map.base[mapPositionYIndex][mapPositionXIndex]].image,
-					x * TileSize + this.centerX + this.mapOffsetX,
-					y * TileSize + this.centerY + this.mapOffsetY,
+					this.map.chips.base[this.map.map.base[y][x]].image,
+					(x - this.charaPositionX) * TileSize + tileOffsetX,
+					(y - this.charaPositionY) * TileSize + tileOffsetY,
 					TileSize,
 					TileSize
 				);
 			}
 		}
 
-		for (var y = tileStartY; y < tileEndY; y++) {
-			for (var x = tileStartX; x < tileEndX; x++) {
-				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
-				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
-
-				if (this._isOutOfMapBoundary(mapPositionXIndex, mapPositionYIndex)) continue;
-				if (this._isEmptyMapPropPosition(mapPositionXIndex, mapPositionYIndex)) continue;
+		for (var y = tileStartY; y <= tileEndY; y++) {
+			for (var x = tileStartX; x <= tileEndX; x++) {
+				if (this._isEmptyMapPropPosition(x, y)) continue;
 
 				this.context.drawImage(
-					this.map.chips.prop[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]].image,
-					x * TileSize + this.centerX + this.mapOffsetX,
-					y * TileSize + this.centerY + this.mapOffsetY,
+					this.map.chips.prop[this.map.map.prop[y][x]].image,
+					(x - this.charaPositionX) * TileSize + tileOffsetX,
+					(y - this.charaPositionY) * TileSize + tileOffsetY,
 					TileSize,
 					TileSize
 				);
@@ -396,18 +384,14 @@ class HanulseSpaceView {
 		);
 
 		// this.context.globalAlpha = 0.5;
-		for (var y = tileStartY; y < tileEndY; y++) {
-			for (var x = tileStartX; x < tileEndX; x++) {
-				var mapPositionXIndex = x - Math.round((this.mapPositionX) / TileSize);
-				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
-
-				if (this._isOutOfMapBoundary(mapPositionXIndex, mapPositionYIndex)) continue;
-				if (this._isEmptyMapOverPosition(mapPositionXIndex, mapPositionYIndex)) continue;
+		for (var y = tileStartY; y <= tileEndY; y++) {
+			for (var x = tileStartX; x <= tileEndX; x++) {
+				if (this._isEmptyMapOverPosition(x, y)) continue;
 
 				this.context.drawImage(
-					this.map.chips.over[this.map.map.over[mapPositionYIndex][mapPositionXIndex]].image,
-					x * TileSize + this.centerX + this.mapOffsetX,
-					y * TileSize + this.centerY + this.mapOffsetY,
+					this.map.chips.over[this.map.map.over[y][x]].image,
+					(x - this.charaPositionX) * TileSize + tileOffsetX,
+					(y - this.charaPositionY) * TileSize + tileOffsetY,
 					TileSize,
 					TileSize
 				);
