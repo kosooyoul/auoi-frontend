@@ -27,6 +27,10 @@ io.on('connection', (socket) => {
         objects[socket.id] = { ... data, id: socket.id };
         io.sockets.emit('move', objects[socket.id]);
     });
+    socket.on('message', (data) => {
+        // console.log('message', data);
+        io.sockets.emit('message', { id: socket.id, message: data.message });
+    });
 });
     
 server.listen(60001, () => {
