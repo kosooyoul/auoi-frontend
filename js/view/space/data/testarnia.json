@@ -1,5 +1,7 @@
 {
 	"name": "Testarnia",
+	"width": 24,
+	"height": 16,
 	"chips": {
 		"base": [
 			null,
@@ -13,7 +15,10 @@
 			{ "name": "blocks", "src": "./images/space/prop/blocks.png", "image": null },
 			{ "name": "book", "src": "./images/space/prop/book.png", "image": null },
 			{ "name": "flower", "src": "./images/space/prop/flower.png", "image": null },
-			{ "name": "lighthand", "src": "./images/space/prop/lighthand.png", "image": null },
+			{ "name": "lighthand", "src": "./images/space/prop/lighthand.png", "image": null }
+		],
+		"over": [
+			null,
 			{ "name": "glass-piece", "src": "./images/space/prop/glass-piece.png", "image": null }
 		]
 	},

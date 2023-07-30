@@ -51,46 +51,7 @@ var CharaClip = {
 		{x: 512, y: 192, w: 64, h: 64},
 	],
 }
-var MapBaseTileImages = {
-	"grass": {
-		src: './images/space/mapchip/grass.png',
-		image: null,
-	},
-	"soil": {
-		src: './images/space/mapchip/soil.png',
-		image: null,
-	},
-	"gravel": {
-		src: './images/space/mapchip/gravel.png',
-		image: null,
-	},
-	"water": {
-		src: './images/space/mapchip/water.png',
-		image: null,
-	}
-}
-var MapPropTileImages = {
-	"blocks": {
-		src: './images/space/prop/blocks.png',
-		image: null,
-	},
-	"book": {
-		src: './images/space/prop/book.png',
-		image: null,
-	},
-	"flower": {
-		src: './images/space/prop/flower.png',
-		image: null,
-	},
-	"lighthand": {
-		src: './images/space/prop/lighthand.png',
-		image: null,
-	},
-	"glass-piece": {
-		src: './images/space/prop/glass-piece.png',
-		image: null,
-	}
-}
+
 var CharaImages = {
 	// "saint": {
 	// 	src: './images/space/chara/saint.png',
@@ -100,30 +61,6 @@ var CharaImages = {
 		src: './images/space/chara/sarah.png',
 		image: null,
 	}
-}
-var MapBaseTiles = {
-	0: null,
-	1: "grass",
-	2: "soil",
-	3: "gravel",
-	4: "water",
-};
-var MapPropTiles = {
-	0: null,
-	1: "blocks",
-	2: "book",
-	3: "flower",
-	4: "lighthand",
-};
-var MapOverTiles = {
-	0: null,
-	1: "glass-piece",
-};
-var MapBoundary = {
-	left: 0,
-	top: 0,
-	right: 40,
-	bottom: 30,
 }
 
 class HanulseSpaceView {
@@ -163,7 +100,6 @@ class HanulseSpaceView {
 		move: false,
 	};
 
-	joypad = null;
 
 	/*
 		"name": String
@@ -178,6 +114,7 @@ class HanulseSpaceView {
 		}
 	*/
 	map = null;
+	joypad = null;
 
 	constructor($parent) {
 		this.$parent = $parent;
@@ -210,18 +147,6 @@ class HanulseSpaceView {
 			var charaImage = CharaImages[charaImageKey];
 			charaImage.image = document.createElement('img');
 			charaImage.image.src = charaImage.src;
-		}
-
-		for (var mapBaseTileImageKey in MapBaseTileImages) {
-			var mapBaseTileImage = MapBaseTileImages[mapBaseTileImageKey];
-			mapBaseTileImage.image = document.createElement('img');
-			mapBaseTileImage.image.src = mapBaseTileImage.src;
-		}
-
-		for (var mapPropTileImageKey in MapPropTileImages) {
-			var mapPropTileImage = MapPropTileImages[mapPropTileImageKey];
-			mapPropTileImage.image = document.createElement('img');
-			mapPropTileImage.image.src = mapPropTileImage.src;
 		}
 
 		$(window).on('keydown', (event) => {
@@ -318,6 +243,25 @@ class HanulseSpaceView {
 
 	load(map) {
 		this.map = map;
+
+		this.map.chips.base.forEach(chip => {
+			if (chip == null) return;
+			chip.image = document.createElement('img');
+			chip.image.src = chip.src;
+		});
+
+		this.map.chips.prop.forEach(chip => {
+			if (chip == null) return;
+			chip.image = document.createElement('img');
+			chip.image.src = chip.src;
+		});
+
+		this.map.chips.over.forEach(chip => {
+			if (chip == null) return;
+			chip.image = document.createElement('img');
+			chip.image.src = chip.src;
+		});
+
 		this._loop();
 	}
 
@@ -372,10 +316,10 @@ class HanulseSpaceView {
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'right';
 			if (
-				this.charaPositionX + 1 < MapBoundary.left ||
-				this.charaPositionY < MapBoundary.top ||
-				this.charaPositionX + 1 > MapBoundary.right ||
-				this.charaPositionY > MapBoundary.bottom
+				this.charaPositionX + 1 < 0 ||
+				this.charaPositionY < 0 ||
+				this.charaPositionX + 1 > this.map.width - 1 ||
+				this.charaPositionY > this.map.height - 1
 			) {
 				this.isCharaMoving = false;
 				return;
@@ -394,10 +338,10 @@ class HanulseSpaceView {
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'left';
 			if (
-				this.charaPositionX - 1 < MapBoundary.left ||
-				this.charaPositionY < MapBoundary.top ||
-				this.charaPositionX - 1 > MapBoundary.right ||
-				this.charaPositionY > MapBoundary.bottom
+				this.charaPositionX - 1 < 0 ||
+				this.charaPositionY < 0 ||
+				this.charaPositionX - 1 > this.map.width - 1 ||
+				this.charaPositionY > this.map.height - 1
 			) {
 				this.isCharaMoving = false;
 				return;
@@ -416,10 +360,10 @@ class HanulseSpaceView {
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'up';
 			if (
-				this.charaPositionX < MapBoundary.left ||
-				this.charaPositionY - 1 < MapBoundary.top ||
-				this.charaPositionX > MapBoundary.right ||
-				this.charaPositionY - 1 > MapBoundary.bottom
+				this.charaPositionX < 0 ||
+				this.charaPositionY - 1 < 0 ||
+				this.charaPositionX > this.map.width - 1 ||
+				this.charaPositionY - 1 > this.map.height - 1
 			) {
 				this.isCharaMoving = false;
 				return;
@@ -438,10 +382,10 @@ class HanulseSpaceView {
 			if (this.mapOffsetY != 0) return;
 			this.charaDirection = 'down';
 			if (
-				this.charaPositionX < MapBoundary.left ||
-				this.charaPositionY + 1 < MapBoundary.top ||
-				this.charaPositionX > MapBoundary.right ||
-				this.charaPositionY + 1 > MapBoundary.bottom
+				this.charaPositionX < 0 ||
+				this.charaPositionY + 1 < 0 ||
+				this.charaPositionX > this.map.width - 1 ||
+				this.charaPositionY + 1 > this.map.height - 1
 			) {
 				this.isCharaMoving = false;
 				return;
@@ -476,16 +420,16 @@ class HanulseSpaceView {
 				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
 				if (
-					mapPositionXIndex >= MapBoundary.left &&
-					mapPositionYIndex >= MapBoundary.top &&
-					mapPositionXIndex <= MapBoundary.right &&
-					mapPositionYIndex <= MapBoundary.bottom
+					mapPositionXIndex >= 0 &&
+					mapPositionYIndex >= 0 &&
+					mapPositionXIndex <= this.map.width - 1 &&
+					mapPositionYIndex <= this.map.height - 1
 				) {
 					if (this.map.map.base[mapPositionYIndex][mapPositionXIndex] == 0) continue;
-					if (MapBaseTileImages[MapBaseTiles[this.map.map.base[mapPositionYIndex][mapPositionXIndex]]] == null) continue;
+					if (this.map.chips.base[this.map.map.base[mapPositionYIndex][mapPositionXIndex]] == null) continue;
 
 					this.context.drawImage(
-						MapBaseTileImages[MapBaseTiles[this.map.map.base[mapPositionYIndex][mapPositionXIndex]]].image,
+						this.map.chips.base[this.map.map.base[mapPositionYIndex][mapPositionXIndex]].image,
 						x * TileSize + this.centerX + this.mapOffsetX,
 						y * TileSize + this.centerY + this.mapOffsetY,
 						TileSize,
@@ -518,16 +462,16 @@ class HanulseSpaceView {
 				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
 				if (
-					mapPositionXIndex >= MapBoundary.left &&
-					mapPositionYIndex >= MapBoundary.top &&
-					mapPositionXIndex <= MapBoundary.right &&
-					mapPositionYIndex <= MapBoundary.bottom
+					mapPositionXIndex >= 0 &&
+					mapPositionYIndex >= 0 &&
+					mapPositionXIndex <= this.map.width - 1 &&
+					mapPositionYIndex <= this.map.height - 1
 				) {
 					if (this.map.map.prop[mapPositionYIndex][mapPositionXIndex] == 0) continue;
-					if (MapPropTileImages[MapPropTiles[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]]] == null) continue;
+					if (this.map.chips.prop[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]] == null) continue;
 
 					this.context.drawImage(
-						MapPropTileImages[MapPropTiles[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]]].image,
+						this.map.chips.prop[this.map.map.prop[mapPositionYIndex][mapPositionXIndex]].image,
 						x * TileSize + this.centerX + this.mapOffsetX,
 						y * TileSize + this.centerY + this.mapOffsetY,
 						TileSize,
@@ -577,16 +521,16 @@ class HanulseSpaceView {
 				var mapPositionYIndex = y - Math.round((this.mapPositionY) / TileSize);
 
 				if (
-					mapPositionXIndex >= MapBoundary.left &&
-					mapPositionYIndex >= MapBoundary.top &&
-					mapPositionXIndex <= MapBoundary.right &&
-					mapPositionYIndex <= MapBoundary.bottom
+					mapPositionXIndex >= 0 &&
+					mapPositionYIndex >= 0 &&
+					mapPositionXIndex <= this.map.width - 1 &&
+					mapPositionYIndex <= this.map.height - 1
 				) {
 					if (this.map.map.over[mapPositionYIndex][mapPositionXIndex] == 0) continue;
-					if (MapPropTileImages[MapOverTiles[this.map.map.over[mapPositionYIndex][mapPositionXIndex]]] == null) continue;
+					if (this.map.chips.over[this.map.map.over[mapPositionYIndex][mapPositionXIndex]] == null) continue;
 
 					this.context.drawImage(
-						MapPropTileImages[MapOverTiles[this.map.map.over[mapPositionYIndex][mapPositionXIndex]]].image,
+						this.map.chips.over[this.map.map.over[mapPositionYIndex][mapPositionXIndex]].image,
 						x * TileSize + this.centerX + this.mapOffsetX,
 						y * TileSize + this.centerY + this.mapOffsetY,
 						TileSize,
