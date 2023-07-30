@@ -81,6 +81,8 @@ class HanulseSpaceView {
 	centerY = null;
 	tilesCountX = null;
 	tilesCountY = null;
+	tilesOffsetX = null;
+	tilesOffsetY = null;
 
 	mapOffsetX = 0;
 	mapOffsetY = 0;
@@ -146,8 +148,8 @@ class HanulseSpaceView {
 		this.tilesCountX = Math.ceil(this.width / TileSize) + 3;
 		this.tilesCountY = Math.ceil(this.height / TileSize) + 3;
 
-		this.tilesOffsetX = (this.width - this.tilesCountX * TileSize) / 2;
-		this.tilesOffsetY = (this.height - this.tilesCountY * TileSize) / 2;
+		this.tilesOffsetX = -(this.tilesCountX / 2) / 2;
+		this.tilesOffsetY = -(this.tilesCountY / 2) / 2;
 
 		for (var charaImageKey in CharaImages) {
 			var charaImage = CharaImages[charaImageKey];
@@ -179,8 +181,8 @@ class HanulseSpaceView {
 					this.tilesCountX = Math.ceil(this.width / TileSize) + 3;
 					this.tilesCountY = Math.ceil(this.height / TileSize) + 3;
 
-					this.tilesOffsetX = (this.width - this.tilesCountX * TileSize) / 2;
-					this.tilesOffsetY = (this.height - this.tilesCountY * TileSize) / 2;
+					this.tilesOffsetX = -(this.tilesCountX % 1) / 2;
+					this.tilesOffsetY = -(this.tilesCountY % 1) / 2;
 
 					this.joypad.setCanvasSize(this.width, this.height, 1);
 
@@ -355,9 +357,7 @@ class HanulseSpaceView {
 				online.moving = false;
 			}
 			
-			if (online.moving) {
-				online.step += 0.2 * fpsRatio;
-			} else if (online.step != 0) {
+			if (online.moving || online.step != 0) {
 				online.step += 0.2 * fpsRatio;
 				if (online.step >= this.charaStepCount) {
 					online.step = 0;
@@ -371,9 +371,7 @@ class HanulseSpaceView {
 			}
 		}
 
-		if (moving) {
-			this.charaStep += 0.2 * fpsRatio;
-		} else if (this.charaStep != 0) {
+		if (moving || this.charaStep != 0) {
 			this.charaStep += 0.2 * fpsRatio;
 			if (this.charaStep >= this.charaStepCount) {
 				this.charaStep = 0;
@@ -512,8 +510,8 @@ class HanulseSpaceView {
 		var tileStartY = Math.max(this.charaPositionY - Math.round(this.tilesCountY / 2), 0);
 		var tileEndX = Math.min(this.tilesCountX + tileStartX, this.map.width - 1);
 		var tileEndY = Math.min(this.tilesCountY + tileStartY, this.map.height - 1);
-		var tileOffsetX = this.centerX + this.mapOffsetX;
-		var tileOffsetY = this.centerY + this.mapOffsetY;
+		var tileOffsetX = this.centerX + this.mapOffsetX + this.tilesOffsetX;
+		var tileOffsetY = this.centerY + this.mapOffsetY + this.tilesOffsetY;
 		
 		for (var y = tileStartY; y <= tileEndY; y++) {
 			for (var x = tileStartX; x <= tileEndX; x++) {
