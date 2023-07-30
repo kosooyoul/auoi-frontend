@@ -292,24 +292,29 @@ class HanulseSpaceView {
 		}
 
 		if (joypadStatus['action']) {
+			var event = null;
 			if (this.charaDirection == 'left') {
-				var event = this._getMapEvent(this.charaPositionX - 1, this.charaPositionY);
+				event = this._getMapEvent(this.charaPositionX - 1, this.charaPositionY);
 				if (event != null) {
+					event.originalDirection = event.direction;
 					event.direction = 'right';
 				}
 			} else if (this.charaDirection == 'right') {
-				var event = this._getMapEvent(this.charaPositionX + 1, this.charaPositionY);
+				event = this._getMapEvent(this.charaPositionX + 1, this.charaPositionY);
 				if (event != null) {
+					event.originalDirection = event.direction;
 					event.direction = 'left';
 				}
 			} else if (this.charaDirection == 'up') {
-				var event = this._getMapEvent(this.charaPositionX, this.charaPositionY - 1);
+				event = this._getMapEvent(this.charaPositionX, this.charaPositionY - 1);
 				if (event != null) {
+					event.originalDirection = event.direction;
 					event.direction = 'down';
 				}
 			} else if (this.charaDirection == 'down') {
-				var event = this._getMapEvent(this.charaPositionX, this.charaPositionY + 1);
+				event = this._getMapEvent(this.charaPositionX, this.charaPositionY + 1);
 				if (event != null) {
+					event.originalDirection = event.direction;
 					event.direction = 'up';
 				}
 			}
@@ -317,9 +322,9 @@ class HanulseSpaceView {
 				this.isJoyPadBlocked = true;
 				this.actionRunner.run(event.actions, () => {
 					this.isJoyPadBlocked = false;
+					event.direction = event.originalDirection;
 				});
 			}
-			return false;
 		}
 
 		if (this._isOutOfMapBoundary(nextCharaPositionX, nextCharaPositionY)) {
