@@ -141,9 +141,28 @@ $(document).ready(() => {
 <script type="text/javascript" src="./js/view/space/HanulseSpaceView.js"></script>
 <script type="text/javascript" src="./js/view/space/SingleAction4DirectionsJoypad.js"></script>
 <script>
-$(document.body).ready(() => {
+var App = function() {
 	var spaceView = new HanulseSpaceView($(".space"));
-});
+
+	getMap('testarnia', (data) => {
+		spaceView.load(data);
+	});
+	
+	function getMap(name, callback) {
+		const timeForCache = parseInt(Date.now() / 1000 / 60 / 60 / 24);
+		$.ajax({
+			"url": "./js/view/space/data/" + name + ".json?ts=" + timeForCache,
+			"dataType": "json",
+			"success": (data) => {
+				callback(data);
+			},
+			"error": () => {
+				console.log("Failed loading map: " + name);
+			}
+		});
+	}
+}
+$(document.body).ready(() => new App());
 </script>
 </body>
 </html>
