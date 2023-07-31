@@ -148,8 +148,8 @@ class HanulseSpaceView {
 		this.tilesCountX = Math.ceil(this.width / TileSize) + 3;
 		this.tilesCountY = Math.ceil(this.height / TileSize) + 3;
 
-		this.tilesOffsetX = -(this.tilesCountX / 2) / 2;
-		this.tilesOffsetY = -(this.tilesCountY / 2) / 2;
+		this.tilesOffsetX = -(this.tilesCountX % 1) / 2;
+		this.tilesOffsetY = -(this.tilesCountY % 1) / 2;
 
 		for (var charaImageKey in CharaImages) {
 			var charaImage = CharaImages[charaImageKey];
