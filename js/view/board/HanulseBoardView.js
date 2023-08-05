@@ -811,12 +811,12 @@ class HanulseBoardView {
 		var lastLineWidth = this.drawingContext.lineWidth;
 		var dw = lineWidth - lastLineWidth;
 
-		var count = Math.floor((Math.abs(dx) + Math.abs(dy)) / 1);
+		var count = Math.max(1, Math.floor((Math.abs(dx) + Math.abs(dy)) / 2));
 		var cdx = dx / count;
 		var cdy = dy / count;
-		var cdw = dw / count;
+		var cdw = dw > 0? 0.05: -0.05;
 		for (var i = 0; i < count; i++) {
-			this.drawingContext.lineWidth += cdw;
+			this.drawingContext.lineWidth = Math.max(lineWidth * 0.5, Math.min(lineWidth * 2, this.drawingContext.lineWidth + cdw));
 	
 			this.drawingContext.beginPath();
 			this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
@@ -830,11 +830,11 @@ class HanulseBoardView {
 			this.drawingPath.push({ x: this.lastDrawingX, y: this.lastDrawingY, w: this.drawingContext.lineWidth });
 		}
 
-		this.drawingContext.beginPath();
-		this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
-		this.drawingContext.lineTo(x, y);
-		this.drawingContext.stroke();
-		this.drawingContext.closePath();
+		// this.drawingContext.beginPath();
+		// this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
+		// this.drawingContext.lineTo(x, y);
+		// this.drawingContext.stroke();
+		// this.drawingContext.closePath();
 		
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
