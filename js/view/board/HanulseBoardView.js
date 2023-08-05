@@ -66,6 +66,7 @@ class HanulseBoardView {
 	drawingPath = null;
 	lastDrawingX = null;
 	lastDrawingY = null;
+	lastDrawedTimeMs = null;
 	drawingCanvas = null;
 	drawingContext = null;
 
@@ -781,9 +782,11 @@ class HanulseBoardView {
 		this.drawingContext.lineCap = "round";
 		this.drawingContext.strokeStyle = this.drawingStyle.strokeColor;
 		this.drawingContext.lineWidth = this.drawingStyle.strokeWidth;
+		this.strokeRatio = 2;
 
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
+		this.lastDrawedTimeMs = Date.now();
 	}
 	
 	_onDrawing(event) {
@@ -800,7 +803,15 @@ class HanulseBoardView {
 		var x = pointer.pageX - offset.left;
 		var y = pointer.pageY - offset.top;
 
-		this.drawingPath.push({ x: x, y: y });
+		var dx = x - this.drawingPath[this.drawingPath.length - 1].x;
+		var dy = y - this.drawingPath[this.drawingPath.length - 1].y;
+		var speed =  (Math.abs(dx) + Math.abs(dy)) / (Date.now() - this.lastDrawedTimeMs);
+		console.log(speed);
+
+		const lineWidth = this.drawingStyle.strokeWidth * Math.max(1, Math.min(2, 1 / speed));
+		this.drawingPath.push({ x: x, y: y, w: lineWidth });
+
+		this.drawingContext.lineWidth = lineWidth;
 
 		this.drawingContext.beginPath();
 		this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
@@ -810,6 +821,7 @@ class HanulseBoardView {
 
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
+		this.lastDrawedTimeMs = Date.now();
 	}
 	
 	_onDrawingEnd(event) {
@@ -841,13 +853,15 @@ class HanulseBoardView {
 			this.drawingContext.strokeStyle = this.drawingStyle.strokeColor;
 			this.drawingContext.lineWidth = this.drawingStyle.strokeWidth;
 			
-			this.drawingContext.beginPath();
 			this.drawingContext.scale(quality, quality);
-			this.drawingContext.moveTo(normalizedPath[0].x, normalizedPath[0].y);
-			for (var i = 1; i < normalizedPath.length; i++) {
-				this.drawingContext.lineTo(normalizedPath[i].x, normalizedPath[i].y);
+			// this.drawingContext.lineWidth = 1;
+			for (var i = 0; i < normalizedPath.length - 1; i++) {
+				this.drawingContext.lineWidth = normalizedPath[i].w;
+				this.drawingContext.beginPath();
+				this.drawingContext.moveTo(normalizedPath[i].x, normalizedPath[i].y);
+				this.drawingContext.lineTo(normalizedPath[i + 1].x, normalizedPath[i + 1].y);
+				this.drawingContext.stroke();
 			}
-			this.drawingContext.stroke();
 			this.drawingContext.closePath();
 			console.log(this.drawingCanvas.toDataURL("image/png"));
 
@@ -891,6 +905,6 @@ class HanulseBoardView {
 	}
 
 	_normalizePath(path, boundary) {
-		return path.map(p => ({ x: p.x - boundary.offsetX, y: p.y - boundary.offsetY }))
+		return path.map(p => ({ x: p.x - boundary.offsetX, y: p.y - boundary.offsetY, w: p.w }));
 	}
 }
