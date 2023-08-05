@@ -803,27 +803,42 @@ class HanulseBoardView {
 		var x = pointer.pageX - offset.left;
 		var y = pointer.pageY - offset.top;
 
-		var lastPoint = this.drawingPath[this.drawingPath.length - 1];
-		var speed = 0;
-		if (lastPoint) {
-			var dx = x - lastPoint.x;
-			var dy = y - lastPoint.y;
-			speed =  (Math.abs(dx) + Math.abs(dy)) / (Date.now() - this.lastDrawedTimeMs);
+		var dx = x - this.lastDrawingX;
+		var dy = y - this.lastDrawingY;
+		var lineWidthRatio =  (Date.now() - this.lastDrawedTimeMs) / (Math.abs(dx) + Math.abs(dy));
+		var lineWidth = this.drawingStyle.strokeWidth * Math.max(0.5, Math.min(2, lineWidthRatio));
+		
+		var lastLineWidth = this.drawingContext.lineWidth;
+		var dw = lineWidth - lastLineWidth;
+
+		var count = Math.floor((Math.abs(dx) + Math.abs(dy)) / 1);
+		var cdx = dx / count;
+		var cdy = dy / count;
+		var cdw = dw / count;
+		for (var i = 0; i < count; i++) {
+			this.drawingContext.lineWidth += cdw;
+	
+			this.drawingContext.beginPath();
+			this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
+			this.drawingContext.lineTo(this.lastDrawingX + cdx, this.lastDrawingY + cdy);
+			this.drawingContext.stroke();
+			this.drawingContext.closePath();
+
+			this.lastDrawingX = this.lastDrawingX + cdx;
+			this.lastDrawingY = this.lastDrawingY + cdy;
+
+			this.drawingPath.push({ x: this.lastDrawingX, y: this.lastDrawingY, w: this.drawingContext.lineWidth });
 		}
-
-		const lineWidth = this.drawingStyle.strokeWidth * Math.max(1, Math.min(2, 1 / speed));
-		this.drawingPath.push({ x: x, y: y, w: lineWidth });
-
-		this.drawingContext.lineWidth = lineWidth;
 
 		this.drawingContext.beginPath();
 		this.drawingContext.moveTo(this.lastDrawingX, this.lastDrawingY);
 		this.drawingContext.lineTo(x, y);
 		this.drawingContext.stroke();
 		this.drawingContext.closePath();
-
+		
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
+		this.drawingPath.push({ x: this.lastDrawingX, y: this.lastDrawingY, w: this.drawingContext.lineWidth });
 		this.lastDrawedTimeMs = Date.now();
 	}
 	
