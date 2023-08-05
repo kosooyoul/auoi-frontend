@@ -786,7 +786,7 @@ class HanulseBoardView {
 
 		this.lastDrawingX = x;
 		this.lastDrawingY = y;
-		this.lastDrawedTimeMs = Date.now();
+		this.lastDrawedTimeMs = 0;
 	}
 	
 	_onDrawing(event) {
@@ -803,10 +803,13 @@ class HanulseBoardView {
 		var x = pointer.pageX - offset.left;
 		var y = pointer.pageY - offset.top;
 
-		var dx = x - this.drawingPath[this.drawingPath.length - 1].x;
-		var dy = y - this.drawingPath[this.drawingPath.length - 1].y;
-		var speed =  (Math.abs(dx) + Math.abs(dy)) / (Date.now() - this.lastDrawedTimeMs);
-		console.log(speed);
+		var lastPoint = this.drawingPath[this.drawingPath.length - 1];
+		var speed = 0;
+		if (lastPoint) {
+			var dx = x - lastPoint.x;
+			var dy = y - lastPoint.y;
+			speed =  (Math.abs(dx) + Math.abs(dy)) / (Date.now() - this.lastDrawedTimeMs);
+		}
 
 		const lineWidth = this.drawingStyle.strokeWidth * Math.max(1, Math.min(2, 1 / speed));
 		this.drawingPath.push({ x: x, y: y, w: lineWidth });
@@ -856,7 +859,7 @@ class HanulseBoardView {
 			this.drawingContext.scale(quality, quality);
 			// this.drawingContext.lineWidth = 1;
 			for (var i = 0; i < normalizedPath.length - 1; i++) {
-				this.drawingContext.lineWidth = normalizedPath[i].w;
+				this.drawingContext.lineWidth = normalizedPath[i + 1].w;
 				this.drawingContext.beginPath();
 				this.drawingContext.moveTo(normalizedPath[i].x, normalizedPath[i].y);
 				this.drawingContext.lineTo(normalizedPath[i + 1].x, normalizedPath[i + 1].y);
