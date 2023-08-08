@@ -8,6 +8,7 @@ class HanulseBoardComponent {
 
 	thisElementWidth = null;
 	thisElementHeight = null;
+	thisAspectRatio = null;
 	
 	contentWidth = null;
 	contentHeight = null;
@@ -174,6 +175,7 @@ class HanulseBoardComponent {
 			// 변경된 크기로 부모 요소 크기 저장
 			this.thisElementWidth = this.thisElement.offsetWidth;
 			this.thisElementHeight = this.thisElement.offsetHeight;
+			this.thisAspectRatio = this.thisElementWidth / this.thisElementHeight;
 
 			// 컨텐츠 크기와 비율을 기준 사이즈를 부모 요소에 맞추어 계산
 			this.contentWidth = this.thisElementWidth;
