@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>초대장 꾸미기 데모</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="title" content="초대장 꾸미기 데모"/>
+<meta name="description" content="초대장 꾸미기 데모입니다."/>
+<meta name="keywords" content="auoi, invitation"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="초대장 꾸미기 데모"/>
+<meta property="og:description" content="초대장 꾸미기 데모입니다."/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#000000"/>
+<link rel="stylesheet" href="./css/hanulse-board-lite.css?v=20230722"/>
+<style>
+html, body { margin: 0px; width: 100%; height: 100%; background-color: black;}
+
+.board {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+
+<div class="board" style="width: 100%; height: 100%;"></div>
+
+<script type="text/javascript" src="./js/view/board/HanulseBoardComponent.js"></script>
+<script>
+window.onload = () => {
+	window.example = new BoardExampleController();
+};
+
+class BoardExampleController {
+	boardComponent;
+
+	constructor() {
+		this.initialize();
+	}
+
+	initialize() {
+		const element = document.querySelector(".board");
+
+		this.boardComponent = new HanulseBoardComponent({
+			element: element,
+			width: 520,
+			height: 640,
+		});
+
+		this.boardComponent.setOnItemEdit((item) => alert('아이템 ' + item.id + '을 편집합니다.'));
+	}
+
+	download() {
+		this.boardComponent.toImageBlob((blob) => {
+			const filename = "card_" + Date.now() + ".png";
+
+			// Download image
+			const a = document.createElement("a");
+			a.style.display = "block";
+			a.download = filename;
+			a.href = window.URL.createObjectURL(blob);
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		});
+	}
+
+	share() {
+		this.boardComponent.toImageBlob((blob) => {
+			const filename = "card_" + Date.now() + ".png";
+			const file = new File([blob], filename, { type: "image/png" });
+
+			if (navigator.share) {
+				navigator.share({
+					title: "당신을 초대합니다!",
+					text: "[RSVP] 초대장을 발권하였습니다!",
+					url: "https://www.auoi.net/board-light.html",
+					files: [file],
+				}).then(() => {
+					// alert("초대장을 공유하였습니다.");
+				})
+				.catch((e) => {
+					console.error(e);
+					// alert("초대장을 공유하지 못하였습니다.");
+				});
+			} else {
+				// alert("초대가 지원되지 않는 브라우저입니다.");
+			}
+		});
+	}
+
+	setBackground() {
+		this.boardComponent.setBackground({
+			id: 10012,
+			type: "image",
+			value: "./images/grass-top.png",
+			width: 69,
+			height: 35,
+		});
+	}
+
+	addImageItem() {
+		this.boardComponent.createItem({
+			id: 30001,
+			type: "image",
+			value: "./images/sample/sticker/1679536_animal_deer_forest_happy_reindeer_icon.png",
+			width: 64,
+			height: 64,
+			functions: {
+				resize4d: true,
+				resize8d: false,
+				resize2w: false,
+				resize2h: false,
+				'simple-transform': false,
+				rotate: true,
+				delete: true,
+				clone: false,
+				edit: true,
+			},
+		});
+	}
+
+	addTextItem() {
+		this.boardComponent.createItem({
+			type: 'text',
+			value: 'Hello World!!',
+			width: 200,
+			height: 80,
+			functions: {
+				resize4d: false,
+				resize8d: false,
+				resize2w: true,
+				resize2h: false,
+				'simple-transform': false,
+				rotate: true,
+				delete: true,
+				clone: false,
+				edit: true,
+			},
+			textStyle: {
+				color: '#ffc800',
+				backgroundColor: '#003366',
+				fontSize: 14,
+				fontFamily: 'sans-serif',
+				isFontBold: true,
+				isFontItalic: true,
+			},
+		});
+	}
+
+	setPlaceMode() {
+		this.boardComponent.setPointerMode('place');
+	}
+	
+	setDrawingMode() {
+		this.boardComponent.setPointerMode('drawing');
+	}
+}
+</script>
+</body>
+</html>
