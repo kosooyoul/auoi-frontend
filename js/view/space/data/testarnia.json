@@ -5,7 +5,8 @@
 	"chips": {
 		"base": [
 			null,
-			{ "name": "grass", "src": "./images/space/mapchip/grass.png", "image": null },
+			{ "name": "tile", "src": "./images/space/mapchip/tile.png", "image": null },
+			{ "name": "wall", "src": "./images/space/mapchip/wall.png", "image": null },
 			{ "name": "soil", "src": "./images/space/mapchip/soil.png", "image": null },
 			{ "name": "gravel", "src": "./images/space/mapchip/gravel.png", "image": null },
 			{ "name": "water", "src": "./images/space/mapchip/water.png", "image": null }
