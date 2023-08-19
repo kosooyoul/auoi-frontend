@@ -481,6 +481,14 @@ class HanulseSpaceView {
 	}
 
 	_isBlockedMapPosition(x, y) {
+		if (this.map.map.base[y][x]) {
+			if (this.map.chips.base[this.map.map.base[y][x]].block) {
+				return true;
+			}
+		} else {
+			return true;
+		}
+
 		if (this.map.map.prop[y][x] != 0) return true;
 		if (this.map.map.event[y][x] != null) return true;
 		return false;
