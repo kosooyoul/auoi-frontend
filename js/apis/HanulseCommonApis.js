@@ -36,7 +36,7 @@ class HanulseCommonApis {
 	
 		console.log("Load area: " + name);
 		area = await HanulseAjax.get(
-			"./data/" + name + ".json",
+			"./assets/areas/" + name + ".json",
 			{
 				"ts": timeForCache
 			},
@@ -45,7 +45,7 @@ class HanulseCommonApis {
 		if (area == null) {
 			console.log("Failed loading area: " + name);
 			area = await HanulseAjax.get(
-				"./data/404.json",
+				"./assets/areas/404.json",
 				{
 					"ts": timeForCache
 				},
