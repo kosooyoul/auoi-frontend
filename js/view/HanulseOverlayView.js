@@ -42,6 +42,7 @@ class HanulseOverlayView {
 			"width": "100%",
 			"height": "100%",
 			"background-color": "rgba(0, 0, 0, 0.6)",
+			"backdrop-filter": "blur(8px)",
 			"z-index": "100001",
 			"opacity": 0,
 			"transition": "opacity 0.4s linear",
