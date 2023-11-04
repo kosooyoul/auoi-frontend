@@ -1,9 +1,4 @@
-class HanulseEffectRenderer {
-	init(context) {}
-	render(context, timeOffset) {}
-}
-
-class HanulseBigWarpEffectRenderer extends HanulseEffectRenderer {
+class HanulseBigWarpEffectRenderer {
 	static #curvedRatio;
 
 	static {

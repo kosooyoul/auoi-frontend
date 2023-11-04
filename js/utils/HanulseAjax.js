@@ -1,5 +1,4 @@
 class HanulseAjax {
-
 	static async get(endpoint, params, authorization) {
 		const url = params? endpoint + this.#toQueryString(params) : endpoint;
 

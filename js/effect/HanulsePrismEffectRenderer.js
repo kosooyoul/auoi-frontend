@@ -1,16 +1,23 @@
 class HanulsePrismEffectRenderer {
-	curvedRatio = new Array(100).fill(0).reduce((result, _v, i) => (result[i] = Math.sin(i / 100 * Math.PI), result), {});
+	static #curvedRatio;
+
+	static {
+		this.#curvedRatio = new Array(100).fill(0).reduce((result, _v, i) => {
+			result[i] = Math.sin(i / 100 * Math.PI);
+			return result;
+		}, []);
+	}
 
 	render(context, timeOffset) {
-		var tick = Date.now() + timeOffset;
-		var ratio = ((tick) % 1000) / 1000;
-		var curvedRatio = this.curvedRatio[Math.floor(ratio * 100)];
-		var sqrtCurvedRatio = (1 - (curvedRatio - 1) * (curvedRatio - 1));
+		const tick = Date.now() + timeOffset;
+		const ratio = ((tick) % 1000) / 1000;
+		const curvedRatio = HanulsePrismEffectRenderer.#curvedRatio[Math.floor(ratio * 100)];
+		const sqrtCurvedRatio = (1 - (curvedRatio - 1) * (curvedRatio - 1));
 
-		var alpha = sqrtCurvedRatio * 0.8;
-		var colorDegree = sqrtCurvedRatio * 255;
-		var subColorDegree = (curvedRatio * curvedRatio) * 255;
-		var colorSetIndex = Math.floor(timeOffset) % 6;
+		const alpha = sqrtCurvedRatio * 0.8;
+		const colorDegree = sqrtCurvedRatio * 255;
+		const subColorDegree = (curvedRatio * curvedRatio) * 255;
+		const colorSetIndex = Math.floor(timeOffset) % 6;
 
 		context.save();
 

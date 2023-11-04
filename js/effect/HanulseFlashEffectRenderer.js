@@ -1,10 +1,10 @@
 class HanulseFlashEffectRenderer {
 	render(context, timeOffset) {
-		var tick = Date.now() + timeOffset;
-		var ratio = ((tick) % 1000) / 1000;
-		var curvedRatio = Math.sin(ratio / 2 * Math.PI);
+		const tick = Date.now() + timeOffset;
+		const ratio = ((tick) % 1000) / 1000;
+		const curvedRatio = Math.sin(ratio / 2 * Math.PI);
 
-		var alpha = (1 - (curvedRatio * 2 - 1) * (curvedRatio * 2 - 1)) * 0.4;
+		const alpha = (1 - (curvedRatio * 2 - 1) * (curvedRatio * 2 - 1)) * 0.4;
 
 		context.save();
 
