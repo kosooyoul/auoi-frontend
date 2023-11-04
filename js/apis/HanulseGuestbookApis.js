@@ -1,136 +1,98 @@
 class HanulseGuestbookApis {
-	constructor() {
-
-	}
-
-	static getGuestbook(guestbookId, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-
-		$.get({
-			"url": "https://apis.auoi.net/v1/guestbook",
-			"dataType": "json",
-			"data": {
+	static async getGuestbook(guestbookId, callback) {
+		const response = await HanulseAjax.get(
+			"https://apis.auoi.net/v1/guestbook",
+			{
 				"guestbookId": guestbookId,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const guestbook = response && response.data;
-	
-				callback(guestbook);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const guestbook = response?.data;
+
+		/** @deprecated */
+		callback(guestbook);
+
+		return guestbook;
 	}
 
-	static requestGuestbookList(filter, options, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-
-		$.get({
-			"url": "https://apis.auoi.net/v1/guestbook/search",
-			"dataType": "json",
-			"data": {
+	static async requestGuestbookList(filter, options, callback) {
+		const response = await HanulseAjax.get(
+			"https://apis.auoi.net/v1/guestbook/search",
+			{
 				"ownerId": filter.ownerId,
 				"pageIndex": options.pageIndex,
 				"countPerPage": options.countPerPage,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const guestbookList = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const guestbookList = response?.data;
 
-				callback(guestbookList);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(guestbookList);
+
+		return guestbookList;
 	}
 
-	static updateGuestbook(guestbookId, guestbookChanges, callback) {
+	static async updateGuestbook(guestbookId, guestbookChanges, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
 			return callback(null);
 		}
 
-		$.post({
-			"url": "https://apis.auoi.net/v1/guestbook/update",
-			"dataType": "json",
-			"data": {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/guestbook/update",
+			{
 				"guestbookId": guestbookId,
 				"content": guestbookChanges.content,
 				"createdAt": guestbookChanges.createdAt,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const guestbook = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const guestbook = response?.data;
 
-				callback(guestbook);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(guestbook);
+
+		return guestbook;
 	}
 
-	static deleteGuestbook(guestbookId, callback) {
+	static async deleteGuestbook(guestbookId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
 			return callback(null);
 		}
 
-		$.post({
-			"url": "https://apis.auoi.net/v1/guestbook/delete",
-			"dataType": "json",
-			"data": {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/guestbook/delete",
+			{
 				"guestbookId": guestbookId,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const result = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		);	
+		const success = response?.data?.success || false;
 
-				callback(result && result.success);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(success);
+
+		return success;
 	}
 
-	static createGuestbook(guestbookFields, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-		if (!accessToken) {
-			return callback(null);
-		}
-
-		$.post({
-			"url": "https://apis.auoi.net/v1/guestbook/register",
-			"dataType": "json",
-			"data": {
+	static async createGuestbook(guestbookFields, callback) {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/guestbook/register",
+			{
 				"ownerId": guestbookFields.ownerId,
 				"authorName": guestbookFields.authorName,
 				"content": guestbookFields.content,
 				// "createdAt": guestbookFields.createdAt,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const result = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		)
+		const guestbook = response?.data;
 
-				callback(result);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(guestbook);
+
+		return guestbook;
 	}
 }

@@ -1,61 +1,60 @@
 class HanulseCommonApis {
-	constructor() {
-
-	}
-
-	static getVisitCounts(callback) {
-		const token = localStorage.getItem("token");
+	static async getVisitCounts(callback) {
+		const token = globalThis.localStorage.getItem("token");
 		const timeDifferenceHours = -new Date().getTimezoneOffset() / 60;
 
-		$.post({
-			"url": "https://apis.auoi.net/v1/visit",
-			"dataType": "json",
-			"data": {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/visit",
+			{
 				"token": token,
 				"timeOffsetHours": timeDifferenceHours,
 			},
-			"success": function(response) {
-				const data = response && response.data;
+		);
+		const visitCounts = response?.data;
 
-				callback(data);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(visitCounts);
+
+		return visitCounts;
 	}
 
-	static getWisesaying(callback) {
-		$.get({
-			"url": "https://apis.auoi.net/v1/wisesaying",
-			"dataType": "json",
-			"success": function(response) {
-				const wisesaying = response && response.data;
-	
-				callback(wisesaying);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+	static async getWisesaying(callback) {
+		const response = await HanulseAjax.get(
+			"https://apis.auoi.net/v1/wisesaying",
+		);
+		const wisesaying = response?.data;
+
+		/** @deprecated */
+		callback(wisesaying);
+
+		return wisesaying;
 	}
 
-	static getArea(name, callback) {
-		console.log("Load area: " + name);
-
+	static async getArea(name, callback) {
 		const timeForCache = parseInt(Date.now() / 1000 / 60 / 60 / 24);
-
-		$.ajax({
-			"url": "./data/" + name + ".json?ts=" + timeForCache,
-			"dataType": "json",
-			"success": (data) => {
-				callback(data);
+		let area;
+	
+		console.log("Load area: " + name);
+		area = await HanulseAjax.get(
+			"./data/" + name + ".json",
+			{
+				"ts": timeForCache
 			},
-			"error": () => {
-				console.log("Failed loading area: " + name);
+		);
 
-				this.getArea("404", callback);
-			}
-		});
+		if (area == null) {
+			console.log("Failed loading area: " + name);
+			area = await HanulseAjax.get(
+				"./data/404.json",
+				{
+					"ts": timeForCache
+				},
+			);
+		}
+
+		/** @deprecated */
+		callback(area);
+
+		return area;
 	}
 }

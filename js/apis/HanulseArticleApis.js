@@ -1,68 +1,49 @@
 class HanulseArticleApis {
-	constructor() {
-
-	}
-
-	static getArticle(articleId, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-
-		$.get({
-			"url": "https://apis.auoi.net/v1/article",
-			"dataType": "json",
-			"data": {
+	static async getArticle(articleId, callback) {
+		const response = await HanulseAjax.get(
+			"https://apis.auoi.net/v1/article",
+			{
 				"articleId": articleId,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const article = response && response.data;
-	
-				callback(article);
-			},
-			"error": () => {
-				callback(null);
-			}
-		});
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const article = response?.data;
+
+		/** @deprecated */
+		callback(article);
+
+		return article;
 	}
 
-	static requestArticleList(filter, options, callback) {
-		const accessToken = HanulseAuthorizationManager.getAccessToken();
-
-		$.get({
-			"url": "https://apis.auoi.net/v1/article/search",
-			"dataType": "json",
-			"data": {
+	static async requestArticleList(filter, options, callback) {
+		const response = await HanulseAjax.get(
+			"https://apis.auoi.net/v1/article/search",
+			{
 				"tags": filter.tags,
 				"ownerId": filter.ownerId,
 				"authorId": filter.authorId,
 				"pageIndex": options.pageIndex,
 				"countPerPage": options.countPerPage,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const articleList = response && response.data;
-	
-				callback(articleList);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const articleList = response?.data;
+
+		/** @deprecated */
+		callback(articleList);
+
+		return articleList;
 	}
 
-	static updateArticle(articleId, articleChanges, callback) {
+	static async updateArticle(articleId, articleChanges, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
 			return callback(null);
 		}
 
-		$.post({
-			"url": "https://apis.auoi.net/v1/article/update",
-			"dataType": "json",
-			"data": {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/article/update",
+			{
 				"articleId": articleId,
 				"subject": articleChanges.subject,
 				"content": articleChanges.content,
@@ -72,56 +53,46 @@ class HanulseArticleApis {
 				"readableTarget": articleChanges.readableTarget,
 				"createdAt": articleChanges.createdAt,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const article = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const article = response?.data;
 
-				callback(article);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(article);
+
+		return article;
 	}
 
-	static deleteArticle(articleId, callback) {
+	static async deleteArticle(articleId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
 			return callback(null);
 		}
 
-		$.post({
-			"url": "https://apis.auoi.net/v1/article/delete",
-			"dataType": "json",
-			"data": {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/article/delete",
+			{
 				"articleId": articleId,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const result = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		);	
+		const success = response?.data?.success || false;
 
-				callback(result && result.success);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(success);
+
+		return success;
 	}
 
-	static createArticle(articleFields, callback) {
+	static async createArticle(articleFields, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
 			return callback(null);
 		}
 
-		$.post({
-			"url": "https://apis.auoi.net/v1/article/register",
-			"dataType": "json",
-			"data": {
+		const response = await HanulseAjax.post(
+			"https://apis.auoi.net/v1/article/register",
+			{
 				"ownerId": articleFields.ownerId,
 				"subject": articleFields.subject,
 				"content": articleFields.content,
@@ -131,17 +102,13 @@ class HanulseArticleApis {
 				"readableTarget": articleFields.readableTarget,
 				"createdAt": articleFields.createdAt,
 			},
-			"headers": {
-				"authorization": accessToken,
-			},
-			"success": (response) => {
-				const result = response && response.data;
+			HanulseAuthorizationManager.getAccessToken(),
+		)
+		const article = response?.data;
 
-				callback(result);
-			},
-			"error": () => {
-				callback(null);
-			},
-		});
+		/** @deprecated */
+		callback(article);
+
+		return article;
 	}
 }
