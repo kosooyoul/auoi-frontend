@@ -12,8 +12,8 @@ class HanulseGalleryView extends HanulseView {
 		this._initializeGalleryView();
 	}
 
-	_initializeGalleryView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseGalleryView._templatePath)).get());
+	async _initializeGalleryView() {
+		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseGalleryView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._galleryElementWrap = $(this.findChildElement("._gallery"));

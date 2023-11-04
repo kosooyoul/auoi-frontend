@@ -18,8 +18,8 @@ class HanulseLoginView extends HanulseOverlayView {
 		this._initializeLoginView();
 	}
 
-	_initializeLoginView() {
-		this._elementWrap = $($.parseHTML(HtmlTemplate.get(HanulseLoginView._templatePath)));
+	async _initializeLoginView() {
+		this._elementWrap = $($.parseHTML(await HtmlTemplate.fetch(HanulseLoginView._templatePath)));
 		this._loadingElementWrap = this._elementWrap.find("._loading");
 
 		if (HanulseAuthorizationManager.hasAuthorization()) {
@@ -131,15 +131,15 @@ class HanulseLoginView extends HanulseOverlayView {
 		this._loadingElementWrap.stop().fadeOut();
 	}
 
-	_showMessageView(message, onHideCallback) {
+	async _showMessageView(message, onHideCallback) {
 		const messageView = new HanulseMessageView();
-		messageView.load(() => {
-			messageView.setMessage(message);
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(messageView);
-			overlayView.setOnHideCallback(onHideCallback);
-			overlayView.show();
-		});
+		await messageView.load();
+		messageView.setMessage(message);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(messageView);
+		overlayView.setOnHideCallback(onHideCallback);
+		overlayView.show();
 	}
 }

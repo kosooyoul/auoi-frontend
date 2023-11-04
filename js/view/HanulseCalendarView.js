@@ -8,12 +8,14 @@ class HanulseCalendarView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeCalendarView();
 	}
 
-	_initializeCalendarView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseCalendarView._templatePath)).get());
+	async load() {
+		await this._initializeCalendarView();
+	}
+
+	async _initializeCalendarView() {
+		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseCalendarView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._calendarElementWrap = $(this.findChildElement("._calendar"));
@@ -31,7 +33,7 @@ class HanulseCalendarView extends HanulseView {
 		const hasLeapDay = month == 2 && (year % 4 == 0) && (year % 100 != 0) && (year % 400 == 0);
 		const dates = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1] + (hasLeapDay? 1: 0);
 		 // Temporary
-		const dow = new Date(year, month - 1, 1).getDate();
+		const dow = new Date(year, month - 1, 1).getDay();
 
 		this._yearElementWrap.text(year);
 		this._monthElementWrap.text(month);

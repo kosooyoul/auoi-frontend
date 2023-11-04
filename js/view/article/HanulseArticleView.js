@@ -1,163 +1,173 @@
 class HanulseArticleView extends HanulseView {
 
-	_articleListView;
-	_articleDetailView;
-	_articleEditorView;
-	_loadingView;
+	#articleListView;
+	#articleDetailView;
+	#articleEditorView;
+	#loadingView;
 
 	constructor() {
 		super();
-
-		this._initializeArticleView();
 	}
 
-	_initializeArticleView() {
+	async load() {
 		this.setElement($("<div>").get(0));
 
-		this._initializeArticleListView();
-		this._initializeArticleDetailView();
-		this._initializeArticleEditorView();
-		this._initializeLoadingView();
+		await this.#loadArticleListView();
+		await this.#loadArticleDetailView();
+		await this.#loadArticleEditorView();
+		await this.#loadLoadingView();
 	}
 
-	_initializeArticleListView() {
-		const articleListView = new HanulseArticleListView();
-		articleListView.hide();
+	async #loadArticleListView() {
+		this.#articleListView = new HanulseArticleListView();
 
-		articleListView.setOnClickArticleItemCallback((articleId) => {
-			this._loadingView.show();
-			HanulseArticleApis.getArticle(articleId, (article) => {
-				if (article) {
-					this._articleDetailView.setArticle(article);
-		
-					this._articleListView.hide();
-					this._articleDetailView.show();
-				} else {
-					const messageView = new HanulseMessageView();
-					messageView.load(() => {
-						messageView.setMessage("선택하신 기록을 조회할 권한이 없습니다.");
+		await this.#articleListView.load();
+		this.#articleListView.hide();
+
+		this.#articleListView.setOnClickArticleItemCallback((articleId) => this.#onClickArticleItemCallback(articleId));
+
+		this.addChildView(this.#articleListView);
+	}
+
+	async #loadArticleDetailView() {
+		this.#articleDetailView = new HanulseArticleDetailView();
+
+		await this.#articleDetailView.load();
+		this.#articleDetailView.hide();
+
+		this.#articleDetailView.setOnDeleteCallback((article) => this.#onDeleteArticleCallback(article));
+		this.#articleDetailView.setOnEditCallback((article) => {
+			this.#articleEditorView.setArticle(article);
 			
-						const overlayView = new HanulseOverlayView();
-						overlayView.setContentView(messageView);
-						overlayView.show();
-					});
-				}
-
-				this._loadingView.hide();
-			});
+			this.#articleDetailView.hide();
+			this.#articleEditorView.show();
+		});
+		this.#articleDetailView.setOnBackCallback(() => {
+			this.#articleDetailView.hide();
+			this.#articleListView.show();
 		});
 
-		this.addChildView(this._articleListView = articleListView);
+		this.addChildView(this.#articleDetailView);
 	}
 
-	_initializeArticleDetailView() {
-		const articleDetailView = new HanulseArticleDetailView();
-		articleDetailView.hide();
+	async #loadArticleEditorView() {
+		this.#articleEditorView = new HanulseArticleEditorView();
 
-		articleDetailView.setOnDeleteCallback((article) => {
-			const selectionView = new HanulseSelectionView();
-			selectionView.load(() => {
-				selectionView.setMessage("다음 기록을 삭제할까요?\n'" + article.subject + "'");
-				selectionView.setOptions([
-					{"title": "네, 삭제합니다.", "value": true},
-					{"title": "아니요, 그만둘래요.", "value": false},
-				]);
+		await this.#articleEditorView.load();
+		this.#articleEditorView.hide();
 
-				const overlayView = new HanulseOverlayView();
-				overlayView.setContentView(selectionView);
-				overlayView.show();
-
-				selectionView.setOnSelectOptionCallback((option) => {
-					if (option.value != true) {
-						return overlayView.hide();
-					}
-
-					HanulseArticleApis.deleteArticle(article.id, (success) => {
-						if (success) {
-							this._articleDetailView.hide();
-							this._articleListView.show();
-							this._articleListView.load();
-						} else {
-							const messageView = new HanulseMessageView();
-							messageView.load(() => {
-								messageView.setMessage("기록을 삭제할 수 없습니다.");
-					
-								const overlayView = new HanulseOverlayView();
-								overlayView.setContentView(messageView);
-								overlayView.show();
-							});
-						}
-						
-						overlayView.hide();
-					});
-				});
-			});
-		});
-		articleDetailView.setOnEditCallback((article) => {
-			this._articleEditorView.setArticle(article);
-			
-			this._articleDetailView.hide();
-			this._articleEditorView.show();
-		});
-		articleDetailView.setOnBackCallback(() => {
-			this._articleDetailView.hide();
-			this._articleListView.show();
+		this.#articleEditorView.setOnSaveCallback((articleId, articleChanges) => this.#onSaveArticleCallback(articleId, articleChanges));
+		this.#articleEditorView.setOnCancelCallback(() => {
+			this.#articleEditorView.hide();
+			this.#articleDetailView.show();
 		});
 
-		this.addChildView(this._articleDetailView = articleDetailView);
+		this.addChildView(this.#articleEditorView);
 	}
 
-	_initializeArticleEditorView() {
-		const articleEditorView = new HanulseArticleEditorView();
-		articleEditorView.hide();
-
-		articleEditorView.setOnSaveCallback((articleId, articleChanges) => {
-			this._loadingView.show();
-			HanulseArticleApis.updateArticle(articleId, articleChanges, (article) => {
-				if (article) {
-					this._articleListView.updateItem(article.id, article);
-					this._articleDetailView.setArticle(article);
-
-					this._articleEditorView.hide();
-					this._articleDetailView.show();
-				} else {
-					const messageView = new HanulseMessageView();
-					messageView.load(() => {
-						messageView.setMessage("기록을 수정할 수 없습니다.");
-			
-						const overlayView = new HanulseOverlayView();
-						overlayView.setContentView(messageView);
-						overlayView.show();
-					});
-				}
-
-				this._loadingView.hide();
-			});
-		});
-		articleEditorView.setOnCancelCallback(() => {
-			this._articleEditorView.hide();
-			this._articleDetailView.show();
-		});
-
-		this.addChildView(this._articleEditorView = articleEditorView);
-	}
-
-	_initializeLoadingView() {
+	async #loadLoadingView() {
 		const loadingView = new HanulseLoadingView();
-		loadingView.load(() => {
-			this.addChildView(this._loadingView = loadingView);
+
+		await loadingView.load(() => {
+			this.addChildView(this.#loadingView = loadingView);
 		});
 	}
 
 	setTitle(title) {
-		this._articleListView.setTitle(title);
-		this._articleDetailView.setTitle(title);
-		this._articleEditorView.setTitle(title);
+		this.#articleListView.setTitle(title);
+		this.#articleDetailView.setTitle(title);
+		this.#articleEditorView.setTitle(title);
 	}
 
-	load(filter) {
-		this._articleListView.show();
-		this._articleListView.setFilter(filter);
-		this._articleListView.load();
+	loadList(filter) {
+		this.#articleListView.show();
+		this.#articleListView.setFilter(filter);
+		this.#articleListView.loadList();
+	}
+
+	async #onClickArticleItemCallback(articleId) {
+		this.#loadingView.show();
+
+		const article = await HanulseArticleApis.getArticle(articleId);
+		if (article) {
+			this.#articleDetailView.setArticle(article);
+
+			this.#articleListView.hide();
+			this.#articleDetailView.show();
+		} else {
+			const messageView = new HanulseMessageView();
+
+			await messageView.load();
+			messageView.setMessage("선택하신 기록을 조회할 권한이 없습니다.");
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.show();
+		}
+
+		this.#loadingView.hide();
+	}
+
+	async #onDeleteArticleCallback(article) {
+		const selectionView = new HanulseSelectionView();
+
+		await selectionView.load();
+		selectionView.setMessage("다음 기록을 삭제할까요?\n'" + article.subject + "'");
+		selectionView.setOptions([
+			{"title": "네, 삭제합니다.", "value": true},
+			{"title": "아니요, 그만둘래요.", "value": false},
+		]);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(selectionView);
+		overlayView.show();
+
+		selectionView.setOnSelectOptionCallback(async (option) => {
+			if (option.value != true) {
+				return overlayView.hide();
+			}
+
+			const success = await HanulseArticleApis.deleteArticle(article.id);
+			if (success) {
+				this.#articleDetailView.hide();
+				this.#articleListView.show();
+				this.#articleListView.loadList();
+			} else {
+				const messageView = new HanulseMessageView();
+
+				await messageView.load();
+				messageView.setMessage("기록을 삭제할 수 없습니다.");
+		
+				const overlayView = new HanulseOverlayView();
+				overlayView.setContentView(messageView);
+				overlayView.show();
+			}
+			
+			overlayView.hide();
+		});
+	}
+
+	async #onSaveArticleCallback(articleId, articleChanges) {
+		this.#loadingView.show();
+
+		const article = await HanulseArticleApis.updateArticle(articleId, articleChanges);
+		if (article) {
+			this.#articleListView.updateItem(article.id, article);
+			this.#articleDetailView.setArticle(article);
+
+			this.#articleEditorView.hide();
+			this.#articleDetailView.show();
+		} else {
+			const messageView = new HanulseMessageView();
+			
+			await messageView.load();
+			messageView.setMessage("기록을 수정할 수 없습니다.");
+
+			const overlayView = new HanulseOverlayView();
+			overlayView.setContentView(messageView);
+			overlayView.show();
+		}
+
+		this.#loadingView.hide();
 	}
 }

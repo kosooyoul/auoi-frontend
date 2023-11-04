@@ -21,12 +21,14 @@ class HanulseArticleListView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeArticleListView();
 	}
 
-	_initializeArticleListView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleListView._templateArticleListPath)).get());
+	async load() {
+		await this._initializeArticleListView();
+	}
+
+	async _initializeArticleListView() {
+		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseArticleListView._templateArticleListPath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._articleListElementWrap = $(this.findChildElement("._list"));
@@ -57,12 +59,12 @@ class HanulseArticleListView extends HanulseView {
 		articleListItem.find("._created-at").text(this._formatDate(article.createdAt));
 	}
 
-	load() {
+	loadList() {
 		this._requestArticleList();
 	}
 	
-	_addArticleItem(articleItem) {
-		const articleListItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleListView._templateArticleListItemPath)));
+	async _addArticleItem(articleItem) {
+		const articleListItem = $($.parseHTML(await HtmlTemplate.fetch(HanulseArticleListView._templateArticleListItemPath)));
 
 		articleListItem.attr("data-id", articleItem.id);
 		articleListItem.find("._no").text(articleItem.no);
@@ -83,8 +85,8 @@ class HanulseArticleListView extends HanulseView {
 		this._articleListElementWrap.append(articleListItem);
 	}
 
-	_addPaginationItem(pageIndex, selected) {
-		const paginationItem = $($.parseHTML(HtmlTemplate.get(HanulseArticleListView._templateArticleListPaginationItemPath)));
+	async _addPaginationItem(pageIndex, selected) {
+		const paginationItem = $($.parseHTML(await HtmlTemplate.fetch(HanulseArticleListView._templateArticleListPaginationItemPath)));
 		
 		paginationItem.text(pageIndex + 1);
 		if (selected) {

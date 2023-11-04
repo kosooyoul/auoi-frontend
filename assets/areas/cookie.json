@@ -198,8 +198,8 @@
             "type": "calendar",
             "title": "봉인된 다이어리",
             "owner": "62c0513854a9058e21419fb2",
-            "year": "2022",
-            "month": "8"
+            "dummy-year": "2022",
+            "dummy-month": "8"
         }
     }}
 ]}

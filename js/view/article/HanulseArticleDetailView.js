@@ -25,12 +25,14 @@ class HanulseArticleDetailView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeArticleDetailView();
 	}
 
-	_initializeArticleDetailView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleDetailView._templateArticleDetailPath)).get());
+	async load() {
+		await this._initializeArticleDetailView();
+	}
+
+	async _initializeArticleDetailView() {
+		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseArticleDetailView._templateArticleDetailPath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._scrollboxElementsWrap = $(this.findChildElements(".scrollbox"));

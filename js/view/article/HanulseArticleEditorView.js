@@ -20,12 +20,14 @@ class HanulseArticleEditorView extends HanulseView {
 
 	constructor() {
 		super();
-
-		this._initializeArticleEditorView();
+	}
+	
+	async load() {
+		await this._initializeArticleEditorView();
 	}
 
-	_initializeArticleEditorView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleEditorView._templatePath)).get());
+	async _initializeArticleEditorView() {
+		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseArticleEditorView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._subjectInputElementWrap = $(this.findChildElement("._subject-input"));

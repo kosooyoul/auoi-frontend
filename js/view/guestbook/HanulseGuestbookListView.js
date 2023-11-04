@@ -21,43 +21,40 @@ class HanulseGuestbookListView extends HanulseView {
 		super();
 	}
 
-	load(callback) {
-		HtmlTemplate.fetch(HanulseGuestbookListView._templateGuestbookListPath, (data) => {
-			this.setElement(HtmlHelper.createHtml(data).get());
-			
-			this._titleElementWrap = $(this.findChildElement("._title"));
-			this._guestbookListElementWrap = $(this.findChildElement("._list"));
-			this._guestbookListPaginationElementWrap = $(this.findChildElement("._pagination"));
-			this._pageElementWrap = $(this.findChildElement("._page"));
-			this._loadingElementWrap = $(this.findChildElement("._loading"));
-			
-			this._authorInputElementWrap = $(this.findChildElement("._author-input"));
-			this._contentInputElementWrap = $(this.findChildElement("._content-input"));
-			this._createdAtInputElementWrap = $(this.findChildElement("._created-at-input"));
-			this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
-			
-			this._saveButtonElementWrap.on("click", () => {
-				this._showLoading();
-				HanulseGuestbookApis.createGuestbook(this._getFields(), (guestbook) => {
-					if (guestbook) {
-						this._clearFields();
-						this._requestGuestbookList();
-					} else {
-						const messageView = new HanulseMessageView();
-						messageView.load(() => {
-							messageView.setMessage("방명록을 저장할 수 없습니다.");
-							
-							const overlayView = new HanulseOverlayView();
-							overlayView.setContentView(messageView);
-							overlayView.show();
-						});
-					}
-					
-					this._hideLoading();
-				});
-			});
+	async load() {
+		const html = await HtmlTemplate.fetch(HanulseGuestbookListView._templateGuestbookListPath);
+		this.setElement(HtmlHelper.createHtml(html).get());
+		
+		this._titleElementWrap = $(this.findChildElement("._title"));
+		this._guestbookListElementWrap = $(this.findChildElement("._list"));
+		this._guestbookListPaginationElementWrap = $(this.findChildElement("._pagination"));
+		this._pageElementWrap = $(this.findChildElement("._page"));
+		this._loadingElementWrap = $(this.findChildElement("._loading"));
+		
+		this._authorInputElementWrap = $(this.findChildElement("._author-input"));
+		this._contentInputElementWrap = $(this.findChildElement("._content-input"));
+		this._createdAtInputElementWrap = $(this.findChildElement("._created-at-input"));
+		this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
+		
+		this._saveButtonElementWrap.on("click", async () => {
+			this._showLoading();
 
-			callback && callback();
+			const guestbook = await HanulseGuestbookApis.createGuestbook(this._getFields());
+			if (guestbook) {
+				this._clearFields();
+				this._requestGuestbookList();
+			} else {
+				const messageView = new HanulseMessageView();
+				
+				await messageView.load();
+				messageView.setMessage("방명록을 저장할 수 없습니다.");
+				
+				const overlayView = new HanulseOverlayView();
+				overlayView.setContentView(messageView);
+				overlayView.show();
+			}
+				
+			this._hideLoading();
 		});
 	}
 
@@ -82,8 +79,8 @@ class HanulseGuestbookListView extends HanulseView {
 		this._requestGuestbookList();
 	}
 	
-	_addGuestbookItem(guestbookItem) {
-		const guestbookListItem = $($.parseHTML(HtmlTemplate.get(HanulseGuestbookListView._templateGuestbookListItemPath)));
+	async _addGuestbookItem(guestbookItem) {
+		const guestbookListItem = $($.parseHTML(await HtmlTemplate.fetch(HanulseGuestbookListView._templateGuestbookListItemPath)));
 
 		guestbookListItem.attr("data-id", guestbookItem.id);
 		guestbookListItem.find("._no").text(guestbookItem.no);
@@ -94,8 +91,8 @@ class HanulseGuestbookListView extends HanulseView {
 		this._guestbookListElementWrap.append(guestbookListItem);
 	}
 
-	_addPaginationItem(pageIndex, selected) {
-		const paginationItem = $($.parseHTML(HtmlTemplate.get(HanulseGuestbookListView._templateGuestbookListPaginationItemPath)));
+	async _addPaginationItem(pageIndex, selected) {
+		const paginationItem = $($.parseHTML(await HtmlTemplate.fetch(HanulseGuestbookListView._templateGuestbookListPaginationItemPath)));
 		
 		paginationItem.text(pageIndex + 1);
 		if (selected) {
@@ -129,7 +126,7 @@ class HanulseGuestbookListView extends HanulseView {
 		});
 	}
 
-	_updateGuestbookList(guestbookList) {
+	async _updateGuestbookList(guestbookList) {
 		const firstGuestbookNo = guestbookList.countOfTotal - (guestbookList.countPerPage * guestbookList.pageIndex);
 		const guestbookItems = guestbookList.guestbooks.map((guestbook, index) => {
 			return {
@@ -142,7 +139,10 @@ class HanulseGuestbookListView extends HanulseView {
 				createdAt: guestbook.createdAt,
 			};
 		});
-		guestbookItems.forEach(guestbookItem => this._addGuestbookItem(guestbookItem));
+
+		for (const guestbookItem of guestbookItems) {
+			await this._addGuestbookItem(guestbookItem);
+		}
 
 		const pageIndex = parseInt(guestbookList.pageIndex);
 		const countOfPage = Math.ceil(guestbookList.countOfTotal / guestbookList.countPerPage);
@@ -150,7 +150,7 @@ class HanulseGuestbookListView extends HanulseView {
 		const lastPageIndex = Math.min(pageIndex + 3, countOfPage - 1);
 
 		for (let i = firstPageIndex; i <= lastPageIndex; i++) {
-			this._addPaginationItem(i, i == pageIndex);
+			await this._addPaginationItem(i, i == pageIndex);
 		}
 
 		this._pageElementWrap.text(pageIndex + 1);

@@ -1,4 +1,14 @@
 class HanulseAjax {
+	static async html(url) {
+		try {
+			const response = await fetch(url);
+
+			return await response.text();
+		} catch {
+			return null;
+		}
+	}
+
 	static async get(endpoint, params, authorization) {
 		const url = params? endpoint + this.#toQueryString(params) : endpoint;
 

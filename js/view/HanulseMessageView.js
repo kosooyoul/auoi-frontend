@@ -7,12 +7,9 @@ class HanulseMessageView extends HanulseView {
 		super();
 	}
 
-	load(callback) {
-		HtmlTemplate.fetch(HanulseMessageView._templatePath, (data) => {
-			this._elementWrap = HtmlHelper.createHtml(data);
-
-			callback && callback();
-		})
+	async load() {
+		const html = await HtmlTemplate.fetch(HanulseMessageView._templatePath);
+		this._elementWrap = HtmlHelper.createHtml(html);
 	}
 
 	getElement() {

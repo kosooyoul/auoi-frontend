@@ -1,36 +1,33 @@
 class HanulseSelectionView extends HanulseView {
 	static _templatePath = "./template/selection.html";
 
-	_messageElementWrap;
-	_optionsElementWrap;
+	#messageElementWrap;
+	#optionsElementWrap;
 
-	_onSelectOptionCallback;
+	#onSelectOptionCallback;
 
 	constructor() {
 		super();
 	}
 
-	load(callback) {
-		HtmlTemplate.fetch(HanulseSelectionView._templatePath, (data) => {
-			this.setElement(HtmlHelper.createHtml(data).get());
+	async load() {
+		const html = await HtmlTemplate.fetch(HanulseSelectionView._templatePath);
+		this.setElement(HtmlHelper.createHtml(html).get());
 
-			this._messageElementWrap = $(this.findChildElement("._message"));
-			this._optionsElementWrap = $(this.findChildElement("._options"));
-
-			callback && callback();
-		});
+		this.#messageElementWrap = $(this.findChildElement("._message"));
+		this.#optionsElementWrap = $(this.findChildElement("._options"));
 	}
 
 	setOnSelectOptionCallback(onSelectOptionCallback) {
-		this._onSelectOptionCallback = onSelectOptionCallback;
+		this.#onSelectOptionCallback = onSelectOptionCallback;
 	}
 
 	setMessage(message) {
-		this._messageElementWrap.text(message);
+		this.#messageElementWrap.text(message);
 	}
 
 	setOptions(options) {
-		this._optionsElementWrap.empty();
+		this.#optionsElementWrap.empty();
 
 		options.forEach(option => this._addOptionItem(option));
 	}
@@ -56,11 +53,11 @@ class HanulseSelectionView extends HanulseView {
 		optionItem.text("> " + option.title);
 
 		optionItem.on("click", () => {
-			if (this._onSelectOptionCallback) {
-				this._onSelectOptionCallback(option);
+			if (this.#onSelectOptionCallback) {
+				this.#onSelectOptionCallback(option);
 			}
 		});
 
-		this._optionsElementWrap.append(optionItem);
+		this.#optionsElementWrap.append(optionItem);
 	}
 }

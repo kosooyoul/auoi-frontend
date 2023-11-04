@@ -1,36 +1,33 @@
 class HanulseCardsView extends HanulseView {
 	static _templatePath = "./template/cards.html";
 
-	_titleElementWrap;
-	_cardsElementWrap;
+	#titleElementWrap;
+	#cardsElementWrap;
 
-	_colsOptions = [];
+	#colsOptions = [];
 
 	constructor() {
 		super();
 	}
 
-	load(callback) {
-		HtmlTemplate.fetch(HanulseCardsView._templatePath, (data) => {
-			this.setElement(HtmlHelper.createHtml(data).get());
+	async load() {
+		const html = await HtmlTemplate.fetch(HanulseCardsView._templatePath);
+		this.setElement(HtmlHelper.createHtml(html).get());
 
-			this._titleElementWrap = $(this.findChildElement("._title"));
-			this._cardsElementWrap = $(this.findChildElement("._cards"));
-
-			callback && callback();
-		});
+		this.#titleElementWrap = $(this.findChildElement("._title"));
+		this.#cardsElementWrap = $(this.findChildElement("._cards"));
 	}
 
 	setTitle(title) {
-		this._titleElementWrap.text(title || "제목 없음");
+		this.#titleElementWrap.text(title || "제목 없음");
 	}
 
 	setColsOptions(colsOptions) {
-		this._colsOptions = colsOptions;
+		this.#colsOptions = colsOptions;
 	}
 
 	setCards(cards) {
-		this._cardsElementWrap.empty();
+		this.#cardsElementWrap.empty();
 
 		const cardsWrap = $("<div>").css({
 			"padding": "10px",
@@ -76,6 +73,6 @@ class HanulseCardsView extends HanulseView {
 			}
 		});
 
-		this._cardsElementWrap.append(cardsWrap);
+		this.#cardsElementWrap.append(cardsWrap);
 	}
 }

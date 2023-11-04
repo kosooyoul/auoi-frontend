@@ -20,32 +20,33 @@ class HanulseMenuView extends HanulseView {
 		super();
 	}
 
-	load(callback) {
-		HtmlTemplate.fetch(HanulseMenuView._templateMenuListPath, (data) => {
-			this._menuElementWrap = $($.parseHTML(data));
-			this._menuListElementWrap = this._menuElementWrap.find("._list");
-			callback && callback();
-		});
+	async load() {
+		const html = await HtmlTemplate.fetch(HanulseMenuView._templateMenuListPath);
+
+		const $e = $($.parseHTML(html));
+
+		this._menuElementWrap = $e;
+		this._menuListElementWrap = $e.find("._list");
 	}
 
 	getElement() {
 		return this._menuElementWrap.get(0);
 	}
 
-	addMenuItem(menuItem) {
+	async addMenuItem(menuItem) {
 		if (menuItem.type == "separator") {
-			this._menuListElementWrap.append(this._createMenuSeparator());
+			this._menuListElementWrap.append(await this._createMenuSeparator());
 		} else {
-			this._menuListElementWrap.append(this._createMenuItem(menuItem));
+			this._menuListElementWrap.append(await this._createMenuItem(menuItem));
 		}
 	}
 
-	_createMenuSeparator() {
-		return $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListSeparatorPath)));
+	async _createMenuSeparator() {
+		return $($.parseHTML(await HtmlTemplate.fetch(HanulseMenuView._templateMenuListSeparatorPath)));
 	}
 
-	_createMenuItem(menuItem) {
-		const menuListItem = $($.parseHTML(HtmlTemplate.get(HanulseMenuView._templateMenuListItemPath)));
+	async _createMenuItem(menuItem) {
+		const menuListItem = $($.parseHTML(await HtmlTemplate.fetch(HanulseMenuView._templateMenuListItemPath)));
 		menuListItem.attr({"href": menuItem.link});
 		menuListItem.find("._title").text(menuItem.title);
 		menuListItem.find("._tag").text(menuItem.tag).css({"color": this._getTagColor(menuItem.tag)});

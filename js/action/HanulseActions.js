@@ -52,10 +52,13 @@ class HanulseActions {
 		}, format)
 	}
 	
-	#runArticles(data, onActionFinishedCallback) {
+	async #runArticles(data, onActionFinishedCallback) {
 		const articleView = new HanulseArticleView();
+
+		await articleView.load();
+
 		articleView.setTitle(data.title);
-		articleView.load({
+		articleView.loadList({
 			"tags": data.tags && data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag),
 			"owner": data.owner,
 			"author": data.author
@@ -74,49 +77,54 @@ class HanulseActions {
 		}
 	}
 
-	#runMenu(data, onActionFinishedCallback) {
+	async #runMenu(data, onActionFinishedCallback) {
 		const menuView = new HanulseMenuView();
-		menuView.load(() => {
-			data.menu.forEach(menuItem => (menuItem.visible !== false) && menuView.addMenuItem(menuItem));
+		
+		await menuView.load();
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(menuView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
-		});
+		for (const menuItem of data.menu) {
+			if (menuItem.visible !== false) {
+				await menuView.addMenuItem(menuItem);
+			}
+		}
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(menuView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
 	}
 
-	#runMessage(data, onActionFinishedCallback) {
+	async #runMessage(data, onActionFinishedCallback) {
 		const messageView = new HanulseMessageView();
-		messageView.load(() => {
-			messageView.setMessage(this.#format(data.message));
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(messageView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
-		});
+		await messageView.load();
+		messageView.setMessage(this.#format(data.message));
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(messageView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
 	}
 
-	#runSelection(data, onActionFinishedCallback) {
+	async #runSelection(data, onActionFinishedCallback) {
 		const selectionView = new HanulseSelectionView();
-		selectionView.load(() => {
-			selectionView.setMessage(data.message);
-			selectionView.setOptions(data.options);
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(selectionView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
+		await selectionView.load();
+		selectionView.setMessage(data.message);
+		selectionView.setOptions(data.options);
 
-			selectionView.setOnSelectOptionCallback((option) => {
-				const actions = option.actions || [option.action];
-				if (actions) {
-					overlayView.setOnHideCallback(null);
-					this.run(actions, onActionFinishedCallback);
-				}
-				overlayView.hide();
-			});
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(selectionView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
+
+		selectionView.setOnSelectOptionCallback((option) => {
+			const actions = option.actions || [option.action];
+			if (actions) {
+				overlayView.setOnHideCallback(null);
+				this.run(actions, onActionFinishedCallback);
+			}
+			overlayView.hide();
 		});
 	}
 
@@ -134,17 +142,17 @@ class HanulseActions {
 		});
 	}
 
-	#runCards(data, onActionFinishedCallback) {
+	async #runCards(data, onActionFinishedCallback) {
 		const cardsView = new HanulseCardsView();
-		cardsView.load(() => {
-			cardsView.setTitle(data["title"]);
-			cardsView.setCards(data["cards"]);
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(cardsView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
-		});
+		await cardsView.load();
+		cardsView.setTitle(data["title"]);
+		cardsView.setCards(data["cards"]);
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(cardsView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
 	}
 
 	#runGallery(data, onActionFinishedCallback) {
@@ -157,10 +165,12 @@ class HanulseActions {
 		overlayView.show();
 	}
 
-	#runCalendar(data, onActionFinishedCallback) {
+	async #runCalendar(data, onActionFinishedCallback) {
 		const calendarView = new HanulseCalendarView();
+
+		await calendarView.load();
 		calendarView.setTitle(data["title"]);
-		calendarView.setCalendar(data["year"], data["month"]);
+		calendarView.setCalendar(data["year"] || (new Date().getFullYear()), data["month"] || (new Date().getMonth() + 1));
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(calendarView);
@@ -168,19 +178,19 @@ class HanulseActions {
 		overlayView.show();
 	}
 
-	#runGuestbook(data, onActionFinishedCallback) {
+	async #runGuestbook(data, onActionFinishedCallback) {
 		const guestbookView = new HanulseGuestbookView();
-		guestbookView.load(() => {
-			guestbookView.setTitle(data.title);
-			guestbookView.setFilter({
-				"owner": data.owner
-			});
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(guestbookView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
+		await guestbookView.load();
+		guestbookView.setTitle(data.title);
+		guestbookView.setFilter({
+			"owner": data.owner
 		});
+
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(guestbookView);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
 	}
 
 	#runArticleWriter(data, onActionFinishedCallback) {
@@ -340,7 +350,7 @@ class HanulseActions {
 		setTimeout(onActionFinishedCallback, data.duration);
 	}
 
-	#runPwa(data, onActionFinishedCallback) {
+	async #runPwa(data, onActionFinishedCallback) {
 		if (window["deferredPrompt"] == null) {
 			if (navigator.serviceWorker) {
 				this.#runMessage({"message": "앱을 이미 설치한 것 같아요!"}, onActionFinishedCallback);
@@ -350,7 +360,7 @@ class HanulseActions {
 			return;
 		}
 
-		this.#runMessage({
+		await this.#runMessage({
 			"message": [
 				"앱을 바로 설치할 수 있어요!",
 				"프로그레시브 웹 앱이거든요~~",
@@ -362,27 +372,25 @@ class HanulseActions {
 	}
 
 	#runPwaInstall() {
-		setTimeout(() => {
-			const deferredPrompt = window["deferredPrompt"];
+		const deferredPrompt = window["deferredPrompt"];
 
-			// The user has had a postive interaction with our app and Chrome
-			// has tried to prompt previously, so let's show the prompt.
-			deferredPrompt.prompt();
-		
-			// Follow what the user has done with the prompt.
-			deferredPrompt.userChoice.then(function(choiceResult) {
-				console.log(choiceResult.outcome);
-		
-				if(choiceResult.outcome == "dismissed") {
-					console.log("User cancelled home screen install");
-				} else {
-					console.log("User added to home screen");
-				}
-		
-				// We no longer need the prompt.  Clear it up.
-				delete window["deferredPrompt"];
-			});
-		}, 500);
+		// The user has had a postive interaction with our app and Chrome
+		// has tried to prompt previously, so let's show the prompt.
+		deferredPrompt.prompt();
+	
+		// Follow what the user has done with the prompt.
+		deferredPrompt.userChoice.then(function(choiceResult) {
+			console.log(choiceResult.outcome);
+	
+			if(choiceResult.outcome == "dismissed") {
+				console.log("User cancelled home screen install");
+			} else {
+				console.log("User added to home screen");
+			}
+	
+			// We no longer need the prompt.  Clear it up.
+			delete window["deferredPrompt"];
+		});
 	}
 
 	#runFunction(data, onActionFinishedCallback) {

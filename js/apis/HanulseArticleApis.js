@@ -10,7 +10,7 @@ class HanulseArticleApis {
 		const article = response?.data;
 
 		/** @deprecated */
-		callback(article);
+		callback?.(article);
 
 		return article;
 	}
@@ -30,7 +30,7 @@ class HanulseArticleApis {
 		const articleList = response?.data;
 
 		/** @deprecated */
-		callback(articleList);
+		callback?.(articleList);
 
 		return articleList;
 	}
@@ -38,7 +38,7 @@ class HanulseArticleApis {
 	static async updateArticle(articleId, articleChanges, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return callback(null);
+			return callback?.(null);
 		}
 
 		const response = await HanulseAjax.post(
@@ -58,7 +58,7 @@ class HanulseArticleApis {
 		const article = response?.data;
 
 		/** @deprecated */
-		callback(article);
+		callback?.(article);
 
 		return article;
 	}
@@ -66,7 +66,7 @@ class HanulseArticleApis {
 	static async deleteArticle(articleId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return callback(null);
+			return callback?.(null);
 		}
 
 		const response = await HanulseAjax.post(
@@ -79,7 +79,7 @@ class HanulseArticleApis {
 		const success = response?.data?.success || false;
 
 		/** @deprecated */
-		callback(success);
+		callback?.(success);
 
 		return success;
 	}
@@ -87,7 +87,7 @@ class HanulseArticleApis {
 	static async createArticle(articleFields, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return callback(null);
+			return callback?.(null);
 		}
 
 		const response = await HanulseAjax.post(
@@ -107,7 +107,7 @@ class HanulseArticleApis {
 		const article = response?.data;
 
 		/** @deprecated */
-		callback(article);
+		callback?.(article);
 
 		return article;
 	}

@@ -7,23 +7,18 @@ class HanulseGuestbookView extends HanulseView {
 		super();
 	}
 
-	load(callback) {
+	async load() {
 		this.setElement($("<div>").get(0));
 
 		const loadingView = new HanulseLoadingView();
-		loadingView.load(() => {
-			this.addChildView(this._loadingView = loadingView);
+		await loadingView.load();
+		this.addChildView(this._loadingView = loadingView);
 
-			const guestbookListView = new HanulseGuestbookListView();
-			guestbookListView.load(() => {
-				guestbookListView.hide();
+		const guestbookListView = new HanulseGuestbookListView();
+		await guestbookListView.load();
+		guestbookListView.hide();
 
-				this.addChildView(this._guestbookListView = guestbookListView);
-
-				callback && callback();
-			});
-		});
-
+		this.addChildView(this._guestbookListView = guestbookListView);
 	}
 
 	setTitle(title) {

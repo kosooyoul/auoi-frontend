@@ -23,8 +23,8 @@ class HanulseArticleWriterView extends HanulseView {
 		this._initializeArticleWriterView();
 	}
 
-	_initializeArticleWriterView() {
-		this.setElement(HtmlHelper.createHtml(HtmlTemplate.get(HanulseArticleWriterView._templatePath)).get());
+	async _initializeArticleWriterView() {
+		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseArticleWriterView._templatePath)).get());
 
 		this._titleElementWrap = $(this.findChildElement("._title"));
 		this._subjectInputElementWrap = $(this.findChildElement("._subject-input"));
@@ -37,26 +37,26 @@ class HanulseArticleWriterView extends HanulseView {
 		this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
 		this._loadingElementWrap = $(this.findChildElement("._loading"));
 
-		this._saveButtonElementWrap.on("click", () => {
+		this._saveButtonElementWrap.on("click", async () => {
 			this._loadingView.show();
-			HanulseArticleApis.createArticle(this._getFields(), (article) => {
-				if (article) {
-					if (this._onSaveCallback) {
-						this._onSaveCallback();
-					}
-				} else {
-					const messageView = new HanulseMessageView();
-					messageView.load(() => {
-						messageView.setMessage("기록을 저장할 수 없습니다.");
-			
-						const overlayView = new HanulseOverlayView();
-						overlayView.setContentView(messageView);
-						overlayView.show();
-					});
-				}
 
-				this._loadingView.hide();
-			});
+			const article = await HanulseArticleApis.createArticle(this._getFields());
+			if (article) {
+				if (this._onSaveCallback) {
+					this._onSaveCallback();
+				}
+			} else {
+				const messageView = new HanulseMessageView();
+
+				await messageView.load();
+				messageView.setMessage("기록을 저장할 수 없습니다.");
+	
+				const overlayView = new HanulseOverlayView();
+				overlayView.setContentView(messageView);
+				overlayView.show();
+			}
+
+			this._loadingView.hide();
 		});
 
 		this._initializeLoadingView();
