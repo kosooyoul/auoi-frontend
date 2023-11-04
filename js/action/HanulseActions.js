@@ -1,5 +1,5 @@
 class HanulseActions {
-	_variables = {};
+	#variables = {};
 
 	constructor() {
 
@@ -8,7 +8,7 @@ class HanulseActions {
 	run(actions, onActionFinishedCallback, index = 0) {
 		var action = actions[index];
 		if (action) {
-			return this._run(action.type, action, () => {
+			return this.#run(action.type, action, () => {
 				var nextIndex = index + 1;
 				if (nextIndex < actions.length) {
 					return setTimeout(() => {
@@ -21,38 +21,38 @@ class HanulseActions {
 		onActionFinishedCallback && onActionFinishedCallback();
 	}
 
-	_run(type, data, onActionFinishedCallback) {
+	#run(type, data, onActionFinishedCallback) {
 		switch (type) {
-			case "articles": return this._runArticles(data, onActionFinishedCallback);
-			case "link": return this._runLink(data, onActionFinishedCallback);
-			case "menu": return this._runMenu(data, onActionFinishedCallback);
-			case "message": return this._runMessage(data, onActionFinishedCallback);
-			case "selection": return this._runSelection(data, onActionFinishedCallback);
-			case "table": return this._runTable(data, onActionFinishedCallback);
-			case "cards": return this._runCards(data, onActionFinishedCallback);
-			case "gallery": return this._runGallery(data, onActionFinishedCallback);
-			case "calendar": return this._runCalendar(data, onActionFinishedCallback);
-			case "guestbook": return this._runGuestbook(data, onActionFinishedCallback);
-			case "article-writer": return this._runArticleWriter(data, onActionFinishedCallback);
-			case "pwa": return this._runPwa(data, onActionFinishedCallback);
-			case "variable": return this._runVariable(data, onActionFinishedCallback);
-			case "save": return this._runSave(data, onActionFinishedCallback);
-			case "load": return this._runLoad(data, onActionFinishedCallback);
-			case "if": return this._runIf(data, onActionFinishedCallback);
-			case "wait": return this._runWait(data, onActionFinishedCallback);
-			case "function": return this._runFunction(data, onActionFinishedCallback);
+			case "articles": return this.#runArticles(data, onActionFinishedCallback);
+			case "link": return this.#runLink(data, onActionFinishedCallback);
+			case "menu": return this.#runMenu(data, onActionFinishedCallback);
+			case "message": return this.#runMessage(data, onActionFinishedCallback);
+			case "selection": return this.#runSelection(data, onActionFinishedCallback);
+			case "table": return this.#runTable(data, onActionFinishedCallback);
+			case "cards": return this.#runCards(data, onActionFinishedCallback);
+			case "gallery": return this.#runGallery(data, onActionFinishedCallback);
+			case "calendar": return this.#runCalendar(data, onActionFinishedCallback);
+			case "guestbook": return this.#runGuestbook(data, onActionFinishedCallback);
+			case "article-writer": return this.#runArticleWriter(data, onActionFinishedCallback);
+			case "pwa": return this.#runPwa(data, onActionFinishedCallback);
+			case "variable": return this.#runVariable(data, onActionFinishedCallback);
+			case "save": return this.#runSave(data, onActionFinishedCallback);
+			case "load": return this.#runLoad(data, onActionFinishedCallback);
+			case "if": return this.#runIf(data, onActionFinishedCallback);
+			case "wait": return this.#runWait(data, onActionFinishedCallback);
+			case "function": return this.#runFunction(data, onActionFinishedCallback);
 		}
 	}
 
-	_format(format) {
+	#format(format) {
 		const keys = (format.match(/(\$\{[a-zA-Z0-9]{3,7}\})/g) || []);
 		return keys.reduce((format, key) => {
 			var variable = key.slice(2,-1);
-			return format.replace(key, this._variables[variable]);
+			return format.replace(key, this.#variables[variable]);
 		}, format)
 	}
 	
-	_runArticles(data, onActionFinishedCallback) {
+	#runArticles(data, onActionFinishedCallback) {
 		const articleView = new HanulseArticleView();
 		articleView.setTitle(data.title);
 		articleView.load({
@@ -67,14 +67,14 @@ class HanulseActions {
 		overlayView.show();
 	}
 
-	_runLink(data, onActionFinishedCallback) {
+	#runLink(data, onActionFinishedCallback) {
 		location.assign(data.link);
 		if (onActionFinishedCallback) {
 			onActionFinishedCallback();
 		}
 	}
 
-	_runMenu(data, onActionFinishedCallback) {
+	#runMenu(data, onActionFinishedCallback) {
 		const menuView = new HanulseMenuView();
 		menuView.load(() => {
 			data.menu.forEach(menuItem => (menuItem.visible !== false) && menuView.addMenuItem(menuItem));
@@ -86,10 +86,10 @@ class HanulseActions {
 		});
 	}
 
-	_runMessage(data, onActionFinishedCallback) {
+	#runMessage(data, onActionFinishedCallback) {
 		const messageView = new HanulseMessageView();
 		messageView.load(() => {
-			messageView.setMessage(this._format(data.message));
+			messageView.setMessage(this.#format(data.message));
 
 			const overlayView = new HanulseOverlayView();
 			overlayView.setContentView(messageView);
@@ -98,7 +98,7 @@ class HanulseActions {
 		});
 	}
 
-	_runSelection(data, onActionFinishedCallback) {
+	#runSelection(data, onActionFinishedCallback) {
 		const selectionView = new HanulseSelectionView();
 		selectionView.load(() => {
 			selectionView.setMessage(data.message);
@@ -120,7 +120,7 @@ class HanulseActions {
 		});
 	}
 
-	_runTable(data, onActionFinishedCallback) {
+	#runTable(data, onActionFinishedCallback) {
 		const tableView = new HanulseTableView();
 		tableView.load(() => {
 			tableView.setTitle(data["title"]);
@@ -134,7 +134,7 @@ class HanulseActions {
 		});
 	}
 
-	_runCards(data, onActionFinishedCallback) {
+	#runCards(data, onActionFinishedCallback) {
 		const cardsView = new HanulseCardsView();
 		cardsView.load(() => {
 			cardsView.setTitle(data["title"]);
@@ -147,7 +147,7 @@ class HanulseActions {
 		});
 	}
 
-	_runGallery(data, onActionFinishedCallback) {
+	#runGallery(data, onActionFinishedCallback) {
 		const galleryView = new HanulseGalleryView();
 		galleryView.setTitle(data["title"]);
 
@@ -157,7 +157,7 @@ class HanulseActions {
 		overlayView.show();
 	}
 
-	_runCalendar(data, onActionFinishedCallback) {
+	#runCalendar(data, onActionFinishedCallback) {
 		const calendarView = new HanulseCalendarView();
 		calendarView.setTitle(data["title"]);
 		calendarView.setCalendar(data["year"], data["month"]);
@@ -168,7 +168,7 @@ class HanulseActions {
 		overlayView.show();
 	}
 
-	_runGuestbook(data, onActionFinishedCallback) {
+	#runGuestbook(data, onActionFinishedCallback) {
 		const guestbookView = new HanulseGuestbookView();
 		guestbookView.load(() => {
 			guestbookView.setTitle(data.title);
@@ -183,7 +183,7 @@ class HanulseActions {
 		});
 	}
 
-	_runArticleWriter(data, onActionFinishedCallback) {
+	#runArticleWriter(data, onActionFinishedCallback) {
 		if (HanulseAuthorizationManager.hasAuthorization()) {
 			const articleWriterView = new HanulseArticleWriterView();
 			articleWriterView.setTags(data.tags == null? null: data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
@@ -202,7 +202,7 @@ class HanulseActions {
 			const loginView = new HanulseLoginView();
 			loginView.setOnHideCallback(() => {
 				if (HanulseAuthorizationManager.hasAuthorization()) {
-					this._runArticleWriter(data, onActionFinishedCallback);
+					this.#runArticleWriter(data, onActionFinishedCallback);
 				} else {
 					if (onActionFinishedCallback) {
 						onActionFinishedCallback();
@@ -213,25 +213,25 @@ class HanulseActions {
 		}
 	}
 
-	_runVariable(data, onActionFinishedCallback) {
+	#runVariable(data, onActionFinishedCallback) {
 		var name = data.name;
 		var op = data.op || 'set'; // 'add' | 'mod' | 'inv' | 'set'
-		var value = data.value ?? this._variables[data.variable];
+		var value = data.value ?? this.#variables[data.variable];
 
 		if (op == 'add') {
-			this._variables[name] = (Number(this._variables[name]) || 0) + value;
+			this.#variables[name] = (Number(this.#variables[name]) || 0) + value;
 		} else if (op == 'mod') {
-			this._variables[name] = (Number(this._variables[name]) || 0) % value;
+			this.#variables[name] = (Number(this.#variables[name]) || 0) % value;
 		} else if (op == 'inv') {
-			this._variables[name] = -Number(this._variables[name]) || 0;
+			this.#variables[name] = -Number(this.#variables[name]) || 0;
 		} else if (op == 'set') {
-			this._variables[name] = value;
+			this.#variables[name] = value;
 		}
 
 		onActionFinishedCallback();
 	}
 
-	_runSave(data, onActionFinishedCallback) {
+	#runSave(data, onActionFinishedCallback) {
 		var variables = data.variables;
 		var storage = data.storage;
 		var namespace = data.namespace;
@@ -239,21 +239,21 @@ class HanulseActions {
 		if (storage == 'local') {
 			if (namespace) {
 				variables.forEach((variable) => {
-					window.localStorage.setItem('v.' + namespace + '.' + variable, JSON.stringify(this._variables[variable]));
+					window.localStorage.setItem('v.' + namespace + '.' + variable, JSON.stringify(this.#variables[variable]));
 				});
 			} else {
 				variables.forEach((variable) => {
-					window.localStorage.setItem('v.' + variable, JSON.stringify(this._variables[variable]));
+					window.localStorage.setItem('v.' + variable, JSON.stringify(this.#variables[variable]));
 				});
 			}
 		} else if (storage == 'session') {
 			if (namespace) {
 				variables.forEach((variable) => {
-					window.sessionStorage.setItem('v.' + namespace + '.' + variable, JSON.stringify(this._variables[variable]));
+					window.sessionStorage.setItem('v.' + namespace + '.' + variable, JSON.stringify(this.#variables[variable]));
 				});
 			} else {
 				variables.forEach((variable) => {
-					window.sessionStorage.setItem('v.' + variable, JSON.stringify(this._variables[variable]));
+					window.sessionStorage.setItem('v.' + variable, JSON.stringify(this.#variables[variable]));
 				});
 			}
 		}
@@ -261,7 +261,7 @@ class HanulseActions {
 		onActionFinishedCallback();
 	}
 
-	_runLoad(data, onActionFinishedCallback) {
+	#runLoad(data, onActionFinishedCallback) {
 		var variables = data.variables;
 		var storage = data.storage;
 		var namespace = data.namespace;
@@ -270,13 +270,13 @@ class HanulseActions {
 			if (namespace) {
 				variables.forEach((variable) => {
 					try {
-						this._variables[variable] = JSON.parse(window.localStorage.getItem('v.' + namespace + '.' + variable));
+						this.#variables[variable] = JSON.parse(window.localStorage.getItem('v.' + namespace + '.' + variable));
 					} catch(e) {}
 				});
 			} else {
 				variables.forEach((variable) => {
 					try {
-						this._variables[variable] = JSON.parse(window.localStorage.getItem('v.' + variable));
+						this.#variables[variable] = JSON.parse(window.localStorage.getItem('v.' + variable));
 					} catch(e) {}
 				});
 			}
@@ -284,13 +284,13 @@ class HanulseActions {
 			if (namespace) {
 				variables.forEach((variable) => {
 					try {
-						this._variables[variable] = JSON.parse(window.sessionStorage.getItem('v.' + namespace + '.' + variable));
+						this.#variables[variable] = JSON.parse(window.sessionStorage.getItem('v.' + namespace + '.' + variable));
 					} catch(e) {}
 				});
 			} else {
 				variables.forEach((variable) => {
 					try {
-						this._variables[variable] = JSON.parse(window.sessionStorage.getItem('v.' + variable));
+						this.#variables[variable] = JSON.parse(window.sessionStorage.getItem('v.' + variable));
 					} catch(e) {}
 				});
 			}
@@ -299,26 +299,26 @@ class HanulseActions {
 		onActionFinishedCallback();
 	}
 
-	_runIf(data, onActionFinishedCallback) {
+	#runIf(data, onActionFinishedCallback) {
 		var name = data.name;
 		var op = data.op || 'eq'; // 'eq' | 'neq' | 'gte' | 'gt' | 'lte' | 'lt'
-		var value = data.value ?? this._variables[data.variable];
+		var value = data.value ?? this.#variables[data.variable];
 
 		var flag = false;
 		if (op == 'eq') {
-			flag = this._variables[name] == value;
+			flag = this.#variables[name] == value;
 		} else if (op == 'neq') {
-			flag = this._variables[name] != value;
+			flag = this.#variables[name] != value;
 		} else if (op == 'gte') {
-			flag = this._variables[name] >= value;
+			flag = this.#variables[name] >= value;
 		} else if (op == 'gt') {
-			flag = this._variables[name] > value;
+			flag = this.#variables[name] > value;
 		} else if (op == 'gte') {
-			flag = this._variables[name] <= value;
+			flag = this.#variables[name] <= value;
 		} else if (op == 'gt') {
-			flag = this._variables[name] < value;
+			flag = this.#variables[name] < value;
 		} else if (op == 'exists') {
-			flag = this._variables[name] != null;
+			flag = this.#variables[name] != null;
 		}
 
 		if (flag) {
@@ -336,21 +336,21 @@ class HanulseActions {
 		}
 	}
 
-	_runWait(data, onActionFinishedCallback) {
+	#runWait(data, onActionFinishedCallback) {
 		setTimeout(onActionFinishedCallback, data.duration);
 	}
 
-	_runPwa(_data, onActionFinishedCallback) {
+	#runPwa(data, onActionFinishedCallback) {
 		if (window["deferredPrompt"] == null) {
 			if (navigator.serviceWorker) {
-				this._runMessage({"message": "앱을 이미 설치한 것 같아요!"}, onActionFinishedCallback);
+				this.#runMessage({"message": "앱을 이미 설치한 것 같아요!"}, onActionFinishedCallback);
 			} else {
-				this._runMessage({"message": "설치할 수 있는 앱이 없어요."}, onActionFinishedCallback);
+				this.#runMessage({"message": "설치할 수 있는 앱이 없어요."}, onActionFinishedCallback);
 			}
 			return;
 		}
 
-		this._runMessage({
+		this.#runMessage({
 			"message": [
 				"앱을 바로 설치할 수 있어요!",
 				"프로그레시브 웹 앱이거든요~~",
@@ -358,10 +358,10 @@ class HanulseActions {
 			].join("\n")
 		}, onActionFinishedCallback);
 
-		this._runPwaInstall();
+		this.#runPwaInstall();
 	}
 
-	_runPwaInstall() {
+	#runPwaInstall() {
 		setTimeout(() => {
 			const deferredPrompt = window["deferredPrompt"];
 
@@ -385,9 +385,9 @@ class HanulseActions {
 		}, 500);
 	}
 
-	_runFunction(data, onActionFinishedCallback) {
+	#runFunction(data, onActionFinishedCallback) {
 		// TODO
-		console.log(this._variables);
+		console.log(this.#variables);
 		onActionFinishedCallback();
 	}
 }
