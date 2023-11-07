@@ -10,13 +10,10 @@ class HtmlHelper {
 		return new HtmlElementBuilder(element.children[0]);
 	}
 
-	static createFromUrl(url) {
+	static async createFromUrl(url) {
 		const element = document.createElement("div");
-		const html = $.ajax({
-			"url": url,
-			"async": false
-		});
-		return new HtmlElementBuilder(element).outerHtml(html);
+		element.innerHTML = await HtmlTemplate.fetch(url);
+		return new HtmlElementBuilder(element.children[0]);
 	}
 
 	static find(selector, parentElement) {
@@ -25,7 +22,7 @@ class HtmlHelper {
 	}
 	
 	static findAll(selector, parentElement) {
-		const elements = (parentElement || window.document).querySelector(selector);
+		const elements = (parentElement || window.document).querySelectorAll(selector);
 		return new HtmlElementBuilder(elements);
 	}
 }

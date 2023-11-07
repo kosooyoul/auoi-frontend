@@ -1,78 +1,46 @@
-class HanulseCardsView extends HanulseView {
-	static _templatePath = "./template/cards.html";
+class HanulseCardsView {
+	static #LIST_TEMPLATE_PATH = "./template/card-list.html";
+	static #CARD_TEMPLATE_PATH = "./template/card-list-item.html";
 
-	#titleElementWrap;
-	#cardsElementWrap;
+	#rootElement;
+	#cardElement;
 
-	#colsOptions = [];
+	#title;
+	#cards;
 
-	constructor() {
-		super();
+	constructor(options) {
+		this.#title = options.title || "제목 없음";
+		this.#cards = options.cards || [];
 	}
 
-	async load() {
-		const html = await HtmlTemplate.fetch(HanulseCardsView._templatePath);
-		this.setElement(HtmlHelper.createHtml(html).get());
-
-		this.#titleElementWrap = $(this.findChildElement("._title"));
-		this.#cardsElementWrap = $(this.findChildElement("._cards"));
+	getElement() {
+		return this.#rootElement.get();
 	}
 
-	setTitle(title) {
-		this.#titleElementWrap.text(title || "제목 없음");
+	async build() {
+		this.#rootElement = await HtmlHelper.createFromUrl(HanulseCardsView.#LIST_TEMPLATE_PATH);
+		this.#cardElement = await HtmlHelper.createFromUrl(HanulseCardsView.#CARD_TEMPLATE_PATH);
+
+		this.#validate();
+
+		return this;
 	}
 
-	setColsOptions(colsOptions) {
-		this.#colsOptions = colsOptions;
-	}
+	async #validate() {
+		const titleElement = this.#rootElement.find("._title");
+		const cardsElement = this.#rootElement.find("._cards");
 
-	setCards(cards) {
-		this.#cardsElementWrap.empty();
-
-		const cardsWrap = $("<div>").css({
-			"padding": "10px",
-			"user-select": "text",
-			"word-break": "break-all"
-		});
-		cards.forEach(card => {
-			const cardWrap = $("<div>").css({
-				"margin": "4px",
-				"padding": "4px",
-				"border-radius": "8px",
-				"background-color": "rgba(0, 0, 0, 0.4)"
-			});
-			cardsWrap.append(cardWrap);
-
-			const titleWrap = $("<div>").css({
-				"padding": "8px",
-				"font-size": "14px",
-			});
-			titleWrap.text(card.title);
-			cardWrap.append(titleWrap);
-
-			const contentWrap = $("<div>").css({
-				"padding": "8px",
-				"font-size": "14px",
-				"word-break": "break-word",
-				"color": "rgb(180, 180, 180)",
-			});
-			contentWrap.text(card.content);
-			cardWrap.append(contentWrap);
-
+		titleElement.text(this.#title);
+		cardsElement.clear();
+		this.#cards.forEach(card => {
+			const cardElement = this.#cardElement.clone();
+			cardElement.find("._title").text(card.title);
+			cardElement.find("._content").text(card.content);
 			if (card.link) {
-				const linkWrap = $("<div>").css({
-					"padding": "8px",
-					"font-size": "14px",
-					"text-overflow": "ellisis",
-				});
-				const linkAnchor = $("<a class=\"link\" target=\"_blank\">")
-				linkAnchor.attr("href", card.link);
-				linkAnchor.text(card.link);
-				linkWrap.append(linkAnchor);
-				cardWrap.append(linkWrap);
+				cardElement.find("._link-wrap").show();
+				cardElement.find("._link").text(card.link);
 			}
+			cardsElement.append(cardElement.get());
 		});
-
-		this.#cardsElementWrap.append(cardsWrap);
 	}
 }

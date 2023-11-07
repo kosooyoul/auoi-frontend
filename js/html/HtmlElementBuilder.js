@@ -20,6 +20,10 @@ class HtmlElementBuilder {
 		return this._elements;
 	}
 
+	clone() {
+		return new HtmlElementBuilder(this._elements.map(element => element.cloneNode(true)));
+	}
+
 	static _registerData(value) {
 		const index = HtmlElementBuilder._dataIndex++;
 		HtmlElementBuilder._dataMap[index] = {"value": value, "ref": 0};
@@ -119,6 +123,11 @@ class HtmlElementBuilder {
 		return this;
 	}
 
+	clear() {
+		this._elements.forEach(element => element.innerHTML = "");
+		return this;
+	}
+
 	find(selector) {
 		for (const element of this._elements) {
 			const e = element.querySelector(selector);
@@ -127,6 +136,16 @@ class HtmlElementBuilder {
 			}
 		}
 		return new HtmlElementBuilder();
+	}
+
+	show() {
+		this._elements.forEach(element => element.style["display"] = "");
+		return this;
+	}
+
+	hide() {
+		this._elements.forEach(element => element.style["display"] = "none");
+		return this;
 	}
 
 	listenEvent(eventName, eventHandler) {

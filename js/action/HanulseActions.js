@@ -143,11 +143,10 @@ class HanulseActions {
 	}
 
 	async #runCards(data, onActionFinishedCallback) {
-		const cardsView = new HanulseCardsView();
-
-		await cardsView.load();
-		cardsView.setTitle(data["title"]);
-		cardsView.setCards(data["cards"]);
+		const cardsView = await new HanulseCardsView({
+			title: data["title"],
+			cards: data["cards"],
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(cardsView);
