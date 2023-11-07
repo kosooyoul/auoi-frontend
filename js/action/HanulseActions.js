@@ -189,9 +189,10 @@ class HanulseActions {
 		overlayView.show();
 	}
 
-	#runArticleWriter(data, onActionFinishedCallback) {
+	async #runArticleWriter(data, onActionFinishedCallback) {
 		if (HanulseAuthorizationManager.hasAuthorization()) {
-			const articleWriterView = new HanulseArticleWriterView();
+			const articleWriterView = await new HanulseArticleWriterView().build();
+
 			articleWriterView.setTags(data.tags == null? null: data.tags.trim().split(/[,\s#]/g).map(tag => tag.trim()).filter(tag => !!tag));
 			articleWriterView.setTitle(data.title);
 			articleWriterView.setOwner(data.owner);

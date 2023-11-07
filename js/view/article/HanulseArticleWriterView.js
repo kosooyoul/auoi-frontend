@@ -1,5 +1,5 @@
-class HanulseArticleWriterView extends HanulseView {
-	static _templatePath = "./template/article/article-writer.html";
+class HanulseArticleWriterView {
+	static #TEMPLATE_PATH = "./template/article/article-writer.html";
 
 	_titleElementWrap;
 	_subjectInputElementWrap;
@@ -12,33 +12,43 @@ class HanulseArticleWriterView extends HanulseView {
 	_saveButtonElementWrap;
 	_loadingElementWrap;
 
-	_loadingView;
+	#loadingView;
 
 	_ownerId;
 	_onSaveCallback;
 
-	constructor() {
-		super();
+	#rootElement;
 
-		this._initializeArticleWriterView();
+	constructor() {
+
+	}
+
+	async build() {
+		await this._initializeArticleWriterView();
+
+		return this;
+	}
+
+	getElement() {
+		return this.#rootElement.get();
 	}
 
 	async _initializeArticleWriterView() {
-		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseArticleWriterView._templatePath)).get());
+		this.#rootElement = await HtmlHelper.createFromUrl(HanulseArticleWriterView.#TEMPLATE_PATH);
 
-		this._titleElementWrap = $(this.findChildElement("._title"));
-		this._subjectInputElementWrap = $(this.findChildElement("._subject-input"));
-		this._contentInputElementWrap = $(this.findChildElement("._content-input"));
-		this._linkInputElementWrap = $(this.findChildElement("._link-input"));
-		this._tagsInputElementWrap = $(this.findChildElement("._tags-input"));
-		this._contentTypeInputElementWrap = $(this.findChildElement("._content-type-input"));
-		this._readableTargetInputElementWrap = $(this.findChildElement("._readable-target-input"));
-		this._createdAtInputElementWrap = $(this.findChildElement("._created-at-input"));
-		this._saveButtonElementWrap = $(this.findChildElement("._save-button"));
-		this._loadingElementWrap = $(this.findChildElement("._loading"));
+		this._titleElementWrap = $(this.#rootElement.find("._title").get());
+		this._subjectInputElementWrap = $(this.#rootElement.find("._subject-input").get());
+		this._contentInputElementWrap = $(this.#rootElement.find("._content-input").get());
+		this._linkInputElementWrap = $(this.#rootElement.find("._link-input").get());
+		this._tagsInputElementWrap = $(this.#rootElement.find("._tags-input").get());
+		this._contentTypeInputElementWrap = $(this.#rootElement.find("._content-type-input").get());
+		this._readableTargetInputElementWrap = $(this.#rootElement.find("._readable-target-input").get());
+		this._createdAtInputElementWrap = $(this.#rootElement.find("._created-at-input").get());
+		this._saveButtonElementWrap = $(this.#rootElement.find("._save-button").get());
+		this._loadingElementWrap = $(this.#rootElement.find("._loading").get());
 
 		this._saveButtonElementWrap.on("click", async () => {
-			this._loadingView.show();
+			this.#loadingView.show();
 
 			const article = await HanulseArticleApis.createArticle(this._getFields());
 			if (article) {
@@ -55,7 +65,7 @@ class HanulseArticleWriterView extends HanulseView {
 				overlayView.show();
 			}
 
-			this._loadingView.hide();
+			this.#loadingView.hide();
 		});
 
 		this._initializeLoadingView();
@@ -63,11 +73,10 @@ class HanulseArticleWriterView extends HanulseView {
 		setTimeout(() => this._subjectInputElementWrap.focus());
 	}
 
-	_initializeLoadingView() {
-		const loadingView = new HanulseLoadingView();
-		loadingView.load(() => {
-			this.addChildView(this._loadingView = loadingView);
-		});
+	async _initializeLoadingView() {
+		this.#loadingView = new HanulseLoadingView();
+		await this.#loadingView.load();
+		this.#rootElement.append(this.#loadingView.getElement());
 	}
 
 	setOnSaveCallback(onSaveCallback) {
