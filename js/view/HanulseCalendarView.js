@@ -1,73 +1,63 @@
-class HanulseCalendarView extends HanulseView {
-	static _templatePath = "./template/calendar.html";
+class HanulseCalendarView {
+	static #LIST_TEMPLATE_PATH = "./template/calendar.html";
+	static #ITEM_TEMPLATE_PATH = "./template/calendar-item.html";
 
-	_titleElementWrap;
-	_calendarElementWrap;
+	#rootElement;
+	#itemElement;
 
-	_colsOptions = [];
+	#title;
+	#year;
+	#month;
 
-	constructor() {
-		super();
+	constructor(options) {
+		this.#title = options.title || "제목 없음";
+		this.#year = options.year || new Date().getFullYear();
+		this.#month = options.month || (new Date().getMonth() + 1);
 	}
 
-	async load() {
-		await this._initializeCalendarView();
+	getElement() {
+		return this.#rootElement.get();
 	}
 
-	async _initializeCalendarView() {
-		this.setElement(HtmlHelper.createHtml(await HtmlTemplate.fetch(HanulseCalendarView._templatePath)).get());
+	async build() {
+		this.#rootElement = await HtmlHelper.createFromUrl(HanulseCalendarView.#LIST_TEMPLATE_PATH);
+		this.#itemElement = await HtmlHelper.createFromUrl(HanulseCalendarView.#ITEM_TEMPLATE_PATH);
 
-		this._titleElementWrap = $(this.findChildElement("._title"));
-		this._calendarElementWrap = $(this.findChildElement("._calendar"));
-		this._yearElementWrap = $(this.findChildElement("._year"));
-		this._monthElementWrap = $(this.findChildElement("._month"));
+		this.#validate();
+
+		return this;
 	}
 
-	setTitle(title) {
-		this._titleElementWrap.text(title || "제목 없음");
-	}
+	#validate() {
+		this.#rootElement.find("._title").text(this.#title);
+		this.#rootElement.find("._year").text(this.#year);
+		this.#rootElement.find("._month").text(this.#month);
 
-	setCalendar(year, month) {
-		this._calendarElementWrap.empty();
+		const lastDate = this.#getLastDate();
+		const dayOfWeek = this.#getDayOfWeek();
+		const start = -dayOfWeek + 1;
+		const end = lastDate + 1 + (7 - (dayOfWeek + lastDate) % 7);
 
-		const hasLeapDay = month == 2 && (year % 4 == 0) && (year % 100 != 0) && (year % 400 == 0);
-		const dates = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1] + (hasLeapDay? 1: 0);
-		 // Temporary
-		const dow = new Date(year, month - 1, 1).getDay();
-
-		this._yearElementWrap.text(year);
-		this._monthElementWrap.text(month);
-
-		const calendarWrap = $("<table>").css({
-			"width": "100%",
-			"padding": "10px",
-			"text-align": "center",
-			"user-select": "text",
-			"word-break": "break-all"
-		});
-		const calendarBody = $("<tbody>");
-		calendarWrap.append(calendarBody);
-
-		let d = -dow;
-		while (d < dates) {
-			const rowWrap = $("<tr>").css({"background-color": "rgba(0, 0, 0, 0.4)"});
-			calendarBody.append(rowWrap);
-
-			for (let i = 0; i < 7; i++) {
-				d++;
-
-				const colWrap = $("<td>").css({
-					"padding": "10px",
-					"border-radius": "8px",
-				});
-
-				if (d > 0 && d <= dates) {
-					colWrap.text(d);
-				}
-				rowWrap.append(colWrap);
+		const calendarElement = this.#rootElement.find("._calendar");
+		calendarElement.clear();
+		for (let d = start; d < end; d++) {
+			const dateElement = this.#itemElement.clone();
+			if (d >= 1 && d <= lastDate) {
+				dateElement.text(d);
 			}
+			calendarElement.append(dateElement.get());
 		}
+	}
 
-		this._calendarElementWrap.append(calendarWrap);
+	#hasLeapDay() {
+		return this.#month == 2 && (this.#year % 4 == 0) && (this.#year % 100 != 0) && (this.#year % 400 == 0);
+	}
+
+	#getLastDate() {
+		return [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][this.#month - 1] + (this.#hasLeapDay()? 1: 0);
+	}
+
+	#getDayOfWeek() {
+		return new Date(this.#year, this.#month - 1, 1).getDay();
 	}
 }

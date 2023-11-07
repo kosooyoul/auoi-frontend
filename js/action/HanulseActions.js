@@ -144,8 +144,8 @@ class HanulseActions {
 
 	async #runCards(data, onActionFinishedCallback) {
 		const cardsView = await new HanulseCardsView({
-			title: data["title"],
-			cards: data["cards"],
+			"title": data["title"],
+			"cards": data["cards"],
 		}).build();
 
 		const overlayView = new HanulseOverlayView();
@@ -165,11 +165,11 @@ class HanulseActions {
 	}
 
 	async #runCalendar(data, onActionFinishedCallback) {
-		const calendarView = new HanulseCalendarView();
-
-		await calendarView.load();
-		calendarView.setTitle(data["title"]);
-		calendarView.setCalendar(data["year"] || (new Date().getFullYear()), data["month"] || (new Date().getMonth() + 1));
+		const calendarView = await new HanulseCalendarView({
+			"title": data["title"],
+			"year": data["year"],
+			"month": data["month"],
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(calendarView);
