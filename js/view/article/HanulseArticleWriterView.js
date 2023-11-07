@@ -46,11 +46,10 @@ class HanulseArticleWriterView extends HanulseView {
 					this._onSaveCallback();
 				}
 			} else {
-				const messageView = new HanulseMessageView();
+				const messageView = await new HanulseMessageView({
+					"message": "기록을 저장할 수 없습니다.",
+				}).build();
 
-				await messageView.load();
-				messageView.setMessage("기록을 저장할 수 없습니다.");
-	
 				const overlayView = new HanulseOverlayView();
 				overlayView.setContentView(messageView);
 				overlayView.show();

@@ -95,10 +95,9 @@ class HanulseActions {
 	}
 
 	async #runMessage(data, onActionFinishedCallback) {
-		const messageView = new HanulseMessageView();
-
-		await messageView.load();
-		messageView.setMessage(this.#format(data.message));
+		const messageView = await new HanulseMessageView({
+			"message": data["message"],
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(messageView);

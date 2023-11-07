@@ -10,7 +10,7 @@ class HanulseGuestbookApis {
 		const guestbook = response?.data;
 
 		/** @deprecated */
-		callback(guestbook);
+		callback?.(guestbook);
 
 		return guestbook;
 	}
@@ -28,7 +28,7 @@ class HanulseGuestbookApis {
 		const guestbookList = response?.data;
 
 		/** @deprecated */
-		callback(guestbookList);
+		callback?.(guestbookList);
 
 		return guestbookList;
 	}
@@ -36,7 +36,7 @@ class HanulseGuestbookApis {
 	static async updateGuestbook(guestbookId, guestbookChanges, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return callback(null);
+			return callback?.(null);
 		}
 
 		const response = await HanulseAjax.post(
@@ -51,7 +51,7 @@ class HanulseGuestbookApis {
 		const guestbook = response?.data;
 
 		/** @deprecated */
-		callback(guestbook);
+		callback?.(guestbook);
 
 		return guestbook;
 	}
@@ -59,7 +59,7 @@ class HanulseGuestbookApis {
 	static async deleteGuestbook(guestbookId, callback) {
 		const accessToken = HanulseAuthorizationManager.getAccessToken();
 		if (!accessToken) {
-			return callback(null);
+			return callback?.(null);
 		}
 
 		const response = await HanulseAjax.post(
@@ -72,7 +72,7 @@ class HanulseGuestbookApis {
 		const success = response?.data?.success || false;
 
 		/** @deprecated */
-		callback(success);
+		callback?.(success);
 
 		return success;
 	}
@@ -91,7 +91,7 @@ class HanulseGuestbookApis {
 		const guestbook = response?.data;
 
 		/** @deprecated */
-		callback(guestbook);
+		callback?.(guestbook);
 
 		return guestbook;
 	}

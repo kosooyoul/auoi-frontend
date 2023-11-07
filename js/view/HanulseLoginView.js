@@ -132,10 +132,9 @@ class HanulseLoginView extends HanulseOverlayView {
 	}
 
 	async _showMessageView(message, onHideCallback) {
-		const messageView = new HanulseMessageView();
-
-		await messageView.load();
-		messageView.setMessage(message);
+		const messageView = await new HanulseMessageView({
+			"message": message,
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(messageView);

@@ -95,10 +95,9 @@ class HanulseArticleView extends HanulseView {
 			this.#articleListView.hide();
 			this.#articleDetailView.show();
 		} else {
-			const messageView = new HanulseMessageView();
-
-			await messageView.load();
-			messageView.setMessage("선택하신 기록을 조회할 권한이 없습니다.");
+			const messageView = await new HanulseMessageView({
+				"message": "선택하신 기록을 조회할 권한이 없습니다.",
+			}).build();
 
 			const overlayView = new HanulseOverlayView();
 			overlayView.setContentView(messageView);
@@ -126,11 +125,10 @@ class HanulseArticleView extends HanulseView {
 					this.#articleListView.show();
 					this.#articleListView.loadList();
 				} else {
-					const messageView = new HanulseMessageView();
-	
-					await messageView.load();
-					messageView.setMessage("기록을 삭제할 수 없습니다.");
-			
+					const messageView = await new HanulseMessageView({
+						"message": "기록을 삭제할 수 없습니다.",
+					}).build();
+
 					const overlayView = new HanulseOverlayView();
 					overlayView.setContentView(messageView);
 					overlayView.show();
@@ -156,10 +154,9 @@ class HanulseArticleView extends HanulseView {
 			this.#articleEditorView.hide();
 			this.#articleDetailView.show();
 		} else {
-			const messageView = new HanulseMessageView();
-			
-			await messageView.load();
-			messageView.setMessage("기록을 수정할 수 없습니다.");
+			const messageView = await new HanulseMessageView({
+				"message": "기록을 수정할 수 없습니다.",
+			}).build();
 
 			const overlayView = new HanulseOverlayView();
 			overlayView.setContentView(messageView);

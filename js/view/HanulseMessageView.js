@@ -1,22 +1,27 @@
-class HanulseMessageView extends HanulseView {
-	static _templatePath = "./template/message.html";
+class HanulseMessageView {
+	static #TEMPLATE_PATH = "./template/message.html";
 
-	_elementWrap;
+	#rootElement;
 
-	constructor() {
-		super();
-	}
+	#message;
 
-	async load() {
-		const html = await HtmlTemplate.fetch(HanulseMessageView._templatePath);
-		this._elementWrap = HtmlHelper.createHtml(html);
+	constructor(options) {
+		this.#message = options.message;
 	}
 
 	getElement() {
-		return this._elementWrap.get(0);
+		return this.#rootElement.get();
 	}
 
-	setMessage(message) {
-		this._elementWrap.find("._message").htmlFromText(message);
+	async build() {
+		this.#rootElement = await HtmlHelper.createFromUrl(HanulseMessageView.#TEMPLATE_PATH);
+
+		this.#validate();
+
+		return this;
+	}
+
+	#validate() {
+		this.#rootElement.find("._message").htmlFromText(this.#message);
 	}
 }
