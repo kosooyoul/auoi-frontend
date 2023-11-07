@@ -1,63 +1,48 @@
-class HanulseSelectionView extends HanulseView {
-	static _templatePath = "./template/selection.html";
+class HanulseSelectionView {
+	static #SELECTION_TEMPLATE_PATH = "./template/selection.html";
+	static #ITEM_TEMPLATE_PATH = "./template/selection-item.html";
 
-	#messageElementWrap;
-	#optionsElementWrap;
+	#rootElement;
+	#itemElement;
 
-	#onSelectOptionCallback;
+	#message;
+	#options;
+	#onSelectedListener;
 
-	constructor() {
-		super();
+	constructor(options) {
+		this.#message = options.message;
+		this.#options = options.options;
+		this.#onSelectedListener = options.onSelectedListener;
 	}
 
-	async load() {
-		const html = await HtmlTemplate.fetch(HanulseSelectionView._templatePath);
-		this.setElement(HtmlHelper.createHtml(html).get());
+	async build() {
+		this.#rootElement = await HtmlHelper.createFromUrl(HanulseSelectionView.#SELECTION_TEMPLATE_PATH);
+		this.#itemElement = await HtmlHelper.createFromUrl(HanulseSelectionView.#ITEM_TEMPLATE_PATH);
 
-		this.#messageElementWrap = $(this.findChildElement("._message"));
-		this.#optionsElementWrap = $(this.findChildElement("._options"));
+		this.#validate();
+
+		return this;
 	}
 
-	setOnSelectOptionCallback(onSelectOptionCallback) {
-		this.#onSelectOptionCallback = onSelectOptionCallback;
+	getElement() {
+		return this.#rootElement.get();
 	}
 
-	setMessage(message) {
-		this.#messageElementWrap.text(message);
-	}
+	#validate() {
+		const messageElement = this.#rootElement.find("._message");
+		const optionsElement = this.#rootElement.find("._options");
 
-	setOptions(options) {
-		this.#optionsElementWrap.empty();
-
-		options.forEach(option => this._addOptionItem(option));
-	}
-
-	_addOptionItem(option) {
-		const optionItem = $("<a class=\"_option-button\">");
-		optionItem.attr("href", "javascript:void(0)");
-		optionItem.css({
-			"display": "block",
-			"position": "relative",
-			"border-radius": "4px",
-			"color": "white",
-			"margin": "2px 4px",
-			"padding": "2px 8px",
-			"font-size": "13px",
-			"line-height": "24px",
-			"word-break": "keep-all",
-			"text-overflow": "ellipsis",
-			"overflow": "hidden",
-			"cursor": "pointer",
-			"user-select": "none",
+		messageElement.text(this.#message);
+		optionsElement.clear();
+		this.#options.forEach(option => {
+			const optionElement = this.#itemElement.clone();
+			optionElement.find("._title").text(option.title);
+			optionElement.listenEvent("click", () => {
+				if (this.#onSelectedListener) {
+					this.#onSelectedListener(option);
+				}
+			});
+			optionsElement.append(optionElement.get());
 		});
-		optionItem.text("> " + option.title);
-
-		optionItem.on("click", () => {
-			if (this.#onSelectOptionCallback) {
-				this.#onSelectOptionCallback(option);
-			}
-		});
-
-		this.#optionsElementWrap.append(optionItem);
 	}
 }

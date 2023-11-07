@@ -109,42 +109,40 @@ class HanulseArticleView extends HanulseView {
 	}
 
 	async #onDeleteArticleCallback(article) {
-		const selectionView = new HanulseSelectionView();
-
-		await selectionView.load();
-		selectionView.setMessage("다음 기록을 삭제할까요?\n'" + article.subject + "'");
-		selectionView.setOptions([
-			{"title": "네, 삭제합니다.", "value": true},
-			{"title": "아니요, 그만둘래요.", "value": false},
-		]);
+		const selectionView = await new HanulseSelectionView({
+			"message": `다음 기록을 삭제할까요?\n' ${article.subject}'`,
+			"options": [
+				{"title": "네, 삭제합니다.", "value": true},
+				{"title": "아니요, 그만둘래요.", "value": false},
+			],
+			"onSelectedListener": async (option) => {
+				if (option.value != true) {
+					return overlayView.hide();
+				}
+	
+				const success = await HanulseArticleApis.deleteArticle(article.id);
+				if (success) {
+					this.#articleDetailView.hide();
+					this.#articleListView.show();
+					this.#articleListView.loadList();
+				} else {
+					const messageView = new HanulseMessageView();
+	
+					await messageView.load();
+					messageView.setMessage("기록을 삭제할 수 없습니다.");
+			
+					const overlayView = new HanulseOverlayView();
+					overlayView.setContentView(messageView);
+					overlayView.show();
+				}
+				
+				overlayView.hide();
+			},
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(selectionView);
 		overlayView.show();
-
-		selectionView.setOnSelectOptionCallback(async (option) => {
-			if (option.value != true) {
-				return overlayView.hide();
-			}
-
-			const success = await HanulseArticleApis.deleteArticle(article.id);
-			if (success) {
-				this.#articleDetailView.hide();
-				this.#articleListView.show();
-				this.#articleListView.loadList();
-			} else {
-				const messageView = new HanulseMessageView();
-
-				await messageView.load();
-				messageView.setMessage("기록을 삭제할 수 없습니다.");
-		
-				const overlayView = new HanulseOverlayView();
-				overlayView.setContentView(messageView);
-				overlayView.show();
-			}
-			
-			overlayView.hide();
-		});
 	}
 
 	async #onSaveArticleCallback(articleId, articleChanges) {

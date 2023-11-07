@@ -107,25 +107,23 @@ class HanulseActions {
 	}
 
 	async #runSelection(data, onActionFinishedCallback) {
-		const selectionView = new HanulseSelectionView();
-
-		await selectionView.load();
-		selectionView.setMessage(data.message);
-		selectionView.setOptions(data.options);
+		const selectionView = await new HanulseSelectionView({
+			"message": data["message"],
+			"options": data["options"],
+			"onSelectedListener": (option) => {
+				const actions = option.actions || [option.action];
+				if (actions) {
+					overlayView.setOnHideCallback(null);
+					this.run(actions, onActionFinishedCallback);
+				}
+				overlayView.hide();
+			},
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(selectionView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
-
-		selectionView.setOnSelectOptionCallback((option) => {
-			const actions = option.actions || [option.action];
-			if (actions) {
-				overlayView.setOnHideCallback(null);
-				this.run(actions, onActionFinishedCallback);
-			}
-			overlayView.hide();
-		});
 	}
 
 	#runTable(data, onActionFinishedCallback) {
