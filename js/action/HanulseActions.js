@@ -89,7 +89,7 @@ class HanulseActions {
 
 	async #runMessage(data, onActionFinishedCallback) {
 		const messageView = await new HanulseMessageView({
-			"message": data["message"],
+			"message": this.#format(data["message"]),
 		}).build();
 
 		const overlayView = new HanulseOverlayView();
@@ -100,8 +100,13 @@ class HanulseActions {
 
 	async #runSelection(data, onActionFinishedCallback) {
 		const selectionView = await new HanulseSelectionView({
-			"message": data["message"],
-			"options": data["options"],
+			"message": this.#format(data["message"]),
+			"options": data["options"].map(option => {
+				return {
+					... option,
+					"title": this.#format(option.title),
+				};
+			}),
 			"onSelectedListener": (option) => {
 				const actions = option.actions || [option.action];
 				if (actions) {
