@@ -307,13 +307,12 @@ class HanulseActions {
 	}
 
 	async #runPwa(_, onActionFinishedCallback) {
-		if (window["deferredPrompt"] == null) {
-			if (navigator.serviceWorker) {
-				this.#runMessage({"message": "앱을 이미 설치한 것 같아요!"}, onActionFinishedCallback);
-			} else {
-				this.#runMessage({"message": "설치할 수 있는 앱이 없어요."}, onActionFinishedCallback);
-			}
-			return;
+		if (HanulsePwa.isInstalled()) {
+			return this.#runMessage({"message": "앱을 이미 설치한 것 같아요!"}, onActionFinishedCallback);
+		}
+
+		if (HanulsePwa.isNotSupported()) {
+			return this.#runMessage({"message": "설치할 수 있는 앱이 없어요."}, onActionFinishedCallback);
 		}
 
 		await this.#runMessage({
@@ -321,32 +320,12 @@ class HanulseActions {
 				"앱을 바로 설치할 수 있어요!",
 				"프로그레시브 웹 앱이거든요~~",
 				"브라우저가 앱 설치를 도와줄 거예요!"
-			].join("\n")
+			].join("\n"),
 		}, onActionFinishedCallback);
 
-		this.#runPwaInstall();
-	}
-
-	async #runPwaInstall() {
-		const deferredPrompt = window["deferredPrompt"];
-
-		// The user has had a postive interaction with our app and Chrome
-		// has tried to prompt previously, so let's show the prompt.
-		deferredPrompt.prompt();
-	
-		// Follow what the user has done with the prompt.
-		deferredPrompt.userChoice.then(function(choiceResult) {
-			console.log(choiceResult.outcome);
-	
-			if(choiceResult.outcome == "dismissed") {
-				console.log("User cancelled home screen install");
-			} else {
-				console.log("User added to home screen");
-			}
-	
-			// We no longer need the prompt.  Clear it up.
-			delete window["deferredPrompt"];
-		});
+		setTimeout(() => {
+			HanulsePwa.askInstall();
+		}, 400);
 	}
 
 	async #runFunction(data, onActionFinishedCallback) {
