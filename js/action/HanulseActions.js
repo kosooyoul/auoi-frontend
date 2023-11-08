@@ -1,10 +1,6 @@
 class HanulseActions {
 	#variables = {};
 
-	constructor() {
-
-	}
-
 	run(actions, onActionFinishedCallback, index = 0) {
 		var action = actions[index];
 		if (action) {
@@ -50,6 +46,14 @@ class HanulseActions {
 			return format.replace(key, this.#variables[variable]);
 		}, format)
 	}
+
+	#showWithOverlay(view, onActionFinishedCallback) {
+		const overlayView = new HanulseOverlayView();
+		overlayView.setContentView(view);
+		overlayView.setOnHideCallback(onActionFinishedCallback);
+		overlayView.show();
+		return overlayView;
+	}
 	
 	async #runArticles(data, onActionFinishedCallback) {
 		const articleView = new HanulseArticleView();
@@ -63,17 +67,12 @@ class HanulseActions {
 			"author": data.author
 		});
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(articleView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(articleView, onActionFinishedCallback);
 	}
 
-	#runLink(data, onActionFinishedCallback) {
+	async #runLink(data, onActionFinishedCallback) {
 		location.assign(data.link);
-		if (onActionFinishedCallback) {
-			onActionFinishedCallback();
-		}
+		onActionFinishedCallback?.();
 	}
 
 	async #runMenu(data, onActionFinishedCallback) {
@@ -81,10 +80,7 @@ class HanulseActions {
 			"items": data["menu"],
 		}).build();
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(menuView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(menuView, onActionFinishedCallback);
 	}
 
 	async #runMessage(data, onActionFinishedCallback) {
@@ -92,10 +88,7 @@ class HanulseActions {
 			"message": this.#format(data["message"]),
 		}).build();
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(messageView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(messageView, onActionFinishedCallback);
 	}
 
 	async #runSelection(data, onActionFinishedCallback) {
@@ -117,10 +110,7 @@ class HanulseActions {
 			},
 		}).build();
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(selectionView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		const overlayView = this.#showWithOverlay(selectionView, onActionFinishedCallback);
 	}
 
 	async #runCards(data, onActionFinishedCallback) {
@@ -129,20 +119,14 @@ class HanulseActions {
 			"cards": data["cards"],
 		}).build();
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(cardsView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(cardsView, onActionFinishedCallback);
 	}
 
 	#runGallery(data, onActionFinishedCallback) {
 		const galleryView = new HanulseGalleryView();
 		galleryView.setTitle(data["title"]);
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(galleryView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(galleryView, onActionFinishedCallback);
 	}
 
 	async #runCalendar(data, onActionFinishedCallback) {
@@ -152,10 +136,7 @@ class HanulseActions {
 			"month": data["month"],
 		}).build();
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(calendarView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(calendarView, onActionFinishedCallback);
 	}
 
 	async #runGuestbook(data, onActionFinishedCallback) {
@@ -167,10 +148,7 @@ class HanulseActions {
 			"owner": data.owner
 		});
 
-		const overlayView = new HanulseOverlayView();
-		overlayView.setContentView(guestbookView);
-		overlayView.setOnHideCallback(onActionFinishedCallback);
-		overlayView.show();
+		this.#showWithOverlay(guestbookView, onActionFinishedCallback);
 	}
 
 	async #runArticleWriter(data, onActionFinishedCallback) {
@@ -181,10 +159,7 @@ class HanulseActions {
 			articleWriterView.setTitle(data.title);
 			articleWriterView.setOwner(data.owner);
 
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(articleWriterView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
+			this.#showWithOverlay(articleWriterView, onActionFinishedCallback);
 
 			articleWriterView.setOnSaveCallback(() => {
 				overlayView.hide();
@@ -204,7 +179,7 @@ class HanulseActions {
 		}
 	}
 
-	#runVariable(data, onActionFinishedCallback) {
+	async #runVariable(data, onActionFinishedCallback) {
 		var name = data.name;
 		var op = data.op || 'set'; // 'add' | 'mod' | 'inv' | 'set'
 		var value = data.value ?? this.#variables[data.variable];
@@ -222,7 +197,7 @@ class HanulseActions {
 		onActionFinishedCallback();
 	}
 
-	#runSave(data, onActionFinishedCallback) {
+	async #runSave(data, onActionFinishedCallback) {
 		var variables = data.variables;
 		var storage = data.storage;
 		var namespace = data.namespace;
@@ -252,7 +227,7 @@ class HanulseActions {
 		onActionFinishedCallback();
 	}
 
-	#runLoad(data, onActionFinishedCallback) {
+	async #runLoad(data, onActionFinishedCallback) {
 		var variables = data.variables;
 		var storage = data.storage;
 		var namespace = data.namespace;
@@ -290,7 +265,7 @@ class HanulseActions {
 		onActionFinishedCallback();
 	}
 
-	#runIf(data, onActionFinishedCallback) {
+	async #runIf(data, onActionFinishedCallback) {
 		var name = data.name;
 		var op = data.op || 'eq'; // 'eq' | 'neq' | 'gte' | 'gt' | 'lte' | 'lt'
 		var value = data.value ?? this.#variables[data.variable];
@@ -327,11 +302,11 @@ class HanulseActions {
 		}
 	}
 
-	#runWait(data, onActionFinishedCallback) {
+	async #runWait(data, onActionFinishedCallback) {
 		setTimeout(onActionFinishedCallback, data.duration);
 	}
 
-	async #runPwa(data, onActionFinishedCallback) {
+	async #runPwa(_, onActionFinishedCallback) {
 		if (window["deferredPrompt"] == null) {
 			if (navigator.serviceWorker) {
 				this.#runMessage({"message": "앱을 이미 설치한 것 같아요!"}, onActionFinishedCallback);
@@ -352,7 +327,7 @@ class HanulseActions {
 		this.#runPwaInstall();
 	}
 
-	#runPwaInstall() {
+	async #runPwaInstall() {
 		const deferredPrompt = window["deferredPrompt"];
 
 		// The user has had a postive interaction with our app and Chrome
@@ -374,7 +349,7 @@ class HanulseActions {
 		});
 	}
 
-	#runFunction(data, onActionFinishedCallback) {
+	async #runFunction(data, onActionFinishedCallback) {
 		// TODO
 		console.log(this.#variables);
 		onActionFinishedCallback();
