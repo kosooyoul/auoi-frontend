@@ -28,7 +28,6 @@ class HanulseActions {
 			case "menu": return this.#runMenu(data, onActionFinishedCallback);
 			case "message": return this.#runMessage(data, onActionFinishedCallback);
 			case "selection": return this.#runSelection(data, onActionFinishedCallback);
-			case "table": return this.#runTable(data, onActionFinishedCallback);
 			case "cards": return this.#runCards(data, onActionFinishedCallback);
 			case "gallery": return this.#runGallery(data, onActionFinishedCallback);
 			case "calendar": return this.#runCalendar(data, onActionFinishedCallback);
@@ -117,20 +116,6 @@ class HanulseActions {
 		overlayView.setContentView(selectionView);
 		overlayView.setOnHideCallback(onActionFinishedCallback);
 		overlayView.show();
-	}
-
-	#runTable(data, onActionFinishedCallback) {
-		const tableView = new HanulseTableView();
-		tableView.load(() => {
-			tableView.setTitle(data["title"]);
-			tableView.setColsOptions(data["cols-options"]);
-			tableView.setTable(data["table"]);
-
-			const overlayView = new HanulseOverlayView();
-			overlayView.setContentView(tableView);
-			overlayView.setOnHideCallback(onActionFinishedCallback);
-			overlayView.show();
-		});
 	}
 
 	async #runCards(data, onActionFinishedCallback) {
