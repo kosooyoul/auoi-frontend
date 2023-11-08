@@ -74,8 +74,7 @@ class HanulseArticleWriterView {
 	}
 
 	async _initializeLoadingView() {
-		this.#loadingView = new HanulseLoadingView();
-		await this.#loadingView.load();
+		this.#loadingView = await new HanulseLoadingView().build();
 		this.#rootElement.append(this.#loadingView.getElement());
 	}
 

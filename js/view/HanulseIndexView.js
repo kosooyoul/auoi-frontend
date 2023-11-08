@@ -5,7 +5,7 @@ class HanulseIndexView extends HanulseView {
 	_canvasElement;
 
 	_canvasView;
-	_loadingView;
+	#loadingView;
 
 	_areaName;
 
@@ -44,11 +44,9 @@ class HanulseIndexView extends HanulseView {
 		});
 	}
 
-	_initializeLoadingView() {
-		const loadingView = new HanulseLoadingView();
-		loadingView.load(() => {
-			this.addChildView(this._loadingView = loadingView);
-		});
+	async _initializeLoadingView() {
+		this.#loadingView = await new HanulseLoadingView().build();
+		this.addChildView(this.#loadingView);
 	}
 
 	_initializeEvents() {
@@ -75,7 +73,7 @@ class HanulseIndexView extends HanulseView {
 
 	onChangeArea() {
 		this._loadArea();
-		this._loadingView.show();
+		this.#loadingView.show();
 	}
 
 	onLoadArea(data) {
@@ -83,7 +81,7 @@ class HanulseIndexView extends HanulseView {
 
 		this._canvasView.updateMapData(data);
 		this._canvasView.fadeIn(400);
-		this._loadingView.hide();
+		this.#loadingView.hide();
 	}
 
 	_loadArea() {

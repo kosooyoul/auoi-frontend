@@ -1,10 +1,10 @@
-class HanulseMenuView extends HanulseView {
-	static _templateMenuListPath = "./template/menu-list.html";
-	static _templateMenuListItemPath = "./template/menu-list-item.html";
-	static _templateMenuListSeparatorPath = "./template/menu-list-separator.html";
+class HanulseMenuView {
+	static #LIST_TEMPLATE_PATH = "./template/menu-list.html";
+	static #ITEM_TEMPLATE_PATH = "./template/menu-list-item.html";
+	static #SEPARATOR_TEMPLATE_PATH = "./template/menu-list-separator.html";
 
-	static _defaultTagColor = "rgb(100, 100, 100)";
-	static _tagColors = {
+	static #DEFAULT_TAG_COLOR = "rgb(100, 100, 100)";
+	static #TAG_COLORS = {
 		"possible": "rgb(0, 255, 200)",
 		"working": "rgb(255, 200, 0)",
 		"impossible": "rgb(255, 0, 0)",
@@ -13,47 +13,57 @@ class HanulseMenuView extends HanulseView {
 		"relics": "rgb(172, 172, 172)"
 	};
 
-	_menuElementWrap;
-	_menuListElementWrap;
+	#rootElement;
+	#itemElement;
+	#separatorElement;
 
-	constructor() {
-		super();
+	#items;
+
+	constructor(options) {
+		this.#items = options.items || [];
 	}
 
-	async load() {
-		const html = await HtmlTemplate.fetch(HanulseMenuView._templateMenuListPath);
+	async build() {
+		this.#rootElement = await HtmlHelper.createFromUrl(HanulseMenuView.#LIST_TEMPLATE_PATH);
+		this.#itemElement = await HtmlHelper.createFromUrl(HanulseMenuView.#ITEM_TEMPLATE_PATH);
+		this.#separatorElement = await HtmlHelper.createFromUrl(HanulseMenuView.#SEPARATOR_TEMPLATE_PATH);
 
-		const $e = $($.parseHTML(html));
-
-		this._menuElementWrap = $e;
-		this._menuListElementWrap = $e.find("._list");
+		this.#validate();
+		
+		return this;
 	}
 
 	getElement() {
-		return this._menuElementWrap.get(0);
+		return this.#rootElement.get(0);
 	}
 
-	async addMenuItem(menuItem) {
-		if (menuItem.type == "separator") {
-			this._menuListElementWrap.append(await this._createMenuSeparator());
-		} else {
-			this._menuListElementWrap.append(await this._createMenuItem(menuItem));
-		}
+	#validate() {
+		const listElement = this.#rootElement.find("._list");
+
+		this.#items.forEach(item => {
+			if (item.visible !== false) {
+				if (item.type == "separator") {
+					listElement.append(this.#createSeparator().get());
+				} else {
+					listElement.append(this.#createItem(item).get());
+				}
+			}
+		});
 	}
 
-	async _createMenuSeparator() {
-		return $($.parseHTML(await HtmlTemplate.fetch(HanulseMenuView._templateMenuListSeparatorPath)));
+	#createItem(item) {
+		const itemElement = this.#itemElement.clone();
+		itemElement.attributes({ "href": item.link });
+		itemElement.find("._title").text(item.title);
+		itemElement.find("._tag").text(item.tag).css({ "color": this.#getTagColor(item.tag) });
+		return itemElement;
 	}
 
-	async _createMenuItem(menuItem) {
-		const menuListItem = $($.parseHTML(await HtmlTemplate.fetch(HanulseMenuView._templateMenuListItemPath)));
-		menuListItem.attr({"href": menuItem.link});
-		menuListItem.find("._title").text(menuItem.title);
-		menuListItem.find("._tag").text(menuItem.tag).css({"color": this._getTagColor(menuItem.tag)});
-		return menuListItem;
+	#createSeparator() {
+		return this.#separatorElement.clone();
 	}
 
-	_getTagColor(tag) {
-		return HanulseMenuView._tagColors[tag] || HanulseMenuView._defaultTagColor;
+	#getTagColor(tag) {
+		return HanulseMenuView.#TAG_COLORS[tag] || HanulseMenuView.#DEFAULT_TAG_COLOR;
 	}
 }

@@ -96,6 +96,18 @@ class HtmlElementBuilder {
 		return this;
 	}
 
+	attributes(attributesObject) {
+		for (const key in attributesObject) {
+			this._elements.forEach(element => element.setAttribute(key, attributesObject[key]));
+		}
+		return this;
+	}
+
+	attributesAsync(attributesObject) {
+		setTimeout(() => this.attributes(attributesObject), 10);
+		return this;
+	}
+
 	css(styleObject) {
 		for (const key in styleObject) {
 			this._elements.forEach(element => element.style[key] = styleObject[key]);
@@ -144,6 +156,16 @@ class HtmlElementBuilder {
 	}
 
 	hide() {
+		this._elements.forEach(element => element.style["display"] = "none");
+		return this;
+	}
+
+	fadeIn() {
+		this._elements.forEach(element => element.style["display"] = "");
+		return this;
+	}
+
+	fadeOut() {
 		this._elements.forEach(element => element.style["display"] = "none");
 		return this;
 	}

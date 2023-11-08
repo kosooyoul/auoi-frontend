@@ -66,11 +66,8 @@ class HanulseArticleView extends HanulseView {
 	}
 
 	async #loadLoadingView() {
-		const loadingView = new HanulseLoadingView();
-
-		await loadingView.load(() => {
-			this.addChildView(this.#loadingView = loadingView);
-		});
+		this.#loadingView = await new HanulseLoadingView().build();
+		this.addChildView(this.#loadingView);
 	}
 
 	setTitle(title) {

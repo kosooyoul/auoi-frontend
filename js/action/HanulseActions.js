@@ -78,15 +78,9 @@ class HanulseActions {
 	}
 
 	async #runMenu(data, onActionFinishedCallback) {
-		const menuView = new HanulseMenuView();
-		
-		await menuView.load();
-
-		for (const menuItem of data.menu) {
-			if (menuItem.visible !== false) {
-				await menuView.addMenuItem(menuItem);
-			}
-		}
+		const menuView = await new HanulseMenuView({
+			"items": data["menu"],
+		}).build();
 
 		const overlayView = new HanulseOverlayView();
 		overlayView.setContentView(menuView);

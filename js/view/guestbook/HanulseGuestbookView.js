@@ -1,7 +1,7 @@
 class HanulseGuestbookView extends HanulseView {
 
 	_guestbookListView;
-	_loadingView;
+	#loadingView;
 
 	constructor() {
 		super();
@@ -10,9 +10,8 @@ class HanulseGuestbookView extends HanulseView {
 	async load() {
 		this.setElement($("<div>").get(0));
 
-		const loadingView = new HanulseLoadingView();
-		await loadingView.load();
-		this.addChildView(this._loadingView = loadingView);
+		this.#loadingView = new HanulseLoadingView().build();
+		this.addChildView(this.#loadingView);
 
 		const guestbookListView = new HanulseGuestbookListView();
 		await guestbookListView.load();
