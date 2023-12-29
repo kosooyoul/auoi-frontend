@@ -6,8 +6,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 </head>
 <body>
+<button id="testButton" onclick="test()">Test</button>
 <script type="text/javascript" src="libs/vad.js"></script>
 <script type="text/javascript">
+var testStart = false;
+function test() {
+  if (testStart) return;
+  testStart = true;
+  console.log('test')
   // Create AudioContext
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   var audioContext = new AudioContext();
@@ -20,8 +26,16 @@
     // Setup options
     var options = {
      source: source,
-     voice_stop: function() {console.log('voice_stop');}, 
-     voice_start: function() {console.log('voice_start');}
+     voice_stop: function() {
+      console.log('voice_stop');
+      window.testButton.style.backgroundColor = "initial";
+      window.testButton.textContent = "Test";
+    }, 
+     voice_start: function() {
+      console.log('voice_start');
+      window.testButton.style.backgroundColor = "red";
+      window.testButton.textContent = "Recording...";
+    }
     }; 
     
     // Create VAD
@@ -35,6 +49,7 @@
   navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
           console.log("No live audio input in this browser: " + e);
   });
+}
 </script>
 </body>
 </html>
