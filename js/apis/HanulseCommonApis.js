@@ -20,7 +20,7 @@ class HanulseCommonApis {
 
 	static async getWisesaying(callback) {
 		const response = await HanulseAjax.get(
-			"https://apis.auoi.net/v1/wisesaying",
+			"https://apis.auoi.net/v1/wisesayings/random",
 		);
 		const wisesaying = response?.data;
 
