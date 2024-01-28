@@ -109,7 +109,7 @@ class HanulseAuthorizationManager {
 	static me(callback) {
 		const accessToken = window.localStorage.getItem("_at");
 		$.get({
-			"url": "https://apis.auoi.net/v1/account/me",
+			"url": "https://apis.auoi.net/v1/accounts/me",
 			"dataType": "json",
 			"headers": {
 				"authorization": accessToken
