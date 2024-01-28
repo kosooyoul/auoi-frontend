@@ -50,7 +50,7 @@ class HanulseAuthorizationManager {
 
 	static signIn(email, password, callback) {
 		$.post({
-			"url": "https://apis.auoi.net/v1/account/sign-in",
+			"url": "https://apis.auoi.net/v1/accounts/sign/in",
 			"dataType": "json",
 			"data": {
 				"email": email,
@@ -79,7 +79,7 @@ class HanulseAuthorizationManager {
 		const accessToken = window.localStorage.getItem("_at");
 		const refreshToken = window.localStorage.getItem("_rt");
 		$.post({
-			"url": "https://apis.auoi.net/v1/account/refresh-sign",
+			"url": "https://apis.auoi.net/v1/accounts/sign/refresh",
 			"dataType": "json",
 			"data": {
 				"refreshToken": refreshToken
