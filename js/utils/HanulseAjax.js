@@ -43,6 +43,42 @@ class HanulseAjax {
 		}
 	}
 
+	static async patch(endpoint, params, authorization) {
+		const response = await fetch(endpoint, {
+			"method": "patch",
+			"dataType": "json",
+			"body": JSON.stringify(params),
+			"headers": {
+				"authorization": authorization,
+				"content-type": "application/json"
+			},
+		});
+
+		try {
+			return response.json();
+		} catch {
+			return null;
+		}
+	}
+
+	static async delete(endpoint, params, authorization) {
+		const response = await fetch(endpoint, {
+			"method": "delete",
+			"dataType": "json",
+			"body": JSON.stringify(params),
+			"headers": {
+				"authorization": authorization,
+				"content-type": "application/json"
+			},
+		});
+
+		try {
+			return response.json();
+		} catch {
+			return null;
+		}
+	}
+
 	static #toQueryString(data) {
 		return "?" + Object.keys(data).reduce((keyPairStrings, key) => {
 			if (data[key] !== undefined) {

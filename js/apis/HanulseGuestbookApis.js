@@ -1,10 +1,8 @@
 class HanulseGuestbookApis {
 	static async getGuestbook(guestbookId, callback) {
 		const response = await HanulseAjax.get(
-			"https://apis.auoi.net/v1/guestbook",
-			{
-				"guestbookId": guestbookId,
-			},
+			`https://apis.auoi.net/v1/guestbooks/${guestbookId}`,
+			{},
 			HanulseAuthorizationManager.getAccessToken(),
 		);
 		const guestbook = response?.data;
@@ -17,7 +15,7 @@ class HanulseGuestbookApis {
 
 	static async requestGuestbookList(filter, options, callback) {
 		const response = await HanulseAjax.get(
-			"https://apis.auoi.net/v1/guestbook/search",
+			"https://apis.auoi.net/v1/guestbooks/list",
 			{
 				"ownerId": filter.ownerId,
 				"pageIndex": options.pageIndex,
@@ -39,10 +37,9 @@ class HanulseGuestbookApis {
 			return callback?.(null);
 		}
 
-		const response = await HanulseAjax.post(
-			"https://apis.auoi.net/v1/guestbook/update",
+		const response = await HanulseAjax.patch(
+			`https://apis.auoi.net/v1/guestbooks/${guestbookId}`,
 			{
-				"guestbookId": guestbookId,
 				"content": guestbookChanges.content,
 				"createdAt": guestbookChanges.createdAt,
 			},
@@ -62,11 +59,9 @@ class HanulseGuestbookApis {
 			return callback?.(null);
 		}
 
-		const response = await HanulseAjax.post(
-			"https://apis.auoi.net/v1/guestbook/delete",
-			{
-				"guestbookId": guestbookId,
-			},
+		const response = await HanulseAjax.delete(
+			`https://apis.auoi.net/v1/guestbooks/${guestbookId}`,
+			{},
 			HanulseAuthorizationManager.getAccessToken(),
 		);	
 		const success = response?.data?.success || false;
@@ -79,7 +74,7 @@ class HanulseGuestbookApis {
 
 	static async createGuestbook(guestbookFields, callback) {
 		const response = await HanulseAjax.post(
-			"https://apis.auoi.net/v1/guestbook/register",
+			"https://apis.auoi.net/v1/guestbooks",
 			{
 				"ownerId": guestbookFields.ownerId,
 				"authorName": guestbookFields.authorName,

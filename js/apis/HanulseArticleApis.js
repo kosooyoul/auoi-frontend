@@ -1,10 +1,8 @@
 class HanulseArticleApis {
 	static async getArticle(articleId, callback) {
 		const response = await HanulseAjax.get(
-			"https://apis.auoi.net/v1/article",
-			{
-				"articleId": articleId,
-			},
+			`https://apis.auoi.net/v1/articles/${articleId}`,
+			{},
 			HanulseAuthorizationManager.getAccessToken(),
 		);
 		const article = response?.data;
@@ -17,7 +15,7 @@ class HanulseArticleApis {
 
 	static async requestArticleList(filter, options, callback) {
 		const response = await HanulseAjax.get(
-			"https://apis.auoi.net/v1/article/search",
+			"https://apis.auoi.net/v1/articles/list",
 			{
 				"tags": filter.tags,
 				"ownerId": filter.ownerId,
@@ -41,10 +39,9 @@ class HanulseArticleApis {
 			return callback?.(null);
 		}
 
-		const response = await HanulseAjax.post(
-			"https://apis.auoi.net/v1/article/update",
+		const response = await HanulseAjax.patch(
+			`https://apis.auoi.net/v1/articles/${articleId}`,
 			{
-				"articleId": articleId,
 				"subject": articleChanges.subject,
 				"content": articleChanges.content,
 				"links": articleChanges.links,
@@ -69,11 +66,9 @@ class HanulseArticleApis {
 			return callback?.(null);
 		}
 
-		const response = await HanulseAjax.post(
-			"https://apis.auoi.net/v1/article/delete",
-			{
-				"articleId": articleId,
-			},
+		const response = await HanulseAjax.delete(
+			`https://apis.auoi.net/v1/articles/${articleId}`,
+			{},
 			HanulseAuthorizationManager.getAccessToken(),
 		);	
 		const success = response?.data?.success || false;
@@ -91,7 +86,7 @@ class HanulseArticleApis {
 		}
 
 		const response = await HanulseAjax.post(
-			"https://apis.auoi.net/v1/article/register",
+			"https://apis.auoi.net/v1/articles",
 			{
 				"ownerId": articleFields.ownerId,
 				"subject": articleFields.subject,
