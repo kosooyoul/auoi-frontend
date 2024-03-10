@@ -159,7 +159,7 @@ class HanulseActions {
 			articleWriterView.setTitle(data.title);
 			articleWriterView.setOwner(data.owner);
 
-			this.#showWithOverlay(articleWriterView, onActionFinishedCallback);
+			const overlayView = this.#showWithOverlay(articleWriterView, onActionFinishedCallback);
 
 			articleWriterView.setOnSaveCallback(() => {
 				overlayView.hide();
