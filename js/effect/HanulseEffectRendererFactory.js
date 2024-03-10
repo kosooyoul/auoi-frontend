@@ -5,6 +5,7 @@ class HanulseEffectRendererFactory {
 	#warpEffectRenderer = null;
 	#bigWarpEffectRenderer = null;
 	#energyEffectRenderer = null;
+	#dustEnergyEffectRenderer = null;
 
 	get(effectName) {
 		switch (effectName) {
@@ -14,6 +15,7 @@ class HanulseEffectRendererFactory {
 			case "warp": return this.#warpEffectRenderer || (this.#warpEffectRenderer = new HanulseWarpEffectRenderer());
 			case "bigwarp": return this.#bigWarpEffectRenderer || (this.#bigWarpEffectRenderer = new HanulseBigWarpEffectRenderer());
 			case "energy": return this.#energyEffectRenderer || (this.#energyEffectRenderer = new HanulseEnergyEffectRenderer());
+			case "dust-energy": return this.#dustEnergyEffectRenderer || (this.#dustEnergyEffectRenderer = new HanulseDustEnergyEffectRenderer());
 		}
 		return null;
 	}

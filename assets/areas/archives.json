@@ -1,5 +1,5 @@
 {
-    "title": "기억 저장소",
+    "title": "스트림 아카이브",
     "map": [
     {"position": {"x":  2, "y": -5, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "label": "나가기", "effect": "link", "action": {
         "top": {
@@ -9,17 +9,16 @@
     }},
 
     {"position": {"x":  2, "y": -4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
-    {"position": {"x":  4, "y": -4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
 
     {"position": {"x": -3, "y": -3, "z":  1}, "texture": {"top": "pink-top"}},
-    {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "pictures", "label": "기억의 파편", "effect": "link", "action": {
+    {"position": {"x": -2, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1", "label": "기억의 파편", "effect": "link", "action": {
         "top": {
             "type": "articles",
             "title": "기억의 파편",
             "owner": "62c0513854a9058e21419fb2"
         }
     }},
-    {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1"},
+    {"position": {"x": -1, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "pictures"},
     {"position": {"x":  0, "y": -3, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2", "label": "개발자로 사는 법 1권", "effect": "link", "action": {
         "top": {
             "type": "articles",
@@ -45,12 +44,15 @@
         }
     }},
     {"position": {"x":  2, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
-    {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+    {"position": {"x":  4, "y": -3, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism"},
+    {"position": {"x":  5, "y": -3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
+    {"position": {"x":  6, "y": -3, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
     
     {"position": {"x": -3, "y": -2, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x": -2, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
+    {"position": {"x":  0, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}, "prop": "waste", "action": {
         "top": {
             "type": "selection",
             "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
@@ -66,16 +68,34 @@
             ]
         }
     }},
-    {"position": {"x":  1, "y": -2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x":  4, "y": -2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
 
-    {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2", "label": "미식가의 비망록", "effect": "link", "action": {
+    {"position": {"x": -3, "y": -1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "scrap-right", "label": "우여곡절 웹 라이프", "effect": "link", "action": {
         "top": {
-            "type": "articles",
-            "title": "미식가의 비망록",
-            "owner": "62c0513854a9058e21419fb2",
-            "tags": "요리"
+            "type": "cards",
+            "title": "우여곡절 웹 라이프",
+            "cards": [
+                {"title": "2023 데이터베이스 분리", "content": "작은 사양의 서버에 웹 서버와 몽고 DB를 함께 설치하여 운영하고 있었지만, 효율적인 운영을 위해 다른 인프라로 이전~~~"},
+                {"title": "2021 아마존 이전", "content": "CSS로 운영하기엔 랜더링 속도와 기기별로 지원이 안되는 효과들이 있는 등 기술적 한계가 있어서, 캔버스로 다시 리뉴얼 작업을 시작하여 아마존으로 이전하였고, 틈틈이 자료 이전과 개선 작업 중~"},
+                {"title": "2021 도메인 ahyane.com 재등록", "content": "외국인이 운영하던 도메인이였는데, 연장을 안해서 되찾음! 도메인을 되찾아서 기뻤지만, 더 맘에 드는 도메인을 갖게 된지라..."},
+                {"title": "2021 도메인 auoi.net 등록", "content": "정말 맘에드는 최애 4글자 도메인! 'a Universe of Imagination' 의 약자인 걸로 정했다~"},
+                {"title": "2020 임시 공사", "content": "크롬의 플래시 지원 중단으로, 플래시 대신 CSS로 호다닥 재개발"},
+                {"title": "2020 도메인 hanulse.net|com 등록", "content": "새로 지은 닉네임이 맘에 들어서 등록~"},
+                {"title": "2017 도메인 icepetal.com 포기", "content": "이름은 마음에 들었지만, 불필요해져서 연장 안함..."},
+                {"title": "2016 메일 관리 서비스 등록", "content": "무료 메일 관리 서비스 10년짜리 등록, 2026년 3월 28일까지..."},
+                {"title": "2010 도메인 icepetal.com 등록", "content": "자바 기반 호스팅 연습삼아 시작"},
+                {"title": "2005 도메인 ahyane.com 포기", "content": "회사가 아니라서 연장하지 않고 버림... 이후 종종 .com 도메인 사겠냐고 메일 날라옴"},
+                {"title": "2004 도메인 ahyane.net 등록", "content": "두번째 개인 도메인", "link": "https://web.archive.org/web/20100901000000*/ahyane.net"},
+                {"title": "2003 도메인 ahyane.com 등록", "content": "첫 개인 도메인", "link": "https://web.archive.org/web/20030701000000*/ahyane.com"},
+                {"title": "2003 카페24 계정 등록", "content": "첫 유료 홈페이지, 제로보드도 처음 적용해보고 좀 더 잘 꾸미기위해 플래시와 디자인에도 관심을 가지게 됨", "link": "https://web.archive.org/web/20030924042257/http://kosooyoul.cafe24.com/"},
+                {"title": "2001 xcool.net 도메인 등록", "content": "두번째 무료 도메인이고, 개인컴퓨터를 서버로 사용할 수 있게 제공해줘서 사용", "link": "https://web.archive.org/web/20011001000000*/ksy.xcool.net"},
+                {"title": "2001 우뚜넷 도메인 등록", "content": "무료 도메인이지만, 처음 세팅해서 사용해본 도메인"},
+                {"title": "2001 교내 홈페이지 경진대회", "content": "고등학교 교내 홈페이지 경진대회에서 최우수상 받게 됨! 조례 시간에 앞에 나가 교장선생님께 상을 받는 일은 상상도 못했는데... 나중에 컴퓨터 선생님께서 하시는 말씀이... 디자인도 콘텐츠도 많이 부족했지만, 기술적 노력이 많이 보여서 상을 주게 되었다고..."},
+                {"title": "2001 컴내꺼", "content": "세번째 무료 홈페이지, 저장 공간 100MB 씩이나 제공해주고 자료실 게시판을 제공해줘서 사용, 홈페이지를 열심히 만들 수 있는 계기가 되었음"},
+                {"title": "2001 네이버", "content": "두번째 무료 홈페이지, 네이버에서 무료 게시판을 제공해줘서 사용하게 되었고, 나모웹에디터를 처음 사용해보게 됨"},
+                {"title": "2000 네띠앙", "content": "첫 무료 홈페이지, 네띠앙에서 제공해주는 에디터로 쉽게 홈페이지를 만들 수 있어서, HTML만 쉽게 만들어 퍼블리싱이란 것을 처음 해본 곳"}
+            ]
         }
     }},
     {"position": {"x": -2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
@@ -89,73 +109,97 @@
     }},
     {"position": {"x":  0, "y": -1, "z":  0}, "texture": {"top": "pink-top"}, "prop": "chair-small"},
     {"position": {"x":  1, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x":  2, "y": -1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y": -1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x":  3, "y": -1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x":  4, "y": -1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
 
     {"position": {"x": -3, "y":  0, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}},
     {"position": {"x": -2, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
-    {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y":  0, "z":  0}, "texture": {"top": "pink-top"}, "prop": "bookontable-right"},
     {"position": {"x":  0, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  0, "y":  0, "z": -1}, "texture": {"left": "iron-left", "right": "iron-right"}},
+    {"position": {"x":  0, "y":  0, "z": -2}, "texture": {"left": "iron-left", "right": "iron-right"}},
+    {"position": {"x":  0, "y":  0, "z": -3}, "texture": {"left": "iron-left", "right": "iron-right"}},
+    {"position": {"x":  0, "y":  1, "z": -4}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  2, "z": -4}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  3, "z": -4}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  4, "z": -4}, "texture": {"left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  4, "z": -3}, "texture": {"left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  4, "z": -2}, "texture": {"left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  4, "z": -1}, "texture": {"left": "pink-left", "right": "pink-right"}},
+    {"position": {"x":  0, "y":  0, "z": -4}, "texture": {"left": "iron-left", "right": "iron-right"}},
+    {"position": {"x":  0, "y":  0, "z": -5}, "texture": {"left": "iron-left", "right": "iron-right"}},
+    {"position": {"x":  0, "y":  0, "z": -6}, "texture": {"left": "iron-left", "right": "iron-right"}},
+    {"position": {"x":  0, "y":  0, "z": -7}, "texture": {"left": "iron-left", "right": "iron-right"}, "alpha": 0.4},
+    {"position": {"x":  0, "y":  0, "z": -8}, "texture": {"left": "iron-left", "right": "iron-right"}, "alpha": 0.2},
     {"position": {"x":  1, "y":  0, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x":  2, "y":  0, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
-    {"position": {"x":  6, "y": -1, "z":  0}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "prop": "scrap-right", "label": "봉인된 쿠키의 연습장", "effect": "link", "action": {
-        "top": {
-            "type": "message",
-            "message": "봉인된 쿠키의 연습장에 접근할 수 없습니다\n봉인이 해제되려면 시간이 많이 필요해요."
-        }
-    }},
 
-    {"position": {"x": -3, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}},
-    {"position": {"x": -3, "y":  1, "z":  0}, "texture": {"left": "pink-left"}},
-    {"position": {"x": -2, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-1", "label": "휴식의 지침서", "effect": "link", "action": {
+    {"position": {"x": -3, "y":  1, "z":  1}, "texture": {"top": "pink-top", "right": "pink-right"}, "prop": "book-right-2", "label": "미식가의 비망록", "effect": "link", "action": {
         "top": {
             "type": "articles",
-            "title": "휴식의 지침서",
+            "title": "미식가의 비망록",
             "owner": "62c0513854a9058e21419fb2",
-            "tags": "휴식,여행"
+            "tags": "요리"
         }
     }},
-    {"position": {"x": -1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "waste", "action": {
+    {"position": {"x": -2, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x": -1, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  0, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  1, "y":  1, "z":  0}, "texture": {"top": "pink-top"}},
+    {"position": {"x":  2, "y":  1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
+    {"position": {"x":  4, "y":  1, "z": -1}, "texture": {"top": "iron-top"}, "effect": "prism"},
+    {"position": {"x":  5, "y":  1, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left"}, "effect": "prism"},
+    {"position": {"x":  6, "y":  1, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left"}, "effect": "prism"},
+    {"position": {"x":  7, "y":  1, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "effect": "prism"},
+
+    {"position": {"x": -3, "y":  2, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "prop": "flower-palm", "action": {
         "top": {
             "type": "selection",
-            "message": "쓰레기 때문에 바닥이 지저분해요.\n쓰레기를 치울까요?",
+            "message": "화분에 물을 줄까요?",
             "options": [
                 {
                     "title": "네",
                     "action": {
                         "type": "message",
-                        "message": "지금은 치울 수 없어요!"
+                        "message": "지금은 줄 수 없어요!"
                     }
                 },
                 {"title": "아니요"}
             ]
         }
     }},
-    {"position": {"x":  0, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "book-left-2"},
-    {"position": {"x":  1, "y":  1, "z":  1}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
-    {"position": {"x":  2, "y":  1, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}},
-    {"position": {"x":  4, "y":  1, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism"},
-    {"position": {"x":  5, "y":  1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  6, "y":  1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  7, "y":  1, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
-
+    {"position": {"x": -3, "y":  2, "z":  0}, "texture": {"left": "pink-left"}},
     {"position": {"x": -2, "y":  2, "z":  0}, "texture": {"top": "pink-top"}},
     {"position": {"x": -1, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
-    {"position": {"x":  0, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
+    {"position": {"x":  0, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "prop": "blocks-cube", "action": {
+        "top": {
+            "type": "selection",
+            "message": "왜 이런 곳에 블럭이 있을까?\n블럭을 가져갈까요?",
+            "options": [
+                {
+                    "title": "네",
+                    "action": {
+                        "type": "message",
+                        "message": "블럭이 생각보다 너무 무거워서 가져갈 수 없어요!"
+                    }
+                },
+                {"title": "아니요"}
+            ]
+        }
+    }},
     {"position": {"x":  1, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}},
     {"position": {"x":  2, "y":  2, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}},
-    {"position": {"x":  4, "y":  2, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+    {"position": {"x":  4, "y":  2, "z": -1}, "texture": {"top": "iron-top", "right": "iron-right"}, "effect": "prism"},
 
     {"position": {"x": -2, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
-    {"position": {"x":  4, "y":  3, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "effect": "prism"},
+    {"position": {"x":  4, "y":  3, "z": -1}, "texture": {"top": "iron-top", "right": "iron-right"}, "effect": "prism"},
 
-    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "pink-top"}, "effect": "prism"},
+    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
     {"position": {"x": -1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  1, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  3, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left"}, "effect": "prism"},
-    {"position": {"x":  4, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
-    {"position": {"x": -2, "y":  4, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right", "left": "pink-left"}, "effect": "prism"}
+    {"position": {"x":  0, "y":  4, "z":  0}, "texture": {"top": "pink-top", "left": "pink-left", "right": "pink-right"}, "effect": "prism"},
+    {"position": {"x":  1, "y":  4, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left"}, "effect": "prism"},
+    {"position": {"x":  2, "y":  4, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left"}, "effect": "prism"},
+    {"position": {"x":  3, "y":  4, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left"}, "effect": "prism"},
+    {"position": {"x":  4, "y":  4, "z": -1}, "texture": {"top": "iron-top", "left": "iron-left", "right": "iron-right"}, "effect": "prism"}
 ]}

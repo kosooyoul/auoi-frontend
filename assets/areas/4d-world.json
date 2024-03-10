@@ -9,22 +9,18 @@
             "namespace": "4d-world"
         },
         {
-            "type": "wait",
-            "duration": 500
-        },
-        {
-            "type": "message",
-            "message": "안녕하세요!\n여기는 4차원의 세계입니다."
-        },
-        {
             "type": "if",
             "name": "visited",
             "op": "eq",
             "value": true,
             "else": [
                 {
+                    "type": "wait",
+                    "duration": 500
+                },
+                {
                     "type": "message",
-                    "message": "이런 곳 처음이시지요?\n아직 공사가 한창 진행중이랍니다. ^^"
+                    "message": "안녕하세요!\n여기는 4차원의 세계입니다.\n이런 곳 처음이시지요?\n아직 공사가 한창 진행중이랍니다. ^^"
                 },
                 {
                     "type": "variable",
@@ -210,15 +206,16 @@
         "top": {
             "type": "menu",
             "menu": [
-                {"title": "기억의 공간으로", "tag": "possible", "link": "#memories"},
-                {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous"},
-                {"title": "쿠키의 공간으로", "tag": "working", "link": "#cookie"},
-                {"type": "separator"},
-                {"title": "안내소", "tag": "working", "link": "#information"},
-                {"type": "separator"},
-                {"title": "공간 만들기", "tag": "working", "link": "#void"},
+                {"title": "스트림 아카이브로", "tag": "possible", "link": "#archives", "visible": true},
+                {"title": "기억의 공간으로", "tag": "possible", "link": "#memories", "visible": false},
+                {"title": "잡부의 공간으로", "tag": "working", "link": "#miscellaneous", "visible": false},
+                {"title": "쿠키의 공간으로", "tag": "working", "link": "#cookie", "visible": true},
                 {"type": "separator", "visible": false},
-                {"title": "404", "tag": "test", "link": "#404", "visible": false},
+                {"title": "안내소", "tag": "working", "link": "#information", "visible": false},
+                {"type": "separator"},
+                {"title": "공간 만들기", "tag": "test", "link": "#void"},
+                {"type": "separator", "visible": false},
+                {"title": "404", "tag": "테스트", "link": "#404", "visible": false},
                 {"title": "시험의 내면의 숲으로", "tag": "test", "link": "http://www.ahyane.net/index_20210807.html", "visible": false},
                 {"title": "시험의 4차원의 세계로", "tag": "test", "link": "http://www.ahyane.net/map.html", "visible": false},
                 {"type": "separator", "visible": false},
