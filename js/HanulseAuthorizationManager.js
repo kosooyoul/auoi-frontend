@@ -57,15 +57,15 @@ class HanulseAuthorizationManager {
 				"password": password
 			},
 			"success": (response) => {
-				const authorization = response && response.data;
+				const { sign, me } = response && response.data;
 	
-				if (authorization) {
-					this.saveAuthorization(authorization["accessToken"], authorization["refreshToken"], new Date(authorization["expiresIn"]));
+				if (sign) {
+					this.saveAuthorization(sign["accessToken"], sign["refreshToken"], new Date(sign["expiresIn"]));
 				} else {
 					this.clearAuthorization();
 				}
 
-				callback && callback(!!authorization);
+				callback && callback(!!sign);
 			},
 			"error": () => {
 				this.clearAuthorization();
