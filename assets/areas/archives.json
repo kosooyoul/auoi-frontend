@@ -4,7 +4,7 @@
     {"position": {"x":  2, "y": -5, "z":  0}, "texture": {"top": "pink-top", "right": "pink-right"}, "label": "나가기", "effect": "link", "action": {
         "top": {
             "type": "link",
-            "link": "javascript:history.back()"
+            "link": "#memories"
         }
     }},
 
