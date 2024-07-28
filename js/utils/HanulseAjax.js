@@ -50,8 +50,9 @@ class HanulseAjax {
 			"body": JSON.stringify(params),
 			"headers": {
 				"authorization": authorization,
-				"content-type": "application/json"
+				"content-type": "application/json",
 			},
+			"credentials": true,
 		});
 
 		try {
