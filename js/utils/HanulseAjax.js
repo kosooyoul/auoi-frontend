@@ -14,7 +14,7 @@ class HanulseAjax {
 
 		try {
 			const response = await fetch(url, {
-				"method": "get",
+				"method": "GET",
 				"dataType": "json",
 				"headers": { "authorization": authorization },
 			});
@@ -27,7 +27,7 @@ class HanulseAjax {
 
 	static async post(endpoint, params, authorization) {
 		const response = await fetch(endpoint, {
-			"method": "post",
+			"method": "POST",
 			"dataType": "json",
 			"body": JSON.stringify(params),
 			"headers": {
@@ -45,14 +45,13 @@ class HanulseAjax {
 
 	static async patch(endpoint, params, authorization) {
 		const response = await fetch(endpoint, {
-			"method": "patch",
+			"method": "PATCH",
 			"dataType": "json",
 			"body": JSON.stringify(params),
 			"headers": {
 				"authorization": authorization,
 				"content-type": "application/json",
 			},
-			"credentials": true,
 		});
 
 		try {
@@ -64,7 +63,7 @@ class HanulseAjax {
 
 	static async delete(endpoint, params, authorization) {
 		const response = await fetch(endpoint, {
-			"method": "delete",
+			"method": "DELETE",
 			"dataType": "json",
 			"body": JSON.stringify(params),
 			"headers": {
