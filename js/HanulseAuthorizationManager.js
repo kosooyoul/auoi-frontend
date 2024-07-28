@@ -31,13 +31,15 @@ class HanulseAuthorizationManager {
 		return window.localStorage.getItem("_at");
 	}
 
-	static saveAuthorization(accessToken, refreshToken, expiresIn) {
+	static saveAuthorization(accessToken, refreshToken, accessTokenExpiresIn) {
 		window.localStorage.setItem("_at", accessToken);
 		window.localStorage.setItem("_rt", refreshToken);
-		window.localStorage.setItem("_exp", expiresIn);
+		window.localStorage.setItem("_exp", accessTokenExpiresIn);
 		this._updateLoginButtonStatus();
 		this.me(me => this._updateLoginButtonLabel(me && me.username));
-		setTimeout(() => this.refreshSign(), Math.max(expiresIn - Date.now(), 60000));
+		if (accessTokenExpiresIn && accessTokenExpiresIn.getTime()) {
+			setTimeout(() => this.refreshSign(), Math.max(accessTokenExpiresIn - Date.now(), 60000));
+		}
 	}
 
 	static clearAuthorization() {
@@ -57,10 +59,14 @@ class HanulseAuthorizationManager {
 				"password": password
 			},
 			"success": (response) => {
-				const { sign, me } = response && response.data;
+				if (response == null || response.data == null) {
+					return callback(false)
+				}
+
+				const { sign, me } = response.data;
 	
 				if (sign) {
-					this.saveAuthorization(sign["accessToken"], sign["refreshToken"], new Date(sign["expiresIn"]));
+					this.saveAuthorization(sign["accessToken"], sign["refreshToken"], new Date(sign["accessTokenExpiresIn"]));
 				} else {
 					this.clearAuthorization();
 				}
@@ -88,10 +94,14 @@ class HanulseAuthorizationManager {
 				"authorization": accessToken
 			},
 			"success": (response) => {
-				const { sign, me } = response && response.data;
+				if (response == null || response.data == null) {
+					return callback(false)
+				}
+
+				const { sign, me } = response.data;
 	
 				if (sign) {
-					this.saveAuthorization(sign["accessToken"], sign["refreshToken"], new Date(sign["expiresIn"]));
+					this.saveAuthorization(sign["accessToken"], sign["refreshToken"], new Date(sign["accessTokenExpiresIn"]));
 				} else {
 					this.clearAuthorization();
 				}
