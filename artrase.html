@@ -518,7 +518,7 @@ footer {
 	});
 
 	window.addEventListener('click', (event) => {
-		if (event.target.classList.contains('media-image')) {
+		if (event.target.classList.contains('media-image') || event.target.dataset.id) {
 			const id = event.target.dataset.id;
 			const imageUrl = event.target.dataset.imageUrl;
 			const color = event.target.dataset.color;
