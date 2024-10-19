@@ -345,6 +345,8 @@ footer {
 <script type="text/javascript" src="./js/apis/HanulseMediaApis.js"></script>
 <script>
 document.body.addEventListener('contextmenu', (event) => event.preventDefault());
+document.body.addEventListener('selectstart', (event) => event.preventDefault());
+document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
 <script data-comment="auoi-media-list">
 (function () {
