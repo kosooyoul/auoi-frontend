@@ -47,6 +47,7 @@ nav {
 	color: white;
 	text-decoration: none;
 	padding: 0px 24px;
+	font-size: 16px;
 	line-height: 60px;
 }
 
@@ -456,14 +457,9 @@ window.addEventListener('contextmenu', (event) => event.preventDefault());
 	document.body.addEventListener('scroll', handleScroll);
 
 	document.body.addEventListener('click', (event) => {
-		if (event.target.classList.contains('media-image') || event.target.dataset.id) {
-			const id = event.target.dataset.id;
-			const imageUrl = event.target.dataset.imageUrl;
-			const color = event.target.dataset.color;
-			
-			modalImage.style.backgroundColor = color;
-			modalImage.style.backgroundImage = `url('${imageUrl}')`;
-			modal.style.display = 'flex';
+		const id = event.target.dataset.id;
+		if (medias[id]) {
+			window.imageModal.show(medias[id]);
 		}
 	});
 })();
@@ -518,7 +514,7 @@ window.addEventListener('contextmenu', (event) => event.preventDefault());
 })();
 </script>
 <script data-comment="auoi-image-modal">
-const imageModal = (function () {
+window.imageModal = new (function () {
 	const modal = document.getElementById('image-modal');
 	const modalImage = document.getElementById('image-modal-image');
 	const closeModal = document.getElementById('image-modal-close');
@@ -530,13 +526,12 @@ const imageModal = (function () {
 
 	// 모달 바깥 클릭 시 닫기
 	document.body.addEventListener('click', function(event) {
-		console.log('event.target', event.target)
 		if (event.target === modal) {
 			modal.style.display = 'none';
 		}
 	});
 
-	this.show = (media) => {
+	this.show = function (media) {
 		modalImage.style.backgroundColor = media.color;
 		modalImage.style.backgroundImage = `url('${media.imageUrl}')`;
 		modal.style.display = 'flex';
