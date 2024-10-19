@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artrase - history of</title>
 <style>
-html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; }
 html { overflow: hidden; font-family: sans-serif; }
 body { overflow-x: hidden; overflow-y: scroll; }
 </style>
@@ -103,6 +103,10 @@ footer {
 	background-size: cover;
 	background-position: center;
 	cursor: pointer;
+}
+
+.media-item>.media-image:hover {
+	filter: brightness(0.6);
 }
 
 .media-item>.media-content {
@@ -337,6 +341,9 @@ footer {
 <script type="text/javascript" src="./js/utils/HanulseAjax.js"></script>
 <script type="text/javascript" src="./js/HanulseAuthorizationManager.js"></script>
 <script type="text/javascript" src="./js/apis/HanulseMediaApis.js"></script>
+<script>
+window.addEventListener('contextmenu', (event) => event.preventDefault());
+</script>
 <script data-comment="auoi-media-list">
 (function () {
 	const medias = {};
@@ -447,6 +454,18 @@ footer {
 
 	// 스크롤 이벤트 리스너 추가
 	document.body.addEventListener('scroll', handleScroll);
+
+	document.body.addEventListener('click', (event) => {
+		if (event.target.classList.contains('media-image') || event.target.dataset.id) {
+			const id = event.target.dataset.id;
+			const imageUrl = event.target.dataset.imageUrl;
+			const color = event.target.dataset.color;
+			
+			modalImage.style.backgroundColor = color;
+			modalImage.style.backgroundImage = `url('${imageUrl}')`;
+			modal.style.display = 'flex';
+		}
+	});
 })();
 </script>
 <script data-comment="auoi-login-modal">
@@ -473,7 +492,7 @@ footer {
 	});
 
 	// 모달 바깥 클릭 시 모달 닫기
-	window.addEventListener('click', function (event) {
+	document.body.addEventListener('click', function (event) {
 		if (event.target === modal) {
 			modal.style.display = 'none';
 			emailInput.value = '';
@@ -499,7 +518,7 @@ footer {
 })();
 </script>
 <script data-comment="auoi-image-modal">
-(function () {
+const imageModal = (function () {
 	const modal = document.getElementById('image-modal');
 	const modalImage = document.getElementById('image-modal-image');
 	const closeModal = document.getElementById('image-modal-close');
@@ -510,24 +529,18 @@ footer {
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	window.addEventListener('click', function(event) {
+	document.body.addEventListener('click', function(event) {
 		console.log('event.target', event.target)
 		if (event.target === modal) {
 			modal.style.display = 'none';
 		}
 	});
 
-	window.addEventListener('click', (event) => {
-		if (event.target.classList.contains('media-image') || event.target.dataset.id) {
-			const id = event.target.dataset.id;
-			const imageUrl = event.target.dataset.imageUrl;
-			const color = event.target.dataset.color;
-			
-			modalImage.style.backgroundColor = color;
-			modalImage.style.backgroundImage = `url('${imageUrl}')`;
-			modal.style.display = 'flex';
-		}
-	});
+	this.show = (media) => {
+		modalImage.style.backgroundColor = media.color;
+		modalImage.style.backgroundImage = `url('${media.imageUrl}')`;
+		modal.style.display = 'flex';
+	};
 })();
 </script>
 </body>
