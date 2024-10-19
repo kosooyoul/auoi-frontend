@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artrase - history of</title>
+<style>
+html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+html { overflow: hidden; font-family: sans-serif; }
+body { overflow-x: hidden; overflow-y: scroll; }
+</style>
+<style data-comment="auoi-content-layout">
+nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #333;
+	color: white;
+	padding: 0px;
+	text-align: center;
+	z-index: 1000;
+}
+
+.nav-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	list-style: none;
+}
+
+.nav-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+}
+
+.nav-item>a {
+	display: block;
+	width: 100%;
+	height: 60px;
+	color: white;
+	text-decoration: none;
+	padding: 0px 24px;
+	line-height: 60px;
+}
+
+.nav-item>a:hover { background-color: #666; }
+.nav-item>a:visited { color: white; }
+.nav-item>a:active { color: white; }
+
+/* 페이지 내용이 네비게이션 바 아래에서 시작되도록 패딩 추가 */
+#content {
+	padding-top: 60px; /* 네비게이션 바 높이 만큼 패딩 추가 */
+	min-height: calc(100vh - 280px);
+	/* height: fit-content; */
+}
+
+footer {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	text-align: center;
+	padding: 0;
+	width: 100%;
+	height: 200px;
+}
+</style>
+<style data-comment="auoi-media-list">
+#media-list {
+	display: grid;
+	gap: 12px;
+	max-width: 800px;
+	margin: auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-bottom: 40px;
+	height: fit-content;
+}
+
+.media-item {
+	padding: 4px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.media-item>.media-image {
+	width: 100%;
+	aspect-ratio: 4/3;
+	border-radius: 4px;
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
+}
+
+.media-item>.media-content {
+	width: 100%;
+	padding: 0px 4px;
+}
+
+.media-item>.media-content>.media-title {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	/* width: 100%; */
+	word-break: break-all;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	color: #666666;
+	margin: 0px;
+	padding: 0px;
+}
+
+.media-item>.media-content>.media-comment {
+	font-size: 12px;
+	color: #999999;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* 구분 행 스타일 */
+.separator {
+	padding: 4px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #f0f0f0;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	font-size: 12px;
+	color: #666;
+	padding: 8px;
+	grid-column: 1 / -1; /* 그리드의 모든 열을 차지하게 설정 */
+}
+
+/* 그리드 레이아웃 설정 */
+@media (max-width: 400px) {
+	#media-list {
+	grid-template-columns: 1fr; /* 1개씩 보이기 */
+	}
+}
+
+@media (min-width: 401px) and (max-width: 600px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr; /* 2개씩 보이기 */
+	}
+}
+
+@media (min-width: 601px) and (max-width: 800px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr 1fr; /* 3개씩 보이기 */
+	}
+}
+
+@media (min-width: 801px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr 1fr 1fr; /* 4개씩 보이기 */
+	}
+}
+</style>
+<style data-comment="auoi-login-modal">
+.login-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.login-modal-content {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 240px;
+	max-width: 100%;
+	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.login-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.login-modal-close {
+	width: 24px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.login-modal-body input {
+	width: 100%;
+	padding: 10px;
+	margin: 4px 0;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.login-modal-body button {
+	width: 100%;
+	padding: 10px;
+	margin-top: 12px;
+	border-radius: 8px;
+	background-color: #333;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+</style>
+<style data-comment="auoi-image-modal">
+.image-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.image-modal-content {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: calc(100% - 80px);
+	height: calc(100% - 80px);
+	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.image-modal-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.image-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.image-modal-close {
+	width: 24px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+	<div class="nav-group">
+		<p class="nav-item"><a href="/">Artrase</a></p>
+	</div>
+	<div class="nav-group">
+		<p class="nav-item"><a href="#world">World</a></p>
+		<p class="nav-item"><a href="#family">Family</a></p>
+	</div>
+	<div class="nav-group">
+		<p class="nav-item"><a href="#" id="login-button">Login</a></p>
+	</div>
+</nav>
+  
+<div id="content">
+	<div id="media-list">
+    	<!-- Media items will be added here -->
+	</div>
+</div>
+
+<footer>
+	<p style="font-size: 12px; color: #cccccc;">&copy; 2024 Auoi. All rights reserved.</p>
+</footer>
+
+<div id="login-modal" class="login-modal">
+	<div class="login-modal-content">
+		<div class="login-modal-header">
+			<p style="padding: 0; margin: 0;">로그인</p>
+			<div class="login-modal-close" id="login-modal-close">&times;</div>
+		</div>
+		<div class="login-modal-body">
+			<input type="text" placeholder="아이디 또는 이메일" id="login-modal-email">
+			<input type="password" placeholder="비밀번호 또는 임시 비밀번호" id="login-modal-password">
+			<button id="login-modal-submit">로그인</button>
+		</div>
+	</div>
+</div>
+
+<div id="image-modal" class="image-modal">
+	<div class="image-modal-content">
+		<div class="image-modal-header">
+			<p style="padding: 0; margin: 0;">&nbsp;</p>
+			<div class="image-modal-close" id="image-modal-close">&times;</div>
+		</div>
+		<div id="image-modal-image" class="image-modal-image"></div>
+	</div>
+</div>
+
+<script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="./js/utils/HanulseAjax.js"></script>
+<script type="text/javascript" src="./js/HanulseAuthorizationManager.js"></script>
+<script type="text/javascript" src="./js/apis/HanulseMediaApis.js"></script>
+<script data-comment="auoi-media-list">
+(function () {
+	const medias = {};
+
+	let lastId = null;  // 처음엔 null로 시작 (아직 데이터가 없으므로)
+	let isLoading = false;  // 중복 호출 방지
+	let hasMore = true;  // 더 이상 데이터가 없을 때 false로 변경
+	let lastMonth = '';  // 마지막으로 추가된 아이템의 년+월을 저장하는 변수
+
+	// 데이터를 로드하여 화면에 추가하는 함수
+	async function loadMore() {
+		if (isLoading || !hasMore) return;  // 중복 호출 방지
+
+		isLoading = true;  // 로딩 중 표시
+
+		const count = 24;  // 한 번에 가져올 데이터 수
+		const response = await HanulseMediaApis.getMediaList({ lastId, count });
+
+		const mediaList = document.getElementById('media-list');
+
+		response.medias.forEach(media => {
+			medias[media.id] = media;
+
+			const createdAt = [media.createdAt.getFullYear(), media.createdAt.getMonth() + 1].join('-');  // "YYYY-MM" 형식으로 변환
+
+			// 이전 아이템과 달라진 월이면 구분자를 추가
+			if (createdAt !== lastMonth) {
+				const separator = createSeparator(createdAt);
+				mediaList.appendChild(separator);
+				lastMonth = createdAt;  // 마지막 월을 업데이트
+			}
+
+			const mediaItem = createMediaItem(media);  // media item 생성
+			mediaList.appendChild(mediaItem);  // DOM에 추가
+		});
+
+		// 마지막 아이템 ID 업데이트
+		lastId = response.medias[response.medias.length - 1]?.id || lastId;
+
+		// 더 가져올 데이터가 있는지 여부 업데이트
+		hasMore = response.hasMore;
+
+		isLoading = false;  // 로딩 완료
+	}
+
+	function createMediaItem(media) {
+		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
+		let template = `
+			<div class="media-item">
+				<div class="media-image"
+					data-id="${media.id}"
+					data-image-url="${media.imageUrl}"
+					data-color="${media.color}"
+					style="background-color: ${media.color || '#fff'}; background-image: url('${media.thumbnailUrl}');"
+				></div>
+				<div class="media-content">
+					<p class="media-title">${media.filename}</p>
+					<p class="media-comment">${media.width > media.height ? 'Landscape': 'Portrait'}</p>
+					<p class="media-comment">${formatDateToKST(media.createdAt)}</p>
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	// 월별 구분자를 추가하는 함수
+	function createSeparator(dateString) {
+		let template = `
+			<div class="separator">
+				${dateString}
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function formatDateToKST(date) {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+		const day = String(date.getDate()).padStart(2, '0');
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		const seconds = String(date.getSeconds()).padStart(2, '0');
+
+		// 형식에 맞게 반환
+		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	}
+
+	// 스크롤 이벤트 핸들러
+	function handleScroll() {
+		const { scrollTop, scrollHeight, clientHeight } = document.body;
+
+		if (scrollTop + clientHeight >= scrollHeight - 5) {
+			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
+			loadMore();
+		}
+	}
+
+	// 초기 데이터 로드
+	loadMore();
+
+	// 스크롤 이벤트 리스너 추가
+	document.body.addEventListener('scroll', handleScroll);
+})();
+</script>
+<script data-comment="auoi-login-modal">
+(function () {
+	const loginButton = document.getElementById('login-button');
+
+	const modal = document.getElementById('login-modal');
+	const closeButton = document.getElementById('login-modal-close');
+	const submitButton = document.getElementById('login-modal-submit');
+	const emailInput = document.getElementById('login-modal-email');
+	const passwordInput = document.getElementById('login-modal-password');
+
+	// 로그인 버튼 클릭 시 모달 띄우기
+	loginButton.addEventListener('click', function (event) {
+		event.preventDefault();
+		modal.style.display = 'flex';
+	});
+
+	// 닫기 버튼 클릭 시 모달 닫기
+	closeButton.addEventListener('click', function () {
+		modal.style.display = 'none';
+		emailInput.value = '';
+		passwordInput.value = '';
+	});
+
+	// 모달 바깥 클릭 시 모달 닫기
+	window.addEventListener('click', function (event) {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+			emailInput.value = '';
+			passwordInput.value = '';
+		}
+	});
+
+	submitButton.addEventListener('click', function () {
+		HanulseAuthorizationManager.signIn(
+			emailInput.value,
+			passwordInput.value,
+			success => {
+				if (success) {
+					modal.style.display = 'none';
+					emailInput.value = '';
+					passwordInput.value = '';
+				} else {
+					alert('인증이 실패하였습니다. 다시 시도해주세요.');
+				}
+			}
+		);
+	});
+})();
+</script>
+<script data-comment="auoi-image-modal">
+(function () {
+	const modal = document.getElementById('image-modal');
+	const modalImage = document.getElementById('image-modal-image');
+	const closeModal = document.getElementById('image-modal-close');
+
+	// 모달 닫기
+	closeModal.addEventListener('click', function() {
+		modal.style.display = 'none';
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	window.addEventListener('click', function(event) {
+		console.log('event.target', event.target)
+		if (event.target === modal) {
+			modal.style.display = 'none';
+		}
+	});
+
+	window.addEventListener('click', (event) => {
+		if (event.target.classList.contains('media-image')) {
+			const id = event.target.dataset.id;
+			const imageUrl = event.target.dataset.imageUrl;
+			const color = event.target.dataset.color;
+			
+			modalImage.style.backgroundColor = color;
+			modalImage.style.backgroundImage = `url('${imageUrl}')`;
+			modal.style.display = 'flex';
+		}
+	});
+})();
+</script>
+</body>
+</html>

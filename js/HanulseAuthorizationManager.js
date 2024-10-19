@@ -12,6 +12,7 @@ class HanulseAuthorizationManager {
 	}
 
 	static _updateLoginButtonStatus() {
+		if (this._loginButton == null) return;
 		if (HanulseAuthorizationManager.hasAuthorization()) {
 			this._loginButton.addClass("on");
 		} else {
