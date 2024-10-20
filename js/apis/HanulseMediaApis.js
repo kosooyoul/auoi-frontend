@@ -22,6 +22,7 @@ class HanulseMediaApis {
 		const mediaList = response?.data;
 
 		mediaList.medias.forEach(media => {
+			media.takenAt = media.takenAt ? new Date(media.takenAt): null;
 			media.updatedAt = new Date(media.updatedAt);
 			media.createdAt = new Date(media.createdAt);
 		});

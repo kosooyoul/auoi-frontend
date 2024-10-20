@@ -127,7 +127,7 @@ footer {
 	display: -webkit-box;
 	font-size: 10px;
 	color: white;
-	text-shadow: 0px 0px 1px black;
+	text-shadow: 0px 0px 2px black;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
 	word-break: break-all;
@@ -135,10 +135,20 @@ footer {
 	text-overflow: ellipsis;
 }
 
-.media-item .media-content>.media-datetime {
+.media-item .media-content>.media-created-at {
 	font-size: 10px;
 	color: white;
-	text-shadow: 0px 0px 1px black;
+	text-shadow: 0px 0px 2px black;
+}
+
+.media-item .media-taken-at {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	font-size: 8px;
+	font-weight: 600;
+	color: #ff6400;
+	text-shadow: 0px 0px 2px black;
 }
 
 /* 구분 행 스타일 */
@@ -430,8 +440,9 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 					data-color="${media.color}"
 					style="background-color: ${media.color || '#fff'}; background-image: url('${media.thumbnailUrl}');"
 				>
+					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
 					<div class="media-content">
-						<div class="media-datetime">${formatDateToKST(media.createdAt)}</div>
+						<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
 						<div class="media-title">${media.filename}</div>
 					</div>
 				</div>
