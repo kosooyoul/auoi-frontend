@@ -17,7 +17,7 @@ nav {
 	position: fixed;
 	top: 0;
 	width: 100%;
-	height: 60px;
+	height: 48px;
 	background-color: rgba(127, 127, 127, 0.8);
 	backdrop-filter: blur(20px);
 	color: white;
@@ -38,18 +38,18 @@ nav {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 60px;
+	height: 48px;
 }
 
 .nav-item>a {
 	display: block;
 	width: 100%;
-	height: 60px;
+	height: 48px;
 	color: white;
 	text-decoration: none;
 	padding: 0px 24px;
 	font-size: 16px;
-	line-height: 60px;
+	line-height: 48px;
 }
 
 .nav-item>a:hover { background-color: #666; }
@@ -58,8 +58,8 @@ nav {
 
 /* 페이지 내용이 네비게이션 바 아래에서 시작되도록 패딩 추가 */
 #content {
-	padding-top: 60px; /* 네비게이션 바 높이 만큼 패딩 추가 */
-	min-height: calc(100vh - 280px);
+	padding-top: 48px; /* 네비게이션 바 높이 만큼 패딩 추가 */
+	min-height: calc(100vh - 248px);
 	/* height: fit-content; */
 }
 
@@ -77,28 +77,30 @@ footer {
 <style data-comment="auoi-media-list">
 #media-list {
 	display: grid;
-	gap: 12px;
+	gap: 2px;
 	max-width: 800px;
 	margin: auto;
-	padding-left: 12px;
-	padding-right: 12px;
-	padding-top: 12px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
 	padding-bottom: 40px;
 	height: fit-content;
 }
 
 .media-item {
-	padding: 4px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	background-color: #f9f9f9;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	position: relative;
+	/* padding: 4px; */
+	/* border: 1px solid #ddd; */
+	/* border-radius: 8px; */
+	/* background-color: #f9f9f9; */
+	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	/* gap: 8px; */
 }
 
-.media-item>.media-image {
+.media-item .media-image {
+	position: relative;
 	width: 100%;
 	aspect-ratio: 4/3;
 	border-radius: 4px;
@@ -107,50 +109,67 @@ footer {
 	cursor: pointer;
 }
 
-.media-item>.media-image:hover {
-	filter: brightness(0.6);
+.media-item .media-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	position: absolute;
+	width: calc(100% - 8px);
+	padding: 4px;
+	bottom: 0px;
+	height: fit-content;
+	border-radius: 0px 0px 4px 4px;
+	background-color: rgba(0, 0, 0, 0.2);
 }
 
-.media-item>.media-content {
-	width: 100%;
-	padding: 0px 4px;
-}
-
-.media-item>.media-content>.media-title {
+.media-item .media-content>.media-title {
 	display: -webkit-box;
+	font-size: 10px;
+	color: white;
+	text-shadow: 0px 0px 1px black;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
-	/* width: 100%; */
 	word-break: break-all;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 12px;
-	color: #666666;
-	margin: 0px;
-	padding: 0px;
 }
 
-.media-item>.media-content>.media-comment {
-	font-size: 12px;
-	color: #999999;
-	margin: 0px;
-	padding: 0px;
+.media-item .media-content>.media-datetime {
+	font-size: 10px;
+	color: white;
+	text-shadow: 0px 0px 1px black;
 }
 
 /* 구분 행 스타일 */
 .separator {
-	padding: 4px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	background-color: #eaeaea;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	font-size: 12px;
-	color: #666;
-	padding: 8px;
+	/* padding: 4px; */
+	/* border: 1px solid #ddd; */
+	/* border-radius: 8px; */
+	/* background-color: #eaeaea; */
+	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+	/* display: flex; */
+	/* flex-direction: column; */
 	grid-column: 1 / -1; /* 그리드의 모든 열을 차지하게 설정 */
+}
+
+.separator .separator-title {
+	width: fit-content;
+	max-width: 100%;
+	font-size: 14px;
+	color: #333333;
+	/* border: 1px solid #333333; */
+	border-radius: 4px;
+	padding: 4px 4px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: end;
+	gap: 8px;
+}
+
+.separator .separator-title p {
+	padding: 0px;
+	margin: 0px;
 }
 
 /* 그리드 레이아웃 설정 */
@@ -375,7 +394,7 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 
 			// 이전 아이템과 달라진 월이면 구분자를 추가
 			if (createdAt !== lastMonth) {
-				const separator = createSeparator(createdAt);
+				const separator = createSeparator(media.createdAt);
 				mediaList.appendChild(separator);
 				lastMonth = createdAt;  // 마지막 월을 업데이트
 			}
@@ -402,11 +421,11 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 					data-image-url="${media.imageUrl}"
 					data-color="${media.color}"
 					style="background-color: ${media.color || '#fff'}; background-image: url('${media.thumbnailUrl}');"
-				></div>
-				<div class="media-content">
-					<p class="media-title">${media.filename}</p>
-					<p class="media-comment">${media.width > media.height ? 'Landscape': 'Portrait'}</p>
-					<p class="media-comment">${formatDateToKST(media.createdAt)}</p>
+				>
+					<div class="media-content">
+						<div class="media-datetime">${formatDateToKST(media.createdAt)}</div>
+						<div class="media-title">${media.filename}</div>
+					</div>
 				</div>
 			</div>
 		`;
@@ -418,10 +437,13 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 	}
 
 	// 월별 구분자를 추가하는 함수
-	function createSeparator(dateString) {
+	function createSeparator(date) {
 		let template = `
 			<div class="separator">
-				${dateString}
+				<div class="separator-title">
+					<p style="font-size: 20px;">${date.getFullYear()}.</p>
+					<p style="font-size: 16px;">${String(date.getMonth() + 1).padStart(2, '0')}.</p>
+				</div>
 			</div>
 		`;
 
