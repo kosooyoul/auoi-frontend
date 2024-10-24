@@ -74,6 +74,33 @@ footer {
 	height: 200px;
 }
 </style>
+<style data-comment="auoi-group-list">
+#group-list {
+	display: flex;
+	gap: 0px;
+	width: 800px;
+	max-width: 100%;
+	margin: 0px auto;
+	padding: 0px;
+	height: fit-content;
+	color: black;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+
+.group-item {
+	flex-shrink: 0;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	margin: 8px 4px;
+	cursor: pointer;
+}
+
+.group-label {
+	font-size: 16px;
+	padding: 8px 20px;
+}
+</style>
 <style data-comment="auoi-media-list">
 #media-list {
 	display: grid;
@@ -341,8 +368,11 @@ footer {
 		<p class="nav-item"><a href="#" id="login-button">Login</a></p>
 	</div>
 </nav>
-  
+
 <div id="content">
+	<div id="group-list">
+		<!-- Group items will be added here -->
+	</div>
 	<div id="media-list">
     	<!-- Media items will be added here -->
 	</div>
@@ -385,14 +415,15 @@ document.body.addEventListener('contextmenu', (event) => event.preventDefault())
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
-<script data-comment="auoi-media-list">
+<script data-comment="auoi-group-list">
 (function () {
-	const medias = {};
+	const groups = {};
 
 	let lastId = null;  // 처음엔 null로 시작 (아직 데이터가 없으므로)
 	let isLoading = false;  // 중복 호출 방지
 	let hasMore = true;  // 더 이상 데이터가 없을 때 false로 변경
-	let lastMonth = '';  // 마지막으로 추가된 아이템의 년+월을 저장하는 변수
+	
+	const groupList = document.getElementById('group-list');
 
 	// 데이터를 로드하여 화면에 추가하는 함수
 	async function loadMore() {
@@ -401,9 +432,85 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 		isLoading = true;  // 로딩 중 표시
 
 		const count = 24;  // 한 번에 가져올 데이터 수
-		const response = await HanulseMediaApis.getMediaList({ lastId, count });
+		const response = await HanulseMediaApis.getGroupList({ lastId, count });
 
-		const mediaList = document.getElementById('media-list');
+		response.groups.forEach(group => {
+			groups[group.id] = group;
+
+			const groupItem = createGroupItem(group);  // group item 생성
+			groupList.appendChild(groupItem);  // DOM에 추가
+		});
+
+		// 마지막 아이템 ID 업데이트
+		lastId = response.groups[response.groups.length - 1]?.id || lastId;
+
+		// 더 가져올 데이터가 있는지 여부 업데이트
+		hasMore = response.hasMore;
+
+		isLoading = false;  // 로딩 완료
+	}
+
+	function createGroupItem(group) {
+		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
+		let template = `
+			<div class="group-item">
+				<div class="group-label" data-id="${group.id}" data-sid="${group.sid}">
+					${group.name}
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	// 스크롤 이벤트 핸들러
+	function handleScroll() {
+		const { scrollTop, scrollHeight, clientHeight } = groupList;
+
+		if (scrollTop + clientHeight >= scrollHeight - 5) {
+			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
+			loadMore();
+		}
+	}
+
+	// 초기 데이터 로드
+	loadMore();
+
+	// 스크롤 이벤트 리스너 추가
+	groupList.addEventListener('scroll', handleScroll);
+
+	groupList.addEventListener('click', (event) => {
+		const id = event.target.dataset.id;
+		if (groups[id]) {
+			window.mediaList.reloadByGroupSid(groups[id].sid);
+		}
+	});
+})();
+</script>
+<script data-comment="auoi-media-list">
+window.mediaList = new (function () {
+	let medias = {};
+
+	let lastId = null;  // 처음엔 null로 시작 (아직 데이터가 없으므로)
+	let isLoading = false;  // 중복 호출 방지
+	let hasMore = true;  // 더 이상 데이터가 없을 때 false로 변경
+	let lastMonth = '';  // 마지막으로 추가된 아이템의 년+월을 저장하는 변수
+
+	let groupSid = null;
+
+	const mediaList = document.getElementById('media-list');
+
+	// 데이터를 로드하여 화면에 추가하는 함수
+	async function loadMore() {
+		if (isLoading || !hasMore) return;  // 중복 호출 방지
+
+		isLoading = true;  // 로딩 중 표시
+
+		const count = 24;  // 한 번에 가져올 데이터 수
+		const response = await HanulseMediaApis.getGroupMediaList({ groupSid, lastId, count });
 
 		response.medias.forEach(media => {
 			medias[media.id] = media;
@@ -493,6 +600,23 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 			loadMore();
 		}
 	}
+
+	this.reloadByGroupSid = (aGroupSid) => {
+		medias = {};
+
+		lastId = null;
+		isLoading = false;
+		hasMore = true;
+		lastMonth = '';
+
+		groupSid = aGroupSid;
+
+		while (mediaList.firstChild) {
+			mediaList.removeChild(mediaList.firstChild);
+		};
+
+		loadMore();
+	};
 
 	// 초기 데이터 로드
 	loadMore();
