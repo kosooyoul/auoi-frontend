@@ -791,17 +791,22 @@ window.videoModal = new (function () {
 	const modalVideo = document.getElementById('video-modal-video');
 	const closeModal = document.getElementById('video-modal-close');
 
+	const resetVideo = () => {
+		modalVideo.src = null;
+		modalVideo.innerHTML = '';
+	};
+
 	// 모달 닫기
 	closeModal.addEventListener('click', function() {
 		modal.style.display = 'none';
-		modalVideo.innerHTML = '';
+		resetVideo();
 	});
 
 	// 모달 바깥 클릭 시 닫기
 	document.body.addEventListener('click', function(event) {
 		if (event.target === modal) {
 			modal.style.display = 'none';
-			modalVideo.innerHTML = '';
+			resetVideo();
 		}
 	});
 
@@ -809,7 +814,7 @@ window.videoModal = new (function () {
 	document.body.addEventListener('keydown', function(event) {
 		if (event.keyCode === 27) {
 			modal.style.display = 'none';
-			modalVideo.innerHTML = '';
+			resetVideo();
 		}
 	});
 
