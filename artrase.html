@@ -353,6 +353,61 @@ footer {
 	background-color: white;
 }
 </style>
+<style data-comment="auoi-video-modal">
+.video-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.video-modal-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.video-modal-video {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.video-modal-header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 48px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.video-modal-close {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.video-modal-close:active {
+	background-color: white;
+}
+</style>
 </head>
 <body>
 
@@ -403,6 +458,18 @@ footer {
 			<div class="image-modal-close" id="image-modal-close">&times;</div>
 		</div>
 		<div id="image-modal-image" class="image-modal-image"></div>
+	</div>
+</div>
+
+<div id="video-modal" class="video-modal">
+	<div class="video-modal-content">
+		<div class="video-modal-header">
+			<p style="padding: 0; margin: 0;">&nbsp;</p>
+			<div class="video-modal-close" id="video-modal-close">&times;</div>
+		</div>
+		<video id="video-modal-video" class="video-modal-video" controls>
+			<!-- from logic -->
+		</video>
 	</div>
 </div>
 
@@ -543,8 +610,6 @@ window.mediaList = new (function () {
 			<div class="media-item">
 				<div class="media-image"
 					data-id="${media.id}"
-					data-image-url="${media.imageUrl}"
-					data-color="${media.color}"
 					style="background-color: ${media.color || '#fff'}; background-image: url('${media.thumbnailUrl}');"
 				>
 					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
@@ -626,8 +691,15 @@ window.mediaList = new (function () {
 
 	document.body.addEventListener('click', (event) => {
 		const id = event.target.dataset.id;
-		if (medias[id]) {
-			window.imageModal.show(medias[id]);
+		const media = medias[id];
+		if (media == null) return;
+
+		if (media.type == 'IMAGE') {
+			window.imageModal.show(media);
+		} else if (media.type == 'VIDEO') {
+			window.videoModal.show(media);
+		} else {
+			alert('This media is not supported type')
 		}
 	});
 })();
@@ -708,8 +780,42 @@ window.imageModal = new (function () {
 
 	this.show = function (media) {
 		modalImage.style.backgroundColor = media.color;
-		modalImage.style.backgroundImage = `url('${media.imageUrl}')`;
+		modalImage.style.backgroundImage = `url('${media.url}')`;
 		modal.style.display = 'flex';
+	};
+})();
+</script>
+<script data-comment="auoi-video-modal">
+window.videoModal = new (function () {
+	const modal = document.getElementById('video-modal');
+	const modalVideo = document.getElementById('video-modal-video');
+	const closeModal = document.getElementById('video-modal-close');
+
+	// 모달 닫기
+	closeModal.addEventListener('click', function() {
+		modal.style.display = 'none';
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('click', function(event) {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+		}
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('keydown', function(event) {
+		if (event.keyCode === 27) {
+			modal.style.display = 'none';
+		}
+	});
+
+	this.show = function (media) {
+		modalVideo.style.backgroundColor = media.color;
+		// modalVideo.style.backgroundVideo = `url('${media.url}')`;
+		modal.style.display = 'flex';
+
+		modalVideo.innerHTML = `<source src="${media.url}" type="${media.mimeType}">`;
 	};
 })();
 </script>
