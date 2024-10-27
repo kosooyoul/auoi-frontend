@@ -335,6 +335,7 @@ footer {
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 12px;
+	z-index: 1;
 }
 
 .image-modal-close {
@@ -390,6 +391,7 @@ footer {
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 12px;
+	z-index: 1;
 }
 
 .video-modal-close {
@@ -823,6 +825,7 @@ window.videoModal = new (function () {
 		// modalVideo.style.backgroundVideo = `url('${media.url}')`;
 		modal.style.display = 'flex';
 
+		modalVideo.src = media.url;
 		modalVideo.innerHTML = `<source src="${media.url}" type="${media.mimeType}">`;
 	};
 })();
