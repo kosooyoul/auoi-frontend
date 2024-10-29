@@ -295,6 +295,66 @@ footer {
 	cursor: pointer;
 }
 </style>
+<style data-comment="auoi-group-create-modal">
+.group-create-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.group-create-modal-content {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 240px;
+	max-width: 100%;
+	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.group-create-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.group-create-modal-close {
+	width: 24px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.group-create-modal-body input {
+	width: 100%;
+	padding: 10px;
+	margin: 4px 0;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.group-create-modal-body button {
+	width: 100%;
+	padding: 10px;
+	margin-top: 12px;
+	border-radius: 8px;
+	background-color: #333;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+</style>
 <style data-comment="auoi-image-modal">
 .image-modal {
 	display: none;
@@ -429,6 +489,9 @@ footer {
 <div id="content">
 	<div id="group-list">
 		<!-- Group items will be added here -->
+		 <div id="group-create-button" class="group-item">
+			<div class="group-label">+</div>
+		</div>
 	</div>
 	<div id="media-list">
     	<!-- Media items will be added here -->
@@ -449,6 +512,20 @@ footer {
 			<input type="text" placeholder="아이디 또는 이메일" id="login-modal-email">
 			<input type="password" placeholder="비밀번호 또는 임시 비밀번호" id="login-modal-password">
 			<button id="login-modal-submit">로그인</button>
+		</div>
+	</div>
+</div>
+
+<div id="group-create-modal" class="group-create-modal">
+	<div class="group-create-modal-content">
+		<div class="group-create-modal-header">
+			<p style="padding: 0; margin: 0;">그룹 만들기</p>
+			<div class="group-create-modal-close" id="group-create-modal-close">&times;</div>
+		</div>
+		<div class="group-create-modal-body">
+			<input type="text" placeholder="식별자" id="group-create-modal-sid">
+			<input type="text" placeholder="이름" id="group-create-modal-name">
+			<button id="group-create-modal-submit">만들기</button>
 		</div>
 	</div>
 </div>
@@ -752,6 +829,54 @@ window.mediaList = new (function () {
 				}
 			}
 		);
+	});
+})();
+</script>
+<script data-comment="auoi-group-create-modal">
+(function () {
+	const createButton = document.getElementById('group-create-button');
+
+	const modal = document.getElementById('group-create-modal');
+	const closeButton = document.getElementById('group-create-modal-close');
+	const submitButton = document.getElementById('group-create-modal-submit');
+	const sidInput = document.getElementById('group-create-modal-sid');
+	const nameInput = document.getElementById('group-create-modal-name');
+
+	// 로그인 버튼 클릭 시 모달 띄우기
+	createButton.addEventListener('click', function (event) {
+		event.preventDefault();
+		modal.style.display = 'flex';
+	});
+
+	// 닫기 버튼 클릭 시 모달 닫기
+	closeButton.addEventListener('click', function () {
+		modal.style.display = 'none';
+		sidInput.value = '';
+		nameInput.value = '';
+	});
+
+	// 모달 바깥 클릭 시 모달 닫기
+	document.body.addEventListener('click', function (event) {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+			sidInput.value = '';
+			nameInput.value = '';
+		}
+	});
+
+	submitButton.addEventListener('click', async function () {
+		const group = await HanulseMediaApis.createGroup({
+			sid: sidInput.value,
+			name: nameInput.value,
+		});
+
+		if (group == null) {
+			alert('그룹 생성이 실패하였습니다. 다시 시도해주세요.');
+		}
+
+		modal.style.display = 'none';
+		sidInput.value = '';
+		nameInput.value = '';
 	});
 })();
 </script>

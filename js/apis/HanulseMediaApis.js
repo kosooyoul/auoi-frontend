@@ -1,4 +1,23 @@
 class HanulseMediaApis {
+	static async createGroup({sid, name}) {
+		const response = await HanulseAjax.post(
+			'https://apis.auoi.net/v1/accounts/me/groups',
+			{
+				sid: sid,
+				name: name,
+			},
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const group = response?.data;
+
+		if (group) {
+			group.updatedAt = new Date(group.updatedAt);
+			group.createdAt = new Date(group.createdAt);
+		}
+
+		return group;
+	}
+
 	static async getGroupList({lastId, count}) {
 		const response = await HanulseAjax.get(
 			'https://apis.auoi.net/v1/accounts/hanulse/groups',
