@@ -664,20 +664,20 @@ window.groupList = new (function () {
 	}
 
 	// 스크롤 이벤트 핸들러
-	function handleScroll() {
-		const { scrollTop, scrollHeight, clientHeight } = groupList;
+	// function handleScroll() {
+	// 	const { scrollTop, scrollHeight, clientHeight } = groupList;
 
-		if (scrollTop + clientHeight >= scrollHeight - 5) {
-			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
-			loadMore();
-		}
-	}
+	// 	if (scrollTop + clientHeight >= scrollHeight - 5) {
+	// 		// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
+	// 		loadMore();
+	// 	}
+	// }
 
 	// 초기 데이터 로드
 	// loadMore();
 
 	// 스크롤 이벤트 리스너 추가
-	groupList.addEventListener('scroll', handleScroll);
+	// groupList.addEventListener('scroll', handleScroll);
 
 	groupList.addEventListener('click', (event) => {
 		const id = event.target.dataset.id;
@@ -687,7 +687,7 @@ window.groupList = new (function () {
 	});
 
 	this.setGroups = (groups) => {
-		groupList.textContent = '';
+		groupList.innerHTML = '';
 		groups.forEach(group => {
 			const groupItem = createGroupItem(group);  // group item 생성
 			groupList.appendChild(groupItem);  // DOM에 추가
