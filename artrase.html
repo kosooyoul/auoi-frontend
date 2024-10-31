@@ -612,79 +612,6 @@ document.body.addEventListener('contextmenu', (event) => event.preventDefault())
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
-<script data-comment="auoi-year-slider">
-(function() {
-	// 시작 연도와 끝 연도 설정
-	const startYear = 2000;
-	const endYear = 2025;
-	const sliderContainer = document.getElementById("year-slider");
-
-	let selectedYear;
-
-	// 년도 항목을 동적으로 생성하여 슬라이더에 추가
-
-	for (let i = 0; i < 1; i++) {
-		const leftPaddingDiv = document.createElement("div");
-		leftPaddingDiv.className = "year-slider-padding";
-		sliderContainer.appendChild(leftPaddingDiv);
-	}
-
-	for (let year = startYear; year <= endYear; year++) {
-		const yearDiv = document.createElement("div");
-		yearDiv.className = "year-slider-item";
-		yearDiv.textContent = year;
-		yearDiv.dataset.year = year;
-		sliderContainer.appendChild(yearDiv);
-	}
-
-	for (let j = 0; j < 1; j++) {
-		const rightPaddingDiv = document.createElement("div");
-		rightPaddingDiv.className = "year-slider-padding";
-		sliderContainer.appendChild(rightPaddingDiv);
-	}
-
-	function getSelectedYear() {
-		const scrollCenter = sliderContainer.scrollLeft + sliderContainer.offsetWidth / 2;
-		const years = sliderContainer.querySelectorAll(".year-slider-item");
-		
-		let closestYear = startYear;
-		let minDistance = Infinity;
-
-		years.forEach(yearDiv => {
-			const yearCenter = yearDiv.offsetLeft + yearDiv.offsetWidth / 2;
-			const distance = Math.abs(scrollCenter - yearCenter);
-
-			yearDiv.textContent = yearDiv.dataset.year;
-			if (distance < minDistance) {
-				minDistance = distance;
-				closestYear = yearDiv.dataset.year;
-			}
-		});
-
-		return closestYear;
-	}
-
-	const doUpdate = async () => {
-		const newSelectedYear = getSelectedYear();
-		if (selectedYear == newSelectedYear) return;
-
-		selectedYear = newSelectedYear;
-
-		sliderContainer.querySelectorAll(`.year-slider-item:not([data-year='${newSelectedYear}'])`).forEach(e => e.classList.remove('selected'))
-		sliderContainer.querySelector(`.year-slider-item[data-year='${newSelectedYear}']`).classList.add('selected');
-
-		const response = await HanulseMediaApis.getYearGroupList({ year: newSelectedYear });
-		console.log(newSelectedYear, response)
-
-		window.groupList.setGroups(response.groups)
-	};
-
-	// 스크롤 이벤트에서 중앙에 위치한 년도를 업데이트
-	sliderContainer.addEventListener("scroll", doUpdate);
-
-	doUpdate();
-})();
-</script>
 <script data-comment="auoi-group-list">
 window.groupList = new (function () {
 	const groups = {};
@@ -766,6 +693,79 @@ window.groupList = new (function () {
 			groupList.appendChild(groupItem);  // DOM에 추가
 		});
 	}
+})();
+</script>
+<script data-comment="auoi-year-slider">
+(function() {
+	// 시작 연도와 끝 연도 설정
+	const startYear = 2000;
+	const endYear = 2025;
+	const sliderContainer = document.getElementById("year-slider");
+
+	let selectedYear;
+
+	// 년도 항목을 동적으로 생성하여 슬라이더에 추가
+
+	for (let i = 0; i < 1; i++) {
+		const leftPaddingDiv = document.createElement("div");
+		leftPaddingDiv.className = "year-slider-padding";
+		sliderContainer.appendChild(leftPaddingDiv);
+	}
+
+	for (let year = startYear; year <= endYear; year++) {
+		const yearDiv = document.createElement("div");
+		yearDiv.className = "year-slider-item";
+		yearDiv.textContent = year;
+		yearDiv.dataset.year = year;
+		sliderContainer.appendChild(yearDiv);
+	}
+
+	for (let j = 0; j < 1; j++) {
+		const rightPaddingDiv = document.createElement("div");
+		rightPaddingDiv.className = "year-slider-padding";
+		sliderContainer.appendChild(rightPaddingDiv);
+	}
+
+	function getSelectedYear() {
+		const scrollCenter = sliderContainer.scrollLeft + sliderContainer.offsetWidth / 2;
+		const years = sliderContainer.querySelectorAll(".year-slider-item");
+		
+		let closestYear = startYear;
+		let minDistance = Infinity;
+
+		years.forEach(yearDiv => {
+			const yearCenter = yearDiv.offsetLeft + yearDiv.offsetWidth / 2;
+			const distance = Math.abs(scrollCenter - yearCenter);
+
+			yearDiv.textContent = yearDiv.dataset.year;
+			if (distance < minDistance) {
+				minDistance = distance;
+				closestYear = yearDiv.dataset.year;
+			}
+		});
+
+		return closestYear;
+	}
+
+	const doUpdate = async () => {
+		const newSelectedYear = getSelectedYear();
+		if (selectedYear == newSelectedYear) return;
+
+		selectedYear = newSelectedYear;
+
+		sliderContainer.querySelectorAll(`.year-slider-item:not([data-year='${newSelectedYear}'])`).forEach(e => e.classList.remove('selected'))
+		sliderContainer.querySelector(`.year-slider-item[data-year='${newSelectedYear}']`).classList.add('selected');
+
+		const response = await HanulseMediaApis.getYearGroupList({ year: newSelectedYear });
+		console.log(newSelectedYear, response)
+
+		window.groupList.setGroups(response.groups)
+	};
+
+	// 스크롤 이벤트에서 중앙에 위치한 년도를 업데이트
+	sliderContainer.addEventListener("scroll", doUpdate);
+
+	doUpdate();
 })();
 </script>
 <script data-comment="auoi-media-list">
