@@ -37,6 +37,22 @@ class HanulseMediaApis {
 		return groupList;
 	}
 
+	static async getYearGroupList({year}) {
+		const response = await HanulseAjax.get(
+			`https://apis.auoi.net/v1/accounts/hanulse/groups/years/${year}`,
+			{},
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const groupList = response?.data;
+
+		groupList.groups.forEach(group => {
+			group.updatedAt = new Date(group.updatedAt);
+			group.createdAt = new Date(group.createdAt);
+		});
+
+		return groupList;
+	}
+
 	static async getGroupMediaList({groupSid, lastId, count}) {
 		let url;
 		if (groupSid) {

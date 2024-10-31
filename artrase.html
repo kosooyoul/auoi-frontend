@@ -99,7 +99,7 @@ footer {
 	scroll-snap-align: center;
 	font-size: 1.2em;
 	user-select: none;
-	transition: all 0.2s linear;
+	transition: font-size 0.2s linear;
 }
 
 .year-slider-item.selected {
@@ -664,7 +664,7 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 		return closestYear;
 	}
 
-	const doUpdate = () => {
+	const doUpdate = async () => {
 		const newSelectedYear = getSelectedYear();
 		if (selectedYear == newSelectedYear) return;
 
@@ -673,7 +673,10 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 		sliderContainer.querySelectorAll(`.year-slider-item:not([data-year='${newSelectedYear}'])`).forEach(e => e.classList.remove('selected'))
 		sliderContainer.querySelector(`.year-slider-item[data-year='${newSelectedYear}']`).classList.add('selected');
 
-		console.log(newSelectedYear)
+		const response = await HanulseMediaApis.getYearGroupList({ year: newSelectedYear });
+		console.log(newSelectedYear, response)
+
+		window.groupList.setGroups(response.groups)
 	};
 
 	// 스크롤 이벤트에서 중앙에 위치한 년도를 업데이트
@@ -683,7 +686,7 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 })();
 </script>
 <script data-comment="auoi-group-list">
-(function () {
+window.groupList = new (function () {
 	const groups = {};
 
 	let lastId = null;  // 처음엔 null로 시작 (아직 데이터가 없으므로)
@@ -744,7 +747,7 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 	}
 
 	// 초기 데이터 로드
-	loadMore();
+	// loadMore();
 
 	// 스크롤 이벤트 리스너 추가
 	groupList.addEventListener('scroll', handleScroll);
@@ -755,6 +758,14 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 			window.mediaList.reloadByGroupSid(groups[id].sid);
 		}
 	});
+
+	this.setGroups = (groups) => {
+		groupList.textContent = '';
+		groups.forEach(group => {
+			const groupItem = createGroupItem(group);  // group item 생성
+			groupList.appendChild(groupItem);  // DOM에 추가
+		});
+	}
 })();
 </script>
 <script data-comment="auoi-media-list">
