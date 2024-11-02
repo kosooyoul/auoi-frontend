@@ -1073,7 +1073,11 @@ window.mediaList = new (function () {
 		};
 
 		mediaGroupTitle.textContent = group.name;
-		mediaGroupSubTitle.textContent = `${group.beginYear || '?'} ~ ${group.endYear || '?'}`;
+		if (group.beginYear == group.endYear) {
+			mediaGroupSubTitle.textContent = `${group.beginYear || '?'}`;
+		} else {
+			mediaGroupSubTitle.textContent = `${group.beginYear || '?'} ~ ${group.endYear || '?'}`;
+		}
 
 		loadMore();
 	};
