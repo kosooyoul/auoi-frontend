@@ -162,7 +162,7 @@ footer {
 }
 
 .year-slider-item {
-	flex: 0 0 35%;
+	flex: 0 0 25%;
 	display: flex;
 	height: 100%;
 	align-items: center;
@@ -235,7 +235,7 @@ footer {
 	height: 36px;
 }
 
-.group-item:active {
+.group-item:hover, .group-item:active {
 	/* background-color: rgba(0, 200, 255); */
 	color: black;
 }
@@ -246,6 +246,26 @@ footer {
 }
 </style>
 <style data-comment="auoi-media-list">
+#media-header {
+	width: 920px;
+	max-width: 100%;
+	margin: 32px auto;
+	text-align: center;
+	padding: 8px;
+}
+
+.media-group-title {
+	font-size: 1.5em;
+	padding: 8px;
+	color: black;
+}
+
+.media-group-subtitle {
+    font-size: 1.2em;
+    padding: 8px;
+	color: #666666;
+}
+
 #media-list {
 	display: grid;
 	gap: 1px;
@@ -637,7 +657,7 @@ footer {
 </nav>
 
 <div id="content">
-	<div style="background-color: rgba(240, 240, 240, 0.8); backdrop-filter: blur(20px);">
+	<div style="background-color: rgba(240, 240, 240, 0.8);">
 		<div id="year-slider">
 			<div class="year-slider-scroll">
 				<!-- Year items will be added here -->
@@ -648,8 +668,17 @@ footer {
 		</div>
 	</div>
 	<!-- <hr/> -->
+	<div id="media-header">
+		<div class="media-group-title"></div>
+		<div class="media-group-subtitle"></div>
+	</div>
 	<div id="media-list">
     	<!-- Media items will be added here -->
+		<div style="grid-column: 1 / -1; height: 320px; display: flex; flex-direction: column; justify-content: center;">
+			<p style="text-align: center;">Hello! Welcome to artrase.</p>
+			<p style="text-align: center;">This is Family contents.</p>
+			<p style="text-align: center;">To read contents, scroll years and select group.</p>
+		</div>
 	</div>
 </div>
 
@@ -717,6 +746,37 @@ document.body.addEventListener('selectstart', (event) => event.preventDefault())
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
 <script data-comment="auoi-year-slider">
+window.benzeneCache = new (function() {
+	const cache = {};
+
+	const generateKey = () => {
+		let key;
+		do {
+			key = Math.floor(Date.now() * 1000 + Math.random() * 1000).toString(16);
+		} while(cache[key] != null);
+		return key;
+	}
+
+	this.asyncFunction = (func, lifeTimeSecs) => {
+		const key = generateKey();
+		return async (...args) => {
+			const argsKey = `${key}_${JSON.stringify(args)}`;
+			if (cache[argsKey]) {
+				if (cache[argsKey].expiresIn > Date.now()) {
+					return cache[argsKey].data;
+				}
+			}
+			const data = await func.call(null, args);
+			cache[argsKey] = {
+				data: data,
+				expiresIn: Date.now() + (lifeTimeSecs || 300) * 1000,
+			};
+			return data;
+		};
+	};
+})();
+</script>
+<script data-comment="auoi-year-slider">
 (function() {
 	// 시작 연도와 끝 연도 설정
 	const startYear = 1984;
@@ -768,6 +828,10 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 		return closestYear;
 	}
 
+	const requestYearGroupList = window.benzeneCache.asyncFunction(async (year) => {
+		return await HanulseMediaApis.getYearGroupList({ year });
+	});
+
 	const doUpdate = async () => {
 		const newSelectedYear = getSelectedYear();
 		if (selectedYear == newSelectedYear) return;
@@ -777,8 +841,7 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 		sliderContainer.querySelectorAll(`.year-slider-item:not([data-year='${newSelectedYear}'])`).forEach(e => e.classList.remove('selected'))
 		sliderContainer.querySelector(`.year-slider-item[data-year='${newSelectedYear}']`).classList.add('selected');
 
-		const response = await HanulseMediaApis.getYearGroupList({ year: newSelectedYear });
-		console.log(newSelectedYear, response)
+		const response = await requestYearGroupList(newSelectedYear);
 
 		window.groupList.setGroups(response.groups)
 	};
@@ -861,7 +924,7 @@ window.groupList = new (function () {
 	groupList.addEventListener('click', (event) => {
 		const id = event.target.dataset.id;
 		if (groups[id]) {
-			window.mediaList.reloadByGroupSid(groups[id].sid);
+			window.mediaList.reloadByGroup(groups[id]);
 		}
 	});
 
@@ -886,11 +949,14 @@ window.mediaList = new (function () {
 
 	let groupSid = null;
 
+	const mediaGroupTitle = document.querySelector('#media-header>.media-group-title');
+	const mediaGroupSubTitle = document.querySelector('#media-header>.media-group-subtitle');
 	const mediaList = document.getElementById('media-list');
 
 	// 데이터를 로드하여 화면에 추가하는 함수
 	async function loadMore() {
 		if (isLoading || !hasMore) return;  // 중복 호출 방지
+		if (groupSid == null) return;
 
 		isLoading = true;  // 로딩 중 표시
 
@@ -984,7 +1050,7 @@ window.mediaList = new (function () {
 		}
 	}
 
-	this.reloadByGroupSid = (aGroupSid) => {
+	this.reloadByGroup = (group) => {
 		medias = {};
 
 		lastId = null;
@@ -992,11 +1058,14 @@ window.mediaList = new (function () {
 		hasMore = true;
 		lastMonth = '';
 
-		groupSid = aGroupSid;
+		groupSid = group.sid;
 
 		while (mediaList.firstChild) {
 			mediaList.removeChild(mediaList.firstChild);
 		};
+
+		mediaGroupTitle.textContent = group.name;
+		mediaGroupSubTitle.textContent = `(${group.beginYear} ~ ${group.endYear})`;
 
 		loadMore();
 	};
