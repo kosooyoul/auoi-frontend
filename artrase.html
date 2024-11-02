@@ -998,11 +998,12 @@ window.mediaList = new (function () {
 
 	function createMediaItem(media) {
 		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
+		// TODO; ?? media.thumbUrl 은 indexUrl 생성 후 제거 해야 함
 		let template = `
 			<div class="media-item">
 				<div class="media-image"
 					data-id="${media.id}"
-					style="background-color: ${media.color || '#fff'}; background-image: url('${media.thumbnailUrl}');"
+					style="background-color: ${media.color || '#fff'}; background-image: url('${media.indexUrl ?? media.thumbUrl}');"
 				>
 					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
 					<div class="media-content">
@@ -1227,7 +1228,7 @@ window.imageModal = new (function () {
 
 	this.show = function (media) {
 		modalImage.style.backgroundColor = media.color;
-		modalImage.style.backgroundImage = `url('${media.url}')`;
+		modalImage.style.backgroundImage = `url('${media.thumburl}')`;
 		modal.style.display = 'flex';
 	};
 })();
@@ -1267,11 +1268,11 @@ window.videoModal = new (function () {
 
 	this.show = function (media) {
 		modalVideo.style.backgroundColor = media.color;
-		// modalVideo.style.backgroundVideo = `url('${media.url}')`;
+		// modalVideo.style.backgroundVideo = `url('${media.thumbUrl}')`;
 		modal.style.display = 'flex';
 
-		modalVideo.src = media.url;
-		modalVideo.innerHTML = `<source src="${media.url}" type="${media.mimeType}">`;
+		modalVideo.src = media.thumbUrl;
+		modalVideo.innerHTML = `<source src="${media.thumbUrl}" type="${media.mimeType}">`;
 	};
 })();
 </script>
