@@ -38,8 +38,15 @@ class HanulseMediaApis {
 	}
 
 	static async getYearGroupList({year}) {
+		let url;
+		if (year > 0) {
+			url = `https://apis.auoi.net/v1/accounts/hanulse/groups/years/${year}`;
+		} else {
+			url = `https://apis.auoi.net/v1/accounts/hanulse/groups`;
+		}
+
 		const response = await HanulseAjax.get(
-			`https://apis.auoi.net/v1/accounts/hanulse/groups/years/${year}`,
+			url,
 			{},
 			HanulseAuthorizationManager.getAccessToken(),
 		);

@@ -65,9 +65,14 @@ nav {
 .nav-item>a:visited { color: white; }
 .nav-item>a:active { color: white; }
 
+header {
+	padding-top: 48px; /* 네비게이션 바 높이 만큼 패딩 추가 */
+	background-color: rgba(240, 240, 240, 0.8);
+}
+
 /* 페이지 내용이 네비게이션 바 아래에서 시작되도록 패딩 추가 */
 #content {
-	padding-top: 48px; /* 네비게이션 바 높이 만큼 패딩 추가 */
+	/* padding-top: 48px; */ /* 네비게이션 바 높이 만큼 패딩 추가 */
 	min-height: calc(100vh - 248px);
 	/* height: fit-content; */
 }
@@ -656,17 +661,18 @@ footer {
 	</div>
 </nav>
 
-<div id="content">
-	<div style="background-color: rgba(240, 240, 240, 0.8);">
-		<div id="year-slider">
-			<div class="year-slider-scroll">
-				<!-- Year items will be added here -->
-			</div>
-		</div>
-		<div id="group-list">
-			<!-- Group items will be added here -->
+<header>
+	<div id="year-slider">
+		<div class="year-slider-scroll">
+			<!-- Year items will be added here -->
 		</div>
 	</div>
+	<div id="group-list">
+		<!-- Group items will be added here -->
+	</div>
+</header>
+
+<div id="content">
 	<!-- <hr/> -->
 	<div id="media-header">
 		<div class="media-group-title"></div>
@@ -787,11 +793,15 @@ window.benzeneCache = new (function() {
 
 	// 년도 항목을 동적으로 생성하여 슬라이더에 추가
 
-	for (let i = 0; i < 1; i++) {
-		const leftPaddingDiv = document.createElement("div");
-		leftPaddingDiv.className = "year-slider-padding";
-		sliderContainer.appendChild(leftPaddingDiv);
-	}
+	const leftPaddingDiv = document.createElement("div");
+	leftPaddingDiv.className = "year-slider-padding";
+	sliderContainer.appendChild(leftPaddingDiv);
+
+	const allDiv = document.createElement("div");
+	allDiv.className = "year-slider-item";
+	allDiv.textContent = 'Entire';
+	allDiv.dataset.year = 0;
+	sliderContainer.appendChild(allDiv);
 
 	for (let year = startYear; year <= endYear; year++) {
 		const yearDiv = document.createElement("div");
@@ -801,11 +811,9 @@ window.benzeneCache = new (function() {
 		sliderContainer.appendChild(yearDiv);
 	}
 
-	for (let j = 0; j < 1; j++) {
-		const rightPaddingDiv = document.createElement("div");
-		rightPaddingDiv.className = "year-slider-padding";
-		sliderContainer.appendChild(rightPaddingDiv);
-	}
+	const rightPaddingDiv = document.createElement("div");
+	rightPaddingDiv.className = "year-slider-padding";
+	sliderContainer.appendChild(rightPaddingDiv);
 
 	function getSelectedYear() {
 		const scrollCenter = sliderContainer.scrollLeft + sliderContainer.offsetWidth / 2;
@@ -818,7 +826,7 @@ window.benzeneCache = new (function() {
 			const yearCenter = yearDiv.offsetLeft + yearDiv.offsetWidth / 2;
 			const distance = Math.abs(scrollCenter - yearCenter);
 
-			yearDiv.textContent = yearDiv.dataset.year;
+			// yearDiv.textContent = yearDiv.dataset.year;
 			if (distance < minDistance) {
 				minDistance = distance;
 				closestYear = yearDiv.dataset.year;
