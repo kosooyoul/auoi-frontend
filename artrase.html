@@ -8,6 +8,7 @@
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
 html { overflow: hidden; font-family: sans-serif; }
 body { overflow-x: hidden; overflow-y: scroll; }
+hr { border: none; border-top: 1px solid #cccccc; }
 </style>
 <style data-comment="auoi-content-layout">
 nav {
@@ -18,15 +19,23 @@ nav {
 	top: 0;
 	width: 100%;
 	height: 48px;
-	background-color: rgba(127, 127, 127, 0.8);
-	backdrop-filter: blur(20px);
-	color: white;
+	backdrop-filter: blur(40px);
 	padding: 0px;
 	text-align: center;
+	background-color: rgba(0, 100, 200, 0.6);
 	z-index: 1000;
 }
 
-.nav-group {
+/* .nav-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	height: 48px;
+	background-color: rgba(0, 100, 200, 0.6);
+} */
+
+.nav-items {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -76,30 +85,64 @@ footer {
 </style>
 <style data-comment="auoi-year-slider">
 #year-slider {
+	position: relative;
+	width: 800px;
+	max-width: 100%;
+	height: 96px;
+	margin: 0px auto 0px;
+}
+
+#year-slider::before {
+	content: ' ';
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 48px;
+	height: 100%;
+	background: linear-gradient(90deg, #eeeeee, transparent);
+	pointer-events: none;
+	z-index: 1;
+}
+
+#year-slider::after {
+	content: ' ';
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 48px;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, #eeeeee);
+	pointer-events: none;
+	z-index: 1;
+}
+
+.year-slider-scroll {
 	display: flex;
 	position: relative;
 	overflow-x: auto;
 	scroll-snap-type: x mandatory;
-	width: 800px;
-	max-width: 100%;
-	height: 50px;
-	margin: 12px auto 0px;
+	width: 100%;
+	height: 100%;
 	scrollbar-width: none; /* Firefox */
+	/* background-color: rgba(100, 200, 255, 0.6); */
 }
 
-#year-slider::-webkit-scrollbar {
+.year-slider-scroll::-webkit-scrollbar {
 	display: none; /* Chrome, Safari */
 }
 
 .year-slider-item {
-	flex: 0 0 200px;
+	flex: 0 0 35%;
 	display: flex;
+	height: 100%;
 	align-items: center;
 	justify-content: center;
 	scroll-snap-align: center;
-	font-size: 1.2em;
+	font-size: 1.0em;
 	user-select: none;
 	transition: font-size 0.2s linear;
+	color: #666666;
+	/* text-shadow: 1px 1px 4px black; */
 }
 
 .year-slider-item.selected {
@@ -129,24 +172,40 @@ footer {
 	width: 800px;
 	max-width: 100%;
 	margin: 0px auto;
-	padding: 4px 0px;
+	padding: 8px 0px;
 	height: fit-content;
 	color: black;
 	overflow-x: scroll;
 	overflow-y: hidden;
 }
 
+#group-list::before {
+	content: '>';
+	flex-shrink: 0;
+	margin: 2px 2px;
+	color: #666666;
+	font-size: 14px;
+	padding: 8px 0px;
+}
+
 .group-item {
 	flex-shrink: 0;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	margin: 4px 4px;
+	/* border: 1px solid #ccc; */
+	/* border-radius: 8px; */
+	margin: 2px 2px;
 	cursor: pointer;
+	/* background-color: white; */
+	color: #666666;
+}
+
+.group-item:active {
+	/* background-color: rgba(0, 200, 255); */
+	color: white;
 }
 
 .group-label {
-	font-size: 16px;
-	padding: 8px 20px;
+	font-size: 14px;
+	padding: 8px 12px;
 }
 </style>
 <style data-comment="auoi-media-list">
@@ -157,7 +216,7 @@ footer {
 	margin: auto;
 	padding-left: 2px;
 	padding-right: 2px;
-	padding-top: 2px;
+	padding-top: 8px;
 	padding-bottom: 40px;
 	height: fit-content;
 }
@@ -522,28 +581,30 @@ footer {
 <body>
 
 <nav>
-	<div class="nav-group">
+	<div class="nav-items">
 		<p class="nav-item"><a href="/">Artrase</a></p>
 	</div>
-	<div class="nav-group">
+	<!-- <div class="nav-items">
 		<p class="nav-item"><a href="#world">World</a></p>
 		<p class="nav-item"><a href="#family">Family</a></p>
-	</div>
-	<div class="nav-group">
+	</div> -->
+	<div class="nav-items">
 		<p class="nav-item"><a href="#" id="login-button">Login</a></p>
 	</div>
 </nav>
 
 <div id="content">
-	<div id="year-slider">
-		<!-- Year items will be added here -->
-	</div>
-	<div id="group-list">
-		<!-- Group items will be added here -->
-		 <div id="group-create-button" class="group-item">
-			<div class="group-label">+</div>
+	<div style="background-color: #eeeeee;">
+		<div id="year-slider">
+			<div class="year-slider-scroll">
+				<!-- Year items will be added here -->
+			</div>
+		</div>
+		<div id="group-list">
+			<!-- Group items will be added here -->
 		</div>
 	</div>
+	<!-- <hr/> -->
 	<div id="media-list">
     	<!-- Media items will be added here -->
 	</div>
@@ -615,9 +676,9 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 <script data-comment="auoi-year-slider">
 (function() {
 	// 시작 연도와 끝 연도 설정
-	const startYear = 2000;
-	const endYear = 2025;
-	const sliderContainer = document.getElementById("year-slider");
+	const startYear = 1984;
+	const endYear = 2024;
+	const sliderContainer = document.querySelector("#year-slider>.year-slider-scroll");
 
 	let selectedYear;
 
