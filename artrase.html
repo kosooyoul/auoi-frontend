@@ -251,7 +251,7 @@ footer {
 	max-width: 100%;
 	margin: 32px auto;
 	text-align: center;
-	padding: 8px;
+	padding: 8px 0px;
 }
 
 .media-group-title {
@@ -1065,7 +1065,7 @@ window.mediaList = new (function () {
 		};
 
 		mediaGroupTitle.textContent = group.name;
-		mediaGroupSubTitle.textContent = `(${group.beginYear} ~ ${group.endYear})`;
+		mediaGroupSubTitle.textContent = `${group.beginYear || '?'} ~ ${group.endYear || '?'}`;
 
 		loadMore();
 	};
