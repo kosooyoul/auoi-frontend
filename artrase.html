@@ -314,8 +314,9 @@ footer {
 	padding: 4px;
 	bottom: 0px;
 	height: fit-content;
-	border-radius: 0px 0px 4px 4px;
+	/* border-radius: 0px 0px 4px 4px; */
 	background-color: rgba(0, 0, 0, 0.2);
+	overflow: hidden;
 	pointer-events: none;
 }
 
@@ -1006,10 +1007,19 @@ window.mediaList = new (function () {
 					style="background-color: ${media.color || '#fff'}; background-image: url('${media.indexUrl ?? media.thumbUrl}');"
 				>
 					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
-					<div class="media-content">
-						<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
-						<div class="media-title">${media.filename}</div>
+						<div class="media-content">
+							<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
+							<div class="media-title">${media.filename}</div>
+							${media.v != 1? '<div style="position: absolute; right: -4px; bottom: -4px; width: 8px; height: 8px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;">': ''}
+						</div>
 					</div>
+					${media.type == 'VIDEO'? [
+						'<div style="position: absolute; left: 50%; top: 50%; margin-left: -16px; margin-top: -16px; width: 32px; height: 32px;">',
+						'	<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">',
+						'		<polygon points="6,2 24,12 6,22" fill="rgba(255, 255, 255, 0.8)"/>',
+						'	</svg>',
+						'</div>',
+					].join('\n'): ''}
 				</div>
 			</div>
 		`;
