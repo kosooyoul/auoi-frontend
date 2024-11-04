@@ -986,6 +986,15 @@ window.mediaList = new (function () {
 
 			const mediaItem = createMediaItem(media);  // media item 생성
 			mediaList.appendChild(mediaItem);  // DOM에 추가
+
+			// 1 item 0% blank
+			/*
+			const random = Math.floor(Math.random() * 100);
+			if (random < 0) {
+				const blankItem = createBlankItem();
+				mediaList.appendChild(blankItem);
+			}
+			*/
 		});
 
 		// 마지막 아이템 ID 업데이트
@@ -1010,16 +1019,31 @@ window.mediaList = new (function () {
 						<div class="media-content">
 							<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
 							<div class="media-title">${media.filename}</div>
-							${media.v != 1? '<div style="position: absolute; right: -4px; bottom: -4px; width: 8px; height: 8px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;">': ''}
+							${media.v != 1? '<div style="position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;">': ''}
 						</div>
 					</div>
 					${media.type == 'VIDEO'? [
 						'<div style="position: absolute; left: 50%; top: 50%; margin-left: -16px; margin-top: -16px; width: 32px; height: 32px; pointer-events: none;">',
 						'	<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">',
-						'		<polygon points="6,2 24,12 6,22" fill="rgba(255, 255, 255, 0.8)"/>',
+						'		<polygon points="6,2 24,12 6,22" fill="rgba(255, 255, 255, 0.8)" stroke="rgba(127, 127, 127, 0.2)"/>',
 						'	</svg>',
 						'</div>',
 					].join('\n'): ''}
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function createBlankItem() {
+		let template = `
+			<div class="media-item">
+				<div style="width: 100%; height: 100%; background-color: #ddddcc;">
+					
 				</div>
 			</div>
 		`;
