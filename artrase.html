@@ -794,7 +794,7 @@ document.body.addEventListener('dragstart', (event) => event.preventDefault());
 	allDiv.dataset.year = 0;
 	sliderContainer.appendChild(allDiv);
 
-	for (let year = startYear; year > endYear; year--) {
+	for (let year = startYear; year >= endYear; year--) {
 		const yearDiv = document.createElement("div");
 		yearDiv.className = "year-slider-item";
 		yearDiv.textContent = year;
