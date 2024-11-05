@@ -201,21 +201,26 @@ footer {
 }
 </style>
 <style data-comment="auoi-group-list">
+#group-list-wrapper {
+	position: relative;
+	width: 920px;
+	max-width: 100%;
+	margin: 0px auto;
+	height: fit-content;
+	transition: height 0.2s linear;
+	overflow: hidden;
+}
+
 #group-list {
 	display: flex;
 	position: relative;
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 0px;
-	width: 920px;
-	max-width: 100%;
-	margin: 0px auto;
+	width: 100%;
 	padding: 16px 0px 8px;
 	height: fit-content;
-	min-height: 40px;
 	color: black;
-	overflow-x: scroll;
-	overflow-y: hidden;
 }
 
 /* 
@@ -426,49 +431,56 @@ footer {
 }
 
 .login-modal-content {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	background-color: white;
 	padding: 20px;
-	border-radius: 8px;
-	width: 240px;
-	max-width: 100%;
+	margin: 20px;
+	border-radius: 100%;
+	border: 4px solid black;
+	width: 120px;
+	height: 120px;
+	aspect-ratio: 1/1;
 	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
 }
 
-.login-modal-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 12px;
-}
-
-.login-modal-close {
-	width: 24px;
-	height: 100%;
-	text-align: center;
+#login-modal-close {
 	cursor: pointer;
 	font-size: 20px;
-}
-
-.login-modal-body input {
-	width: 100%;
-	padding: 10px;
-	margin: 4px 0;
-	border-radius: 8px;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-}
-
-.login-modal-body button {
-	width: 100%;
-	padding: 10px;
-	margin-top: 12px;
-	border-radius: 8px;
-	background-color: #333;
+	line-height: 20px;
+	position: absolute;
+	bottom: -20px;
+	background-color: black;
 	color: white;
-	border: none;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+#login-modal-google {
 	cursor: pointer;
+	width: 40px;
+	height: 40px;
+	background-image: url('/icons/sns/web_dark_rd_na.svg');
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.login-modal-body {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	border-radius: 100%;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 </style>
 <style data-comment="auoi-group-create-modal">
@@ -658,7 +670,9 @@ footer {
 		<p class="nav-item"><a href="#family">Family</a></p>
 	</div> -->
 	<div class="nav-items">
-		<p class="nav-item"><a href="#" id="login-button">Login</a></p>
+		<p class="nav-item">
+			<a href="#" id="login-button">Login</a>
+		</p>
 	</div>
 </nav>
 
@@ -668,8 +682,10 @@ footer {
 			<!-- Year items will be added here -->
 		</div>
 	</div>
-	<div id="group-list">
-		<!-- Group items will be added here -->
+	<div id="group-list-wrapper">
+		<div id="group-list">
+			<!-- Group items will be added here -->
+		</div>
 	</div>
 </header>
 
@@ -695,14 +711,15 @@ footer {
 
 <div id="login-modal" class="login-modal">
 	<div class="login-modal-content">
-		<div class="login-modal-header">
-			<p style="padding: 0; margin: 0;">로그인</p>
-			<div class="login-modal-close" id="login-modal-close">&times;</div>
-		</div>
 		<div class="login-modal-body">
-			<input type="text" placeholder="아이디 또는 이메일" id="login-modal-email">
-			<input type="password" placeholder="비밀번호 또는 임시 비밀번호" id="login-modal-password">
-			<button id="login-modal-submit">로그인</button>
+			<div id="login-modal-close">&times;</div>
+			<div id="login-modal-google"></div>
+
+			<div style="position: fixed; top: 12px;">
+				<input type="text" placeholder="아이디 또는 이메일" id="login-modal-email">
+				<input type="password" placeholder="비밀번호 또는 임시 비밀번호" id="login-modal-password">
+				<button id="login-modal-submit">로그인</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -743,51 +760,24 @@ footer {
 	</div>
 </div>
 
-<script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
+<!-- <script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script> -->
 <script type="text/javascript" src="./js/utils/HanulseAjax.js"></script>
+<script type="text/javascript" src="./js/utils/HanulseBenzeneCache.js"></script>
 <script type="text/javascript" src="./js/HanulseAuthorizationManager.js"></script>
 <script type="text/javascript" src="./js/apis/HanulseMediaApis.js"></script>
+<script type="text/javascript" src="./js/HanulseSns.js"></script>
 <script>
 document.body.addEventListener('contextmenu', (event) => event.preventDefault());
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
 <script data-comment="auoi-year-slider">
-window.benzeneCache = new (function() {
-	const cache = {};
-
-	const generateKey = () => {
-		let key;
-		do {
-			key = Math.floor(Date.now() * 1000 + Math.random() * 1000).toString(16);
-		} while(cache[key] != null);
-		return key;
-	}
-
-	this.asyncFunction = (func, lifeTimeSecs) => {
-		const key = generateKey();
-		return async (...args) => {
-			const argsKey = `${key}_${JSON.stringify(args)}`;
-			if (cache[argsKey]) {
-				if (cache[argsKey].expiresIn > Date.now()) {
-					return cache[argsKey].data;
-				}
-			}
-			const data = await func.call(null, args);
-			cache[argsKey] = {
-				data: data,
-				expiresIn: Date.now() + (lifeTimeSecs || 300) * 1000,
-			};
-			return data;
-		};
-	};
-})();
-</script>
-<script data-comment="auoi-year-slider">
 (function() {
+	const benzeneCache = new HanulseBenzeneCache();
+
 	// 시작 연도와 끝 연도 설정
-	const startYear = 1984;
-	const endYear = 2024;
+	const startYear = new Date().getFullYear();
+	const endYear = 1984;
 	const sliderContainer = document.querySelector("#year-slider>.year-slider-scroll");
 
 	let selectedYear;
@@ -804,7 +794,7 @@ window.benzeneCache = new (function() {
 	allDiv.dataset.year = 0;
 	sliderContainer.appendChild(allDiv);
 
-	for (let year = startYear; year <= endYear; year++) {
+	for (let year = startYear; year > endYear; year--) {
 		const yearDiv = document.createElement("div");
 		yearDiv.className = "year-slider-item";
 		yearDiv.textContent = year;
@@ -837,7 +827,7 @@ window.benzeneCache = new (function() {
 		return closestYear;
 	}
 
-	const requestYearGroupList = window.benzeneCache.asyncFunction(async (year) => {
+	const requestYearGroupList = benzeneCache.asyncFunction(async (year) => {
 		return await HanulseMediaApis.getYearGroupList({ year });
 	});
 
@@ -863,12 +853,13 @@ window.benzeneCache = new (function() {
 </script>
 <script data-comment="auoi-group-list">
 window.groupList = new (function () {
-	const groups = {};
+	let groups = [];
 
 	let lastId = null;  // 처음엔 null로 시작 (아직 데이터가 없으므로)
 	let isLoading = false;  // 중복 호출 방지
 	let hasMore = true;  // 더 이상 데이터가 없을 때 false로 변경
 	
+	const groupListWrapper = document.getElementById('group-list-wrapper');
 	const groupList = document.getElementById('group-list');
 
 	// 데이터를 로드하여 화면에 추가하는 함수
@@ -932,18 +923,26 @@ window.groupList = new (function () {
 
 	groupList.addEventListener('click', (event) => {
 		const id = event.target.dataset.id;
-		if (groups[id]) {
-			window.mediaList.reloadByGroup(groups[id]);
+		const group = groups.find(g => g.id == id);
+		if (group) {
+			window.mediaList.reloadByGroup(group);
 		}
 	});
 
+	window.addEventListener('resize', () => {
+		groupListWrapper.style.height = groups.length == 0? '0px': `${groupList.clientHeight}px`;
+	});
+
 	this.setGroups = (newGroups) => {
+		groups = newGroups;
+
 		groupList.innerHTML = '';
-		newGroups.forEach(group => {
-			groups[group.id] = group;
+		groups.forEach(group => {
 			const groupItem = createGroupItem(group);  // group item 생성
 			groupList.appendChild(groupItem);  // DOM에 추가
 		});
+
+		groupListWrapper.style.height = groups.length == 0? '0px': `${groupList.clientHeight}px`;
 	}
 })();
 </script>
@@ -1144,9 +1143,13 @@ window.mediaList = new (function () {
 
 	const modal = document.getElementById('login-modal');
 	const closeButton = document.getElementById('login-modal-close');
+
+	//
 	const submitButton = document.getElementById('login-modal-submit');
 	const emailInput = document.getElementById('login-modal-email');
 	const passwordInput = document.getElementById('login-modal-password');
+
+	const googleButton = document.getElementById('login-modal-google');
 
 	// 로그인 버튼 클릭 시 모달 띄우기
 	loginButton.addEventListener('click', function (event) {
@@ -1184,6 +1187,11 @@ window.mediaList = new (function () {
 				}
 			}
 		);
+	});
+
+	// 구글 버튼 클릭시
+	googleButton.addEventListener('click', function() {
+		location.assign(HanulseSns.getGoogleLoginUrl());
 	});
 })();
 </script>
