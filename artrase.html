@@ -714,12 +714,6 @@ footer {
 		<div class="login-modal-body">
 			<div id="login-modal-close">&times;</div>
 			<div id="login-modal-google"></div>
-
-			<div style="position: fixed; top: 12px;">
-				<input type="text" placeholder="아이디 또는 이메일" id="login-modal-email">
-				<input type="password" placeholder="비밀번호 또는 임시 비밀번호" id="login-modal-password">
-				<button id="login-modal-submit">로그인</button>
-			</div>
 		</div>
 	</div>
 </div>
@@ -1144,11 +1138,6 @@ window.mediaList = new (function () {
 	const modal = document.getElementById('login-modal');
 	const closeButton = document.getElementById('login-modal-close');
 
-	//
-	const submitButton = document.getElementById('login-modal-submit');
-	const emailInput = document.getElementById('login-modal-email');
-	const passwordInput = document.getElementById('login-modal-password');
-
 	const googleButton = document.getElementById('login-modal-google');
 
 	// 로그인 버튼 클릭 시 모달 띄우기
@@ -1160,33 +1149,13 @@ window.mediaList = new (function () {
 	// 닫기 버튼 클릭 시 모달 닫기
 	closeButton.addEventListener('click', function () {
 		modal.style.display = 'none';
-		emailInput.value = '';
-		passwordInput.value = '';
 	});
 
 	// 모달 바깥 클릭 시 모달 닫기
 	document.body.addEventListener('click', function (event) {
 		if (event.target === modal) {
 			modal.style.display = 'none';
-			emailInput.value = '';
-			passwordInput.value = '';
 		}
-	});
-
-	submitButton.addEventListener('click', function () {
-		HanulseAuthorizationManager.signIn(
-			emailInput.value,
-			passwordInput.value,
-			success => {
-				if (success) {
-					modal.style.display = 'none';
-					emailInput.value = '';
-					passwordInput.value = '';
-				} else {
-					alert('인증이 실패하였습니다. 다시 시도해주세요.');
-				}
-			}
-		);
 	});
 
 	// 구글 버튼 클릭시
