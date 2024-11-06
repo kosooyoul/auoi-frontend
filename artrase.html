@@ -672,6 +672,7 @@ footer {
 	<div class="nav-items">
 		<p class="nav-item">
 			<a href="#" id="login-button">Login</a>
+			<a href="#" id="profile-button" style="display: none;"></a>
 		</p>
 	</div>
 </nav>
@@ -713,7 +714,12 @@ footer {
 	<div class="login-modal-content">
 		<div class="login-modal-body">
 			<div id="login-modal-close">&times;</div>
-			<div id="login-modal-google"></div>
+			<div id="login-content">
+				<div id="login-modal-google"></div>
+			</div>
+			<div id="profile-content">
+				My Profile
+			</div>
 		</div>
 	</div>
 </div>
@@ -1134,27 +1140,46 @@ window.mediaList = new (function () {
 <script data-comment="auoi-login-modal">
 (function () {
 	const loginButton = document.getElementById('login-button');
+	const profileButton = document.getElementById('profile-button');
 
 	const modal = document.getElementById('login-modal');
+	const loginContent = document.getElementById('login-content');
+	const profileContent = document.getElementById('profile-content');
+
 	const closeButton = document.getElementById('login-modal-close');
 
 	const googleButton = document.getElementById('login-modal-google');
+
+	this.me = null;
 
 	// 로그인 버튼 클릭 시 모달 띄우기
 	loginButton.addEventListener('click', function (event) {
 		event.preventDefault();
 		modal.style.display = 'flex';
+		profileContent.style.display = 'none';
+		loginContent.style.display = '';
+	});
+
+	profileButton.addEventListener('click', function (event) {
+		event.preventDefault();
+		modal.style.display = 'flex';
+		loginContent.style.display = 'none';
+		profileContent.style.display = '';
 	});
 
 	// 닫기 버튼 클릭 시 모달 닫기
 	closeButton.addEventListener('click', function () {
 		modal.style.display = 'none';
+		loginContent.style.display = 'none';
+		profileContent.style.display = 'none';
 	});
 
 	// 모달 바깥 클릭 시 모달 닫기
 	document.body.addEventListener('click', function (event) {
 		if (event.target === modal) {
 			modal.style.display = 'none';
+			loginContent.style.display = 'none';
+			profileContent.style.display = 'none';
 		}
 	});
 
@@ -1162,6 +1187,16 @@ window.mediaList = new (function () {
 	googleButton.addEventListener('click', function() {
 		location.assign(HanulseSns.getGoogleLoginUrl());
 	});
+
+	HanulseAuthorizationManager.me((me) => {
+		this.me = me;
+
+		if (me == null) return;
+
+		loginButton.style.display = 'none';
+		profileButton.style.display = 'inline';
+		profileButton.textContent = me.username;
+	})
 })();
 </script>
 <script data-comment="auoi-group-create-modal">
