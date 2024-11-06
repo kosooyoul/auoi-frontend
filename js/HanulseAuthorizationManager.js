@@ -82,6 +82,36 @@ class HanulseAuthorizationManager {
 		});
 	}
 
+	static signInByGoogle(code, callback) {
+		$.post({
+			"url": "https://apis.auoi.net/v1/accounts/sign/in/google",
+			"dataType": "json",
+			"data": {
+				"code": code,
+			},
+			"success": (response) => {
+				if (response == null || response.data == null) {
+					return callback(false)
+				}
+
+				const { sign, me } = response.data;
+	
+				if (sign) {
+					this.saveAuthorization(sign["accessToken"], sign["refreshToken"], new Date(sign["accessTokenExpiresIn"]));
+				} else {
+					this.clearAuthorization();
+				}
+
+				callback && callback(!!sign);
+			},
+			"error": () => {
+				this.clearAuthorization();
+
+				callback && callback(null);
+			}
+		});
+	}
+
 	static refreshSign(callback) {
 		const accessToken = window.localStorage.getItem("_at");
 		const refreshToken = window.localStorage.getItem("_rt");
