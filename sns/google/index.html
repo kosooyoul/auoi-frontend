@@ -12,14 +12,22 @@ hr { border: none; border-top: 1px solid #cccccc; }
 </style>
 </head>
 <body>
-
-<script type="text/javascript" src="/js/utils/HanulseAjax.js"></script>
-<script type="text/javascript" src="/js/HanulseAuthorizationManager.js"></script>
-<script type="text/javascript" src="/js/HanulseSns.js"></script>
 <script>
-document.body.addEventListener('contextmenu', (event) => event.preventDefault());
-document.body.addEventListener('selectstart', (event) => event.preventDefault());
-document.body.addEventListener('dragstart', (event) => event.preventDefault());
+(async function() {
+	const queryObject = location.search.split(/[\?\&]/g).map(p => p.split('=')).reduce((result, p) => (p[0] && (result[p[0]] = p[1]), result), {});
+	const code = decodeURIComponent(queryObject.code);
+
+	const sign = await fetch('https://apis.auoi.net/v1/accounts/sign/in/google', {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ code: code }),
+	});
+
+	console.log(sign);
+})();
 </script>
 </body>
 </html>
