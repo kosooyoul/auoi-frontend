@@ -428,6 +428,8 @@ footer {
 	background-color: rgba(0, 0, 0, 0.5);
 	justify-content: center;
 	align-items: center;
+	opacity: 0;
+	transition: opacity 0.1s linear;
 }
 
 .login-modal-content {
@@ -1158,6 +1160,7 @@ window.mediaList = new (function () {
 		modal.style.display = 'flex';
 		profileContent.style.display = 'none';
 		loginContent.style.display = '';
+		setTimeout(() => modal.style.opacity = 1);
 	});
 
 	profileButton.addEventListener('click', function (event) {
@@ -1165,21 +1168,30 @@ window.mediaList = new (function () {
 		modal.style.display = 'flex';
 		loginContent.style.display = 'none';
 		profileContent.style.display = '';
+		setTimeout(() => modal.style.opacity = 1);
 	});
 
 	// 닫기 버튼 클릭 시 모달 닫기
 	closeButton.addEventListener('click', function () {
-		modal.style.display = 'none';
-		loginContent.style.display = 'none';
-		profileContent.style.display = 'none';
+		if (modal.style.opacity == 0) return;
+		modal.style.opacity = 0;
+		setTimeout(() => {
+			modal.style.display = 'none';
+			loginContent.style.display = 'none';
+			profileContent.style.display = 'none';
+		}, 100);
 	});
 
 	// 모달 바깥 클릭 시 모달 닫기
 	document.body.addEventListener('click', function (event) {
 		if (event.target === modal) {
-			modal.style.display = 'none';
-			loginContent.style.display = 'none';
-			profileContent.style.display = 'none';
+			if (modal.style.opacity == 0) return;
+			modal.style.opacity = 0;
+			setTimeout(() => {
+				modal.style.display = 'none';
+				loginContent.style.display = 'none';
+				profileContent.style.display = 'none';
+			}, 100);
 		}
 	});
 
