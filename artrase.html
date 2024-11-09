@@ -297,6 +297,7 @@ footer {
 	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 	/* gap: 8px; */
 }
 
@@ -441,8 +442,8 @@ footer {
 	margin: 20px;
 	border-radius: 100%;
 	border: 4px solid black;
-	width: 120px;
-	height: 120px;
+	width: 240px;
+	height: 240px;
 	aspect-ratio: 1/1;
 	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
 }
@@ -699,7 +700,6 @@ footer {
 		<div class="media-group-subtitle"></div>
 	</div>
 	<div id="media-list">
-    	<!-- Media items will be added here -->
 		<div style="grid-column: 1 / -1; height: 320px; display: flex; flex-direction: column; justify-content: center;">
 			<p style="text-align: center;">Hello! Welcome to artrase.</p>
 			<p style="text-align: center;">This is Family contents.</p>
@@ -719,8 +719,15 @@ footer {
 			<div id="login-content">
 				<div id="login-modal-google"></div>
 			</div>
-			<div id="profile-content">
-				My Profile
+			<div id="profile-content" style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px; padding: 12px 0px; text-align: center;">
+				<!-- 프로필 사진 -->
+				<div style="background-image: url('/assets/icons/profile.svg'); background-size: cover; background-position: center; border-radius: 50%; width: 100px; height: 100px; margin: 0 auto 15px; border: 1px solid #dddddd; background-color: #f2f2f2;;"></div>
+	
+				<!-- 사용자 정보 -->
+				<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px;">
+					<h2 style="margin: 0px; font-size: 24px; color: #2c3e50;">테스트</h2>
+					<p style="margin: 0px; color: #7f8c8d; font-size: 14px;">test@test.com</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -762,6 +769,10 @@ footer {
 	</div>
 </div>
 
+<div style="width: 1px; height: 1px;">
+	<input type="file" id="fileInput" webkitdirectory directory multiple>
+</div>
+
 <script type="text/javascript" src="./libs/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="./js/utils/HanulseAjax.js"></script>
 <script type="text/javascript" src="./js/utils/HanulseBenzeneCache.js"></script>
@@ -772,6 +783,35 @@ footer {
 document.body.addEventListener('contextmenu', (event) => event.preventDefault());
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
+</script>
+<script data-comment="auoi-file-selector">
+window.fileSelector = new (function() {
+  this.select = () => {
+    const fileInput = document.getElementById('fileInput');
+
+	fileInput.onchange = () => {
+		const files = fileInput.files;
+
+		if (files.length === 0) {
+			alert('폴더를 선택해주세요.');
+			return;
+		}
+
+		const mediaUploader = document.querySelector('#media-uploader');
+
+		Array.from(files).forEach(file => {
+			console.log('Selected file', file);
+
+			const reservedMediaItem = mediaList.createReservedMediaItem(file);
+			mediaUploader.insertAdjacentElement('afterend', reservedMediaItem);
+		});
+
+		fileInput.value = null;
+	};
+
+	fileInput.click();
+  };
+});
 </script>
 <script data-comment="auoi-year-slider">
 (function() {
@@ -982,6 +1022,10 @@ window.mediaList = new (function () {
 			if (createdAt !== lastMonth) {
 				const separator = createSeparator(media.createdAt);
 				mediaList.appendChild(separator);
+
+				const uploaderItem = createUploaderItem();
+				mediaList.appendChild(uploaderItem);
+
 				lastMonth = createdAt;  // 마지막 월을 업데이트
 			}
 
@@ -1007,6 +1051,27 @@ window.mediaList = new (function () {
 		isLoading = false;  // 로딩 완료
 	}
 
+	this.createReservedMediaItem = (file) => {
+		const fileUrl = URL.createObjectURL(file);
+
+		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
+		let template = `
+			<div class="media-item">
+				<div class="media-image"
+					data-id="${file.name}"
+					style="background-image: url('${fileUrl}');"
+				>
+				loading...
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
 	function createMediaItem(media) {
 		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
 		// TODO; ?? media.thumbUrl 은 indexUrl 생성 후 제거 해야 함
@@ -1030,6 +1095,22 @@ window.mediaList = new (function () {
 						'	</svg>',
 						'</div>',
 					].join('\n'): ''}
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function createUploaderItem() {
+		let template = `
+			<div id="media-uploader" class="media-item">
+				<div style="position: relative; width: 100%; height: 100%; background-color: #f2f2f2;" onclick="window.fileSelector.select()">
+					<div style="position: absolute; top: 50%; left: 50%; width: 60%; height: 6px; background-color: #cccccc; transform: translate(-50%, -50%);"></div>
+					<div style="position: absolute; top: 50%; left: 50%; width: 6px; height: 60%; background-color: #cccccc; transform: translate(-50%, -50%);"></div>
 				</div>
 			</div>
 		`;
@@ -1167,7 +1248,7 @@ window.mediaList = new (function () {
 		event.preventDefault();
 		modal.style.display = 'flex';
 		loginContent.style.display = 'none';
-		profileContent.style.display = '';
+		profileContent.style.display = 'flex';
 		setTimeout(() => modal.style.opacity = 1);
 	});
 
