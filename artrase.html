@@ -1524,6 +1524,7 @@ window.orbitModal = new (function () {
 	this.show = function (media) {
 		loadByImageUrl(media.thumbUrl);
 
+		modalOrbit.style.backgroundColor = media.color;
 		modal.style.display = 'flex';
 	};
 	
