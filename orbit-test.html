@@ -24,8 +24,7 @@
 
     // 텍스처 로드 및 구체 생성
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load('/assets/screenshots
-/landscape.jpg', function(texture) { // 이미지 경로를 넣으세요
+    textureLoader.load('/assets/screenshots/landscape.jpg', function(texture) { // 이미지 경로를 넣으세요
       const geometry = new THREE.SphereGeometry(12, 32, 32); // 구체 크기 및 분할 수 설정
       const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }); // 텍스처 적용
       const sphere = new THREE.Mesh(geometry, material);
