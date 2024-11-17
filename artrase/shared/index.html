@@ -1074,9 +1074,6 @@ window.mediaList = new (function () {
 </script>
 <script data-comment="auoi-login-modal">
 (function () {
-	const loginButton = document.getElementById('login-button');
-	const profileButton = document.getElementById('profile-button');
-
 	const modal = document.getElementById('login-modal');
 	const loginContent = document.getElementById('login-content');
 	const profileContent = document.getElementById('profile-content');
@@ -1086,23 +1083,6 @@ window.mediaList = new (function () {
 	const googleButton = document.getElementById('login-modal-google');
 
 	this.me = null;
-
-	// 로그인 버튼 클릭 시 모달 띄우기
-	loginButton.addEventListener('click', function (event) {
-		event.preventDefault();
-		modal.style.display = 'flex';
-		profileContent.style.display = 'none';
-		loginContent.style.display = '';
-		setTimeout(() => modal.style.opacity = 1);
-	});
-
-	profileButton.addEventListener('click', function (event) {
-		event.preventDefault();
-		modal.style.display = 'flex';
-		loginContent.style.display = 'none';
-		profileContent.style.display = 'flex';
-		setTimeout(() => modal.style.opacity = 1);
-	});
 
 	// 닫기 버튼 클릭 시 모달 닫기
 	closeButton.addEventListener('click', function () {
