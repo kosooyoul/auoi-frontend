@@ -472,6 +472,23 @@ footer {
 	border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
+#login-modal-confirm {
+	cursor: pointer;
+	font-size: 20px;
+	line-height: 20px;
+	position: absolute;
+	bottom: -20px;
+	background-color: rgb(0, 172, 0);
+	color: white;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	border: 1px solid rgba(0, 172, 0, 0.4);
+}
+
 #login-modal-google {
 	cursor: pointer;
 	width: 40px;
@@ -775,18 +792,14 @@ footer {
 <div id="login-modal" class="login-modal">
 	<div class="login-modal-content">
 		<div class="login-modal-body">
-			<div id="login-modal-close">&times;</div>
+			<!-- <div id="login-modal-close">&times;</div> -->
+			<div id="login-modal-confirm">&gt;</div>
 			<div id="login-content">
-				<div id="login-modal-google"></div>
-			</div>
-			<div id="profile-content" style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px; padding: 12px 0px; text-align: center;">
-				<!-- 프로필 사진 -->
-				<div style="background-image: url('/assets/icons/profile.svg'); background-size: cover; background-position: center; border-radius: 50%; width: 100px; height: 100px; margin: 0 auto 15px; border: 1px solid #dddddd; background-color: #f2f2f2;;"></div>
-	
-				<!-- 사용자 정보 -->
-				<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px;">
-					<h2 style="margin: 0px; font-size: 24px; color: #2c3e50;">테스트</h2>
-					<p style="margin: 0px; color: #7f8c8d; font-size: 14px;">test@test.com</p>
+				<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px;">
+					<div style="font-size: 20px; text-align: center;">사진첩</div>
+					<div style="font-size: 20px; font-weight: bold;" id="login-target"></div>
+					<div style="font-size: 20px; text-align: center;">를 조회합니다.</div>
+					<input id="login-password" type="password" placeholder="비밀번호 입력" style="font-size: 16px; width: 140px; padding: 8px 12px; border-radius: 12px; margin-top: 12px;">
 				</div>
 			</div>
 		</div>
@@ -842,18 +855,19 @@ document.body.addEventListener('selectstart', (event) => event.preventDefault())
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
 <script data-comment="auoi-media-list">
-(async function () {
+window.app = new (function () {
 	const queryObject = location.search.split(/[\?\&]/g).reduce((r, p) => {
 		const t = p.split('=');
 		r[t[0]] = t[1];
 		return r;
 	}, {});
 
-	const groupSid = queryObject['g'];
-	const group = await HanulseMediaApis.getGroupBySid(groupSid);
-	if (group == null) return;
+	this.groupSid = queryObject['g'];
+	this.shareCode = queryObject['sc'];
 
-	window.mediaList.reloadByGroup(group);
+	window.addEventListener('load', () => {
+		window.loginModal.show();
+	});
 })();
 </script>
 <script data-comment="auoi-media-list">
@@ -1093,17 +1107,33 @@ window.mediaList = new (function () {
 })();
 </script>
 <script data-comment="auoi-login-modal">
-(function () {
+window.loginModal = new (function () {
 	const modal = document.getElementById('login-modal');
 	const loginContent = document.getElementById('login-content');
-	const profileContent = document.getElementById('profile-content');
 
-	const closeButton = document.getElementById('login-modal-close');
+	const loginTarget = document.getElementById('login-target');
+	const loginPassword = document.getElementById('login-password');
 
-	const googleButton = document.getElementById('login-modal-google');
+	// const closeButton = document.getElementById('login-modal-close');
+	const confirmButton = document.getElementById('login-modal-confirm');
 
-	this.me = null;
+	confirmButton.addEventListener('click', async () => {
+		const groupSid = window.app.groupSid;
+		const shareCode = window.app.shareCode;
+		const password = loginPassword.value;
 
+		const success = await HanulseMediaApis.requestGroupPermission({ groupSid, shareCode, password });
+		if (success == false) return;
+
+		const group = await HanulseMediaApis.getGroupBySid(groupSid);
+		if (group == null) return;
+
+		window.mediaList.reloadByGroup(group);
+
+		this.hide();
+	});
+
+	/*
 	// 닫기 버튼 클릭 시 모달 닫기
 	closeButton.addEventListener('click', function () {
 		if (modal.style.opacity == 0) return;
@@ -1111,7 +1141,6 @@ window.mediaList = new (function () {
 		setTimeout(() => {
 			modal.style.display = 'none';
 			loginContent.style.display = 'none';
-			profileContent.style.display = 'none';
 		}, 100);
 	});
 
@@ -1123,19 +1152,29 @@ window.mediaList = new (function () {
 			setTimeout(() => {
 				modal.style.display = 'none';
 				loginContent.style.display = 'none';
-				profileContent.style.display = 'none';
 			}, 100);
 		}
 	});
+	*/
 
-	// 구글 버튼 클릭시
-	googleButton.addEventListener('click', function() {
-		location.assign(HanulseSns.getGoogleLoginUrl());
-	});
+	this.hide = () => {
+		if (modal.style.opacity == 0) return;
+		modal.style.opacity = 0;
+		setTimeout(() => {
+			modal.style.display = 'none';
+			loginContent.style.display = 'none';
+		}, 100);
+	};
 
-	HanulseAuthorizationManager.me((me) => {
-		this.me = me;
-	});
+	this.show = () => {
+		event.preventDefault();
+		modal.style.display = 'flex';
+		loginContent.style.display = '';
+
+		loginTarget.textContent = window.app.groupSid;
+
+		setTimeout(() => modal.style.opacity = 1);
+	};
 })();
 </script>
 <script data-comment="auoi-image-modal">

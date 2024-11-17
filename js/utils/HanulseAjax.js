@@ -25,6 +25,20 @@ class HanulseAjax {
 		}
 	}
 
+	static async rawPost(endpoint, params, authorization) {
+		const response = await fetch(endpoint, {
+			"method": "POST",
+			"dataType": "json",
+			"body": JSON.stringify(params),
+			"headers": {
+				"authorization": authorization,
+				"content-type": "application/json"
+			},
+		});
+
+		return response;
+	}
+
 	static async post(endpoint, params, authorization) {
 		const response = await fetch(endpoint, {
 			"method": "POST",

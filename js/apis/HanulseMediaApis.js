@@ -34,6 +34,17 @@ class HanulseMediaApis {
 		return group;
 	}
 
+	static async requestGroupPermission({groupSid, shareCode, password}) {
+		const response = await HanulseAjax.rawPost(
+			`https://apis.auoi.net/v1/accounts/hanulse/groups/${groupSid}/permissions`,
+			{
+				shareCode,
+				password,
+			},
+		);
+		return response.status == 200;
+	}
+
 	static async getGroupList({lastId, count}) {
 		const response = await HanulseAjax.get(
 			'https://apis.auoi.net/v1/accounts/hanulse/groups',
