@@ -1559,7 +1559,10 @@ window.orbitModal = new (function () {
 			controls.enableDamping = true; // 감속 효과 활성화
 			controls.dampingFactor = 0.05; // 감속 계수 설정
 			controls.enableZoom = true; // 줌 활성화 (필요시 비활성화 가능)
+			controls.zoomSpeed = 4.0;
 			controls.reverseOrbit = true;
+			controls.rotateSpeed = 0.5;
+			controls.enablePan = false;
 
 			// 애니메이션 루프
 			function animate() {
