@@ -628,6 +628,22 @@ footer {
 .image-modal-close:active {
 	background-color: white;
 }
+
+.image-modal-download {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.image-modal-download:active {
+	background-color: white;
+}
 </style>
 <style data-comment="auoi-video-modal">
 .video-modal {
@@ -682,6 +698,22 @@ footer {
 }
 
 .video-modal-close:active {
+	background-color: white;
+}
+
+.video-modal-download {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.video-modal-download:active {
 	background-color: white;
 }
 </style>
@@ -759,6 +791,22 @@ footer {
 	opacity: 1;
 	transition: opacity 0.2s linear;
 }
+
+.orbit-modal-download {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.orbit-modal-download:active {
+	background-color: white;
+}
 </style>
 </head>
 <body>
@@ -793,7 +841,7 @@ footer {
 	<div class="login-modal-content">
 		<div class="login-modal-body">
 			<!-- <div id="login-modal-close">&times;</div> -->
-			<div id="login-modal-confirm">&gt;</div>
+			<div id="login-modal-confirm">&rightarrow;</div>
 			<div id="login-content">
 				<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px;">
 					<div style="font-size: 20px; text-align: center;">사진첩</div>
@@ -810,7 +858,10 @@ footer {
 	<div class="image-modal-content">
 		<div class="image-modal-header">
 			<p style="padding: 0; margin: 0;">&nbsp;</p>
-			<div class="image-modal-close" id="image-modal-close">&times;</div>
+			<div style="display: flex; height: 100%;">
+				<div class="image-modal-download" id="image-modal-download">&DownArrowBar;</div>
+				<div class="image-modal-close" id="image-modal-close">&times;</div>
+			</div>
 		</div>
 		<div id="image-modal-image" class="image-modal-image"></div>
 	</div>
@@ -820,7 +871,10 @@ footer {
 	<div class="video-modal-content">
 		<div class="video-modal-header">
 			<p style="padding: 0; margin: 0;">&nbsp;</p>
-			<div class="video-modal-close" id="video-modal-close">&times;</div>
+			<div style="display: flex; height: 100%;">
+				<div class="video-modal-download" id="video-modal-download">&DownArrowBar;</div>
+				<div class="video-modal-close" id="video-modal-close">&times;</div>
+			</div>
 		</div>
 		<video id="video-modal-video" class="video-modal-video" controls>
 			<!-- from logic -->
@@ -832,7 +886,10 @@ footer {
 	<div class="orbit-modal-content">
 		<div class="orbit-modal-header">
 			<p style="padding: 0; margin: 0;">&nbsp;</p>
-			<div class="orbit-modal-close" id="orbit-modal-close">&times;</div>
+			<div style="display: flex; height: 100%;">
+				<div class="orbit-modal-download" id="orbit-modal-download">&DownArrowBar;</div>
+				<div class="orbit-modal-close" id="orbit-modal-close">&times;</div>
+			</div>
 		</div>
 		<div id="orbit-modal-orbit" class="orbit-modal-orbit">
 			<!-- from logic -->
@@ -853,6 +910,26 @@ footer {
 document.body.addEventListener('contextmenu', (event) => event.preventDefault());
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
+function downloadFile(url, filename) {
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.blob(); // 파일 데이터를 Blob으로 변환
+    })
+    .then(blob => {
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob); // Blob URL 생성
+      link.href = url;
+      link.download = filename; // 파일명 설정
+      document.body.appendChild(link);
+      link.click(); // 다운로드 트리거
+      document.body.removeChild(link); // 링크 제거
+      URL.revokeObjectURL(url); // 메모리 해제
+    })
+    .catch(error => console.error('Download failed:', error));
+}
 </script>
 <script data-comment="auoi-media-list">
 window.app = new (function () {
@@ -1182,27 +1259,37 @@ window.imageModal = new (function () {
 	const modal = document.getElementById('image-modal');
 	const modalImage = document.getElementById('image-modal-image');
 	const closeModal = document.getElementById('image-modal-close');
+	const downloadButton = document.getElementById('image-modal-download');
 
 	// 모달 닫기
-	closeModal.addEventListener('click', function() {
+	closeModal.addEventListener('click', () => {
 		modal.style.display = 'none';
+		this.currentMedia = null;
+	});
+
+	downloadButton.addEventListener('click', () => {
+		if (this.currentMedia == null) return;
+		downloadFile(this.currentMedia.thumbUrl, this.currentMedia.filename);
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('click', function(event) {
+	document.body.addEventListener('click', (event) => {
 		if (event.target === modal) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 		}
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('keydown', function(event) {
+	document.body.addEventListener('keydown', (event) => {
 		if (event.keyCode === 27) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 		}
 	});
 
-	this.show = function (media) {
+	this.show = (media) => {
+		this.currentMedia = media;
 		modalImage.style.backgroundColor = media.color;
 		modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
 		modal.style.display = 'flex';
@@ -1214,6 +1301,7 @@ window.videoModal = new (function () {
 	const modal = document.getElementById('video-modal');
 	const modalVideo = document.getElementById('video-modal-video');
 	const closeModal = document.getElementById('video-modal-close');
+	const downloadButton = document.getElementById('video-modal-download');
 
 	const resetVideo = () => {
 		modalVideo.src = null;
@@ -1224,6 +1312,11 @@ window.videoModal = new (function () {
 	closeModal.addEventListener('click', function() {
 		modal.style.display = 'none';
 		resetVideo();
+	});
+
+	downloadButton.addEventListener('click', () => {
+		if (this.currentMedia == null) return;
+		downloadFile(this.currentMedia.thumbUrl, this.currentMedia.filename);
 	});
 
 	// 모달 바깥 클릭 시 닫기
@@ -1258,6 +1351,7 @@ window.orbitModal = new (function () {
 	const modalOrbit = document.getElementById('orbit-modal-orbit');
 	const modalOrbitGuide = document.getElementById('orbit-modal-guide');
 	const closeModal = document.getElementById('orbit-modal-close');
+	const downloadButton = document.getElementById('orbit-modal-download');
 
 	let isAnimate = false;
 	let resizeHandler = null;
@@ -1266,6 +1360,11 @@ window.orbitModal = new (function () {
 	closeModal.addEventListener('click', function() {
 		modal.style.display = 'none';
 		unload();
+	});
+
+	downloadButton.addEventListener('click', () => {
+		if (this.currentMedia == null) return;
+		downloadFile(this.currentMedia.thumbUrl, this.currentMedia.filename);
 	});
 
 	modalOrbit.addEventListener('pointermove', function() {
