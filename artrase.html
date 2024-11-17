@@ -791,8 +791,8 @@ footer {
 	
 				<!-- 사용자 정보 -->
 				<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px;">
-					<h2 style="margin: 0px; font-size: 24px; color: #2c3e50;">테스트</h2>
-					<p style="margin: 0px; color: #7f8c8d; font-size: 14px;">test@test.com</p>
+					<h2 class="profile-name" style="margin: 0px; font-size: 24px; color: #2c3e50;">테스트</h2>
+					<p class="profile-email" style="margin: 0px; color: #7f8c8d; font-size: 14px;">test@test.com</p>
 				</div>
 			</div>
 		</div>
@@ -1325,6 +1325,8 @@ window.mediaList = new (function () {
 	const modal = document.getElementById('login-modal');
 	const loginContent = document.getElementById('login-content');
 	const profileContent = document.getElementById('profile-content');
+	const profileName = document.querySelector('.profile-name');
+	const profileEmail = document.querySelector('.profile-email');
 
 	const closeButton = document.getElementById('login-modal-close');
 
@@ -1346,6 +1348,9 @@ window.mediaList = new (function () {
 		modal.style.display = 'flex';
 		loginContent.style.display = 'none';
 		profileContent.style.display = 'flex';
+		profileName.textContent = me.username;
+		profileEmail.textContent = me.email;
+
 		setTimeout(() => modal.style.opacity = 1);
 	});
 
