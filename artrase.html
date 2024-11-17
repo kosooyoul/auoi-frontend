@@ -1546,6 +1546,9 @@ window.orbitModal = new (function () {
 		// 텍스처 로드 및 구체 생성
 		const textureLoader = new THREE.TextureLoader();
 		textureLoader.load(imageUrl, function(texture) { // 이미지 경로를 넣으세요
+			texture.wrapS = THREE.RepeatWrapping; // 텍스처 좌우 반복 모드 설정
+			texture.repeat.x = -1; // 좌우 반전
+
 			const geometry = new THREE.SphereGeometry(8, 32, 32); // 구체 크기 및 분할 수 설정
 			const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }); // 텍스처 적용
 			const sphere = new THREE.Mesh(geometry, material);
