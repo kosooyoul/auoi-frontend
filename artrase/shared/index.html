@@ -6,7 +6,7 @@
 <title>Share ~ Artrase - history of</title>
 <style>
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-html { overflow-x: hidden; overflow-y: scroll; font-family: sans-serif; }
+html { overflow: hidden; font-family: sans-serif; }
 body { overflow-x: hidden; overflow-y: scroll; }
 hr { border: none; border-top: 1px solid #cccccc; }
 </style>
@@ -1164,7 +1164,6 @@ window.mediaList = new (function () {
 	loadMore();
 
 	// 스크롤 이벤트 리스너 추가
-	window.addEventListener('scroll', handleScroll);
 	document.body.addEventListener('scroll', handleScroll);
 
 	document.body.addEventListener('click', (event) => {
