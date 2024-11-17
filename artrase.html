@@ -1264,7 +1264,7 @@ window.mediaList = new (function () {
 	function handleScroll() {
 		const { scrollTop, scrollHeight, clientHeight } = document.body;
 
-		if (scrollTop + clientHeight >= scrollHeight - 5) {
+		if (scrollTop + clientHeight >= scrollHeight - 80) {
 			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
 			loadMore();
 		}
