@@ -7,7 +7,7 @@
 <style>
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
 html { overflow: hidden; font-family: sans-serif; }
-body { overflow-x: hidden; overflow-y: auto; }
+body { overflow-x: hidden; overflow-y: scroll; }
 hr { border: none; border-top: 1px solid #cccccc; }
 </style>
 <style data-comment="auoi-content-layout">
@@ -1164,6 +1164,7 @@ window.mediaList = new (function () {
 	loadMore();
 
 	// 스크롤 이벤트 리스너 추가
+	window.addEventListener('scroll', handleScroll);
 	document.body.addEventListener('scroll', handleScroll);
 
 	document.body.addEventListener('click', (event) => {
