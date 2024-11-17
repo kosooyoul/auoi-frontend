@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share ~ Artrase - history of</title>
+<style>
+html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+html { overflow: hidden; font-family: sans-serif; }
+body { overflow-x: hidden; overflow-y: scroll; }
+hr { border: none; border-top: 1px solid #cccccc; }
+</style>
+<style data-comment="auoi-content-layout">
+nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 48px;
+	/* backdrop-filter: blur(40px); */
+	padding: 0px;
+	text-align: center;
+	background-color: black;
+	z-index: 1000;
+}
+
+/* .nav-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	height: 48px;
+	background-color: rgba(0, 100, 200, 0.6);
+} */
+
+.nav-items {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	list-style: none;
+}
+
+.nav-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 48px;
+}
+
+.nav-item>a {
+	display: block;
+	width: 100%;
+	height: 48px;
+	color: white;
+	text-decoration: none;
+	padding: 0px 24px;
+	font-size: 16px;
+	line-height: 48px;
+}
+
+.nav-item>a:hover { background-color: #666; }
+.nav-item>a:visited { color: white; }
+.nav-item>a:active { color: white; }
+
+header {
+	padding-top: 48px; /* 네비게이션 바 높이 만큼 패딩 추가 */
+	background-color: rgba(240, 240, 240, 0.8);
+}
+
+/* 페이지 내용이 네비게이션 바 아래에서 시작되도록 패딩 추가 */
+#content {
+	/* padding-top: 48px; */ /* 네비게이션 바 높이 만큼 패딩 추가 */
+	min-height: calc(100vh - 248px);
+	/* height: fit-content; */
+}
+
+footer {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	text-align: center;
+	padding: 0;
+	width: 100%;
+	height: 200px;
+}
+</style>
+<style data-comment="auoi-year-slider">
+#year-slider {
+	position: relative;
+	width: 920px;
+	max-width: 100%;
+	height: 96px;
+	margin: 0px auto 0px;
+}
+
+/*
+#year-slider::before {
+	content: ' ';
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 48px;
+	height: 100%;
+	background: linear-gradient(90deg, #eeeeee, transparent);
+	pointer-events: none;
+	z-index: 1;
+}
+
+#year-slider::after {
+	content: ' ';
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 48px;
+	height: 100%;
+	background: linear-gradient(90deg, transparent, #eeeeee);
+	pointer-events: none;
+	z-index: 1;
+}
+*/
+
+#year-slider::after {
+	content: ' ';
+	position: absolute;
+	left: 50%;
+	top: -6px;
+	margin-left: -6px;
+	width: 12px;
+	height: 12px;
+	background: black;
+	pointer-events: none;
+	transform: rotate(45deg);
+	z-index: 1;
+}
+
+#year-slider::before {
+	content: ' ';
+	position: absolute;
+	left: 50%;
+	bottom: -6px;
+	margin-left: -6px;
+	width: 12px;
+	height: 12px;
+	background: black;
+	pointer-events: none;
+	transform: rotate(45deg);
+	z-index: 1;
+}
+
+.year-slider-scroll {
+	display: flex;
+	position: relative;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	width: 100%;
+	height: 100%;
+	scrollbar-width: none; /* Firefox */
+	/* background-color: rgba(100, 200, 255, 0.6); */
+	scroll-behavior: smooth;
+}
+
+.year-slider-scroll::-webkit-scrollbar {
+	display: none; /* Chrome, Safari */
+}
+
+.year-slider-item {
+	flex: 0 0 25%;
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	scroll-snap-align: center;
+	font-size: 1.0em;
+	user-select: none;
+	transition: font-size 0.2s linear;
+	color: #666666;
+	/* text-shadow: 1px 1px 4px black; */
+	cursor: pointer;
+}
+
+.year-slider-item:active {
+	font-size: 2.0em;
+	color: black;
+}
+
+.year-slider-item.selected {
+	font-size: 2.5em;
+	color: black;
+}
+
+.year-slider-padding {
+	flex: 0 0 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	user-select: none;
+}
+
+.selected-year-display {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+</style>
+<style data-comment="auoi-group-list">
+#group-list-wrapper {
+	position: relative;
+	width: 920px;
+	max-width: 100%;
+	margin: 0px auto;
+	height: fit-content;
+	transition: height 0.2s linear;
+	overflow: hidden;
+}
+
+#group-list {
+	display: flex;
+	position: relative;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0px;
+	width: 100%;
+	padding: 16px 0px 8px;
+	height: fit-content;
+	color: black;
+}
+
+/* 
+#group-list::before {
+	content: '>';
+	flex-shrink: 0;
+	margin: 2px 2px;
+	color: #666666;
+	font-size: 14px;
+	padding: 8px 0px;
+}
+*/
+
+.group-item {
+	flex-shrink: 0;
+	/* border: 1px solid #ccc; */
+	/* border-radius: 8px; */
+	margin: 2px 2px;
+	cursor: pointer;
+	/* background-color: white; */
+	color: #666666;
+	height: 36px;
+}
+
+.group-item:hover, .group-item:active {
+	/* background-color: rgba(0, 200, 255); */
+	color: black;
+}
+
+.group-label {
+	font-size: 14px;
+	padding: 8px 12px;
+}
+</style>
+<style data-comment="auoi-media-list">
+#media-header {
+	width: 920px;
+	max-width: 100%;
+	margin: 32px auto;
+	text-align: center;
+	padding: 8px 0px;
+}
+
+.media-group-title {
+	font-size: 1.5em;
+	padding: 8px;
+	color: black;
+}
+
+.media-group-subtitle {
+    font-size: 1.2em;
+    padding: 8px;
+	color: #666666;
+}
+
+#media-list {
+	display: grid;
+	gap: 1px;
+	max-width: 920px;
+	margin: auto;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 8px;
+	padding-bottom: 40px;
+	height: fit-content;
+}
+
+.media-item {
+	position: relative;
+	/* padding: 4px; */
+	/* border: 1px solid #ddd; */
+	/* border-radius: 8px; */
+	/* background-color: #f9f9f9; */
+	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	/* gap: 8px; */
+}
+
+.media-item .media-image {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1/1;
+	/* border-radius: 4px; */
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
+}
+
+.media-item .media-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	position: absolute;
+	width: calc(100% - 8px);
+	padding: 4px;
+	bottom: 0px;
+	height: fit-content;
+	/* border-radius: 0px 0px 4px 4px; */
+	background-color: rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.media-item .media-content>.media-title {
+	display: -webkit-box;
+	font-size: 10px;
+	color: white;
+	text-shadow: 0px 0px 2px black;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	word-break: break-all;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.media-item .media-content>.media-created-at {
+	font-size: 10px;
+	color: white;
+	text-shadow: 0px 0px 2px black;
+}
+
+.media-item .media-taken-at {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	font-size: 8px;
+	font-weight: 600;
+	color: #ff6400;
+	text-shadow: 0px 0px 2px black;
+}
+
+/* 구분 행 스타일 */
+.separator {
+	/* padding: 4px; */
+	/* border: 1px solid #ddd; */
+	/* border-radius: 8px; */
+	/* background-color: #eaeaea; */
+	/* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+	/* display: flex; */
+	/* flex-direction: column; */
+	grid-column: 1 / -1; /* 그리드의 모든 열을 차지하게 설정 */
+}
+
+.separator .separator-title {
+	width: fit-content;
+	max-width: 100%;
+	font-size: 14px;
+	color: #333333;
+	/* border: 1px solid #333333; */
+	border-radius: 4px;
+	padding: 4px 4px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: end;
+	gap: 8px;
+}
+
+.separator .separator-title p {
+	padding: 0px;
+	margin: 0px;
+}
+
+/* 그리드 레이아웃 설정 */
+@media (max-width: 240px) {
+	#media-list {
+	grid-template-columns: 1fr; /* 1개씩 보이기 */
+	}
+}
+
+@media (min-width: 241px) and (max-width: 360px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr; /* 2개씩 보이기, 120~180 */
+	}
+}
+
+@media (min-width: 361px) and (max-width: 540px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr 1fr; /* 3개씩 보이기, 120~180 */
+	}
+}
+
+@media (min-width: 541px) and (max-width: 720px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr 1fr 1fr; /* 4개씩 보이기, 120~180 */
+	}
+}
+
+@media (min-width: 721px) {
+	#media-list {
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr; /* 5개씩 보이기, 120~ */
+	}
+}
+</style>
+<style data-comment="auoi-login-modal">
+.login-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 0.1s linear;
+}
+
+.login-modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 20px;
+	margin: 20px;
+	border-radius: 100%;
+	border: 4px solid black;
+	width: 240px;
+	height: 240px;
+	aspect-ratio: 1/1;
+	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+#login-modal-close {
+	cursor: pointer;
+	font-size: 20px;
+	line-height: 20px;
+	position: absolute;
+	bottom: -20px;
+	background-color: black;
+	color: white;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+#login-modal-google {
+	cursor: pointer;
+	width: 40px;
+	height: 40px;
+	background-image: url('/icons/sns/web_dark_rd_na.svg');
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.login-modal-body {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	border-radius: 100%;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
+<style data-comment="auoi-group-create-modal">
+.group-create-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.group-create-modal-content {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 240px;
+	max-width: 100%;
+	box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.group-create-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.group-create-modal-close {
+	width: 24px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.group-create-modal-body input {
+	width: 100%;
+	padding: 10px;
+	margin: 4px 0;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.group-create-modal-body button {
+	width: 100%;
+	padding: 10px;
+	margin-top: 12px;
+	border-radius: 8px;
+	background-color: #333;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+</style>
+<style data-comment="auoi-image-modal">
+.image-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.image-modal-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.image-modal-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.image-modal-header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 48px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+	z-index: 1;
+}
+
+.image-modal-close {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.image-modal-close:active {
+	background-color: white;
+}
+</style>
+<style data-comment="auoi-video-modal">
+.video-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.video-modal-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.video-modal-video {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.video-modal-header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 48px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+	z-index: 1;
+}
+
+.video-modal-close {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.video-modal-close:active {
+	background-color: white;
+}
+</style>
+<style data-comment="auoi-orbit-modal">
+.orbit-modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+
+.orbit-modal-content {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.orbit-modal-orbit {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.orbit-modal-header {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 48px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+	z-index: 1;
+}
+
+.orbit-modal-close {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.orbit-modal-close:active {
+	background-color: white;
+}
+</style>
+</head>
+<body>
+
+<nav>
+	<div class="nav-items">
+		<p class="nav-item"><a href="/">Artrase</a></p>
+	</div>
+</nav>
+
+<header>
+	<div id="year-slider">
+	</div>
+</header>
+
+<div id="content">
+	<!-- <hr/> -->
+	<div id="media-header">
+		<div class="media-group-title"></div>
+		<div class="media-group-subtitle"></div>
+	</div>
+	<div id="media-list">
+		<!-- media items here -->
+	</div>
+</div>
+
+<footer>
+	<p style="font-size: 12px; color: #cccccc;">&copy; 2024 Auoi. All rights reserved.</p>
+</footer>
+
+<div id="login-modal" class="login-modal">
+	<div class="login-modal-content">
+		<div class="login-modal-body">
+			<div id="login-modal-close">&times;</div>
+			<div id="login-content">
+				<div id="login-modal-google"></div>
+			</div>
+			<div id="profile-content" style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px; padding: 12px 0px; text-align: center;">
+				<!-- 프로필 사진 -->
+				<div style="background-image: url('/assets/icons/profile.svg'); background-size: cover; background-position: center; border-radius: 50%; width: 100px; height: 100px; margin: 0 auto 15px; border: 1px solid #dddddd; background-color: #f2f2f2;;"></div>
+	
+				<!-- 사용자 정보 -->
+				<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px;">
+					<h2 style="margin: 0px; font-size: 24px; color: #2c3e50;">테스트</h2>
+					<p style="margin: 0px; color: #7f8c8d; font-size: 14px;">test@test.com</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="image-modal" class="image-modal">
+	<div class="image-modal-content">
+		<div class="image-modal-header">
+			<p style="padding: 0; margin: 0;">&nbsp;</p>
+			<div class="image-modal-close" id="image-modal-close">&times;</div>
+		</div>
+		<div id="image-modal-image" class="image-modal-image"></div>
+	</div>
+</div>
+
+<div id="video-modal" class="video-modal">
+	<div class="video-modal-content">
+		<div class="video-modal-header">
+			<p style="padding: 0; margin: 0;">&nbsp;</p>
+			<div class="video-modal-close" id="video-modal-close">&times;</div>
+		</div>
+		<video id="video-modal-video" class="video-modal-video" controls>
+			<!-- from logic -->
+		</video>
+	</div>
+</div>
+
+<div id="orbit-modal" class="orbit-modal">
+	<div class="orbit-modal-content">
+		<div class="orbit-modal-header">
+			<p style="padding: 0; margin: 0;">&nbsp;</p>
+			<div class="orbit-modal-close" id="orbit-modal-close">&times;</div>
+		</div>
+		<div id="orbit-modal-orbit" class="orbit-modal-orbit">
+			<!-- from logic -->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/libs/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/js/utils/HanulseAjax.js"></script>
+<script type="text/javascript" src="/js/utils/HanulseBenzeneCache.js"></script>
+<script type="text/javascript" src="/js/HanulseAuthorizationManager.js"></script>
+<script type="text/javascript" src="/js/apis/HanulseMediaApis.js"></script>
+<script type="text/javascript" src="/js/HanulseSns.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/libs/three-orbit-controls.js"></script>
+<script>
+document.body.addEventListener('contextmenu', (event) => event.preventDefault());
+document.body.addEventListener('selectstart', (event) => event.preventDefault());
+document.body.addEventListener('dragstart', (event) => event.preventDefault());
+</script>
+<script data-comment="auoi-media-list">
+(async function () {
+	const groupSid = 'mt-bukhan-2024';
+	const group = await HanulseMediaApis.getGroupBySid(groupSid);
+	if (group == null) return;
+
+	window.mediaList.reloadByGroup(group);
+})();
+</script>
+<script data-comment="auoi-media-list">
+window.mediaList = new (function () {
+	let medias = {};
+
+	let lastId = null;  // 처음엔 null로 시작 (아직 데이터가 없으므로)
+	let isLoading = false;  // 중복 호출 방지
+	let hasMore = true;  // 더 이상 데이터가 없을 때 false로 변경
+	let lastMonth = '';  // 마지막으로 추가된 아이템의 년+월을 저장하는 변수
+
+	let groupSid = null;
+
+	const mediaGroupTitle = document.querySelector('#media-header>.media-group-title');
+	const mediaGroupSubTitle = document.querySelector('#media-header>.media-group-subtitle');
+	const mediaList = document.getElementById('media-list');
+
+	// 데이터를 로드하여 화면에 추가하는 함수
+	async function loadMore() {
+		if (isLoading || !hasMore) return;  // 중복 호출 방지
+		if (groupSid == null) return;
+
+		isLoading = true;  // 로딩 중 표시
+
+		const count = 30;  // 한 번에 가져올 데이터 수
+		const response = await HanulseMediaApis.getGroupMediaList({ groupSid, lastId, count });
+
+		response.medias.forEach(media => {
+			medias[media.id] = media;
+
+			const createdAt = [media.createdAt.getFullYear(), media.createdAt.getMonth() + 1].join('-');  // "YYYY-MM" 형식으로 변환
+
+			// 이전 아이템과 달라진 월이면 구분자를 추가
+			if (createdAt !== lastMonth) {
+				const separator = createSeparator(media.createdAt);
+				mediaList.appendChild(separator);
+
+				// const uploaderItem = createUploaderItem();
+				// mediaList.appendChild(uploaderItem);
+
+				lastMonth = createdAt;  // 마지막 월을 업데이트
+			}
+
+			const mediaItem = createMediaItem(media);  // media item 생성
+			mediaList.appendChild(mediaItem);  // DOM에 추가
+
+			// 1 item 0% blank
+			/*
+			const random = Math.floor(Math.random() * 100);
+			if (random < 0) {
+				const blankItem = createBlankItem();
+				mediaList.appendChild(blankItem);
+			}
+			*/
+		});
+
+		// 마지막 아이템 ID 업데이트
+		lastId = response.medias[response.medias.length - 1]?.id || lastId;
+
+		// 더 가져올 데이터가 있는지 여부 업데이트
+		hasMore = response.hasMore;
+
+		isLoading = false;  // 로딩 완료
+	}
+
+	this.createReservedMediaItem = (file) => {
+		const fileUrl = URL.createObjectURL(file);
+
+		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
+		let template = `
+			<div class="media-item">
+				<div class="media-image"
+					data-id="${file.name}"
+					style="background-image: url('${fileUrl}');"
+				>
+				loading...
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function createMediaItem(media) {
+		// 템플릿을 텍스트 기반으로 정의, 동적 데이터 삽입
+		// TODO; ?? media.thumbUrl 은 indexUrl 생성 후 제거 해야 함
+		let template = `
+			<div class="media-item">
+				<div class="media-image"
+					data-id="${media.id}"
+					style="background-color: ${media.color || '#fff'}; background-image: url('${media.indexUrl ?? media.thumbUrl}');"
+				>
+					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
+						<div class="media-content">
+							<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
+							<div class="media-title">${media.filename}</div>
+							${media.v != 1? '<div style="position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;">': ''}
+						</div>
+					</div>
+					${media.type == 'VIDEO'? [
+						'<div style="position: absolute; left: 50%; top: 50%; margin-left: -16px; margin-top: -16px; width: 32px; height: 32px; pointer-events: none;">',
+						'	<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">',
+						'		<polygon points="6,2 24,12 6,22" fill="rgba(255, 255, 255, 0.8)" stroke="rgba(127, 127, 127, 0.2)"/>',
+						'	</svg>',
+						'</div>',
+					].join('\n'): ''}
+					${media.type == 'ORBIT'? [
+						'<div style="position: absolute; left: 50%; top: 50%; margin-left: -16px; margin-top: -16px; width: 32px; height: 32px; pointer-events: none;">',
+							'<svg fill="none" height="32" stroke="rgba(255, 255, 255, 0.8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+						'</div>',
+					].join('\n'): ''}
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function createUploaderItem() {
+		let template = `
+			<div id="media-uploader" class="media-item">
+				<div style="position: relative; width: 100%; height: 100%; background-color: #f2f2f2; cursor: pointer;" onclick="window.fileSelector.select()">
+					<div style="position: absolute; top: 50%; left: 50%; width: 60%; height: 1px; background-color: #cccccc; transform: translate(-50%, -50%);"></div>
+					<div style="position: absolute; top: 50%; left: 50%; width: 1px; height: 60%; background-color: #cccccc; transform: translate(-50%, -50%);"></div>
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function createBlankItem() {
+		let template = `
+			<div class="media-item">
+				<div style="width: 100%; height: 100%; background-color: #ddddcc;">
+					
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	// 월별 구분자를 추가하는 함수
+	function createSeparator(date) {
+		let template = `
+			<div class="separator">
+				<div class="separator-title">
+					<p style="font-size: 20px;">${date.getFullYear()}.</p>
+					<p style="font-size: 16px;">${String(date.getMonth() + 1).padStart(2, '0')}.</p>
+				</div>
+			</div>
+		`;
+
+		// 문자열을 DOM 요소로 변환
+		const wrapper = document.createElement('div');
+		wrapper.innerHTML = template;
+		return wrapper.firstElementChild;  // 변환된 DOM 요소 반환
+	}
+
+	function formatDateToKST(date) {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+		const day = String(date.getDate()).padStart(2, '0');
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		const seconds = String(date.getSeconds()).padStart(2, '0');
+
+		// 형식에 맞게 반환
+		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	}
+
+	// 스크롤 이벤트 핸들러
+	function handleScroll() {
+		const { scrollTop, scrollHeight, clientHeight } = document.body;
+
+		if (scrollTop + clientHeight >= scrollHeight - 80) {
+			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
+			loadMore();
+		}
+	}
+
+	this.reloadByGroup = (group) => {
+		medias = {};
+
+		lastId = null;
+		isLoading = false;
+		hasMore = true;
+		lastMonth = '';
+
+		groupSid = group.sid;
+
+		while (mediaList.firstChild) {
+			mediaList.removeChild(mediaList.firstChild);
+		};
+
+		mediaGroupTitle.textContent = group.name;
+		if (group.beginYear == group.endYear) {
+			mediaGroupSubTitle.textContent = `${group.beginYear || '?'}`;
+		} else {
+			mediaGroupSubTitle.textContent = `${group.beginYear || '?'} ~ ${group.endYear || '?'}`;
+		}
+
+		loadMore();
+	};
+
+	// 초기 데이터 로드
+	loadMore();
+
+	// 스크롤 이벤트 리스너 추가
+	document.body.addEventListener('scroll', handleScroll);
+
+	document.body.addEventListener('click', (event) => {
+		const id = event.target.dataset.id;
+		const media = medias[id];
+		if (media == null) return;
+
+		if (media.type == 'IMAGE') {
+			window.imageModal.show(media);
+		} else if (media.type == 'VIDEO') {
+			window.videoModal.show(media);
+		} else if (media.type == 'ORBIT') {
+			window.orbitModal.show(media);
+		} else {
+			alert('This media is not supported type')
+		}
+	});
+})();
+</script>
+<script data-comment="auoi-login-modal">
+(function () {
+	const loginButton = document.getElementById('login-button');
+	const profileButton = document.getElementById('profile-button');
+
+	const modal = document.getElementById('login-modal');
+	const loginContent = document.getElementById('login-content');
+	const profileContent = document.getElementById('profile-content');
+
+	const closeButton = document.getElementById('login-modal-close');
+
+	const googleButton = document.getElementById('login-modal-google');
+
+	this.me = null;
+
+	// 로그인 버튼 클릭 시 모달 띄우기
+	loginButton.addEventListener('click', function (event) {
+		event.preventDefault();
+		modal.style.display = 'flex';
+		profileContent.style.display = 'none';
+		loginContent.style.display = '';
+		setTimeout(() => modal.style.opacity = 1);
+	});
+
+	profileButton.addEventListener('click', function (event) {
+		event.preventDefault();
+		modal.style.display = 'flex';
+		loginContent.style.display = 'none';
+		profileContent.style.display = 'flex';
+		setTimeout(() => modal.style.opacity = 1);
+	});
+
+	// 닫기 버튼 클릭 시 모달 닫기
+	closeButton.addEventListener('click', function () {
+		if (modal.style.opacity == 0) return;
+		modal.style.opacity = 0;
+		setTimeout(() => {
+			modal.style.display = 'none';
+			loginContent.style.display = 'none';
+			profileContent.style.display = 'none';
+		}, 100);
+	});
+
+	// 모달 바깥 클릭 시 모달 닫기
+	document.body.addEventListener('click', function (event) {
+		if (event.target === modal) {
+			if (modal.style.opacity == 0) return;
+			modal.style.opacity = 0;
+			setTimeout(() => {
+				modal.style.display = 'none';
+				loginContent.style.display = 'none';
+				profileContent.style.display = 'none';
+			}, 100);
+		}
+	});
+
+	// 구글 버튼 클릭시
+	googleButton.addEventListener('click', function() {
+		location.assign(HanulseSns.getGoogleLoginUrl());
+	});
+
+	HanulseAuthorizationManager.me((me) => {
+		this.me = me;
+
+		if (me == null) return;
+
+		loginButton.style.display = 'none';
+		profileButton.style.display = 'inline';
+		profileButton.textContent = me.username;
+	})
+})();
+</script>
+<script data-comment="auoi-image-modal">
+window.imageModal = new (function () {
+	const modal = document.getElementById('image-modal');
+	const modalImage = document.getElementById('image-modal-image');
+	const closeModal = document.getElementById('image-modal-close');
+
+	// 모달 닫기
+	closeModal.addEventListener('click', function() {
+		modal.style.display = 'none';
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('click', function(event) {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+		}
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('keydown', function(event) {
+		if (event.keyCode === 27) {
+			modal.style.display = 'none';
+		}
+	});
+
+	this.show = function (media) {
+		modalImage.style.backgroundColor = media.color;
+		modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
+		modal.style.display = 'flex';
+	};
+})();
+</script>
+<script data-comment="auoi-video-modal">
+window.videoModal = new (function () {
+	const modal = document.getElementById('video-modal');
+	const modalVideo = document.getElementById('video-modal-video');
+	const closeModal = document.getElementById('video-modal-close');
+
+	const resetVideo = () => {
+		modalVideo.src = null;
+		modalVideo.innerHTML = '';
+	};
+
+	// 모달 닫기
+	closeModal.addEventListener('click', function() {
+		modal.style.display = 'none';
+		resetVideo();
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('click', function(event) {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+			resetVideo();
+		}
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('keydown', function(event) {
+		if (event.keyCode === 27) {
+			modal.style.display = 'none';
+			resetVideo();
+		}
+	});
+
+	this.show = function (media) {
+		modalVideo.style.backgroundColor = media.color;
+		// modalVideo.style.backgroundVideo = `url('${media.thumbUrl}')`;
+		modal.style.display = 'flex';
+
+		modalVideo.src = media.thumbUrl;
+		modalVideo.innerHTML = `<source src="${media.thumbUrl}" type="${media.mimeType}">`;
+	};
+})();
+</script>
+<script data-comment="auoi-orbit-modal">
+window.orbitModal = new (function () {
+	const modal = document.getElementById('orbit-modal');
+	const modalOrbit = document.getElementById('orbit-modal-orbit');
+	const closeModal = document.getElementById('orbit-modal-close');
+
+	let isAnimate = false;
+	let resizeHandler = null;
+
+	// 모달 닫기
+	closeModal.addEventListener('click', function() {
+		modal.style.display = 'none';
+		unload();
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('click', function(event) {
+		if (event.target === modal) {
+			modal.style.display = 'none';
+			unload();
+		}
+	});
+
+	// 모달 바깥 클릭 시 닫기
+	document.body.addEventListener('keydown', function(event) {
+		if (event.keyCode === 27) {
+			modal.style.display = 'none';
+			unload();
+		}
+	});
+
+	this.show = function (media) {
+		loadByImageUrl(media.thumbUrl);
+
+		modalOrbit.style.backgroundColor = media.color;
+		modal.style.display = 'flex';
+	};
+	
+	const loadByImageUrl = (imageUrl) => {
+		// 씬, 카메라, 렌더러 생성
+		const scene = new THREE.Scene();
+		const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+		camera.position.z = 0.1; // 카메라 위치 설정
+
+		const renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		modalOrbit.appendChild(renderer.domElement);
+
+		// 텍스처 로드 및 구체 생성
+		const textureLoader = new THREE.TextureLoader();
+		textureLoader.load(imageUrl, function(texture) { // 이미지 경로를 넣으세요
+			texture.wrapS = THREE.RepeatWrapping; // 텍스처 좌우 반복 모드 설정
+			texture.repeat.x = -1; // 좌우 반전
+
+			const geometry = new THREE.SphereGeometry(8, 32, 32); // 구체 크기 및 분할 수 설정
+			const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }); // 텍스처 적용
+			const sphere = new THREE.Mesh(geometry, material);
+			scene.add(sphere);
+
+			// OrbitControls 추가
+			const controls = new THREE.OrbitControls(camera, renderer.domElement);
+			controls.enableDamping = true; // 감속 효과 활성화
+			controls.dampingFactor = 0.05; // 감속 계수 설정
+			controls.enableZoom = true; // 줌 활성화 (필요시 비활성화 가능)
+			controls.zoomSpeed = 4.0;
+			controls.reverseOrbit = true;
+			controls.rotateSpeed = 0.5;
+			controls.enablePan = false;
+
+			// 애니메이션 루프
+			function animate() {
+				if (!isAnimate) return;
+				requestAnimationFrame(animate);
+				controls.update(); // 컨트롤러 업데이트
+				renderer.render(scene, camera);
+			}
+
+			isAnimate = true;
+			resizeHandler = (width, height) => {
+				renderer.setSize(width, height);
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+			}
+			animate();
+		});
+	};
+
+	const unload = () => {
+		isAnimate = false;
+		while (modalOrbit.firstChild) {
+			modalOrbit.removeChild(modalOrbit.firstChild);
+		};
+	};
+
+    // 창 크기 변경 시 카메라와 렌더러 업데이트
+    window.addEventListener('resize', () => {
+		if (resizeHandler == null) return;
+		resizeHandler(modalOrbit.clientWidth, modalOrbit.clientHeight);
+    });
+})();
+</script>
+</body>
+</html>
