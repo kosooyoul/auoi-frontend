@@ -160,6 +160,7 @@ footer {
 	height: 100%;
 	scrollbar-width: none; /* Firefox */
 	/* background-color: rgba(100, 200, 255, 0.6); */
+	scroll-behavior: smooth;
 }
 
 .year-slider-scroll::-webkit-scrollbar {
@@ -178,6 +179,12 @@ footer {
 	transition: font-size 0.2s linear;
 	color: #666666;
 	/* text-shadow: 1px 1px 4px black; */
+	cursor: pointer;
+}
+
+.year-slider-item:hover, .year-slider-item:active {
+	font-size: 2.0em;
+	color: black;
 }
 
 .year-slider-item.selected {
@@ -964,6 +971,16 @@ window.fileSelector = new (function() {
 	sliderContainer.addEventListener("scroll", doUpdate);
 
 	doUpdate();
+
+	document.body.addEventListener('click', (event) => {
+		if (event.target.classList.contains('year-slider-item') == false) return;
+
+		const index = Array.from(sliderContainer.children).indexOf(event.target);
+		if (index < 0) return;
+
+		const scrollLeft = (index + 4) * event.target.offsetWidth - sliderContainer.offsetWidth / 2;
+		sliderContainer.scrollTo(scrollLeft, 0);
+	});
 })();
 </script>
 <script data-comment="auoi-group-list">
