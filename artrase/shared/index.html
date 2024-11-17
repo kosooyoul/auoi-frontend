@@ -1119,10 +1119,10 @@ window.loginModal = new (function () {
 
 	confirmButton.addEventListener('click', async () => {
 		const groupSid = window.app.groupSid;
-		const shareCode = window.app.shareCode;
+		const sharedCode = window.app.sharedCode;
 		const password = loginPassword.value;
 
-		const success = await HanulseMediaApis.requestGroupPermission({ groupSid, shareCode, password });
+		const success = await HanulseMediaApis.requestGroupPermission({ groupSid, sharedCode, password });
 		if (success == false) return;
 
 		const group = await HanulseMediaApis.getGroupBySid(groupSid);
