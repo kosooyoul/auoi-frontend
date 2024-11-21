@@ -1349,21 +1349,24 @@ window.mediaList = new (function () {
 
 		// 터치 시작 이벤트
 		const startTouch = (event) => {
-			console.log('startTouch');
+			console.log('startLongTouch');
 			touchTimer = setTimeout(() => {
 				callback(event); // 4초 후 콜백 실행
+				touchTimer = null;
 			}, delay);
 		};
 
 		// 터치 종료 이벤트
 		const endTouch = (event) => {
-			if (touchTimer == null) return;
+			if (touchTimer == null) {
+				console.log('endLongTouch');
+				event.preventDefault();
+				return;
+			}
 			
-			console.log('endTouch');
+			console.log('cancelLongTouch');
 			clearTimeout(touchTimer); // 타이머 취소
 			touchTimer = null;
-
-			event.preventDefault();
 		};
 
 		element.addEventListener('pointerdown', startTouch);
