@@ -860,7 +860,7 @@ footer {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="/libs/three-orbit-controls.js"></script>
 <script>
-document.body.addEventListener('contextmenu', (event) => event.preventDefault());
+// document.body.addEventListener('contextmenu', (event) => event.preventDefault());
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
@@ -1327,7 +1327,9 @@ window.mediaList = new (function () {
 	document.body.addEventListener('contextmenu', async (event) => {
 		const id = event.target.dataset.id;
 		const media = medias[id];
-		if (media == null) return;
+		if (media == null) {
+			return event.preventDefault();
+		};
 
 		const newIsPrivacy = !media.isPrivacy;
 		media.isPrivacy = newIsPrivacy;
