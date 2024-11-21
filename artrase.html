@@ -1171,13 +1171,18 @@ window.mediaList = new (function () {
 					data-id="${media.id}"
 					style="background-color: ${media.color || '#fff'}; background-image: url('${media.indexUrl ?? media.thumbUrl}');"
 				>
+					${media.isDeleted? [
+						'<div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(\'/assets/images/check-pattern.svg\'); background-position: center; mix-blend-mode: overlay; pointer-events: none;"></div>',
+					].join('\n'): ''}
 					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
-						<div class="media-content">
-							<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
-							<div class="media-title">${media.filename}</div>
-							${media.v != 1? '<div style="position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;">': ''}
-						</div>
+					<div class="media-content">
+						<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
+						<div class="media-title">${media.filename}</div>
+						${media.v != 1? '<div style="position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;"></div>': ''}
 					</div>
+					${media.isPrivacy? [
+						'<div style="position: absolute; left: 0px; bottom: 0px; width: 100%; height: 2px; background-color: #00c8ff; pointer-events: none;"></div>',
+					].join('\n'): ''}
 					${media.type == 'VIDEO'? [
 						'<div style="position: absolute; left: 50%; top: 50%; margin-left: -16px; margin-top: -16px; width: 32px; height: 32px; pointer-events: none;">',
 						'	<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">',
