@@ -116,6 +116,20 @@ class HanulseMediaApis {
 		return mediaList;
 	}
 
+	static async patchMediaStatus({mediaId, isPrivacy, isDeleted}) {
+		const response = await HanulseAjax.patch(
+			`https://apis.auoi.net/v1/medias/${mediaId}/status`,
+			{
+				isPrivacy,
+				isDeleted,
+			},
+			HanulseAuthorizationManager.getAccessToken(),
+		);
+		const success = response?.data?.success ?? false;
+
+		return success;
+	}
+
 	/*
 	static async getMedia(id) {
 		const response = await HanulseAjax.get(
