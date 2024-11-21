@@ -1357,8 +1357,13 @@ window.mediaList = new (function () {
 
 		// 터치 종료 이벤트
 		const endTouch = (event) => {
+			if (touchTimer == null) return;
+			
 			console.log('endTouch');
 			clearTimeout(touchTimer); // 타이머 취소
+			touchTimer = null;
+
+			event.preventDefault();
 		};
 
 		element.addEventListener('pointerdown', startTouch);
