@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artrase - history of</title>
 <style>
-html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+html, body { width: 100%; height: 100%; margin: 0; padding: 0; /*user-select: none; -webkit-user-select: none;*/ }
 html { overflow: hidden; font-family: sans-serif; }
 body { overflow-x: hidden; overflow-y: scroll; }
 hr { border: none; border-top: 1px solid #cccccc; }
@@ -1327,7 +1327,9 @@ window.mediaList = new (function () {
 	document.body.addEventListener('contextmenu', async (event) => {
 		const id = event.target.dataset.id;
 		const media = medias[id];
-		if (media == null) return;
+		if (media == null) {
+			return event.preventDefault();
+		};
 
 		const newIsPrivacy = !media.isPrivacy;
 		media.isPrivacy = newIsPrivacy;
