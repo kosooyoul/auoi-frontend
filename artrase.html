@@ -1327,9 +1327,7 @@ window.mediaList = new (function () {
 	document.body.addEventListener('contextmenu', async (event) => {
 		const id = event.target.dataset.id;
 		const media = medias[id];
-		if (media == null) {
-			return event.preventDefault();
-		};
+		if (media == null) return;
 
 		const newIsPrivacy = !media.isPrivacy;
 		media.isPrivacy = newIsPrivacy;
