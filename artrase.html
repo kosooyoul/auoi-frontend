@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artrase - history of</title>
 <style>
-html, body { width: 100%; height: 100%; margin: 0; padding: 0; /*user-select: none; -webkit-user-select: none;*/ }
+html, body { width: 100%; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
 html { overflow: hidden; font-family: sans-serif; }
 body { overflow-x: hidden; overflow-y: scroll; }
 hr { border: none; border-top: 1px solid #cccccc; }
@@ -860,7 +860,7 @@ footer {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="/libs/three-orbit-controls.js"></script>
 <script>
-// document.body.addEventListener('contextmenu', (event) => event.preventDefault());
+document.body.addEventListener('contextmenu', (event) => event.preventDefault());
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
 </script>
@@ -1324,12 +1324,11 @@ window.mediaList = new (function () {
 	});
 
 	// For patch media privacy status
-	document.body.addEventListener('contextmenu', async (event) => {
+	setupLongTouch(mediaList, async (event) => {
+		console.log(event);
 		const id = event.target.dataset.id;
 		const media = medias[id];
-		if (media == null) {
-			return event.preventDefault();
-		};
+		if (media == null) return;
 
 		const newIsPrivacy = !media.isPrivacy;
 		media.isPrivacy = newIsPrivacy;
@@ -1344,6 +1343,28 @@ window.mediaList = new (function () {
 			isPrivacy: newIsPrivacy,
 		});
 	});
+
+	function setupLongTouch(element, callback, delay = 600) {
+		let touchTimer = null;
+
+		// 터치 시작 이벤트
+		const startTouch = (event) => {
+			console.log('startTouch');
+			touchTimer = setTimeout(() => {
+				callback(event); // 4초 후 콜백 실행
+			}, delay);
+		};
+
+		// 터치 종료 이벤트
+		const endTouch = (event) => {
+			console.log('endTouch');
+			clearTimeout(touchTimer); // 타이머 취소
+		};
+
+		element.addEventListener('pointerdown', startTouch);
+		element.addEventListener('pointerup', endTouch);
+		element.addEventListener('pointerleave', endTouch);
+	}
 })();
 </script>
 <script data-comment="auoi-login-modal">
