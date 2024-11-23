@@ -1297,7 +1297,7 @@ window.imageModal = new (function () {
 
 	downloadButton.addEventListener('click', () => {
 		if (this.currentMedia == null) return;
-		downloadFile(this.currentMedia.thumbUrl, this.currentMedia.filename);
+		downloadFile(this.currentMedia.url, this.currentMedia.filename);
 	});
 
 	// 모달 바깥 클릭 시 닫기
