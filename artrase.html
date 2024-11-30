@@ -315,6 +315,7 @@ footer {
 	/* border-radius: 4px; */
 	background-size: cover;
 	background-position: center;
+	overflow: hidden;
 	cursor: pointer;
 }
 
@@ -472,6 +473,23 @@ footer {
 	border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
+#login-modal-confirm {
+	cursor: pointer;
+	font-size: 20px;
+	line-height: 20px;
+	position: absolute;
+	bottom: -20px;
+	background-color: rgb(0, 172, 0);
+	color: white;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	border: 1px solid rgba(0, 172, 0, 0.4);
+}
+
 #login-modal-google {
 	cursor: pointer;
 	width: 40px;
@@ -611,6 +629,22 @@ footer {
 .image-modal-close:active {
 	background-color: white;
 }
+
+.image-modal-download {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.image-modal-download:active {
+	background-color: white;
+}
 </style>
 <style data-comment="auoi-video-modal">
 .video-modal {
@@ -633,8 +667,23 @@ footer {
 	overflow: hidden;
 }
 
+.video-modal-image {
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 .video-modal-video {
 	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 	width: 100%;
 	height: 100%;
 }
@@ -665,6 +714,22 @@ footer {
 }
 
 .video-modal-close:active {
+	background-color: white;
+}
+
+.video-modal-download {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.video-modal-download:active {
 	background-color: white;
 }
 </style>
@@ -726,6 +791,38 @@ footer {
 .orbit-modal-close:active {
 	background-color: white;
 }
+
+.orbit-modal-guide {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	pointer-events: none;
+	opacity: 1;
+	transition: opacity 0.2s linear;
+}
+
+.orbit-modal-download {
+	width: 48px;
+	height: 100%;
+	text-align: center;
+	cursor: pointer;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.orbit-modal-download:active {
+	background-color: white;
+}
 </style>
 </head>
 <body>
@@ -774,6 +871,8 @@ footer {
 	</div>
 </div>
 
+<div id="status-view" style="position: relative; width: 100%; height: 24px; color: #dddddd; text-align: center; font-size: 10px;"></div>
+
 <footer>
 	<p style="font-size: 12px; color: #cccccc;">&copy; 2024 Auoi. All rights reserved.</p>
 </footer>
@@ -817,7 +916,10 @@ footer {
 	<div class="image-modal-content">
 		<div class="image-modal-header">
 			<p style="padding: 0; margin: 0;">&nbsp;</p>
-			<div class="image-modal-close" id="image-modal-close">&times;</div>
+			<div style="display: flex; height: 100%;">
+				<div class="image-modal-download" id="image-modal-download">&DownArrowBar;</div>
+				<div class="image-modal-close" id="image-modal-close">&times;</div>
+			</div>
 		</div>
 		<div id="image-modal-image" class="image-modal-image"></div>
 	</div>
@@ -827,9 +929,13 @@ footer {
 	<div class="video-modal-content">
 		<div class="video-modal-header">
 			<p style="padding: 0; margin: 0;">&nbsp;</p>
-			<div class="video-modal-close" id="video-modal-close">&times;</div>
+			<div style="display: flex; height: 100%;">
+				<div class="video-modal-download" id="video-modal-download">&DownArrowBar;</div>
+				<div class="video-modal-close" id="video-modal-close">&times;</div>
+			</div>
 		</div>
-		<video id="video-modal-video" class="video-modal-video" controls>
+		<div id="video-modal-image" class="video-modal-image"></div>
+		<video id="video-modal-video" class="video-modal-video" autoplay="true" loop>
 			<!-- from logic -->
 		</video>
 	</div>
@@ -839,11 +945,15 @@ footer {
 	<div class="orbit-modal-content">
 		<div class="orbit-modal-header">
 			<p style="padding: 0; margin: 0;">&nbsp;</p>
-			<div class="orbit-modal-close" id="orbit-modal-close">&times;</div>
+			<div style="display: flex; height: 100%;">
+				<div class="orbit-modal-download" id="orbit-modal-download">&DownArrowBar;</div>
+				<div class="orbit-modal-close" id="orbit-modal-close">&times;</div>
+			</div>
 		</div>
 		<div id="orbit-modal-orbit" class="orbit-modal-orbit">
 			<!-- from logic -->
 		</div>
+		<div id="orbit-modal-guide" class="orbit-modal-guide">화면을 상하좌우로 드래그해보세요!</div>
 	</div>
 </div>
 
@@ -863,6 +973,26 @@ footer {
 document.body.addEventListener('contextmenu', (event) => event.preventDefault());
 document.body.addEventListener('selectstart', (event) => event.preventDefault());
 document.body.addEventListener('dragstart', (event) => event.preventDefault());
+function downloadFile(url, filename) {
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.blob(); // 파일 데이터를 Blob으로 변환
+    })
+    .then(blob => {
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob); // Blob URL 생성
+      link.href = url;
+      link.download = filename; // 파일명 설정
+      document.body.appendChild(link);
+      link.click(); // 다운로드 트리거
+      document.body.removeChild(link); // 링크 제거
+      URL.revokeObjectURL(url); // 메모리 해제
+    })
+    .catch(error => console.error('Download failed:', error));
+}
 </script>
 <script data-comment="auoi-file-selector">
 window.fileSelector = new (function() {
@@ -1093,6 +1223,8 @@ window.mediaList = new (function () {
 	const mediaGroupSubTitle = document.querySelector('#media-header>.media-group-subtitle');
 	const mediaList = document.getElementById('media-list');
 
+	const statusView = document.getElementById('status-view');
+
 	// 데이터를 로드하여 화면에 추가하는 함수
 	async function loadMore() {
 		if (isLoading || !hasMore) return;  // 중복 호출 방지
@@ -1174,12 +1306,13 @@ window.mediaList = new (function () {
 					${media.isDeleted? [
 						'<div style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(\'/assets/images/check-pattern.svg\'); background-position: center; mix-blend-mode: overlay; pointer-events: none;"></div>',
 					].join('\n'): ''}
-					${media.takenAt? `<div class="media-taken-at">${formatDateToKST(media.takenAt)}</div>`: ''}
-					<div class="media-content">
-						<div class="media-created-at">${formatDateToKST(media.createdAt)}</div>
-						<div class="media-title">${media.filename}</div>
-						${media.v != 1? '<div style="position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; text-align: center; background-color: red; transform: rotate(45deg); pointer-events: none;"></div>': ''}
-					</div>
+					${[
+						`<div class="media-content">`,
+							`<div class="media-created-at">${media.takenAt? formatDateToKST(media.takenAt): 'UNKNOWN'}</div>`,
+							`<div class="media-title">${media.filename}</div>`,
+						`</div>`,
+					].join('\n')}
+					${media.v != 1? '<div style="position: absolute; right: -6px; bottom: -6px; width: 12px; height: 12px; text-align: center; background-color: white; transform: rotate(45deg); pointer-events: none;"></div>': ''}
 					${media.isPrivacy? [
 						`<div id="media-${media.id}-privacy" style="display: block; position: absolute; left: 0px; bottom: 0px; width: 100%; height: 2px; background-color: #00c8ff; pointer-events: none;"></div>`,
 					].join('\n'): [
@@ -1271,7 +1404,10 @@ window.mediaList = new (function () {
 	function handleScroll() {
 		const { scrollTop, scrollHeight, clientHeight } = document.body;
 
-		if (scrollTop + clientHeight >= scrollHeight - 80) {
+		// Status
+		statusView.textContent = `두근 ${scrollTop} + ${clientHeight} -> ${scrollHeight}`;
+
+		if (scrollTop + clientHeight >= scrollHeight - 180) {
 			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
 			loadMore();
 		}
@@ -1505,73 +1641,112 @@ window.imageModal = new (function () {
 	const modal = document.getElementById('image-modal');
 	const modalImage = document.getElementById('image-modal-image');
 	const closeModal = document.getElementById('image-modal-close');
+	const downloadButton = document.getElementById('image-modal-download');
 
 	// 모달 닫기
-	closeModal.addEventListener('click', function() {
+	closeModal.addEventListener('click', () => {
 		modal.style.display = 'none';
+		this.currentMedia = null;
+	});
+
+	downloadButton.addEventListener('click', () => {
+		if (this.currentMedia == null) return;
+		downloadFile(this.currentMedia.url, this.currentMedia.filename);
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('click', function(event) {
+	document.body.addEventListener('click', (event) => {
 		if (event.target === modal) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 		}
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('keydown', function(event) {
+	document.body.addEventListener('keydown', (event) => {
 		if (event.keyCode === 27) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 		}
 	});
 
-	this.show = function (media) {
+	this.show = (media) => {
+		this.currentMedia = media;
 		modalImage.style.backgroundColor = media.color;
-		modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
+		modalImage.style.backgroundImage = null;
 		modal.style.display = 'flex';
+
+		// TODO; temp for download cors error
+		const textureLoader = new THREE.TextureLoader();
+		textureLoader.load(media.thumbUrl, () => {
+			modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
+		});
 	};
 })();
 </script>
 <script data-comment="auoi-video-modal">
 window.videoModal = new (function () {
 	const modal = document.getElementById('video-modal');
+	const modalImage = document.getElementById('video-modal-image');
 	const modalVideo = document.getElementById('video-modal-video');
 	const closeModal = document.getElementById('video-modal-close');
+	const downloadButton = document.getElementById('video-modal-download');
 
 	const resetVideo = () => {
-		modalVideo.src = null;
+		modalVideo.src = '';
 		modalVideo.innerHTML = '';
 	};
 
 	// 모달 닫기
-	closeModal.addEventListener('click', function() {
+	closeModal.addEventListener('click', () => {
 		modal.style.display = 'none';
+		this.currentMedia = null;
 		resetVideo();
 	});
 
+	downloadButton.addEventListener('click', () => {
+		if (this.currentMedia == null) return;
+		downloadFile(this.currentMedia.thumbUrl, this.currentMedia.filename);
+	});
+
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('click', function(event) {
+	document.body.addEventListener('click', (event) => {
 		if (event.target === modal) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 			resetVideo();
 		}
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('keydown', function(event) {
+	document.body.addEventListener('keydown', (event) => {
 		if (event.keyCode === 27) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 			resetVideo();
 		}
 	});
 
-	this.show = function (media) {
-		modalVideo.style.backgroundColor = media.color;
-		// modalVideo.style.backgroundVideo = `url('${media.thumbUrl}')`;
+	this.show = (media) => {
+		this.currentMedia = media;
+		modalImage.style.backgroundColor = media.color;
+		modalImage.style.backgroundImage = `url('${media.indexUrl}')`;
+		modalVideo.style.display = 'none';
 		modal.style.display = 'flex';
 
 		modalVideo.src = media.thumbUrl;
 		modalVideo.innerHTML = `<source src="${media.thumbUrl}" type="${media.mimeType}">`;
+		modalVideo.onloadeddata = () => {
+			modalImage.style.backgroundImage = null;
+			modalVideo.style.display = 'block';
+		}
+		modalVideo.onclick = () => {
+			if (modalVideo.paused) {
+				modalVideo.play();
+			} else {
+				modalVideo.pause();
+			}
+		}
 	};
 })();
 </script>
@@ -1579,49 +1754,76 @@ window.videoModal = new (function () {
 window.orbitModal = new (function () {
 	const modal = document.getElementById('orbit-modal');
 	const modalOrbit = document.getElementById('orbit-modal-orbit');
+	const modalOrbitGuide = document.getElementById('orbit-modal-guide');
 	const closeModal = document.getElementById('orbit-modal-close');
+	const downloadButton = document.getElementById('orbit-modal-download');
 
 	let isAnimate = false;
 	let resizeHandler = null;
 
 	// 모달 닫기
-	closeModal.addEventListener('click', function() {
+	closeModal.addEventListener('click', () => {
 		modal.style.display = 'none';
+		this.currentMedia = null;
 		unload();
 	});
 
+	downloadButton.addEventListener('click', () => {
+		if (this.currentMedia == null) return;
+		downloadFile(this.currentMedia.thumbUrl, this.currentMedia.filename);
+	});
+
+	modalOrbit.addEventListener('pointerdown', () => {
+		modalOrbitGuide.style.opacity = 0;
+	});
+
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('click', function(event) {
+	document.body.addEventListener('click', (event) => {
 		if (event.target === modal) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 			unload();
 		}
 	});
 
 	// 모달 바깥 클릭 시 닫기
-	document.body.addEventListener('keydown', function(event) {
+	document.body.addEventListener('keydown', (event) => {
 		if (event.keyCode === 27) {
 			modal.style.display = 'none';
+			this.currentMedia = null;
 			unload();
 		}
 	});
 
-	this.show = function (media) {
+	this.show = (media) => {
+		this.currentMedia = media;
+
 		loadByImageUrl(media.thumbUrl);
 
 		modalOrbit.style.backgroundColor = media.color;
 		modal.style.display = 'flex';
+
+		modalOrbitGuide.style.opacity = 1;
 	};
 	
 	const loadByImageUrl = (imageUrl) => {
 		// 씬, 카메라, 렌더러 생성
 		const scene = new THREE.Scene();
 		const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-		camera.position.z = 0.1; // 카메라 위치 설정
+		camera.position.z = -8; // 카메라 위치 설정
 
 		const renderer = new THREE.WebGLRenderer();
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		modalOrbit.appendChild(renderer.domElement);
+
+		// OrbitControls 추가
+		const controls = new THREE.OrbitControls(camera, renderer.domElement);
+		controls.enableDamping = true; // 감속 효과 활성화
+		// controls.dampingFactor = 0.05; // 감속 계수 설정
+		controls.enableZoom = true; // 줌 활성화 (필요시 비활성화 가능)
+		controls.reverseOrbit = true;
+		// controls.rotateSpeed = 0.5;
+		controls.enablePan = false;
 
 		// 텍스처 로드 및 구체 생성
 		const textureLoader = new THREE.TextureLoader();
@@ -1629,20 +1831,10 @@ window.orbitModal = new (function () {
 			texture.wrapS = THREE.RepeatWrapping; // 텍스처 좌우 반복 모드 설정
 			texture.repeat.x = -1; // 좌우 반전
 
-			const geometry = new THREE.SphereGeometry(8, 32, 32); // 구체 크기 및 분할 수 설정
+			const geometry = new THREE.SphereGeometry(8, 64, 64); // 구체 크기 및 분할 수 설정
 			const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide }); // 텍스처 적용
 			const sphere = new THREE.Mesh(geometry, material);
 			scene.add(sphere);
-
-			// OrbitControls 추가
-			const controls = new THREE.OrbitControls(camera, renderer.domElement);
-			controls.enableDamping = true; // 감속 효과 활성화
-			controls.dampingFactor = 0.05; // 감속 계수 설정
-			controls.enableZoom = true; // 줌 활성화 (필요시 비활성화 가능)
-			controls.zoomSpeed = 4.0;
-			controls.reverseOrbit = true;
-			controls.rotateSpeed = 0.5;
-			controls.enablePan = false;
 
 			// 애니메이션 루프
 			function animate() {
