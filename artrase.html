@@ -1443,52 +1443,79 @@ window.mediaList = new (function () {
 	// 스크롤 이벤트 리스너 추가
 	document.body.addEventListener('scroll', handleScroll);
 
-	document.body.addEventListener('click', (event) => {
-		const id = event.target.dataset.id;
-		const media = medias[id];
-		if (media == null) return;
+	// document.body.addEventListener('click', (event) => {
+	// 	const id = event.target.dataset.id;
+	// 	const media = medias[id];
+	// 	if (media == null) return;
 
-		if (media.type == 'IMAGE') {
-			window.imageModal.show(media);
-		} else if (media.type == 'VIDEO') {
-			window.videoModal.show(media);
-		} else if (media.type == 'ORBIT') {
-			window.orbitModal.show(media);
-		} else {
-			alert('This media is not supported type')
-		}
-	});
+	// 	if (media.type == 'IMAGE') {
+	// 		window.imageModal.show(media);
+	// 	} else if (media.type == 'VIDEO') {
+	// 		window.videoModal.show(media);
+	// 	} else if (media.type == 'ORBIT') {
+	// 		window.orbitModal.show(media);
+	// 	} else {
+	// 		alert('This media is not supported type')
+	// 	}
+	// });
 
 	// For patch media privacy status
-	setupLongTouch(mediaList, async (event) => {
-		console.log(event);
-		const id = event.target.dataset.id;
-		const media = medias[id];
-		if (media == null) return;
+	setupLongTouch({
+		element: mediaList,
+		onClick: async (event) => {
+			const id = event.target.dataset.id;
+			const media = medias[id];
+			if (media == null) return;
 
-		const newIsPrivacy = !media.isPrivacy;
-		media.isPrivacy = newIsPrivacy;
+			if (media.type == 'IMAGE') {
+				window.imageModal.show(media);
+			} else if (media.type == 'VIDEO') {
+				window.videoModal.show(media);
+			} else if (media.type == 'ORBIT') {
+				window.orbitModal.show(media);
+			} else {
+				alert('This media is not supported type')
+			}
+		},
+		onLongTouch: async (event) => {
+			const id = event.target.dataset.id;
+			const media = medias[id];
+			if (media == null) return;
 
-		const mediaElement = document.querySelector(`#media-${media.id}-privacy`);
-		if (mediaElement) {
-			mediaElement.style.display = newIsPrivacy? 'block': 'none';
-		}
+			const newIsPrivacy = !media.isPrivacy;
+			media.isPrivacy = newIsPrivacy;
 
-		const success = await HanulseMediaApis.patchMediaStatus({
-			mediaId: media.id,
-			isPrivacy: newIsPrivacy,
-		});
+			const mediaElement = document.querySelector(`#media-${media.id}-privacy`);
+			if (mediaElement) {
+				mediaElement.style.display = newIsPrivacy? 'block': 'none';
+			}
+
+			const success = await HanulseMediaApis.patchMediaStatus({
+				mediaId: media.id,
+				isPrivacy: newIsPrivacy,
+			});
+		},
 	});
 
-	function setupLongTouch(element, callback, delay = 600) {
+	function setupLongTouch({ element, onClick, onLongTouch, delay = 600 }) {
+		let clickable = true;
 		let touchTimer = null;
+
+		// 클릭 이벤트
+		const click = (event) => {
+			if (clickable) {
+				onClick(event);
+			}
+		};
 
 		// 터치 시작 이벤트
 		const startTouch = (event) => {
 			console.log('startLongTouch');
+			clickable = true;
 			touchTimer = setTimeout(() => {
-				callback(event); // 4초 후 콜백 실행
+				onLongTouch(event);
 				touchTimer = null;
+				clickable = false;
 			}, delay);
 		};
 
@@ -1496,7 +1523,6 @@ window.mediaList = new (function () {
 		const endTouch = (event) => {
 			if (touchTimer == null) {
 				console.log('endLongTouch');
-				event.preventDefault();
 				return;
 			}
 			
@@ -1505,6 +1531,7 @@ window.mediaList = new (function () {
 			touchTimer = null;
 		};
 
+		element.addEventListener('click', click);
 		element.addEventListener('pointerdown', startTouch);
 		element.addEventListener('pointerup', endTouch);
 		element.addEventListener('pointerleave', endTouch);
