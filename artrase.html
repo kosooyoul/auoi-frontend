@@ -1108,7 +1108,7 @@ window.fileSelector = new (function() {
 		const index = Array.from(sliderContainer.children).indexOf(event.target);
 		if (index < 0) return;
 
-		const scrollLeft = (index + 4) * event.target.offsetWidth - sliderContainer.offsetWidth / 2;
+		const scrollLeft = (sliderContainer.offsetWidth - event.target.offsetWidth) / 2 + event.target.offsetWidth * index;
 		sliderContainer.scrollTo(scrollLeft, 0);
 	});
 })();
