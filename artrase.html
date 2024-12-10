@@ -1849,7 +1849,7 @@ window.orbitModal = new (function () {
 		modalOrbit.appendChild(renderer.domElement);
 
 		// OrbitControls 추가
-		const controls = new THREE.OrbitControls(camera, renderer.domElement);
+		const controls = new THREE.OrbitControls(camera, modalOrbit);
 		controls.enableDamping = true; // 감속 효과 활성화
 		// controls.dampingFactor = 0.05; // 감속 계수 설정
 		controls.enableZoom = true; // 줌 활성화 (필요시 비활성화 가능)
