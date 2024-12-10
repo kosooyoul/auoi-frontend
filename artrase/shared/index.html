@@ -1422,7 +1422,7 @@ window.orbitModal = new (function () {
 	const closeModal = document.getElementById('orbit-modal-close');
 	const downloadButton = document.getElementById('orbit-modal-download');
 
-	const devicePixelRatio = 2;
+	const devicePixelRatio = window.devicePixelRatio;
 
 	let isAnimate = false;
 	let resizeHandler = null;
@@ -1480,7 +1480,7 @@ window.orbitModal = new (function () {
 
 		const renderer = new THREE.WebGLRenderer();
 		renderer.setSize(window.innerWidth * devicePixelRatio, window.innerHeight * devicePixelRatio);
-		renderer.domElement.style.transform = `scale(${1 / devicePixelRatio}) translate(${-window.innerWidth}px, ${-window.innerHeight}px)`;
+		renderer.domElement.style.transform = `translate(${-window.innerWidth * (devicePixelRatio - 1) / 2}px, ${-window.innerHeight * (devicePixelRatio - 1) / 2}px) scale(${1 / devicePixelRatio})`;
 		modalOrbit.appendChild(renderer.domElement);
 
 		// OrbitControls 추가
@@ -1514,7 +1514,7 @@ window.orbitModal = new (function () {
 			isAnimate = true;
 			resizeHandler = (width, height) => {
 				renderer.setSize(width * devicePixelRatio, height * devicePixelRatio);
-				renderer.domElement.style.transform = `scale(${1 / devicePixelRatio}) translate(${-window.innerWidth}px, ${-window.innerHeight}px)`;
+				renderer.domElement.style.transform = `translate(${-window.innerWidth * (devicePixelRatio - 1) / 2}px, ${-window.innerHeight * (devicePixelRatio - 1) / 2}px) scale(${1 / devicePixelRatio})`;
 
 				camera.aspect = width / height;
 				camera.updateProjectionMatrix();
