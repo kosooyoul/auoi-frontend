@@ -1842,7 +1842,8 @@ window.orbitModal = new (function () {
 		camera.position.z = -2; // 카메라 위치 설정
 
 		const renderer = new THREE.WebGLRenderer();
-		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);
+		renderer.domElement.style.transform = `scale(${1 / window.devicePixelRatio}) translate(${-window.innerWidth}px, ${-window.innerHeight}px)`;
 		modalOrbit.appendChild(renderer.domElement);
 
 		// OrbitControls 추가
@@ -1875,7 +1876,9 @@ window.orbitModal = new (function () {
 
 			isAnimate = true;
 			resizeHandler = (width, height) => {
-				renderer.setSize(width, height);
+				renderer.setSize(width * window.devicePixelRatio, height * window.devicePixelRatio);
+				renderer.domElement.style.transform = `scale(${1 / window.devicePixelRatio}) translate(${-window.innerWidth}px, ${-window.innerHeight}px)`;
+
 				camera.aspect = width / height;
 				camera.updateProjectionMatrix();
 			}
