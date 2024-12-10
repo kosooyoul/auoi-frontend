@@ -1405,7 +1405,7 @@ window.mediaList = new (function () {
 		const { scrollTop, scrollHeight, clientHeight } = document.body;
 
 		// Status
-		statusView.textContent = `두근 ${scrollTop} + ${clientHeight} -> ${scrollHeight}`;
+		statusView.textContent = `두근 ${scrollTop} + ${clientHeight} -> ${scrollHeight} 뿅 ${window.devicePixelRatio}`;
 
 		if (scrollTop + clientHeight >= scrollHeight - 180) {
 			// 스크롤이 거의 바닥에 도달했을 때 데이터 로드
