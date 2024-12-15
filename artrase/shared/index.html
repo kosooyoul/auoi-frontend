@@ -947,7 +947,10 @@ function downloadFile(url, filename) {
       document.body.removeChild(link); // 링크 제거
       URL.revokeObjectURL(url); // 메모리 해제
     })
-    .catch(error => console.error('Download failed:', error));
+    .catch(error => {
+		// console.error('Download failed:', error)
+		window.open(url, '_blank');
+	});
 }
 </script>
 <script data-comment="auoi-media-list">
