@@ -1341,10 +1341,12 @@ window.imageModal = new (function () {
 		modal.style.display = 'flex';
 
 		// TODO; temp for download cors error
-		const textureLoader = new THREE.TextureLoader();
-		textureLoader.load(media.thumbUrl, () => {
-			modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
-		});
+		// const textureLoader = new THREE.TextureLoader();
+		// textureLoader.load(media.thumbUrl, () => {
+		// 	modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
+		// });
+
+		modalImage.style.backgroundImage = `url('${media.thumbUrl}')`;
 	};
 })();
 </script>
