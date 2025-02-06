@@ -19,7 +19,8 @@
 <meta name="theme-color" content="#000000"/>
 <link rel="manifest" href="./manifest.json"/>
 <link rel="shortcut icon" type="image/x-icon" href="https://www.auoi.net/icons/ahyane-20y-m.png"/>
-<link rel="stylesheet" href="./css/hanulse.css?v=20230701"/>
+<link rel="stylesheet" href="./css/hanulse.css?v=20250206"/>
+<link rel="stylesheet" href="./css/hanulse-aurora.css?v=20250206"/>
 <script>
 	window.addEventListener('pageshow', function(event) {
   if (event.persisted) {
@@ -31,7 +32,7 @@
 </script>
 </head>
 
-<body>
+<body class="aurora">
 
 <!--
 <div style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; z-index: -1; user-select: none; pointer-events: none;">
@@ -43,7 +44,7 @@
 <div data-view="hanulse" style="position: relative; width: 100%; height: 100%; left: 0px; top: 0px; overflow: hidden;"></div>
 
 <div class="overlay" style="user-select: none;">
-	<div class="top sh-s sh-m" style="position: absolute; top: 0px; width: 100%; padding: 10px 0px; background-color: rgba(0, 0, 0, 0.5);">
+	<div class="top sh-s sh-m" style="position: absolute; top: 0px; width: 100%; padding: 10px 0px; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);">
 		<p class="_counter text-white-12 sw-xs" style="margin: 0px;">
 			<span>오늘</span> <span class="counter-count-today">0</span> | <span>어제</span> <span class="counter-count-yesterday">0</span>
 		</p>
@@ -55,8 +56,8 @@
 			<!-- <span style="position: absolute; right: 20px;"><span>총</span> <span class="counter-count-total">0</span> <span>명 방문 since 2022.06.11</span></span> -->
 		</p>
 	</div>
-	<div class="icon"></div>
-	<div class="_placeinfo" style="position: absolute; left: 40px; top: 10px;">
+	<div style="display: flex; justify-content: left; align-items: center; column-gap: 10px; margin-left: 10px; position: absolute; left: 0px; top: 0px; width: fit-content; height: 34px;">
+		<div class="icon"></div>
 		<span class="placeinfo text-white-13" style="line-height: 20px; vertical-align: top;"></span>
 	</div>
 	<div class="sh-xs" style="position: absolute; top: 6px; width: 100%; text-align: center;">
@@ -65,7 +66,7 @@
 	<div class="sh-s sh-m" style="position: absolute; top: 42px; width: 100%; text-align: center;">
 		<div class="identity text-white-12" style="height: 16px;"></div>
 	</div>
-	<div class="bottom sh-m" style="position: absolute; bottom: 0px; width: 100%; padding: 10px 0px; background-color: rgba(0, 0, 0, 0.5);">
+	<div class="bottom sh-m" style="position: absolute; bottom: 0px; width: 100%; padding: 10px 0px; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);">
 		<p class="_wisesaying text-white-13 sh-m" style="margin: 0px 20px 10px 20px;">
 			<span class="wisesaying" style="display: inline-block; max-width: 600px;"></span>
 		</p>
