@@ -213,6 +213,7 @@
                 {"type": "separator", "visible": true},
                 {"title": "안내소", "tag": "working", "link": "#information", "visible": false},
                 {"title": "놀이터로 이동", "tag": "working", "link": "https://playground.auoi.net", "visible": true},
+                {"title": "우주공간으로 이동", "tag": "working", "link": "https://globe.auoi.net", "visible": true},
                 {"type": "separator"},
                 {"title": "공간 만들기", "tag": "test", "link": "#void"},
                 {"type": "separator", "visible": false},
