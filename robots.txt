@@ -23,3 +23,5 @@ Allow: /
 
 # Crawl-delay (크롤링 속도 제한)
 Crawl-delay: 1
+
+#DaumWebMasterTool:bd8aec2889bf571a12df15bd05176c22a0bce168883dae0ca29f764f65cd8d65:K3+ujZin6cvemyrY776OoQ==
