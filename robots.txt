@@ -1,2 +1,25 @@
 User-Agent: *
 Allow: /
+Disallow: /js/
+Disallow: /css/
+Disallow: /libs/
+Disallow: /template/
+Disallow: /assets/areas/
+
+# Sitemap
+Sitemap: https://www.auoi.net/sitemap.xml
+
+# 네이버 크롤러
+User-Agent: Yeti
+Allow: /
+
+# 다음 크롤러  
+User-Agent: Daumoa
+Allow: /
+
+# Google 크롤러
+User-Agent: Googlebot
+Allow: /
+
+# Crawl-delay (크롤링 속도 제한)
+Crawl-delay: 1
